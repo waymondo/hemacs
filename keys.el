@@ -6,8 +6,8 @@
 (bind-key "M-/" 'hippie-expand)
 
 (bind-key "C-z" 'zap-up-to-char)
-(bind-key "C-," 'er/expand-region)
-(bind-key "C-." 'ace-jump-word-mode)
+(bind-key* "C-," 'er/expand-region)
+(bind-key* "C-." 'ace-jump-word-mode)
 (bind-key "C-c C-." 'mc/mark-next-like-this)
 (bind-key "C-c C-," 'mc/mark-previous-like-this)
 (bind-key "C-c C-/" 'mc/mark-all-like-this-dwim)
