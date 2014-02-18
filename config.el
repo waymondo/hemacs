@@ -115,7 +115,7 @@
 (setq compilation-always-kill t)
 (setq shell-completion-execonly nil)
 (setq next-error-recenter t)
-(add-λ shell-mode-hook
+(add-λ 'shell-mode-hook
   (setq comint-input-ring-file-name (getenv "HISTFILE"))
   (comint-read-input-ring 'silent))
 (dolist (hook '(comint-mode-hook compilation-mode-hook))
