@@ -165,5 +165,5 @@
 (setq-default mode-line-format
               '("%e" mode-line-front-space mode-line-modified
                 "  " mode-line-buffer-identification "  "
-                mode-line-position (vc-mode vc-mode)
+                mode-line-position (vc-mode vc-mode) "  "
                 mode-name mode-line-misc-info mode-line-end-spaces))
