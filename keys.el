@@ -3,6 +3,7 @@
 (bind-key "r" 'repeat god-local-mode-map)
 
 (bind-key "TAB" 'tab-dwim)
+(bind-key "TAB" 'hippie-expand read-expression-map)
 (bind-key "M-/" 'hippie-expand)
 
 (bind-key "C-z" 'zap-up-to-char)
@@ -26,13 +27,16 @@
 (bind-key "M-i" 'change-inner)
 (bind-key "M-o" 'change-outer)
 
+(bind-key "M-n" 'jump-char-forward)
+(bind-key "M-p" 'jump-char-backward)
+(bind-key "s-n" 'highlight-symbol-next)
+(bind-key "s-p" 'highlight-symbol-prev)
+
 (bind-key "<f5>" 'crab-reload)
 
 (bind-key "s-:" 'pad-colon)
 (bind-key "s-z" 'undo-tree-undo)
 (bind-key "s-Z" 'undo-tree-redo)
-(bind-key "s-n" 'jump-char-forward)
-(bind-key "s-p" 'jump-char-backward)
 (bind-key "s-l" 'goto-line-with-feedback)
 (bind-key "s-t" 'find-file-in-repository)
 (bind-key "s-u" 'duplicate-dwim)

@@ -198,8 +198,7 @@
   :init
   (progn
     (add-λ 'prog-mode-hook
-      (highlight-symbol-mode)
-      (highlight-symbol-nav-mode)))
+      (highlight-symbol-mode)))
   :config (setq highlight-symbol-idle-delay 0))
 
 (use-package volatile-highlights
