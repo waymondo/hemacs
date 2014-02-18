@@ -1,6 +1,6 @@
 ## Hemacs
 
-One man's ever evolving Carbon Emacs 24.3+ setup on OSX. I'm mainly writing Ruby, CoffeeScript, JavaScript, interfacing with Git and Bash, and writing compiled stylesheets and templates.
+One man's ever evolving Carbon Emacs 24.3+ setup on OSX. I'm mainly writing Ruby and CoffeeScript, interfacing with Git and Bash, writing compiled stylesheets and templates, and hacking on this elisp dump.
 
 ### Installation
 
@@ -12,5 +12,6 @@ brew linkapps
 git clone git://github.com/waymondo/hemacs ~/.emacs.d 
 cd ~/.emacs.d 
 cask
+open /Applications/Emacs.app
 ```
 
