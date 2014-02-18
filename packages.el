@@ -119,7 +119,7 @@
     (setq ruby-deep-indent-paren nil))
   :mode (("Procfile$" . ruby-mode)
          ("\\.rabl$" . ruby-mode)
-         ("\\.env$" . ruby-mode)))
+         ("\\.env\\.*" . ruby-mode)))
 
 (use-package magit
   :config
