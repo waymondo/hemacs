@@ -133,8 +133,7 @@
     (if mark-active
         (indent-region (region-beginning) (region-end))
       (if (looking-at "\\_>")
-          (unless (hippie-expand nil)
-            (dabbrev-expand nil))
+          (hippie-expand nil)
         (indent-for-tab-command)))))
 
 (defn google-search
