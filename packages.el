@@ -146,6 +146,7 @@
             "^bundle install"
             "^bundle update\\.*"
             "^powder restart"
+            "^heroku restart\\.*"
             "^foreman start\\.*"
             "^git push\\.*"
             "^rake db:migrate"
