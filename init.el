@@ -1,6 +1,7 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 (require 'use-package)
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (use-package f)
 (use-package s)

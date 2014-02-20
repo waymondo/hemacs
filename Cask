@@ -1,7 +1,7 @@
 (source gnu)
 (source melpa)
 
-(depends-on "ace-jump-buffer")
+;; (depends-on "ace-jump-buffer")
 (depends-on "ace-jump-mode")
 (depends-on "ag")
 (depends-on "alert")
@@ -10,7 +10,7 @@
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "change-inner")
-(depends-on "crab")
+;; (depends-on "crab")
 (depends-on "coffee-mode")
 (depends-on "dash")
 (depends-on "dash-at-point")
