@@ -44,11 +44,11 @@
    `(guide-key/prefix-command-face ((t (:foreground ,base0C))))
 
    ;; modeline
-   `(mode-line ((t (:background ,base02 :foreground ,base04 :box nil))))
+   `(mode-line ((t (:background ,base02 :foreground ,base04 :box (:line-width 3 :color ,base02 :style nil)))))
+   `(mode-line-inactive ((t (:background ,base01 :foreground ,base03 :box (:line-width 3 :color ,base01 :style nil)))))
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
-   `(mode-line-inactive ((t (:background ,base01 :foreground ,base03 :box nil))))
    `(rbenv-active-ruby-face ((t (:foreground ,base04))))
    `(mm-command-output ((t (:background ,base02 :foreground ,base04))))
 
@@ -459,17 +459,12 @@
   (custom-theme-set-variables
    'hemacs
 
-   `(highlight-tail-color '((,base0A . 0) (,base0B . 20)))
-
    `(ansi-color-names-vector
      ;; black, base08, base0B, base0A, base0D, magenta, cyan, white
      [,base00 ,base08 ,base0B ,base0A ,base0D ,base0E ,base0D ,base05])
    `(ansi-term-color-vector
      ;; black, base08, base0B, base0A, base0D, magenta, cyan, white
      [unspecified ,base00 ,base08 ,base0B ,base0A ,base0D ,base0E ,base0D ,base05])))
-
-
-(set-face-attribute 'default nil :height 150)
 
 (provide-theme 'hemacs)
 ;;; hemacs-theme.el ends here
