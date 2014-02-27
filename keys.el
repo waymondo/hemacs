@@ -9,13 +9,12 @@
 
 (bind-key "C-z" 'zap-up-to-char)
 (bind-key* "C-," 'er/expand-region)
-(bind-key* "C-." 'ace-jump-word-mode)
+(bind-key* "C-;" 'ace-jump-word-mode)
+(bind-key* "C-." 'ort/capture-todo)
+(bind-key* "C-/" 'ort/goto-todos)
 (bind-key "C-c C-." 'mc/mark-next-like-this)
 (bind-key "C-c C-," 'mc/mark-previous-like-this)
 (bind-key "C-c C-/" 'mc/mark-all-like-this-dwim)
-(bind-key "C-;" 'ort/capture-todo)
-(bind-key "C-'" 'ort/goto-todos)
-(bind-key "C-c y" 'popup-kill-ring)
 
 (bind-key "C-`" 'dired-jump-other-window)
 (bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
