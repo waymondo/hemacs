@@ -39,6 +39,7 @@
         sp--self-insert-command
         subword-left
         subword-right
+        subword-backward-delete
         tab-dwim
         yaml-electric-backspace
         yaml-electric-dash-and-dot
@@ -63,6 +64,5 @@
         persp-switch
         query-replace
         smex
-        subword-backward-delete
         toggle-split-window
         ))
