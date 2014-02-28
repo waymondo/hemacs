@@ -110,7 +110,6 @@
 (setq comint-buffer-maximum-size 5000) ;; 5mb max for comint buffers
 (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
 (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
-(setq compilation-auto-jump-to-first-error t)
 (setq compilation-disable-input t)
 (setq compilation-always-kill t)
 (setq shell-completion-execonly nil)
