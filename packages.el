@@ -65,6 +65,13 @@
     (push '("*Completions*" :noselect t :height 10) popwin:special-display-config)
     (push '("* guide-key*" :height 10) popwin:special-display-config)))
 
+(use-package projectile
+  :init
+  (progn
+    (use-package projectile-rails
+      :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
+    (projectile-global-mode)))
+
 (use-package page-break-lines
   :init (global-page-break-lines-mode))
 
@@ -102,10 +109,6 @@
   (progn
     (use-package rbenv
       :init (global-rbenv-mode 1))
-    (use-package rinari
-      :init (global-rinari-mode 1)
-      :config (add-λ 'rinari-minor-mode-hook
-                (setq dash-at-point-docset "rails")))
     (use-package rspec-mode)
     (use-package robe-mode)
     (use-package ruby-hash-syntax)
@@ -234,7 +237,7 @@
   :config
   (progn
     (setq guide-key/guide-key-sequence
-          '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c '" "C-x +" "C-c ," "C-h"))
+          '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-c p" "C-x +" "C-c ," "C-h"))
     (setq guide-key/popup-window-position 'bottom)
     (setq guide-key/idle-delay 0.5)))
 
@@ -259,8 +262,6 @@
 (use-package misc)
 
 (use-package ace-jump-buffer)
-
-(use-package find-file-in-repository)
 
 (use-package key-chord
   :init (key-chord-mode 1)
