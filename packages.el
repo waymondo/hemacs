@@ -82,6 +82,9 @@
          ("\\.mustache$" . html-mode)
          ("\\.tmpl$" . html-mode)))
 
+(use-package fountain-mode
+  :init (add-to-list 'auto-mode-alist '("\\.fountain$" . fountain-mode)))
+
 (use-package markdown-mode
   :init
   (progn

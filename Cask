@@ -19,6 +19,7 @@
 (depends-on "expand-region")
 (depends-on "f")
 (depends-on "flx-ido")
+(depends-on "fountain-mode")
 (depends-on "gist")
 (depends-on "git-gutter-fringe")
 (depends-on "github-browse-file")
