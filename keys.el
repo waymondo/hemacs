@@ -111,8 +111,9 @@
 (key-chord-define-global "^^" (λ (insert "λ")))
 (key-chord-define-global "xz" 'smex)
 
+(space-chord-define-global ";" 'ace-jump-word-mode)
 (key-chord-define-global ";a" 'ace-jump-buffer)
-(key-chord-define-global ";t" 'find-file-in-repository)
+(key-chord-define-global ";t" 'projectile-find-file)
 (key-chord-define-global ":s" 'ido-switch-buffer)
 (key-chord-define-global ";r" 'ido-recentf-find-file)
 (key-chord-define-global ";f" 'ido-find-file)

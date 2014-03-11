@@ -299,6 +299,10 @@
              (just-one-space 0)
              (backward-char 1))))
 
+(defun space-chord-define-global (key command)
+  (define-key (current-global-map)
+    (vector 'key-chord ? (if (stringp key) (aref key 0) key)) command))
+
 (defvar yankee-do-modes '(css-mode less-css-mode sgml-mode))
 (defvar yankee-no-modes '(coffee-mode slim-mode))
 
