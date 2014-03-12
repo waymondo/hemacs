@@ -247,6 +247,12 @@
         ((member major-mode '(ruby-mode))
          (insert "logger.info "))))
 
+(defun what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'read-face-name)
+                  (get-char-property (point) 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
 (defun try-expand-dabbrev-matching-buffers (old)
   (let ((matching-buffers (--filter
                            (eq major-mode (with-current-buffer it major-mode))

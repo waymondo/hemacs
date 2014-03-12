@@ -21,6 +21,7 @@
 (bind-key "C-x \\" 'align-regexp)
 
 (bind-key* "<M-left>" 'subword-left)
+(bind-key "C-x w" 'what-face)
 (bind-key* "<M-right>" 'subword-right)
 (bind-key "<M-up>" 'move-line-up)
 (bind-key "<M-down>" 'move-line-down)
