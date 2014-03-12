@@ -16,12 +16,12 @@
 (bind-key "C-c C-," 'mc/mark-previous-like-this)
 (bind-key "C-c C-/" 'mc/mark-all-like-this-dwim)
 
-(bind-key "C-`" 'dired-jump-other-window)
 (bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
+
 (bind-key "C-x \\" 'align-regexp)
+(bind-key "C-x w" 'what-face)
 
 (bind-key* "<M-left>" 'subword-left)
-(bind-key "C-x w" 'what-face)
 (bind-key* "<M-right>" 'subword-right)
 (bind-key "<M-up>" 'move-line-up)
 (bind-key "<M-down>" 'move-line-down)
@@ -39,11 +39,11 @@
 (bind-key "s-z" 'undo-tree-undo)
 (bind-key "s-Z" 'undo-tree-redo)
 (bind-key "s-l" 'goto-line-with-feedback)
-(bind-key "s-t" 'find-file-in-repository)
+(bind-key "s-t" 'projectile-find-file)
+(bind-key "s-b" 'ido-switch-buffer)
 (bind-key "s-u" 'duplicate-dwim)
 (bind-key "s-k" 'kill-whole-line)
 (bind-key "s-/" 'comment-or-uncomment-region)
-(bind-key "s-r" 'rename-current-file-or-buffer)
 (bind-key "s-o" 'open-project-in-magit)
 (bind-key "s-m" 'magit-status)
 (bind-key "s-q" 'query-replace)
@@ -53,6 +53,7 @@
 (bind-key "s-w" 'kill-this-buffer)
 (bind-key "s-_" 'text-scale-decrease)
 (bind-key "s-+" 'text-scale-increase)
+(bind-key "s-P" 'projectile-commander)
 
 (bind-key "C-a" 'back-to-indentation-or-beginning)
 (bind-key "C-o" 'smart-open-line-above)
