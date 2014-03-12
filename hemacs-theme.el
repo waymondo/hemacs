@@ -116,7 +116,7 @@
    ;; show-paren-mode
    `(show-paren-match ((t (:background nil :foreground nil :underline t))))
    `(show-paren-mismatch ((t (:background ,base08 :foreground ,base01))))
-   `(highlight-symbol-face ((t (:foreground ,(color-lighten-name base0A 10) :background ,(color-darken-name base00 10)))))
+   `(highlight-symbol-face ((t (:foreground nil :background nil :underline t))))
 
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,base0E))))
