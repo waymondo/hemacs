@@ -60,6 +60,9 @@
 (bind-key "C-o" 'smart-open-line-above)
 (bind-key "C-l" 'log-statement)
 
+(bind-key "C-s" 'swoop)
+(define-key swoop-map (kbd "C-s") 'swoop-multi-from-swoop)
+
 (bind-key "C-c o" 'ffap)
 (bind-key "C-c O" 'github-browse-file)
 (bind-key "C-c d" 'dash-at-point)

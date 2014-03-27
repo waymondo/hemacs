@@ -82,6 +82,12 @@
    `(isearch-lazy-highlight-face ((t (:foreground ,base0C :background ,base01 :inverse-video t))))
    `(isearch-fail ((t (:background ,base01 :inherit font-lock-warning-face :inverse-video t))))
 
+   `(swoop-face-target-line ((t (:foreground ,base07 :background ,base01))))
+   `(swoop-face-target-words ((t (:foreground ,base0A :background ,base01))))
+   `(swoop-face-header-format-line ((t (:inherit header-line))))
+   `(swoop-face-line-buffer-name ((t (:inherit header-line))))
+   `(swoop-face-line-number ((t (:inherit linum))))
+
    ;; Flymake
    `(flymake-warnline ((t (:underline ,base09 :background ,base01))))
    `(flymake-errline ((t (:underline ,base08 :background ,base01))))

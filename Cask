@@ -58,6 +58,7 @@
 (depends-on "slim-mode")
 (depends-on "stylus-mode")
 (depends-on "smex")
+(depends-on "swoop")
 (depends-on "undo-tree")
 (depends-on "use-package")
 (depends-on "volatile-highlights")

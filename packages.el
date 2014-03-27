@@ -240,7 +240,8 @@
   :config
   (progn
     (setq guide-key/guide-key-sequence
-          '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-c p" "C-x +" "C-c ," "C-h"))
+          '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r"
+            "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
     (setq guide-key/popup-window-position 'bottom)
     (setq guide-key/idle-delay 0.5)))
 
@@ -249,6 +250,10 @@
 
 (use-package undo-tree
   :init (global-undo-tree-mode))
+
+(use-package swoop
+  :config
+  (setq swoop-font-size-change: nil))
 
 (use-package ace-jump-char)
 
