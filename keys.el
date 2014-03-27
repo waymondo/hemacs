@@ -89,6 +89,8 @@
 (bind-key "C-:" 'ruby-toggle-hash-syntax ruby-mode-map)
 (bind-key "C-:" 'ruby-toggle-hash-syntax slim-mode-map)
 
+(bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
+
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-Tab>" 'next-complete-history-element minibuffer-local-map)
 
