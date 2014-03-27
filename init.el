@@ -3,6 +3,7 @@
 (require 'use-package)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+(use-package cl)
 (use-package f)
 (use-package s)
 (use-package dash
