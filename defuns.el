@@ -183,10 +183,9 @@
       (insert "end"))
     (next-line)))
 
-(defn open-project-in-magit
-  (let ((project-name (completing-read "Open project: " (directory-files hemacs-code-dir nil "^[^.]"))))
-    (with-temp-buffer
-      (magit-status (concat hemacs-code-dir project-name)))))
+(defn projectile-switch-project-vc
+  (let ((projectile-switch-project-action 'projectile-vc))
+    (call-interactively 'projectile-switch-project)))
 
 (defn comint-up-or-previous-input-history
   (if (comint-after-pmark-p)
