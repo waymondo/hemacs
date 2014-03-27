@@ -83,13 +83,13 @@
          ("\\.tmpl$" . html-mode)))
 
 (use-package fountain-mode
-  :init (add-to-list 'auto-mode-alist '("\\.fountain$" . fountain-mode)))
+  :config
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.fountain$" . fountain-mode))
+    (add-hook 'fountain-mode-hook 'hemacs-writing-hook)))
 
 (use-package markdown-mode
-  :init
-  (progn
-    (add-hook 'markdown-mode-hook 'visual-line-mode)
-    (add-hook 'markdown-mode-hook 'flyspell-mode)))
+  :config (add-hook 'markdown-mode-hook 'hemacs-writing-hook))
 
 (use-package css-mode
   :config (setq css-indent-offset 2))

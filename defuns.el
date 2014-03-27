@@ -247,6 +247,10 @@
         ((member major-mode '(ruby-mode))
          (insert "logger.info "))))
 
+(defun hemacs-writing-hook ()
+  (visual-line-mode)
+  (flyspell-mode))
+
 (defun what-face (pos)
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)
