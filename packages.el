@@ -209,6 +209,9 @@
       (highlight-symbol-mode)))
   :config (setq highlight-symbol-idle-delay 0))
 
+(use-package color-identifiers-mode
+  :init (global-color-identifiers-mode t))
+
 (use-package volatile-highlights
   :init (volatile-highlights-mode t))
 

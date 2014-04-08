@@ -13,6 +13,7 @@
 ;; (depends-on "crab")
 (depends-on "coffee-mode")
 (depends-on "dash")
+(depends-on "color-identifiers-mode")
 (depends-on "dash-at-point")
 (depends-on "elisp-slime-nav")
 (depends-on "exec-path-from-shell")
