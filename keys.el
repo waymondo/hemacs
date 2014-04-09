@@ -40,6 +40,7 @@
 (bind-key "s-Z" 'undo-tree-redo)
 (bind-key "s-l" 'goto-line-with-feedback)
 (bind-key "s-t" 'projectile-find-file)
+(bind-key "s-r" 'rename-current-file-or-buffer)
 (bind-key "s-b" 'ido-switch-buffer)
 (bind-key "s-u" 'duplicate-dwim)
 (bind-key "s-k" 'kill-whole-line)
@@ -88,6 +89,7 @@
 (bind-key "C-M-n" 'sgml-skip-tag-forward sgml-mode-map)
 
 (bind-key "C-j" 'coffee-newline-and-indent coffee-mode-map)
+(bind-key "M-r" 'coffee-compile-region coffee-mode-map)
 
 (bind-key "C-:" 'ruby-toggle-hash-syntax ruby-mode-map)
 (bind-key "C-:" 'ruby-toggle-hash-syntax slim-mode-map)
