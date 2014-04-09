@@ -26,6 +26,7 @@
         kill-and-join-forward
         kill-rectangle
         kill-region
+        kill-region-and-god-local-mode
         left-subword
         maybe-delete-selection-and-yank
         org-self-insert-command
@@ -37,9 +38,9 @@
         slim-electric-backspace
         smart-tab
         sp--self-insert-command
+        subword-backward-delete
         subword-left
         subword-right
-        subword-backward-delete
         tab-dwim
         yaml-electric-backspace
         yaml-electric-dash-and-dot
@@ -64,5 +65,6 @@
         persp-switch
         query-replace
         smex
+        swoop-action-cancel
         toggle-split-window
         ))
