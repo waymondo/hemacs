@@ -274,6 +274,8 @@
 
 (use-package ace-jump-buffer)
 
+(use-package imenu-anywhere)
+
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
