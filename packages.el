@@ -237,7 +237,7 @@
       (setq cursor-type 'box))
     (add-λ 'god-mode-disabled-hook
       (setq cursor-type 'bar))
-    (dolist (mode '(git-commit-mode shell-mode inf-ruby-minor-mode))
+    (dolist (mode '(git-commit-mode))
       (add-to-list 'god-exempt-major-modes mode))))
 
 (use-package guide-key
