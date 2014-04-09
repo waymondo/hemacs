@@ -183,16 +183,17 @@
       :init (ido-at-point-mode t))
     (use-package flx-ido
       :init (flx-ido-mode 1)
-      :config (setq flx-ido-use-face nil))
+      :config (setq flx-ido-use-faces nil))
     (use-package ido-vertical-mode
       :init (ido-vertical-mode 1)
       :config (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)))
   :config
   (progn
     (setq ido-cannot-complete-command 'exit-minibuffer)
+    (setq ido-use-virtual-buffers t)
+    (setq ido-auto-merge-delay-time 1.5)
     (setq ido-enable-flex-matching t)
     (setq ido-enable-dot-prefix t)
-    (setq ido-completion-buffer nil)
     (setq ido-max-prospects 10)
     (setq ido-create-new-buffer 'always)
     (add-to-list 'ido-ignore-files "\\.DS_Store")))
