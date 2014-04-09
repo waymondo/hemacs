@@ -132,7 +132,8 @@
   (progn
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
     (setq magit-completing-read-function 'magit-ido-completing-read)
-    (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
+    (setq magit-emacsclient-executable "/usr/local/Cellar/emacs/HEAD/bin/emacsclient")
+    (setq magit-git-executable "/usr/local/bin/git")
     (setq magit-log-auto-more t)
     (setq magit-set-upstream-on-push t)
     (setq magit-restore-window-configuration t)
