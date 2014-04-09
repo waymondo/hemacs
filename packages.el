@@ -14,7 +14,9 @@
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-recursive-deletes 'always)
-    (setq dired-recursive-copies 'always)))
+    (setq dired-recursive-copies 'always)
+    (when (and (memq window-system '(mac ns)) (executable-find "gls"))
+      (setq insert-directory-program "gls" dired-use-ls-dired t))))
 
 (use-package org
   :config
