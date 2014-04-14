@@ -164,15 +164,6 @@
             "^redis-server"
             "^pkill\\.*"))))
 
-(use-package bash-completion
-  :init
-  (progn
-    (add-hook 'shell-dynamic-complete-functions
-              'bash-completion-dynamic-complete)
-    (add-hook 'shell-command-complete-functions
-              'bash-completion-dynamic-complete))
-  :config (setq bash-completion-prog "/usr/local/bin/bash"))
-
 (use-package ido
   :init
   (progn

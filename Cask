@@ -6,7 +6,6 @@
 (depends-on "ag")
 (depends-on "alert")
 (depends-on "auto-dim-other-buffers")
-(depends-on "bash-completion")
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "change-inner")
