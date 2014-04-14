@@ -8,6 +8,9 @@
   :if window-system
   :init (unless (server-running-p) (server-start)))
 
+(use-package edit-server
+  :init (edit-server-start t))
+
 (use-package dired-x
   :init
   (progn
