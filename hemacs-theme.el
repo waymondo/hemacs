@@ -49,7 +49,6 @@
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
-   `(rbenv-active-ruby-face ((t (:foreground ,base04))))
    `(mm-command-output ((t (:background ,base02 :foreground ,base04))))
 
    ;; Font-lock stuff

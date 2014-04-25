@@ -115,8 +115,6 @@
 (use-package ruby-mode
   :init
   (progn
-    (use-package rbenv
-      :init (global-rbenv-mode 1))
     (use-package rspec-mode)
     (use-package robe-mode)
     (use-package ruby-hash-syntax)
@@ -252,9 +250,8 @@
 (use-package undo-tree
   :init (global-undo-tree-mode))
 
-(use-package swoop
-  :config
-  (setq swoop-font-size-change: nil))
+(use-package anzu
+  :init (global-anzu-mode 1))
 
 (use-package ace-jump-char)
 
