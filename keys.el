@@ -120,6 +120,7 @@
 
 (space-chord-define-global ";" 'ace-jump-word-mode)
 (key-chord-define-global ";a" 'ace-jump-buffer)
+(key-chord-define-global ":A" 'ace-jump-buffer-other-window)
 (key-chord-define-global ";s" 'projectile-recentf)
 (key-chord-define-global ":S" 'ido-recentf-find-file)
 (key-chord-define-global ";t" 'projectile-find-file)

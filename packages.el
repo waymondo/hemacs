@@ -268,7 +268,8 @@
 
 (use-package misc)
 
-(use-package ace-jump-buffer)
+(use-package ace-jump-buffer
+  :config (setq ajb-max-window-height 30))
 
 (use-package imenu-anywhere)
 
