@@ -40,7 +40,7 @@
   (setq dash-at-point-docsets
         '("coffee" "lisp" "css" "elisp" "html" "javascript" "iphoneos"
           "ruby" "jquery" "meteor" "phonegap" "rubygems" "rails" "macosx"
-          "underscore" "d3" "backbone" "bootstrap" "markdown")))
+          "underscore" "d3" "backbone" "bootstrap" "markdown" "zepto")))
 
 (use-package ag
   :config

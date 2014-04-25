@@ -29,10 +29,13 @@
         kill-region-and-god-local-mode
         left-subword
         maybe-delete-selection-and-yank
+        ns-copy-including-secondary
         org-self-insert-command
         pad-colon
         right-subword
         ruby-end-space
+        ruby-smart-newline-end-defun
+        ruby-toggle-block
         sgml-close-tag
         shift-right
         slim-electric-backspace
@@ -62,6 +65,7 @@
         ido-recentf-find-file
         magit-status
         next-error
+        ort/capture-todo
         persp-switch
         query-replace
         smex
