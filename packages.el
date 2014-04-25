@@ -116,7 +116,8 @@
   :init
   (progn
     (use-package rspec-mode)
-    (use-package robe-mode)
+    (use-package robe
+      :init (add-hook 'ruby-mode-hook 'robe-mode))
     (use-package ruby-hash-syntax)
     (use-package rhtml-mode)
     (use-package slim-mode
