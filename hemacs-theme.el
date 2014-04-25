@@ -50,6 +50,8 @@
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
    `(mm-command-output ((t (:background ,base02 :foreground ,base04))))
+   `(alert-trivial-face ((t (:inherit nil :foreground nil :background nil))))
+   `(anzu-mode-line ((t (:foreground ,base0A))))
 
    ;; Font-lock stuff
    `(font-lock-builtin-face ((t (:foreground ,base0C))))
@@ -270,6 +272,7 @@
    `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
    `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
    `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
+   `(success ((t (:foreground ,base0B))))
 
    ;; Grep
    `(grep-context-face ((t (:foreground ,base04))))
