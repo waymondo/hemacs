@@ -111,6 +111,7 @@
 (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
 (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
 (setq compilation-disable-input t)
+(setq compilation-message-face nil)
 (setq compilation-always-kill t)
 (setq shell-completion-execonly nil)
 (setq next-error-recenter t)
