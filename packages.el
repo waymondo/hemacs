@@ -80,12 +80,9 @@
 (use-package page-break-lines
   :init (global-page-break-lines-mode))
 
-(use-package sgml-mode
-  :init (use-package handlebars-sgml-mode
-          :init (handlebars-use-mode 'global))
-  :mode (("\\.hbs$" . html-mode)
-         ("\\.mustache$" . html-mode)
-         ("\\.tmpl$" . html-mode)))
+(use-package sgml-mode)
+
+(use-package handlebars-mode)
 
 (use-package fountain-mode
   :config

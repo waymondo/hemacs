@@ -28,7 +28,7 @@
 (depends-on "github-browse-file")
 (depends-on "god-mode")
 (depends-on "guide-key")
-(depends-on "handlebars-sgml-mode")
+(depends-on "handlebars-mode")
 (depends-on "highlight-symbol")
 (depends-on "highlight-tail")
 (depends-on "httprepl")
