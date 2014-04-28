@@ -344,3 +344,16 @@
     (goto-char (point-min))
     (when (re-search-forward "^<<<<<<< " nil t)
       (smerge-mode 1))))
+
+(defun set-clean-margins (&optional arg)
+  "Set window-body-width to ARG or 90 with relative margins."
+  (interactive "P")
+  (let* ((width (if arg (prefix-numeric-value arg) 90))
+         (margin (/ (- (window-total-width) width) 2)))
+    (set-window-margins (selected-window) margin margin)))
+
+(defun eval-after-init (form)
+  (let ((func (list 'lambda nil form)))
+    (add-hook 'after-init-hook func)
+    (when after-init-time
+      (eval form))))
