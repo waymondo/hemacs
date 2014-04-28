@@ -91,6 +91,7 @@
   (when (region-active-p) (deactivate-mark t)))
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
+(add-hook 'find-file-hook 'sm-try-smerge t)
 
 ;; history
 (setq history-length 100)

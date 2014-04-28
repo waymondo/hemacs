@@ -338,3 +338,9 @@
            (if (use-region-p)
                (list (region-beginning) (region-end))
              (list (line-beginning-position) (line-end-position)))))))
+
+(defun sm-try-smerge ()
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
