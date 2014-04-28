@@ -20,6 +20,7 @@
 (setq auto-revert-verbose nil)
 (setq global-auto-revert-non-file-buffers t)
 (setq imenu-auto-rescan t)
+(setq load-prefer-newer t)
 
 ;; basic editing
 (transient-mark-mode t)
