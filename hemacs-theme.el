@@ -467,6 +467,12 @@
   (custom-theme-set-variables
    'hemacs
 
+   `(highlight-tail-colors '((,(color-darken-name base0A 33) . 0)
+                             (,(color-darken-name base0E 33) . 10)
+                             (,base02 . 20)
+                             (,base01 . 45)
+                             (,base00 . 70)))
+
    `(ansi-color-names-vector
      ;; black, base08, base0B, base0A, base0D, magenta, cyan, white
      [,base00 ,base08 ,base0B ,base0A ,base0D ,base0E ,base0D ,base05])

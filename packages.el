@@ -209,6 +209,13 @@
 (use-package volatile-highlights
   :init (volatile-highlights-mode t))
 
+(use-package highlight-tail
+  :init
+  (progn
+    (setq highlight-tail-timer 0.02)
+    (eval-after-init
+     (run-at-time 2 nil 'highlight-tail-mode))))
+
 (use-package rainbow-mode
   :init
   (progn
