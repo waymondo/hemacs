@@ -33,6 +33,8 @@
 (setq kill-do-not-save-duplicates t)
 (setq kill-whole-line t)
 (setq x-select-enable-clipboard t)
+(put 'downcase-region 'disabled nil)
+(put 'capitalize-region 'disabled nil)
 
 ;; electric pairs
 (electric-pair-mode 1)

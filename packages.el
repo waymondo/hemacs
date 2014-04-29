@@ -270,6 +270,12 @@
 
 (use-package org-repo-todo)
 
+(use-package easy-kill
+  :init
+  (progn
+    (global-set-key [remap kill-ring-save] 'easy-kill)
+    (global-set-key [remap mark-sexp] 'easy-mark)))
+
 (use-package misc)
 
 (use-package ace-jump-buffer

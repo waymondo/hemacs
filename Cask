@@ -15,6 +15,7 @@
 (depends-on "color-identifiers-mode")
 (depends-on "dash")
 (depends-on "dash-at-point")
+(depends-on "easy-kill")
 (depends-on "edit-server")
 (depends-on "elisp-slime-nav")
 (depends-on "exec-path-from-shell")

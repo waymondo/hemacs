@@ -324,21 +324,6 @@
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-(put 'downcase-region 'disabled nil)
-(put 'capitalize-region 'disabled nil)
-
-(defvar region-or-line-forward-exempt-defuns '(er/expand-region))
-
-(do-all-symbols (symbol)
-  (when (and (commandp symbol t)
-             (not (member symbol region-or-line-forward-exempt-defuns))
-             (string-match-p "-region$\\|kill-ring-save" (symbol-name symbol)))
-    (put symbol 'interactive-form
-         '(interactive
-           (if (use-region-p)
-               (list (region-beginning) (region-end))
-             (list (line-beginning-position) (line-end-position)))))))
-
 (defun sm-try-smerge ()
   (save-excursion
     (goto-char (point-min))
