@@ -3,7 +3,6 @@
 (require 'use-package)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-(use-package cl)
 (use-package f)
 (use-package s)
 (use-package dash
@@ -19,9 +18,8 @@
     (exec-path-from-shell-copy-env "SSL_CERT_FILE")))
 
 (defvar hemacs-code-dir "~/code/")
-(defvar hemacs-load-files '("defuns" "config" "packages" "keys"))
 
-(loop for name in hemacs-load-files
-      do (load (expand-file-name (concat name ".el") user-emacs-directory)))
+(--each '("defuns" "config" "packages" "keys")
+  (load (expand-file-name (concat it ".el") user-emacs-directory)))
 
 (load-theme 'hemacs :no-confirm)
