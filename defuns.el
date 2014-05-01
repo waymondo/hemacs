@@ -187,16 +187,6 @@
   (let ((projectile-switch-project-action 'projectile-vc))
     (call-interactively 'projectile-switch-project)))
 
-(defn comint-up-or-previous-input-history
-  (if (comint-after-pmark-p)
-      (comint-previous-input arg)
-    (previous-line arg)))
-
-(defn comint-down-or-next-input-history
-  (if (comint-after-pmark-p)
-      (comint-next-input arg)
-    (next-line arg)))
-
 (defn clear-shell
   (let ((old-max comint-buffer-maximum-size))
     (setq comint-buffer-maximum-size 0)

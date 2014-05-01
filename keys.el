@@ -94,7 +94,9 @@
 (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
-(bind-key "<M-S-Tab>" 'next-complete-history-element minibuffer-local-map)
+(bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
+(bind-key "M-TAB" 'comint-previous-matching-input-from-input comint-mode-map)
+(bind-key "<M-S-tab>" 'comint-next-matching-input-from-input comint-mode-map)
 
 (bind-key "C-c e" 'eval-region-and-maybe-deactivate-mark emacs-lisp-mode-map)
 
@@ -102,11 +104,7 @@
 (bind-key "C-c m" 'projector-run-shell-command-project-root)
 (bind-key "C-c RET" 'projector-run-shell-command-project-root)
 (bind-key "C" nil comint-mode-map) ;; Capital C please?!
-(bind-key "<up>" 'comint-up-or-previous-input-history comint-mode-map)
-(bind-key "<down>" 'comint-down-or-next-input-history comint-mode-map)
 (bind-key "s-k" 'clear-shell comint-mode-map)
-(bind-key "<C-tab>" 'comint-previous-matching-input-from-input comint-mode-map)
-(bind-key "<C-S-tab>" 'comint-next-matching-input-from-input comint-mode-map)
 
 (key-chord-define-global "<>" 'sgml-close-tag)
 (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
