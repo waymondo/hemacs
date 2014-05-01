@@ -61,8 +61,8 @@
 (bind-key "C-o" 'smart-open-line-above)
 (bind-key "C-l" 'log-statement)
 
-(bind-key "C-c o" 'ffap)
-(bind-key "C-c O" 'github-browse-file)
+(bind-key "C-c g" 'github-browse-file)
+(bind-key "C-c G" 'github-browse-file-blame)
 (bind-key "C-c d" 'dash-at-point)
 (bind-key "C-c D" 'dash-at-point-with-docset)
 
