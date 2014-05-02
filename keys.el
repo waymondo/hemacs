@@ -6,6 +6,7 @@
 (bind-key "TAB" 'hippie-expand read-expression-map)
 (bind-key "TAB" 'hippie-expand minibuffer-local-map)
 (bind-key "M-/" 'hippie-expand)
+(bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
 
 (bind-key "C-z" 'zap-up-to-char)
 (bind-key* "C-," 'er/expand-region)
