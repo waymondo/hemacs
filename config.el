@@ -108,16 +108,17 @@
 (setq initial-buffer-choice (car recentf-list))
 
 ;; comint & compilation
+(setq explicit-shell-file-name "bash")
+(setq explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
+(setq comint-process-echoes t)
 (setq-default comint-prompt-read-only t)
 (setq-default comint-input-ignoredups t)
-(setq comint-completion-autolist t)
 (setq comint-buffer-maximum-size 5000) ;; 5mb max for comint buffers
 (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
 (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
 (setq compilation-disable-input t)
 (setq compilation-message-face nil)
 (setq compilation-always-kill t)
-(setq shell-completion-execonly nil)
 (setq next-error-recenter t)
 (add-λ 'shell-mode-hook
   (setq comint-input-ring-file-name (getenv "HISTFILE"))

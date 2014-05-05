@@ -300,3 +300,17 @@
   (progn
     (setq key-chord-two-keys-delay 0.05)
     (setq key-chord-two-keys-delay 0.1)))
+
+(use-package company
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (progn
+    (setq company-idle-delay 0.4)
+    (setq company-minimum-prefix-length 2)
+    (setq company-show-numbers t)
+    (setq company-tooltip-align-annotations t)
+    (use-package readline-complete
+      :init (push 'company-readline company-backends)
+      :config (add-λ 'rlc-no-readline-hook
+                (company-mode -1)))
+    (push 'company-robe company-backends)))
