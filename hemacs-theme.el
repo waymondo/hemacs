@@ -27,15 +27,15 @@
    `(cursor ((t (:background ,base08))))
    `(gui-element ((t (:background ,base03 :foreground ,base06))))
    `(highlight ((t (:background ,base01))))
-   `(hl-line ((t (:background ,(color-darken-name base01 1)))))
+   `(hl-line ((t (:background ,(color-darken-name base01 2)))))
    `(link ((t (:foreground ,base0D))))
    `(link-visited ((t (:foreground ,base0E))))
    `(minibuffer-prompt ((t (:foreground ,base0D))))
    `(region ((t (:background ,base02))))
    `(next-error ((t (:background ,base02))))
-   `(secondary-selection ((t (:background ,base03))))
+   `(secondary-selection ((t (:background ,base01))))
    `(header-line ((t (:foreground ,base0E :background nil))))
-   `(auto-dim-other-buffers-face ((t (:background ,(color-darken-name base00 3)))))
+   `(auto-dim-other-buffers-face ((t (:background ,(color-darken-name base01 2)))))
    `(vhl/default-face ((t (:background ,(color-lighten-name base00 5)))))
 
    `(ace-jump-face-foreground ((t (:foreground ,base08))))
@@ -44,14 +44,15 @@
    `(guide-key/prefix-command-face ((t (:foreground ,base0C))))
 
    ;; modeline
-   `(mode-line ((t (:background ,base02 :foreground ,base04 :box (:line-width 3 :color ,base02 :style nil)))))
-   `(mode-line-inactive ((t (:background ,base01 :foreground ,base03 :box (:line-width 3 :color ,base01 :style nil)))))
+   `(mode-line ((t (:background ,(color-darken-name base00 10) :foreground ,base04 :box (:line-width 4 :color ,(color-darken-name base00 10) :style nil)))))
+   `(mode-line-inactive ((t (:background ,base00 :foreground ,base03 :box (:line-width 4 :color ,base00 :style nil)))))
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
    `(mm-command-output ((t (:background ,base02 :foreground ,base04))))
    `(alert-trivial-face ((t (:inherit nil :foreground nil :background nil))))
    `(anzu-mode-line ((t (:foreground ,base0A))))
+   `(persp-selected-face ((t (:foreground ,base05))))
 
    ;; Font-lock stuff
    `(font-lock-builtin-face ((t (:foreground ,base0C))))
@@ -83,11 +84,22 @@
    `(isearch-lazy-highlight-face ((t (:foreground ,base0C :background ,base01 :inverse-video t))))
    `(isearch-fail ((t (:background ,base01 :inherit font-lock-warning-face :inverse-video t))))
 
-   `(swoop-face-target-line ((t (:foreground ,base07 :background ,base01))))
-   `(swoop-face-target-words ((t (:foreground ,base0A :background ,base01))))
-   `(swoop-face-header-format-line ((t (:inherit header-line))))
-   `(swoop-face-line-buffer-name ((t (:inherit header-line))))
-   `(swoop-face-line-number ((t (:inherit linum))))
+   ;; Company
+   `(company-tooltip ((t (:background ,(color-darken-name base01 10) :foreground ,base04))))
+   `(company-tooltip-selection ((t (:background ,(color-darken-name base01 12) :foreground ,base06))))
+   `(company-tooltip-common ((t (:inherit company-tooltip :foreground ,base04))))
+   `(company-tooltip-common-selection ((t (:foreground ,base06))))
+   `(company-echo-common ((t (:inherit company-tooltip :foreground ,base0A))))
+   `(company-scrollbar-bg ((t (:background ,base01))))
+   `(company-scrollbar-fg ((t (:background ,base02))))
+   `(company-tooltip-annotation ((t (:inherit company-tooltip :foreground ,base02))))
+   `(company-preview ((t (:background ,base00 :foreground ,base03))))
+   `(company-preview-common ((t (:foreground ,base03))))
+   `(company-preview-search ((t (:background ,base00))))
+
+   `(popup-face ((t (:foreground ,base01 :background ,base05))))
+   `(popup-menu-selection-face ((t (:foreground ,base07 :background ,base0D))))
+   `(popup-isearch-match ((t (:foreground ,base0A :background nil))))
 
    ;; Flymake
    `(flymake-warnline ((t (:underline ,base09 :background ,base01))))
@@ -120,11 +132,6 @@
    `(org-todo ((t (:foreground ,base08))))
    `(org-checkbox ((t (:foreground ,base0E))))
 
-   ;; show-paren-mode
-   `(show-paren-match ((t (:background nil :foreground nil :underline t))))
-   `(show-paren-mismatch ((t (:background ,base08 :foreground ,base01))))
-   `(highlight-symbol-face ((t (:foreground nil :background nil :underline t))))
-
    ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,base0E))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,base0D))))
@@ -143,9 +150,6 @@
    `(ido-indicator ((t (:foreground ,base08 :background ,base01))))
    `(ido-virtual ((t (:foreground ,base04))))
 
-   ;; which-function
-   `(which-func ((t (:foreground ,base0D :background nil :weight bold))))
-
    `(trailing-whitespace ((t (:background ,(color-darken-name base00 2) :foreground ,base0A))))
    `(whitespace-empty ((t (:foreground ,base08 :background ,base0A))))
    `(whitespace-hspace ((t (:background ,base04 :foreground ,base04))))
@@ -162,17 +166,14 @@
    `(git-gutter-fr:deleted ((t (:foreground ,base03))))
    `(git-gutter-fr:modified ((t (:foreground ,base03))))
 
-   ;; Parenthesis matching (built-in)
-   `(show-paren-match ((t (:background ,base0D :foreground ,base03))))
-   `(show-paren-mismatch ((t (:background ,base09 :foreground ,base03))))
-
-   ;; Parenthesis matching (mic-paren)
    `(paren-face-match ((t (:foreground nil :background nil :inherit show-paren-match))))
    `(paren-face-mismatch ((t (:foreground nil :background nil :inherit show-paren-mismatch))))
    `(paren-face-no-match ((t (:foreground nil :background nil :inherit show-paren-mismatch))))
-
-   ;; Parenthesis dimming (parenface)
    `(paren-face ((t (:foreground ,base04 :background nil))))
+
+   `(show-paren-match ((t (:background nil :foreground nil :underline t))))
+   `(show-paren-mismatch ((t (:background ,base08 :foreground ,base01))))
+   `(highlight-symbol-face ((t (:foreground nil :background nil :underline t))))
 
    `(sh-heredoc ((t (:foreground nil :inherit font-lock-string-face :weight normal))))
    `(sh-quoted-exec ((t (:foreground nil :inherit font-lock-preprocessor-face))))
@@ -203,22 +204,6 @@
    `(undo-tree-visualizer-current-face ((t (:foreground ,base0B :weight bold))))
    `(undo-tree-visualizer-active-branch-face ((t (:foreground ,base08))))
    `(undo-tree-visualizer-register-face ((t (:foreground ,base0A))))
-
-   ;; auctex
-   `(font-latex-bold-face ((t (:foreground ,base0B))))
-   `(font-latex-doctex-documentation-face ((t (:background ,base03))))
-   `(font-latex-italic-face ((t (:foreground ,base0B))))
-   `(font-latex-math-face ((t (:foreground ,base09))))
-   `(font-latex-sectioning-0-face ((t (:foreground ,base0A))))
-   `(font-latex-sectioning-1-face ((t (:foreground ,base0A))))
-   `(font-latex-sectioning-2-face ((t (:foreground ,base0A))))
-   `(font-latex-sectioning-3-face ((t (:foreground ,base0A))))
-   `(font-latex-sectioning-4-face ((t (:foreground ,base0A))))
-   `(font-latex-sectioning-5-face ((t (:foreground ,base0A))))
-   `(font-latex-sedate-face ((t (:foreground ,base0C))))
-   `(font-latex-string-face ((t (:foreground ,base0A))))
-   `(font-latex-verbatim-face ((t (:foreground ,base09))))
-   `(font-latex-warning-face ((t (:foreground ,base08))))
 
    ;; dired+
    `(diredp-compressed-file-suffix ((t (:foreground ,base0D))))
@@ -255,11 +240,6 @@
    `(magit-log-head-label-tags ((t (:foreground ,base0C :box nil :weight bold))))
    `(magit-section-title ((t (:inherit diff-hunk-header))))
 
-   ;; autocomplete
-   `(popup-face ((t (:foreground ,base01 :background ,base05))))
-   `(popup-menu-selection-face ((t (:foreground ,base07 :background ,base0D))))
-   `(popup-isearch-match ((t (:foreground ,base0A :background nil))))
-
    `(link ((t (:foreground nil :underline t))))
    `(widget-button ((t (:underline t))))
    `(widget-field ((t (:background ,base03 :box (:line-width 1 :color ,base06)))))
@@ -269,16 +249,10 @@
    `(compilation-column-number ((t (:foreground ,base0A))))
    `(compilation-line-number ((t (:foreground ,base0A))))
    `(compilation-message-face ((t (:foreground ,base0D))))
-   `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
-   `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
-   `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
+   ;; `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
+   ;; `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
+   ;; `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
    `(success ((t (:foreground ,base0B))))
-
-   ;; Grep
-   `(grep-context-face ((t (:foreground ,base04))))
-   `(grep-error-face ((t (:foreground ,base08 :weight bold :underline t))))
-   `(grep-hit-face ((t (:foreground ,base0D))))
-   `(grep-match-face ((t (:foreground nil :background nil :inherit match))))
 
    `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
 
@@ -315,12 +289,6 @@
 
    `(markdown-url-face ((t (:inherit link))))
    `(markdown-link-face ((t (:foreground ,base0D :underline t))))
-
-   `(hl-sexp-face ((t (:background ,base03))))
-   `(highlight-80+ ((t (:background ,base03))))
-
-   ;; Python-specific overrides
-   `(py-builtins-face ((t (:foreground ,base09 :weight normal))))
 
    ;; js2-mode
    `(js2-warning-face ((t (:underline ,base09))))
@@ -376,7 +344,6 @@
    `(jabber-chat-text-local ((t (:foreground ,base0A))))
    `(jabber-chat-text-foreign ((t (:foreground ,base09))))
    `(jabber-chat-text-error ((t (:foreground ,base08))))
-
    `(jabber-roster-user-online ((t (:foreground ,base0B))))
    `(jabber-roster-user-xa ((t :foreground ,base04)))
    `(jabber-roster-user-dnd ((t :foreground ,base0A)))
@@ -384,7 +351,6 @@
    `(jabber-roster-user-chatty ((t (:foreground ,base0E))))
    `(jabber-roster-user-error ((t (:foreground ,base08))))
    `(jabber-roster-user-offline ((t (:foreground ,base04))))
-
    `(jabber-rare-time-face ((t (:foreground ,base04))))
    `(jabber-activity-face ((t (:foreground ,base0E))))
    `(jabber-activity-personal-face ((t (:foreground ,base0C))))
