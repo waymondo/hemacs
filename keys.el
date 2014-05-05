@@ -99,6 +99,8 @@
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input comint-mode-map)
 (bind-key "<M-S-tab>" 'comint-next-matching-input-from-input comint-mode-map)
 
+(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
+
 (bind-key "C-c e" 'eval-region-and-maybe-deactivate-mark emacs-lisp-mode-map)
 
 (bind-key "C-c x" 'projector-switch-to-or-create-project-shell)
