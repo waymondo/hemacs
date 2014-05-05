@@ -70,11 +70,19 @@
     (push '("*Completions*" :noselect t :height 10) popwin:special-display-config)
     (push '("* guide-key*" :height 10) popwin:special-display-config)))
 
+(use-package perspective
+  :init
+  (progn
+    (add-λ 'persp-mode-hook
+      (remove-hook 'ido-make-buffer-list-hook 'persp-set-ido-buffers))
+    (persp-mode)))
+
 (use-package projectile
   :init
   (progn
     (use-package projectile-rails
       :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
+    (use-package persp-projectile)
     (projectile-global-mode)))
 
 (use-package page-break-lines
@@ -279,7 +287,10 @@
 (use-package misc)
 
 (use-package ace-jump-buffer
-  :config (setq ajb-max-window-height 30))
+  :config
+  (progn
+    (setq ajb-max-window-height 30)
+    (setq ajb-bs-configuration "persp")))
 
 (use-package imenu-anywhere)
 

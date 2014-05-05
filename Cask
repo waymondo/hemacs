@@ -47,6 +47,7 @@
 (depends-on "multiple-cursors")
 (depends-on "org-repo-todo")
 (depends-on "page-break-lines")
+(depends-on "perspective")
 (depends-on "popup-kill-ring")
 (depends-on "popwin")
 (depends-on "projectile")
