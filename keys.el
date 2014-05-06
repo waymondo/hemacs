@@ -108,6 +108,7 @@
 (bind-key "C-c RET" 'projector-run-shell-command-project-root)
 (bind-key "C" nil comint-mode-map) ;; Capital C please?!
 (bind-key "s-k" 'clear-shell comint-mode-map)
+(bind-key "s-/" 'comment-or-uncomment-region-or-line)
 
 (key-chord-define-global "<>" 'sgml-close-tag)
 (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
