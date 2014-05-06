@@ -94,6 +94,11 @@
 
 (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
 
+(bind-key "M--" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
+(bind-key "M-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
+(bind-key "M-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
+(bind-key "M-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
+
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input comint-mode-map)

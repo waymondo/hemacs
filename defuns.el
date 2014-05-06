@@ -349,3 +349,11 @@
     (add-hook 'after-init-hook func)
     (when after-init-time
       (eval form))))
+
+(defun replace-region-or-symbol-at-point-with (fn)
+  (unless (use-region-p) (er/mark-symbol))
+  (let* ((beg (region-beginning))
+         (end (region-end))
+         (contents (buffer-substring beg end)))
+    (delete-region beg end)
+    (insert (funcall fn contents))))
