@@ -320,7 +320,7 @@
     (vector 'key-chord ? (if (stringp key) (aref key 0) key)) command))
 
 (defvar yankee-do-modes '(css-mode less-css-mode sgml-mode))
-(defvar yankee-no-modes '(coffee-mode slim-mode))
+(defvar yankee-no-modes '(coffee-mode slim-mode c-mode objc-mode))
 
 (dolist (command '(yank yank-pop clipboard-yank))
   (eval `(defadvice ,command (after indent-region activate)
