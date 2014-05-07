@@ -277,38 +277,6 @@
     (flet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
-(defun he-word-beg ()
-  (let ((p))
-    (save-excursion
-      (backward-word 1)
-      (setq p (point)))
-    p))
-
-(defun try-expand-from-string-in-list (old)
-  (unless old
-    (he-init-string (he-word-beg) (point))
-    (setq he-expand-list (sort
-                          (all-completions he-search-string (mapcar 'list he-string-list))
-                          'string-lessp)))
-  (while (and he-expand-list
-              (he-string-member (car he-expand-list) he-tried-table))
-    (setq he-expand-list (cdr he-expand-list)))
-  (if (null he-expand-list)
-      (progn
-        (when old (he-reset-string))
-        ())
-    (he-substitute-string (car he-expand-list))
-    (setq he-expand-list (cdr he-expand-list))
-    t))
-
-(defun try-expand-css (old)
-  (let ((he-string-list (append css-pseudo-ids
-                                css-at-ids
-                                css-descriptor-ids
-                                css-media-ids
-                                css-property-ids)))
-    (try-expand-from-string-in-list old)))
-
 (defadvice kill-line (before check-position activate)
   (if (and (eolp) (not (bolp)))
       (progn (forward-char 1)

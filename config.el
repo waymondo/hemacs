@@ -80,11 +80,6 @@
                  try-complete-lisp-symbol)
                hippie-expand-try-functions-list)))
 
-(dolist (hook '(css-mode-hook less-css-mode-hook))
-  (add-λ hook
-    (set (make-local-variable 'hippie-expand-try-functions-list)
-       (append '(try-expand-css) hippie-expand-try-functions-list))))
-
 ;; files
 (add-λ 'before-save-hook
   (unless (eq major-mode 'markdown-mode)
