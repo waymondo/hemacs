@@ -68,21 +68,13 @@
     (push '("*git-gutter:diff*" :noselect t :stick t :height .3) popwin:special-display-config)
     (push '("COMMIT_EDITMSG" :height .3) popwin:special-display-config)
     (push '("*Completions*" :noselect t :height 10) popwin:special-display-config)
-    (push '("* guide-key*" :height 10) popwin:special-display-config)))
-
-(use-package perspective
-  :init
-  (progn
-    (add-λ 'persp-mode-hook
-      (remove-hook 'ido-make-buffer-list-hook 'persp-set-ido-buffers))
-    (persp-mode)))
+    (push '(" *guide-key*" :height 10) popwin:special-display-config)))
 
 (use-package projectile
   :init
   (progn
     (use-package projectile-rails
       :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
-    (use-package persp-projectile)
     (projectile-global-mode)))
 
 (use-package page-break-lines
@@ -290,7 +282,8 @@
   :config
   (progn
     (setq ajb-max-window-height 30)
-    (setq ajb-bs-configuration "persp")))
+    (setq ajb-bs-configuration "projectile")
+    (setq ajb-reuse-windows t)))
 
 (use-package imenu-anywhere)
 
