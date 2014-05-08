@@ -29,6 +29,7 @@
 (depends-on "git-gutter-fringe")
 (depends-on "github-browse-file")
 (depends-on "god-mode")
+(depends-on "golden-ratio")
 (depends-on "guide-key")
 (depends-on "handlebars-mode")
 (depends-on "highlight-symbol")

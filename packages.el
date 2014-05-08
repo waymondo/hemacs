@@ -64,11 +64,26 @@
   :init (popwin-mode 1)
   :config
   (progn
-    (setq popwin:popup-window-height 0.5)
-    (push '("*git-gutter:diff*" :noselect t :stick t :height .3) popwin:special-display-config)
-    (push '("COMMIT_EDITMSG" :height .3) popwin:special-display-config)
-    (push '("*Completions*" :noselect t :height 10) popwin:special-display-config)
-    (push '(" *guide-key*" :height 10) popwin:special-display-config)))
+    (setq popwin:popup-window-height 0.3)
+    (push '("*git-gutter:diff*" :noselect t :stick t) popwin:special-display-config)
+    (push "COMMIT_EDITMSG" popwin:special-display-config)))
+
+(use-package golden-ratio
+  :init (golden-ratio-mode t)
+  :config
+  (progn
+    (setq golden-ratio-extra-commands
+          (append golden-ratio-extra-commands
+                  '(next-multiframe-window)))
+    (setq golden-ratio-exclude-modes
+          '("magit-key-mode"))
+    (setq golden-ratio-inhibit-functions
+          '(golden-ratio-inhibit-popwin-config))
+    (setq golden-ratio-recenter t)
+    (setq golden-ratio-exclude-buffer-names
+          '("*buffer-selection*"
+            " *guide-key*"
+            "CAPTURE-TODO.org"))))
 
 (use-package projectile
   :init

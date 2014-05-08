@@ -325,3 +325,7 @@
          (contents (buffer-substring beg end)))
     (delete-region beg end)
     (insert (funcall fn contents))))
+
+(defun golden-ratio-inhibit-popwin-config ()
+  (let ((buffer (current-buffer)))
+    (if (popwin:match-config buffer) t)))
