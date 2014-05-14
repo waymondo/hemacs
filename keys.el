@@ -82,6 +82,7 @@
 (bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
 
 (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
+(bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
 
 (bind-key "C-M-p" 'sgml-skip-tag-backward sgml-mode-map)
 (bind-key "C-M-n" 'sgml-skip-tag-forward sgml-mode-map)
