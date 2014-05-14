@@ -184,7 +184,7 @@
     (ido-mode t)
     (use-package ido-ubiquitous
       :init (ido-ubiquitous-mode 1))
-    (use-package ido-sort-mtime-mode
+    (use-package ido-sort-mtime
       :init (ido-sort-mtime-mode 1))
     (use-package ido-at-point
       :init (ido-at-point-mode t))
