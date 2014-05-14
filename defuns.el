@@ -283,6 +283,10 @@
              (just-one-space 0)
              (backward-char 1))))
 
+(defadvice hippie-expand (around hippie-expand-case-fold activate)
+  (let ((case-fold-search nil))
+    ad-do-it))
+
 (defun space-chord-define-global (key command)
   (define-key (current-global-map)
     (vector 'key-chord ? (if (stringp key) (aref key 0) key)) command))

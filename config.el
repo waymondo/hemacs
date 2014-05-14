@@ -8,7 +8,6 @@
 (setq ring-bell-function 'ignore)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
-(setq-default case-fold-search nil)
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq confirm-kill-emacs nil)
 (setq kill-buffer-query-functions
