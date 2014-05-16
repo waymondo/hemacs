@@ -19,7 +19,7 @@
 
 (defvar hemacs-code-dir "~/code/")
 
-(--each '("defuns" "config" "packages" "keys")
+(--each '("macros" "defuns" "config" "packages" "keys")
   (load (expand-file-name (concat it ".el") user-emacs-directory)))
 
 (load-theme 'hemacs :no-confirm)

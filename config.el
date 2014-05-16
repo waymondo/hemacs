@@ -35,6 +35,9 @@
 (setq x-select-enable-clipboard t)
 (put 'downcase-region 'disabled nil)
 (put 'capitalize-region 'disabled nil)
+(allow-line-as-region-for-function comment-or-uncomment-region)
+(allow-line-as-region-for-function capitalize-region)
+(allow-line-as-region-for-function downcase-region)
 
 ;; electric pairs
 (electric-pair-mode 1)
