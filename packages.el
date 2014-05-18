@@ -122,7 +122,16 @@
     (add-to-list 'interpreter-mode-alist '("node" . js-mode))))
 
 (use-package coffee-mode
-  :config (setq coffee-args-repl '("-i" "--nodejs")))
+  :config
+  (progn
+    (setq coffee-args-repl '("-i" "--nodejs"))
+    (add-λ 'coffee-mode-hook (modify-syntax-entry ?\@ "_"))))
+
+(use-package slim-mode
+  :config
+  (progn
+    (setq slim-backspace-backdents-nesting nil)
+    (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))))
 
 (use-package ruby-mode
   :init
@@ -131,9 +140,7 @@
     (use-package robe
       :init (add-hook 'ruby-mode-hook 'robe-mode))
     (use-package ruby-hash-syntax)
-    (use-package rhtml-mode)
-    (use-package slim-mode
-      :config (setq slim-backspace-backdents-nesting nil)))
+    (use-package rhtml-mode))
   :config
   (progn
     (setq ruby-use-smie nil)
