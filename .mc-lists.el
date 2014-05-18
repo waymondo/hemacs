@@ -30,6 +30,7 @@
         left-subword
         maybe-delete-selection-and-yank
         ns-copy-including-secondary
+        nxml-electric-slash
         org-self-insert-command
         pad-colon
         right-subword
@@ -52,6 +53,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        ace-jump-buffer
         ace-jump-mode
         align-regexp
         beginning-of-buffer
