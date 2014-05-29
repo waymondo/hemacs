@@ -150,10 +150,9 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
 (setq pop-up-windows nil)
-(setq switch-to-buffer-preserve-window-point t)
 (setq scroll-margin 24)
-(setq scroll-conservatively 100000)
-(setq scroll-preserve-screen-position 1)
+(setq scroll-conservatively 10000)
+(setq scroll-preserve-screen-position t)
 (setq truncate-partial-width-windows 90)
 
 ;; visual
