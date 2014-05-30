@@ -60,7 +60,7 @@
 (bind-key "s-o" 'projectile-switch-project)
 (bind-key "s-O" 'projectile-switch-project-vc)
 (bind-key "s-m" 'magit-status)
-(bind-key "C-c RET" 'projector-run-shell-command-project-root)
+(bind-key* "C-c RET" 'projector-run-shell-command-project-root)
 
 (bind-key "C-a" 'back-to-indentation-or-beginning)
 (bind-key "C-o" 'smart-open-line-above)
