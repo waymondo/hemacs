@@ -204,7 +204,7 @@
   (progn
     (setq ido-cannot-complete-command 'exit-minibuffer)
     (setq ido-use-virtual-buffers t)
-    (setq ido-auto-merge-delay-time 1.5)
+    (setq ido-auto-merge-delay-time 10)
     (setq ido-enable-flex-matching t)
     (setq ido-enable-dot-prefix t)
     (setq ido-max-prospects 10)
