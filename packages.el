@@ -68,22 +68,22 @@
     (push '("*git-gutter:diff*" :noselect t :stick t) popwin:special-display-config)
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
 
-(use-package golden-ratio
-  :init (golden-ratio-mode t)
-  :config
-  (progn
-    (setq golden-ratio-extra-commands
-          (append golden-ratio-extra-commands
-                  '(next-multiframe-window)))
-    (setq golden-ratio-exclude-modes
-          '("magit-key-mode"))
-    (setq golden-ratio-inhibit-functions
-          '(golden-ratio-inhibit-popwin-config))
-    (setq golden-ratio-recenter t)
-    (setq golden-ratio-exclude-buffer-names
-          '("*buffer-selection*"
-            " *guide-key*"
-            "CAPTURE-TODO.org"))))
+;; (use-package golden-ratio
+;;   :init (golden-ratio-mode t)
+;;   :config
+;;   (progn
+;;     (setq golden-ratio-extra-commands
+;;           (append golden-ratio-extra-commands
+;;                   '(next-multiframe-window)))
+;;     (setq golden-ratio-exclude-modes
+;;           '("magit-key-mode"))
+;;     (setq golden-ratio-inhibit-functions
+;;           '(golden-ratio-inhibit-popwin-config))
+;;     (setq golden-ratio-recenter t)
+;;     (setq golden-ratio-exclude-buffer-names
+;;           '("*buffer-selection*"
+;;             " *guide-key*"
+;;             "CAPTURE-TODO.org"))))
 
 (use-package projectile
   :init
@@ -193,11 +193,10 @@
       :init (ido-ubiquitous-mode 1))
     (use-package ido-sort-mtime
       :init (ido-sort-mtime-mode 1))
-    (use-package ido-at-point
-      :init (ido-at-point-mode t))
+    ;; (use-package ido-at-point
+    ;;   :init (ido-at-point-mode t))
     (use-package flx-ido
-      :init (flx-ido-mode 1)
-      :config (setq flx-ido-use-faces nil))
+      :init (flx-ido-mode 1))
     (use-package ido-vertical-mode
       :init (ido-vertical-mode 1)
       :config (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)))
@@ -231,12 +230,12 @@
 (use-package volatile-highlights
   :init (volatile-highlights-mode t))
 
-(use-package highlight-tail
-  :init
-  (progn
-    (setq highlight-tail-timer 0.02)
-    (eval-after-init
-     (run-at-time 2 nil 'highlight-tail-mode))))
+;; (use-package highlight-tail
+;;   :init
+;;   (progn
+;;     (setq highlight-tail-timer 0.02)
+;;     (eval-after-init
+;;      (run-at-time 2 nil 'highlight-tail-mode))))
 
 (use-package rainbow-mode
   :init
