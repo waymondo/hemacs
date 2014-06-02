@@ -102,6 +102,8 @@
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input comint-mode-map)
 (bind-key "<M-S-tab>" 'comint-next-matching-input-from-input comint-mode-map)
+(bind-key "M-TAB" 'comint-previous-matching-input-from-input inf-ruby-mode-map)
+(bind-key "<M-S-tab>" 'comint-next-matching-input-from-input inf-ruby-mode-map)
 
 (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
 (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
