@@ -165,7 +165,8 @@
     (setq magit-stage-all-confirm nil)
     (setq magit-unstage-all-confirm nil)
     (setq magit-commit-ask-to-stage nil)
-    (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)))
+    (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
+    (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)))
 
 (use-package projector
   :config

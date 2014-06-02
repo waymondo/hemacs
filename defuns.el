@@ -224,6 +224,11 @@
   (visual-line-mode)
   (flyspell-mode))
 
+(defun hemacs-shellish-hook ()
+  (setq truncate-lines nil)
+  (set (make-local-variable 'scroll-margin) 0)
+  (text-scale-decrease 1))
+
 (defun what-face (pos)
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)

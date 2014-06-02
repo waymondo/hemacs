@@ -122,10 +122,7 @@
   (setq comint-input-ring-file-name (getenv "HISTFILE"))
   (comint-read-input-ring 'silent))
 (dolist (hook '(comint-mode-hook compilation-mode-hook))
-  (add-λ hook
-    (setq truncate-lines nil)
-    (set (make-local-variable 'scroll-margin) 0)
-    (text-scale-decrease 1)))
+  (add-hook hook 'hemacs-shellish-hook))
 
 ;; minibuffer
 (setq echo-keystrokes 0.1)
