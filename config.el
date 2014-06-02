@@ -159,11 +159,10 @@
 (setq linum-format " %3s ")
 (setq-default indicate-empty-lines t)
 (setq-default show-trailing-whitespace t)
-(setq-default line-spacing 2)
 (fringe-mode '(24 . 8))
 (column-number-mode t)
 (global-hl-line-mode t)
-(set-face-attribute 'default nil :height 150)
+(set-face-attribute 'default nil :height 180 :font "Inconsolata")
 (setq-default mode-line-format
               '("%e" mode-line-front-space mode-line-modified
                 " " mode-line-buffer-identification " "
