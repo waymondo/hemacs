@@ -111,7 +111,7 @@
 (setq comint-process-echoes t)
 (setq-default comint-prompt-read-only t)
 (setq-default comint-input-ignoredups t)
-(setq comint-buffer-maximum-size 5000) ;; 5mb max for comint buffers
+(setq comint-buffer-maximum-size 5000)
 (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
 (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
 (setq compilation-disable-input t)
@@ -119,8 +119,7 @@
 (setq compilation-always-kill t)
 (setq next-error-recenter t)
 (add-λ 'shell-mode-hook
-  (setq comint-input-ring-file-name (getenv "HISTFILE"))
-  (comint-read-input-ring 'silent))
+  (turn-on-comint-history (getenv "HISTFILE")))
 (dolist (hook '(comint-mode-hook compilation-mode-hook))
   (add-hook hook 'hemacs-shellish-hook))
 

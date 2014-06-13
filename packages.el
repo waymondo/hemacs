@@ -139,6 +139,9 @@
     (use-package rspec-mode)
     (use-package robe
       :init (add-hook 'ruby-mode-hook 'robe-mode))
+    (use-package inf-ruby
+      :init (add-λ 'inf-ruby-mode-hook
+              (turn-on-comint-history "~/.irb_history")))
     (use-package ruby-hash-syntax)
     (use-package rhtml-mode))
   :config

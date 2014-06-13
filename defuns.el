@@ -305,3 +305,7 @@
 (defun golden-ratio-inhibit-popwin-config ()
   (let ((buffer (current-buffer)))
     (if (popwin:match-config buffer) t)))
+
+(defun turn-on-comint-history (history-file)
+  (setq comint-input-ring-file-name history-file)
+  (comint-read-input-ring 'silent))

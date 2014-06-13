@@ -41,6 +41,7 @@
 (depends-on "ido-ubiquitous")
 (depends-on "ido-vertical-mode")
 (depends-on "imenu-anywhere")
+(depends-on "inf-ruby")
 (depends-on "js2-mode")
 (depends-on "jump-char")
 (depends-on "key-chord")
