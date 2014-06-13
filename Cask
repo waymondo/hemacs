@@ -14,6 +14,7 @@
 (depends-on "coffee-mode")
 (depends-on "color-identifiers-mode")
 (depends-on "company")
+(depends-on "company-inf-ruby")
 (depends-on "dash")
 (depends-on "dash-at-point")
 (depends-on "easy-kill")

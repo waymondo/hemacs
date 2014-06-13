@@ -320,12 +320,18 @@
   :init (add-hook 'after-init-hook 'global-company-mode)
   :config
   (progn
+    (setq company-tooltip-flip-when-above t)
     (setq company-idle-delay 0.4)
     (setq company-minimum-prefix-length 2)
+    (setq company-dabbrev-code-other-buffers 'code)
+    (setq company-require-match nil)
+    (setq company-auto-complete t)
     (setq company-show-numbers t)
     (setq company-tooltip-align-annotations t)
     (use-package readline-complete
       :init (push 'company-readline company-backends)
       :config (add-λ 'rlc-no-readline-hook
                 (company-mode -1)))
+    (use-package company-inf-ruby
+      :init (push 'company-inf-ruby company-backends))
     (push 'company-robe company-backends)))
