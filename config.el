@@ -150,6 +150,13 @@
 (setq scroll-conservatively 10000)
 (setq scroll-preserve-screen-position t)
 (setq truncate-partial-width-windows 90)
+(setq display-buffer-fallback-action
+      '((display-buffer--maybe-same-window
+         display-buffer-reuse-window
+         display-buffer-in-previous-window
+         display-buffer-use-some-window
+         display-buffer--maybe-pop-up-frame-or-window
+         display-buffer-pop-up-frame)))
 
 ;; visual
 (setq-default cursor-type 'bar)
