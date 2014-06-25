@@ -22,6 +22,8 @@
 (bind-key* "C-." 'ort/capture-todo)
 (bind-key* "C-/" 'ort/goto-todos)
 
+(bind-key "C-`" 'list-processes)
+
 (bind-key "C-x \\" 'align-regexp)
 (bind-key "C-x w" 'what-face)
 
