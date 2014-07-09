@@ -167,8 +167,7 @@
 (setq-default show-trailing-whitespace t)
 (fringe-mode '(24 . 8))
 (column-number-mode t)
-(global-hl-line-mode t)
-(set-face-attribute 'default nil :height 180 :font "Inconsolata")
+(set-face-attribute 'default nil :height 190 :font "Inconsolata")
 (setq-default mode-line-format
               '("%e" mode-line-front-space mode-line-modified
                 " " mode-line-buffer-identification " "
