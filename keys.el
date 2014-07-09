@@ -1,6 +1,6 @@
 (bind-key "<escape>" 'god-mode-all)
 (bind-key "i" 'kill-region-and-god-local-mode god-local-mode-map)
-(bind-key "r" 'repeat god-local-mode-map)
+(bind-key "." 'repeat god-local-mode-map)
 
 (bind-key "TAB" 'tab-dwim)
 (bind-key "TAB" 'hippie-expand read-expression-map)
@@ -24,6 +24,9 @@
 
 (bind-key "C-`" 'list-processes)
 
+(bind-key "C-M-," 'crab-reload)
+(bind-key "C-M-;" 'crab-eval-coffee)
+
 (bind-key "C-x \\" 'align-regexp)
 (bind-key "C-x w" 'what-face)
 
@@ -41,8 +44,7 @@
 (bind-key "s-n" 'highlight-symbol-next)
 (bind-key "s-p" 'highlight-symbol-prev)
 
-(bind-key "<f5>" 'crab-reload)
-(bind-key "<f6>" 'toggle-frame-fullscreen)
+(bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
 
 (bind-key "s-:" 'pad-colon)
 (bind-key "s-z" 'undo-tree-undo)
