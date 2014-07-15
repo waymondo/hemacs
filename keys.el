@@ -44,6 +44,9 @@
 (bind-key "s-n" 'highlight-symbol-next)
 (bind-key "s-p" 'highlight-symbol-prev)
 
+(bind-key "<s-up>" 'increment-number-at-point)
+(bind-key "<s-down>" 'decrement-number-at-point)
+
 (bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
 
 (bind-key "s-:" 'pad-colon)

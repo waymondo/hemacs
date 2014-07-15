@@ -302,6 +302,29 @@
     (delete-region beg end)
     (insert (funcall fn contents))))
 
+(defun incs (s &optional num)
+  (let* ((inc (or num 1))
+         (new-number (number-to-string (+ inc (string-to-number s))))
+         (zero-padded? (s-starts-with? "0" s)))
+    (if zero-padded?
+        (s-pad-left (length s) "0" new-number)
+      new-number)))
+
+(defun increment-number-at-point (arg)
+  (interactive "p")
+  (unless (or (looking-at "[0-9]")
+              (looking-back "[0-9]"))
+    (error "No number to change at point"))
+  (save-excursion
+    (while (looking-back "[0-9]")
+      (forward-char -1))
+    (re-search-forward "[0-9]+" nil)
+    (replace-match (incs (match-string 0) arg) nil nil)))
+
+(defun decrement-number-at-point (arg)
+  (interactive "p")
+  (increment-number-at-point (- arg)))
+
 (defun golden-ratio-inhibit-popwin-config ()
   (let ((buffer (current-buffer)))
     (if (popwin:match-config buffer) t)))
