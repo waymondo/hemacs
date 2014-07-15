@@ -88,6 +88,7 @@
 (bind-key "C-x v =" 'git-gutter:popup-hunk)
 (bind-key "C-x v r" 'git-gutter:revert-hunk)
 (bind-key "C-x v s" 'git-gutter:stage-hunk)
+(bind-key "C-x v t" 'git-timemachine)
 
 (bind-key "<s-return>" 'smart-open-line)
 (bind-key "<C-return>" 'newline-dwim)

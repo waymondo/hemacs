@@ -170,6 +170,8 @@
     (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
     (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)))
 
+(use-package git-timemachine)
+
 (use-package projector
   :config
   (progn
@@ -194,10 +196,6 @@
     (ido-mode t)
     (use-package ido-ubiquitous
       :init (ido-ubiquitous-mode 1))
-    (use-package ido-sort-mtime
-      :init (ido-sort-mtime-mode 1))
-    ;; (use-package ido-at-point
-    ;;   :init (ido-at-point-mode t))
     (use-package flx-ido
       :init (flx-ido-mode 1))
     (use-package ido-vertical-mode
