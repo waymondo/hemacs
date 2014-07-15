@@ -56,9 +56,8 @@
 
 (use-package elisp-slime-nav
   :init
-  (progn
-    (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-      (add-hook hook 'elisp-slime-nav-mode))))
+  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
+    (add-hook hook 'elisp-slime-nav-mode)))
 
 (use-package popwin
   :init (popwin-mode 1)
@@ -116,15 +115,15 @@
 
 (use-package js
   :mode ("\\.json$" . js-mode)
+  :interpreter ("node" . js-mode)
   :init
-  (progn
-    (setq-default js-indent-level 2)
-    (add-to-list 'interpreter-mode-alist '("node" . js-mode))))
+  (setq-default js-indent-level 2))
 
 (use-package coffee-mode
   :config
   (progn
     (setq coffee-args-repl '("-i" "--nodejs"))
+    (add-to-list 'auto-mode-alist '("\\.coffee\\.*" . coffee-mode))
     (add-λ 'coffee-mode-hook (modify-syntax-entry ?\@ "_"))))
 
 (use-package slim-mode
