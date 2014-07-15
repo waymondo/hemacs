@@ -28,6 +28,7 @@
 (depends-on "fountain-mode")
 (depends-on "gist")
 (depends-on "git-gutter-fringe")
+(depends-on "git-messenger")
 (depends-on "git-timemachine")
 (depends-on "github-browse-file")
 (depends-on "god-mode")

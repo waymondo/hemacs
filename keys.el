@@ -83,12 +83,8 @@
 (bind-key "C-c u" 'browse-url-at-point)
 (bind-key "C-c o" 'ffap)
 
-(bind-key "C-x n" 'git-gutter:next-hunk)
-(bind-key "C-x p" 'git-gutter:previous-hunk)
-(bind-key "C-x v =" 'git-gutter:popup-hunk)
-(bind-key "C-x v r" 'git-gutter:revert-hunk)
-(bind-key "C-x v s" 'git-gutter:stage-hunk)
 (bind-key "C-x v t" 'git-timemachine)
+(bind-key "C-x v p" 'git-messenger)
 
 (bind-key "<s-return>" 'smart-open-line)
 (bind-key "<C-return>" 'newline-dwim)

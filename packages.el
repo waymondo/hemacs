@@ -172,6 +172,8 @@
 
 (use-package git-timemachine)
 
+(use-package git-messenger)
+
 (use-package projector
   :config
   (progn
