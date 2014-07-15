@@ -302,12 +302,7 @@
 
 (use-package misc)
 
-(use-package ace-jump-buffer
-  :config
-  (progn
-    (setq ajb-max-window-height 30)
-    (setq ajb-bs-configuration "projectile")
-    (setq ajb-reuse-windows t)))
+(use-package ace-jump-buffer)
 
 (use-package imenu-anywhere)
 
