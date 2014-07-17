@@ -277,6 +277,8 @@
     (setq guide-key/popup-window-position 'bottom)
     (setq guide-key/idle-delay 0.5)))
 
+(use-package discover-my-major)
+
 (use-package jump-char
   :config (setq jump-char-lazy-highlight-face nil))
 

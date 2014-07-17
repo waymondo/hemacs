@@ -94,6 +94,8 @@
 (bind-key "M-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
 (bind-key "M-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
 
+(bind-key "C-h C-m" 'discover-my-major)
+
 (bind-key "C-x C-k" 'delete-current-buffer-file)
 (bind-key "C-x C-k" 'magit-kill-file-on-line magit-mode-map)
 (bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
