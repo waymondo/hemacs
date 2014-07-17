@@ -11,6 +11,7 @@
 (setq auto-save-default nil)
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq confirm-kill-emacs nil)
+(setq vc-follow-symlinks t)
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
