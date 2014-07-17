@@ -64,7 +64,6 @@
   :config
   (progn
     (setq popwin:popup-window-height 0.3)
-    (push '("*git-gutter:diff*" :noselect t :stick t) popwin:special-display-config)
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
 
 ;; (use-package golden-ratio
@@ -216,8 +215,11 @@
     (setq ido-create-new-buffer 'always)
     (add-to-list 'ido-ignore-files "\\.DS_Store")))
 
-(use-package git-gutter-fringe
-  :init (global-git-gutter-mode t))
+(use-package diff-hl
+  :init
+  (progn
+    (global-diff-hl-mode)
+    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)))
 
 (use-package auto-dim-other-buffers
   :init (auto-dim-other-buffers-mode))
