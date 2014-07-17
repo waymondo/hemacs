@@ -153,7 +153,7 @@
          ("\\.env\\.*" . ruby-mode)))
 
 (use-package magit
-  :config
+  :init
   (progn
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
     (setq magit-completing-read-function 'magit-ido-completing-read)
@@ -168,7 +168,9 @@
     (setq magit-unstage-all-confirm nil)
     (setq magit-commit-ask-to-stage nil)
     (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
-    (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)))
+    (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)
+    (use-package magit-filenotify
+      :init (remove-hook 'magit-status-mode-hook 'magit-filenotify-mode))))
 
 (use-package git-timemachine)
 

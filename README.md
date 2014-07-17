@@ -7,7 +7,7 @@ One man's ever evolving Carbon Emacs 24.4 setup on OSX. I'm mainly writing Ruby 
 You'll need [Homebrew](http://mxcl.github.com/homebrew) and [Cask](http://cask.github.io) installed first, then:
 
 ```
-brew install emacs --cocoa --srgb --use-git-head --HEAD 
+brew install emacs --cocoa --srgb --use-git-head --HEAD --with-glib
 brew linkapps 
 git clone git://github.com/waymondo/hemacs ~/.emacs.d 
 cd ~/.emacs.d 

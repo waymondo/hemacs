@@ -47,6 +47,7 @@
 (depends-on "key-chord")
 (depends-on "less-css-mode")
 (depends-on "magit")
+(depends-on "magit-filenotify")
 (depends-on "markdown-mode")
 (depends-on "multiple-cursors")
 (depends-on "org-repo-todo")
