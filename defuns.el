@@ -249,13 +249,13 @@
     (flet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
-(defadvice kill-line (before check-position activate)
+(defadvice kill-line (before check-position activate compile)
   (if (and (eolp) (not (bolp)))
       (progn (forward-char 1)
              (just-one-space 0)
              (backward-char 1))))
 
-(defadvice hippie-expand (around hippie-expand-case-fold activate)
+(defadvice hippie-expand (around hippie-expand-case-fold activate compile)
   (let ((case-fold-search nil))
     ad-do-it))
 
@@ -267,7 +267,7 @@
 (defvar yankee-no-modes '(coffee-mode slim-mode c-mode objc-mode))
 
 (dolist (command '(yank yank-pop clipboard-yank))
-  (eval `(defadvice ,command (after indent-region activate)
+  (eval `(defadvice ,command (after indent-region activate compile)
            (and (not current-prefix-arg)
                 (not (member major-mode yankee-no-modes))
                 (or (derived-mode-p 'prog-mode)
