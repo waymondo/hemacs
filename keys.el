@@ -64,11 +64,10 @@
 (bind-key "s-w" 'kill-this-buffer)
 (bind-key "s-_" 'text-scale-decrease)
 (bind-key "s-+" 'text-scale-increase)
-(bind-key "s-/" 'comment-or-uncomment-region-or-line)
+(bind-key "s-/" 'comment-or-uncomment-region)
 
 (bind-key "s-P" 'projectile-commander)
-(bind-key "s-o" 'projectile-switch-project)
-(bind-key "s-O" 'projectile-switch-project-vc)
+(bind-key "s-o" 'projectile-switch-project-vc)
 (bind-key "s-m" 'magit-status)
 (bind-key* "C-c RET" 'projector-run-shell-command-project-root)
 
