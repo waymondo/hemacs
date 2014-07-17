@@ -140,7 +140,7 @@
 (setq ns-pop-up-frames nil)
 (setq ns-use-srgb-colorspace t)
 (setq delete-by-moving-to-trash t)
-(setq gc-cons-threshold 20000000)
+(setq gc-cons-threshold 50000000)
 
 ;; windows & scrolling
 (setq split-height-threshold nil)
