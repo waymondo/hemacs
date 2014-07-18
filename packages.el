@@ -247,12 +247,8 @@
 
 (use-package rainbow-mode
   :init
-  (progn
-    (add-hook 'css-mode-hook 'rainbow-mode)
-    (add-λ 'find-file-hook
-      (when (and (stringp buffer-file-name)
-                 (string-match ".*theme.el" buffer-file-name))
-        (rainbow-mode)))))
+  (dolist (hook '(css-mode-hook emacs-lisp-mode-hook))
+    (add-hook hook 'rainbow-mode)))
 
 (use-package rainbow-delimiters
   :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
