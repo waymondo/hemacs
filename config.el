@@ -27,7 +27,6 @@
 (transient-mark-mode t)
 (delete-selection-mode t)
 (setq require-final-newline t)
-(setq default-major-mode 'text-mode)
 (setq-default indent-tabs-mode nil)
 (setq standard-indent 2)
 (setq-default tab-width 2)
@@ -93,6 +92,7 @@
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 (add-hook 'find-file-hook 'sm-try-smerge t)
+(add-hook 'emacs-lisp-mode-hook 'recompile-elc-on-save)
 
 ;; history
 (setq history-length 100)

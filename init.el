@@ -17,6 +17,7 @@
     (exec-path-from-shell-copy-env "SSL_CERT_FILE")))
 
 (defvar hemacs-code-dir "~/code/")
+(defvar hemacs-dir (expand-file-name user-emacs-directory))
 
 (--each '("macros" "defuns" "config" "packages" "keys")
   (load (expand-file-name (concat it ".el") user-emacs-directory)))

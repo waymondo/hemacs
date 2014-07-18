@@ -329,6 +329,15 @@
   (let ((buffer (current-buffer)))
     (if (popwin:match-config buffer) t)))
 
+(defun recompile-elc-on-save ()
+  (add-hook
+   'after-save-hook
+   (lambda ()
+     (when (string-prefix-p hemacs-dir (file-truename buffer-file-name))
+       (emacs-lisp-byte-compile)))
+   nil
+   t))
+
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))
