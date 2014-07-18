@@ -123,6 +123,7 @@
   (turn-on-comint-history (getenv "HISTFILE")))
 (dolist (hook '(comint-mode-hook compilation-mode-hook))
   (add-hook hook 'hemacs-shellish-hook))
+(setq async-shell-command-buffer 'new-buffer)
 
 ;; minibuffer
 (setq echo-keystrokes 0.1)
