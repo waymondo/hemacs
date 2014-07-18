@@ -173,7 +173,8 @@
 
 (use-package git-timemachine)
 
-(use-package git-messenger)
+(use-package git-messenger
+  :config (setq git-messenger:show-detail t))
 
 (use-package projector
   :config

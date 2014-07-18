@@ -83,7 +83,7 @@
 (bind-key "C-c o" 'ffap)
 
 (bind-key "C-x v t" 'git-timemachine)
-(bind-key "C-x v p" 'git-messenger)
+(bind-key "C-x v p" 'git-messenger:popup-message)
 
 (bind-key "<s-return>" 'smart-open-line)
 (bind-key "<C-return>" 'newline-dwim)
