@@ -1,3 +1,23 @@
+(use-package elec-pair
+  :init
+  (progn
+    (electric-pair-mode t)
+    (setq electric-pair-pairs '
+          ((?\( . ?\))
+           (?\" . ?\")
+           (?\{ . ?\})
+           (?\[ . ?\])
+           (?\' . ?\')))
+    (setq electric-pair-text-pairs '
+          ((?\" . ?\")
+           (?\` . ?\`)))
+    (dolist (c electric-pair-pairs)
+      (let ((char (make-string 1 (car c))))
+        (global-set-key (kbd (concat "H-" char))
+                        `(lambda ()
+                           (interactive)
+                           (insert ,char)))))))
+
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
 

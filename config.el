@@ -39,21 +39,6 @@
 (with-region-or-line capitalize-region)
 (with-region-or-line downcase-region)
 
-;; electric pairs
-(electric-pair-mode 1)
-(setq electric-pair-pairs '
-      ((?\( . ?\))
-       (?\" . ?\")
-       (?\{ . ?\})
-       (?\[ . ?\])
-       (?\| . ?\|)
-       (?\< . ?\>)))
-(setq electric-pair-text-pairs '
-      ((?\" . ?\")
-       (?\' . ?\')
-       (?\` . ?\`)))
-(setq electric-pair-delete-adjacent-pairs t)
-
 ;; subword
 (global-subword-mode 1)
 (setq subword-forward-regexp "\\W*\\(\\([_[:upper:]]*\\(\\W\\)?\\)[[:lower:][:digit:]]*\\)")
