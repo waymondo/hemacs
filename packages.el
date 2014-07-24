@@ -333,6 +333,29 @@
   :init (key-chord-mode 1)
   :config
   (progn
+
+    (key-chord-define-global "<>" 'sgml-close-tag)
+    (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
+    (key-chord-define-global "[]" 'pad-brackets)
+    (key-chord-define-global "_+" 'insert-fat-arrow)
+    (key-chord-define-global "-=" 'insert-arrow)
+    (key-chord-define-global "}|" 'delete-other-windows)
+    (key-chord-define-global "^^" (λ (insert "λ")))
+    (key-chord-define-global "xz" 'smex)
+
+    (key-chord-define-global ";a" 'ace-jump-buffer)
+    (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
+    (key-chord-define-global ";w" 'toggle-split-window)
+    (key-chord-define-global ";s" 'projectile-recentf)
+    (key-chord-define-global ":S" 'ido-switch-buffer)
+    (key-chord-define-global ";t" 'projectile-find-file)
+    (key-chord-define-global ";r" 'imenu-anywhere)
+    (key-chord-define-global ";f" 'ido-find-file)
+    (key-chord-define-global ";g" 'projectile-ag)
+    (key-chord-define-global ":G" 'ag)
+    (key-chord-define-global ";x" 'projector-switch-to-shell-buffer)
+    (key-chord-define-global ";c" 'projector-switch-to-or-create-project-shell)
+
     (setq key-chord-two-keys-delay 0.05)
     (setq key-chord-two-keys-delay 0.1)))
 
