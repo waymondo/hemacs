@@ -16,6 +16,33 @@
     (--each '("HISTFILE" "NODE_PATH" "SSL_CERT_FILE")
       (exec-path-from-shell-copy-env it))))
 
+(use-package autorevert
+  :init
+  (progn
+    (global-auto-revert-mode t)
+    (setq auto-revert-verbose nil)
+    (setq global-auto-revert-non-file-buffers t)))
+
+(use-package imenu
+  :config (setq imenu-auto-rescan t))
+
+(use-package savehist
+  :init
+  (progn
+    (savehist-mode t)
+    (setq savehist-additional-variables
+          '(search-ring regexp-search-ring comint-input-ring))
+    (setq savehist-autosave-interval 30)))
+
+(use-package recentf
+  :init
+  (progn
+    (recentf-mode t)
+    (setq recentf-max-saved-items 500)))
+
+(use-package paren
+  :init (show-paren-mode t))
+
 (use-package elec-pair
   :init
   (progn

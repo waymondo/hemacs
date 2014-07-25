@@ -12,16 +12,10 @@
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq confirm-kill-emacs nil)
 (setq vc-follow-symlinks t)
+(setq load-prefer-newer t)
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
-
-;; always revert
-(global-auto-revert-mode 1)
-(setq auto-revert-verbose nil)
-(setq global-auto-revert-non-file-buffers t)
-(setq imenu-auto-rescan t)
-(setq load-prefer-newer t)
 
 ;; basic editing
 (transient-mark-mode t)
@@ -61,12 +55,6 @@
 ;; history
 (setq history-length 100)
 (setq history-delete-duplicates t)
-(savehist-mode 1)
-(setq savehist-additional-variables
-      '(search-ring regexp-search-ring comint-input-ring))
-(setq savehist-autosave-interval 30)
-(recentf-mode t)
-(setq recentf-max-saved-items 500)
 
 ;; comint & compilation
 (setq explicit-shell-file-name "bash")
@@ -125,7 +113,6 @@
 ;; visual
 (setq-default cursor-type 'bar)
 (setq blink-cursor-blinks 0)
-(show-paren-mode t)
 (setq linum-format " %3s ")
 (setq-default indicate-empty-lines t)
 (setq-default show-trailing-whitespace t)
