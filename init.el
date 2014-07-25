@@ -5,7 +5,7 @@
 (use-package s)
 (use-package dash :config (dash-enable-font-lock))
 
-(--each '("macros" "defuns" "config")
+(--each '("defuns" "config")
   (load (expand-file-name (concat it ".el") user-emacs-directory)))
 
 (use-package exec-path-from-shell
