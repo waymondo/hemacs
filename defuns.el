@@ -325,15 +325,11 @@
   (interactive "p")
   (increment-number-at-point (- arg)))
 
-(defun golden-ratio-inhibit-popwin-config ()
-  (let ((buffer (current-buffer)))
-    (if (popwin:match-config buffer) t)))
-
 (defun recompile-elc-on-save ()
   (add-hook
    'after-save-hook
    (lambda ()
-     (when (string-prefix-p hemacs-dir (file-truename buffer-file-name))
+     (when (string-prefix-p user-emacs-directory (file-truename buffer-file-name))
        (emacs-lisp-byte-compile)))
    nil
    t))

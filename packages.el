@@ -98,23 +98,6 @@
     (setq popwin:popup-window-height 0.3)
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
 
-;; (use-package golden-ratio
-;;   :init (golden-ratio-mode t)
-;;   :config
-;;   (progn
-;;     (setq golden-ratio-extra-commands
-;;           (append golden-ratio-extra-commands
-;;                   '(next-multiframe-window)))
-;;     (setq golden-ratio-exclude-modes
-;;           '("magit-key-mode"))
-;;     (setq golden-ratio-inhibit-functions
-;;           '(golden-ratio-inhibit-popwin-config))
-;;     (setq golden-ratio-recenter t)
-;;     (setq golden-ratio-exclude-buffer-names
-;;           '("*buffer-selection*"
-;;             " *guide-key*"
-;;             "CAPTURE-TODO.org"))))
-
 (use-package projectile
   :init
   (progn
@@ -269,12 +252,12 @@
 (use-package volatile-highlights
   :init (volatile-highlights-mode t))
 
-;; (use-package highlight-tail
-;;   :init
-;;   (progn
-;;     (setq highlight-tail-timer 0.02)
-;;     (eval-after-init
-;;      (run-at-time 2 nil 'highlight-tail-mode))))
+(use-package highlight-tail
+  :init
+  (progn
+    (setq highlight-tail-timer 0.02)
+    (eval-after-init
+     (run-at-time 2 nil 'highlight-tail-mode))))
 
 (use-package rainbow-mode
   :init
