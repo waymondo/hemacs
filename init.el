@@ -16,6 +16,33 @@
     (--each '("HISTFILE" "NODE_PATH" "SSL_CERT_FILE")
       (exec-path-from-shell-copy-env it))))
 
+(use-package comint
+  :init
+  (progn
+    (setq comint-process-echoes t)
+    (setq-default comint-prompt-read-only t)
+    (setq-default comint-input-ignoredups t)
+    (setq comint-buffer-maximum-size 5000)
+    (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
+    (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
+    (add-hook 'comint-mode-hook 'hemacs-shellish-hook)))
+
+(use-package compile
+  :init
+  (progn
+    (setq compilation-disable-input t)
+    (setq compilation-message-face nil)
+    (setq compilation-always-kill t)
+    (add-hook 'comint-mode-hook 'hemacs-shellish-hook)))
+
+(use-package shell
+  :init
+  (progn
+    (setq explicit-shell-file-name "bash")
+    (setq explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
+    (add-λ 'shell-mode-hook
+      (turn-on-comint-history (getenv "HISTFILE")))))
+
 (use-package autorevert
   :init
   (progn
