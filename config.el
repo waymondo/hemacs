@@ -39,12 +39,6 @@
 (with-region-or-line capitalize-region)
 (with-region-or-line downcase-region)
 
-;; subword
-(global-subword-mode 1)
-(setq subword-forward-regexp "\\W*\\(\\([_[:upper:]]*\\(\\W\\)?\\)[[:lower:][:digit:]]*\\)")
-(setq subword-backward-regexp "\\(\\(\\W\\|[[:lower:][:digit:]]\\)\\([[:upper:]]+\\W*\\)\\|\\W\\w+\\|_\\w+\\)")
-(define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete)
-
 ;; completion
 (setq completion-auto-help 'lazy)
 (setq dabbrev-case-distinction t)

@@ -7,7 +7,7 @@
            (?\" . ?\")
            (?\{ . ?\})
            (?\[ . ?\])
-           (?\' . ?\')))
+           (?\` . ?\`)))
     (setq electric-pair-text-pairs '
           ((?\" . ?\")
            (?\` . ?\`)))
@@ -17,6 +17,14 @@
                         `(lambda ()
                            (interactive)
                            (insert ,char)))))))
+
+(use-package subword
+  :init
+  (progn
+    (global-subword-mode 1)
+    (setq subword-forward-regexp "\\W*\\(\\([_[:upper:]]*\\(\\W\\)?\\)[[:lower:][:digit:]]*\\)")
+    (setq subword-backward-regexp "\\(\\(\\W\\|[[:lower:][:digit:]]\\)\\([[:upper:]]+\\W*\\)\\|\\W\\w+\\|_\\w+\\)")
+    (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete)))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
