@@ -41,6 +41,7 @@
 (depends-on "httprepl")
 (depends-on "ido-ubiquitous")
 (depends-on "ido-vertical-mode")
+(depends-on "ignoramus")
 (depends-on "imenu-anywhere")
 (depends-on "inf-ruby")
 (depends-on "js2-mode")

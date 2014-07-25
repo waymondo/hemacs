@@ -50,6 +50,9 @@
     (when (and (memq window-system '(mac ns)) (executable-find "gls"))
       (setq insert-directory-program "gls" dired-use-ls-dired t))))
 
+(use-package ignoramus
+  :init (ignoramus-setup))
+
 (use-package org
   :config
   (progn
@@ -242,8 +245,7 @@
     (setq ido-enable-flex-matching t)
     (setq ido-enable-dot-prefix t)
     (setq ido-max-prospects 10)
-    (setq ido-create-new-buffer 'always)
-    (add-to-list 'ido-ignore-files "\\.DS_Store")))
+    (setq ido-create-new-buffer 'always)))
 
 (use-package diff-hl
   :init
