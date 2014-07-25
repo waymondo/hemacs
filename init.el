@@ -549,3 +549,5 @@
 (bind-key "s-k" 'clear-shell comint-mode-map)
 
 (load-theme 'hemacs :no-confirm)
+
+(toggle-frame-fullscreen)
