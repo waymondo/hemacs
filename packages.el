@@ -220,7 +220,6 @@
             "^bundle update\\.*"
             "^powder restart"
             "^heroku restart\\.*"
-            "^foreman start\\.*"
             "^spring stop"
             "^git push\\.*"
             "^rake db:migrate"
