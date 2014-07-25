@@ -1,5 +1,4 @@
 (deftheme hemacs)
-
 (let ((base00 "#2d2d2d")
       (base01 "#393939")
       (base02 "#515151")
@@ -44,8 +43,8 @@
    `(guide-key/prefix-command-face ((t (:foreground ,base0C))))
 
    ;; modeline
-   `(mode-line ((t (:background ,(color-darken-name base00 10) :foreground ,base04 :box (:line-width 4 :color ,(color-darken-name base00 10) :style nil)))))
-   `(mode-line-inactive ((t (:background ,base00 :foreground ,base03 :box (:line-width 4 :color ,base00 :style nil)))))
+   `(mode-line ((t (:background "black" :foreground ,base04 :box (:line-width 4 :color "black" :style nil)))))
+   `(mode-line-inactive ((t (:background ,(color-darken-name base00 4) :foreground ,base03 :box (:line-width 4 :color ,base00 :style nil)))))
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
@@ -175,6 +174,11 @@
    `(show-paren-mismatch ((t (:background ,base08 :foreground ,base01))))
    `(highlight-symbol-face ((t (:foreground nil :background nil :underline t))))
 
+   `(diff-hl-insert ((t (:foreground ,(color-darken-name base0B 10) :background ,base02))))
+   `(diff-hl-unknown ((t (:foreground ,(color-darken-name base0B 10) :background ,base02))))
+   `(diff-hl-delete ((t (:foreground ,(color-darken-name base08 10) :background ,base02))))
+   `(diff-hl-change ((t (:foreground ,(color-darken-name base0D 10) :background ,base02))))
+
    `(sh-heredoc ((t (:foreground nil :inherit font-lock-string-face :weight normal))))
    `(sh-quoted-exec ((t (:foreground nil :inherit font-lock-preprocessor-face))))
    `(slime-highlight-edits-face ((t (:weight bold))))
@@ -249,9 +253,9 @@
    `(compilation-column-number ((t (:foreground ,base0A))))
    `(compilation-line-number ((t (:foreground ,base0A))))
    `(compilation-message-face ((t (:foreground ,base0D))))
-   ;; `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
-   ;; `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
-   ;; `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
+   `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
+   `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
+   `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
    `(success ((t (:foreground ,base0B))))
 
    `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
