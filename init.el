@@ -7,17 +7,7 @@
 (use-package s)
 (use-package dash :config (dash-enable-font-lock))
 
-(use-package exec-path-from-shell
-  :if (memq window-system '(mac ns))
-  :init
-  (progn
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "HISTFILE")
-    (exec-path-from-shell-copy-env "NODE_PATH")
-    (exec-path-from-shell-copy-env "SSL_CERT_FILE")))
-
 (defvar hemacs-code-dir "~/code/")
-(defvar hemacs-dir (expand-file-name user-emacs-directory))
 
 (--each '("macros" "defuns" "config" "packages" "keys")
   (load (expand-file-name (concat it ".el") user-emacs-directory)))

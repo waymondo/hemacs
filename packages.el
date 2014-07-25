@@ -1,3 +1,11 @@
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :init
+  (progn
+    (exec-path-from-shell-initialize)
+    (--each '("HISTFILE" "NODE_PATH" "SSL_CERT_FILE")
+      (exec-path-from-shell-copy-env it))))
+
 (use-package elec-pair
   :init
   (progn
