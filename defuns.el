@@ -59,26 +59,27 @@
     (subword-backward arg)
     (delete-region (point) beg)))
 
-(defn rename-current-file-or-buffer
-  (if (not (buffer-file-name))
-      (call-interactively 'rename-buffer)
-    (let ((file (buffer-file-name)))
-      (with-temp-buffer
-        (set-buffer (dired-noselect file))
-        (dired-do-rename)
-        (kill-buffer nil))))
-  nil)
+(defn rename-file-and-buffer
+  (let* ((filename (buffer-file-name))
+         (old-name (if filename
+                       (file-name-nondirectory filename)
+                     (buffer-name)))
+         (new-name (read-file-name "New name: " nil nil nil old-name)))
+    (cond
+     ((not (and filename (file-exists-p filename))) (rename-buffer new-name))
+     ((vc-backend filename) (vc-rename-file filename new-name))
+     (:else
+      (rename-file filename new-name :force-overwrite)
+      (set-visited-file-name new-name :no-query :along-with-file)))))
 
-(defn delete-current-buffer-file
-  (let ((filename (buffer-file-name))
-        (buffer (current-buffer))
-        (name (buffer-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (ido-kill-buffer)
-      (when (yes-or-no-p "Are you sure you want to remove this file? ")
-        (delete-file filename)
-        (kill-buffer buffer)
-        (message "File '%s' successfully removed" filename)))))
+(defn delete-file-and-buffer
+  (let ((filename (buffer-file-name)))
+    (cond
+     ((not filename) (kill-buffer))
+     ((vc-backend filename) (vc-delete-file filename))
+     (:else
+      (delete-file filename)
+      (kill-buffer)))))
 
 (defn back-to-indentation-or-beginning
   (if (or (looking-back "^\s*")

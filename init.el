@@ -39,8 +39,6 @@
 (with-region-or-line comment-or-uncomment-region)
 (with-region-or-line capitalize-region)
 (with-region-or-line downcase-region)
-(setq history-length 100)
-(setq history-delete-duplicates t)
 
 (add-λ 'before-save-hook
   (unless (eq major-mode 'markdown-mode)
@@ -61,6 +59,8 @@
 (setq minibuffer-prompt-properties
       '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
 (minibuffer-electric-default-mode t)
+(setq history-length 100)
+(setq history-delete-duplicates t)
 
 (setq ns-use-native-fullscreen nil)
 (setq mac-function-modifier 'hyper)
@@ -616,7 +616,6 @@
 
 (bind-key "s-:" 'pad-colon)
 (bind-key "s-l" 'goto-line-with-feedback)
-(bind-key "s-r" 'rename-current-file-or-buffer)
 (bind-key "s-u" 'duplicate-dwim)
 (bind-key "s-k" 'kill-whole-line)
 (bind-key "s-q" 'query-replace)
@@ -646,7 +645,8 @@
 (bind-key "M-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
 (bind-key "M-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
 
-(bind-key "C-x C-k" 'delete-current-buffer-file)
+(bind-key "C-x C-r" 'rename-file-and-buffer)
+(bind-key "C-x C-k" 'delete-file-and-buffer)
 (bind-key "C-x C-k" 'magit-kill-file-on-line magit-mode-map)
 (bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
 
