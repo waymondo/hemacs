@@ -539,6 +539,8 @@
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input inf-ruby-mode-map)
 (bind-key "<M-S-tab>" 'comint-next-matching-input-from-input inf-ruby-mode-map)
 
+(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
+
 (bind-key "s-o" 'projectile-switch-project-vc)
 
 (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)

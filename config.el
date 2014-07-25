@@ -79,11 +79,9 @@
 (setq echo-keystrokes 0.1)
 (setq completion-pcm-complete-word-inserts-delimiters t)
 (setq minibuffer-eldef-shorten-default t)
-(setq enable-recursive-minibuffers t)
 (setq minibuffer-prompt-properties
       '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
 (minibuffer-electric-default-mode t)
-(minibuffer-depth-indicate-mode 1)
 
 ;; osx-ish
 (setq ns-use-native-fullscreen nil)
