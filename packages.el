@@ -398,3 +398,6 @@
     (use-package company-inf-ruby
       :init (push 'company-inf-ruby company-backends))
     (push 'company-robe company-backends)))
+
+(use-package smart-newline
+  :idle (smart-newline-mode))
