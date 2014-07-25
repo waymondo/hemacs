@@ -67,7 +67,6 @@
 (setq savehist-autosave-interval 30)
 (recentf-mode t)
 (setq recentf-max-saved-items 500)
-(setq initial-buffer-choice (car recentf-list))
 
 ;; comint & compilation
 (setq explicit-shell-file-name "bash")
