@@ -10,7 +10,7 @@
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "change-inner")
-;; (depends-on "crab")
+(depends-on "crab" :git "https://github.com/waymondo/crab-emacs.git")
 (depends-on "coffee-mode")
 (depends-on "color-identifiers-mode")
 (depends-on "company")
