@@ -46,21 +46,6 @@
 (setq dabbrev-case-replace t)
 (setq dabbrev-upcase-means-case-search t)
 (setq dabbrev-abbrev-skip-leading-regexp ":")
-(setq hippie-expand-verbose nil)
-(setq hippie-expand-try-functions-list '(try-expand-dabbrev-visible
-                                         try-expand-dabbrev
-                                         try-expand-dabbrev-matching-buffers
-                                         try-expand-dabbrev-other-buffers
-                                         try-expand-dabbrev-from-kill
-                                         try-expand-all-abbrevs
-                                         try-complete-file-name-partially
-                                         try-complete-file-name))
-
-(add-λ 'emacs-lisp-mode-hook
-  (set (make-local-variable 'hippie-expand-try-functions-list)
-       (append '(try-complete-lisp-symbol-partially
-                 try-complete-lisp-symbol)
-               hippie-expand-try-functions-list)))
 
 ;; files
 (add-λ 'before-save-hook

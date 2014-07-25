@@ -5,7 +5,6 @@
 (bind-key "TAB" 'tab-dwim)
 (bind-key "TAB" 'hippie-expand read-expression-map)
 (bind-key "TAB" 'hippie-expand minibuffer-local-map)
-(bind-key "M-/" 'hippie-expand)
 (bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
 
 (bind-key "C-n" 'company-select-next company-active-map)

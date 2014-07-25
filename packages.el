@@ -26,6 +26,25 @@
     (setq subword-backward-regexp "\\(\\(\\W\\|[[:lower:][:digit:]]\\)\\([[:upper:]]+\\W*\\)\\|\\W\\w+\\|_\\w+\\)")
     (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete)))
 
+(use-package hippie-exp
+  :init
+  (progn
+    (global-set-key [remap dabbrev-expand] #'hippie-expand)
+    (setq hippie-expand-verbose nil)
+    (setq hippie-expand-try-functions-list '(try-expand-dabbrev-visible
+                                             try-expand-dabbrev
+                                             try-expand-dabbrev-matching-buffers
+                                             try-expand-dabbrev-other-buffers
+                                             try-expand-dabbrev-from-kill
+                                             try-expand-all-abbrevs
+                                             try-complete-file-name-partially
+                                             try-complete-file-name))
+    (add-λ 'emacs-lisp-mode-hook
+      (set (make-local-variable 'hippie-expand-try-functions-list)
+           (append '(try-complete-lisp-symbol-partially
+                     try-complete-lisp-symbol)
+                   hippie-expand-try-functions-list)))))
+
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
 
