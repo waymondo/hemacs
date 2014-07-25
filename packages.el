@@ -32,12 +32,17 @@
     (global-subword-mode 1)
     (setq subword-forward-regexp "\\W*\\(\\([_[:upper:]]*\\(\\W\\)?\\)[[:lower:][:digit:]]*\\)")
     (setq subword-backward-regexp "\\(\\(\\W\\|[[:lower:][:digit:]]\\)\\([[:upper:]]+\\W*\\)\\|\\W\\w+\\|_\\w+\\)")
+    (bind-key* "<M-left>" 'subword-left)
+    (bind-key* "<M-right>" 'subword-right)
     (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete)))
 
 (use-package hippie-exp
   :init
   (progn
     (global-set-key [remap dabbrev-expand] #'hippie-expand)
+    (bind-key "TAB" 'hippie-expand read-expression-map)
+    (bind-key "TAB" 'hippie-expand minibuffer-local-map)
+    (bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
     (setq hippie-expand-verbose nil)
     (setq hippie-expand-try-functions-list '(try-expand-dabbrev-visible
                                              try-expand-dabbrev
@@ -92,14 +97,23 @@
       (add-hook hook 'turn-on-eldoc-mode)))
 
 (use-package smex
-  :init (smex-initialize))
+  :init
+  (progn
+    (smex-initialize)
+    (global-set-key [remap execute-extended-command] #'smex)))
 
 (use-package dash-at-point
+  :bind (("C-c d" . dash-at-point)
+         ("C-c D" . dash-at-point-with-docset))
   :config
   (setq dash-at-point-docsets
         '("coffee" "lisp" "css" "elisp" "html" "javascript" "iphoneos"
           "ruby" "jquery" "meteor" "phonegap" "rubygems" "rails" "macosx"
           "underscore" "d3" "backbone" "bootstrap" "markdown" "zepto")))
+
+(use-package github-browse-file
+  :bind (("C-c g" . github-browse-file)
+         ("C-c G" . github-browse-file-blame)))
 
 (use-package ag
   :config
@@ -126,6 +140,8 @@
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
 
 (use-package projectile
+  :bind (("s-t" . projectile-find-file)
+         ("s-P" . projectile-commander))
   :init
   (progn
     (use-package projectile-rails
@@ -140,10 +156,8 @@
 (use-package handlebars-mode)
 
 (use-package fountain-mode
-  :config
-  (progn
-    (add-to-list 'auto-mode-alist '("\\.fountain$" . fountain-mode))
-    (add-hook 'fountain-mode-hook 'hemacs-writing-hook)))
+  :mode ("\\.fountain$" . fountain-mode)
+  :config (add-hook 'fountain-mode-hook 'hemacs-writing-hook))
 
 (use-package markdown-mode
   :config (add-hook 'markdown-mode-hook 'hemacs-writing-hook))
@@ -165,12 +179,14 @@
   (progn
     (setq coffee-args-repl '("-i" "--nodejs"))
     (add-to-list 'auto-mode-alist '("\\.coffee\\.*" . coffee-mode))
-    (add-λ 'coffee-mode-hook (modify-syntax-entry ?\@ "_"))))
+    (bind-key "C-j" 'coffee-newline-and-indent coffee-mode-map)
+    (bind-key "M-r" 'coffee-compile-region coffee-mode-map)))
 
 (use-package slim-mode
   :config
   (progn
     (setq slim-backspace-backdents-nesting nil)
+    (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
     (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))))
 
 (use-package ruby-mode
@@ -182,7 +198,11 @@
     (use-package inf-ruby
       :init (add-λ 'inf-ruby-mode-hook
               (turn-on-comint-history "~/.irb_history")))
-    (use-package ruby-hash-syntax)
+    (use-package ruby-hash-syntax
+      :init
+      (progn
+        (bind-key "C-:" 'ruby-toggle-hash-syntax ruby-mode-map)
+        (bind-key "C-:" 'ruby-toggle-hash-syntax slim-mode-map)))
     (use-package rhtml-mode))
   :config
   (progn
@@ -194,6 +214,7 @@
          ("\\.env\\.*" . ruby-mode)))
 
 (use-package magit
+  :bind ("s-m" . magit-status)
   :init
   (progn
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
@@ -213,14 +234,17 @@
     (use-package magit-filenotify
       :init (remove-hook 'magit-status-mode-hook 'magit-filenotify-mode))))
 
-(use-package git-timemachine)
+(use-package git-timemachine
+  :bind ("C-x v t" . git-timemachine))
 
 (use-package git-messenger
+  :bind ("C-x v p" . git-messenger:popup-message)
   :config (setq git-messenger:show-detail t))
 
 (use-package projector
   :config
   (progn
+    (bind-key* "C-c RET" 'projector-run-shell-command-project-root)
     (setq projector-projects-root hemacs-code-dir)
     (setq projector-always-background-regex
           '("^mysql.server\\.*"
@@ -279,11 +303,8 @@
   :init (volatile-highlights-mode t))
 
 (use-package highlight-tail
-  :init
-  (progn
-    (setq highlight-tail-timer 0.02)
-    (eval-after-init
-     (run-at-time 2 nil 'highlight-tail-mode))))
+  :idle (highlight-tail-mode)
+  :config (setq highlight-tail-timer 0.02))
 
 (use-package rainbow-mode
   :init
@@ -294,9 +315,11 @@
   :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package god-mode
-  :init
+  :bind ("s-`" . god-mode-all)
+  :config
   (progn
-    (god-mode)
+    (bind-key "i" 'kill-region-and-god-local-mode god-local-mode-map)
+    (bind-key "." 'repeat god-local-mode-map)
     (add-λ 'god-mode-enabled-hook
       (setq cursor-type 'box))
     (add-λ 'god-mode-disabled-hook
@@ -314,28 +337,42 @@
     (setq guide-key/popup-window-position 'bottom)
     (setq guide-key/idle-delay 0.5)))
 
-(use-package discover-my-major)
+(use-package discover-my-major
+  :bind ("C-h C-m" . discover-my-major))
 
 (use-package jump-char
   :config (setq jump-char-lazy-highlight-face nil))
 
 (use-package undo-tree
-  :init (global-undo-tree-mode))
+  :init (global-undo-tree-mode)
+  :bind (("s-z" . undo-tree-undo)
+         ("s-Z" . undo-tree-redo)))
 
 (use-package anzu
   :init (global-anzu-mode 1))
 
-(use-package ace-jump-char)
+(use-package ace-jump-mode
+  :init (bind-key* "C-;" 'ace-jump-word-mode))
 
-(use-package expand-region)
+(use-package expand-region
+  :init (bind-key* "C-," 'er/expand-region))
 
-(use-package multiple-cursors)
+(use-package multiple-cursors
+  :bind (("C-c C-." . mc/mark-next-like-this)
+         ("C-c C-," . mc/mark-previous-like-this)
+         ("C-c C-/" . mc/mark-all-like-this-dwim)))
 
-(use-package change-inner)
+(use-package change-inner
+  :bind (("M-i" . change-inner)
+         ("M-o" . change-outer)))
 
 (use-package popup-kill-ring)
 
-(use-package org-repo-todo)
+(use-package org-repo-todo
+  :init
+  (progn
+    (bind-key* "C-." 'ort/capture-todo)
+    (bind-key* "C-/" 'ort/goto-todos)))
 
 (use-package easy-kill
   :init
@@ -343,7 +380,8 @@
     (global-set-key [remap kill-ring-save] 'easy-kill)
     (global-set-key [remap mark-sexp] 'easy-mark)))
 
-(use-package misc)
+(use-package misc
+  :bind ("C-z" . zap-up-to-char))
 
 (use-package ace-jump-buffer)
 
@@ -361,7 +399,6 @@
     (key-chord-define-global "-=" 'insert-arrow)
     (key-chord-define-global "}|" 'delete-other-windows)
     (key-chord-define-global "^^" (λ (insert "λ")))
-    (key-chord-define-global "xz" 'smex)
 
     (key-chord-define-global ";a" 'ace-jump-buffer)
     (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
@@ -391,6 +428,8 @@
     (setq company-auto-complete t)
     (setq company-show-numbers t)
     (setq company-tooltip-align-annotations t)
+    (bind-key "C-n" 'company-select-next company-active-map)
+    (bind-key "C-p" 'company-select-previous company-active-map)
     (use-package readline-complete
       :init (push 'company-readline company-backends)
       :config (add-λ 'rlc-no-readline-hook
