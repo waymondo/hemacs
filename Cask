@@ -52,7 +52,6 @@
 (depends-on "multiple-cursors")
 (depends-on "org-repo-todo")
 (depends-on "page-break-lines")
-(depends-on "popup-kill-ring")
 (depends-on "popwin")
 (depends-on "projectile")
 (depends-on "projectile-rails")

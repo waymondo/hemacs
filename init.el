@@ -523,8 +523,6 @@
   :bind (("M-i" . change-inner)
          ("M-o" . change-outer)))
 
-(use-package popup-kill-ring)
-
 (use-package org-repo-todo
   :init
   (progn
