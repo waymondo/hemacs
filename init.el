@@ -142,7 +142,10 @@
     (setq global-auto-revert-non-file-buffers t)))
 
 (use-package imenu
-  :config (setq imenu-auto-rescan t))
+  :config (setq imenu-auto-rescan t)
+  :init
+  (use-package imenu-anywhere
+    :bind ("s-r" . imenu-anywhere)))
 
 (use-package savehist
   :init
@@ -254,6 +257,7 @@
     (add-hook hook 'turn-on-eldoc-mode)))
 
 (use-package smex
+  :bind ("s-P" . smex)
   :init
   (progn
     (smex-initialize)
@@ -300,7 +304,8 @@
 
 (use-package projectile
   :bind (("s-t" . projectile-find-file)
-         ("s-P" . projectile-commander))
+         ("s-b" . projectile-switch-to-buffer)
+         ("s-p" . projectile-commander))
   :init
   (progn
     (use-package projectile-rails
@@ -330,8 +335,7 @@
 (use-package js
   :mode ("\\.json$" . js-mode)
   :interpreter ("node" . js-mode)
-  :init
-  (setq-default js-indent-level 2))
+  :config (setq-default js-indent-level 2))
 
 (use-package coffee-mode
   :config
@@ -489,18 +493,13 @@
   :config
   (progn
     (setq guide-key/guide-key-sequence
-          '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r"
+          '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
             "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
     (setq guide-key/popup-window-position 'bottom)
     (setq guide-key/idle-delay 0.5)))
 
 (use-package discover-my-major
   :bind ("C-h C-m" . discover-my-major))
-
-(use-package jump-char
-  :bind (("s-n" . jump-char-forward)
-         ("s-p" . jump-char-backward))
-  :config (setq jump-char-lazy-highlight-face nil))
 
 (use-package undo-tree
   :init (global-undo-tree-mode)
@@ -542,8 +541,6 @@
 
 (use-package ace-jump-buffer)
 
-(use-package imenu-anywhere)
-
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
@@ -557,7 +554,7 @@
     (key-chord-define-global "}|" 'delete-other-windows)
     (key-chord-define-global "^^" (λ (insert "λ")))
 
-    (key-chord-define-global ";a" 'ace-jump-buffer)
+    (key-chord-define-global ";a" 'ace-jump-buffer-in-one-window)
     (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
     (key-chord-define-global ";w" 'toggle-split-window)
     (key-chord-define-global ";s" 'projectile-recentf)
@@ -597,7 +594,6 @@
 
 (use-package smart-newline
   :idle (smart-newline-mode))
-
 
 (bind-key "TAB" 'tab-dwim)
 
@@ -649,7 +645,7 @@
 (bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
 
 (bind-key "C-x RET" 'shell)
-(bind-key "C-x C-," 'find-user-init-file-other-window)
+(bind-key "s-," 'find-user-init-file-other-window)
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)

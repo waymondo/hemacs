@@ -44,7 +44,6 @@
 (depends-on "imenu-anywhere")
 (depends-on "inf-ruby")
 (depends-on "js2-mode")
-(depends-on "jump-char")
 (depends-on "key-chord")
 (depends-on "less-css-mode")
 (depends-on "magit")
