@@ -435,7 +435,8 @@
     (setq ido-enable-flex-matching t)
     (setq ido-enable-dot-prefix t)
     (setq ido-max-prospects 10)
-    (setq ido-create-new-buffer 'always)))
+    (setq ido-create-new-buffer 'always)
+    (bind-key "~" 'ido-go-home ido-file-completion-map)))
 
 (use-package diff-hl
   :init

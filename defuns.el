@@ -143,6 +143,12 @@
           (hippie-expand nil)
         (indent-for-tab-command)))))
 
+(defn ido-go-home
+  (cond
+   ((looking-back "~/") (insert "code/"))
+   ((looking-back "/") (insert "~/"))
+   (:else (call-interactively 'self-insert-command))))
+
 (defn google-search
   (browse-url
    (concat "http://www.google.com/search?q=" (dwim-at-point))))
