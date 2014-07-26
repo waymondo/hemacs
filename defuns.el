@@ -91,22 +91,10 @@
   (when (region-active-p) (call-interactively 'kill-region))
   (god-local-mode -1))
 
-(defn smart-open-line
+(defn eol-then-newline
   (move-end-of-line nil)
   (cond ((eq major-mode 'coffee-mode) (coffee-newline-and-indent))
         (t (newline-and-indent))))
-
-(defn newline-dwim
-  (let ((break-open-pair (or (and (looking-back "{" 1) (looking-at "}"))
-                             (and (looking-back ">" 1) (looking-at "<"))
-                             (and (looking-back "(" 1) (looking-at ")"))
-                             (and (looking-back "\\[" 1) (looking-at "\\]")))))
-    (newline)
-    (when break-open-pair
-      (save-excursion
-        (newline)
-        (indent-for-tab-command)))
-    (indent-for-tab-command)))
 
 (defn smart-open-line-above
   (move-beginning-of-line nil)
@@ -149,10 +137,6 @@
    ((looking-back "/") (insert "~/"))
    (:else (call-interactively 'self-insert-command))))
 
-(defn google-search
-  (browse-url
-   (concat "http://www.google.com/search?q=" (dwim-at-point))))
-
 (defn shift-right
   (let ((deactivate-mark nil)
         (beg (or (and mark-active (region-beginning))
@@ -190,6 +174,14 @@
       (indent-line-to whites)
       (insert "end"))
     (next-line)))
+
+(defn google-dwim
+  (browse-url
+   (concat
+    "http://www.google.com/search?q="
+    (if (region-active-p)
+        (buffer-substring (region-beginning) (region-end))
+      (read-string "Query: " (dwim-at-point))))))
 
 (defn projectile-switch-project-vc
   (let ((projectile-switch-project-action 'projectile-vc))

@@ -1,10 +1,8 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 (require 'use-package)
-(use-package f)
 (use-package s)
 (use-package dash :config (dash-enable-font-lock))
-
 (load (locate-user-emacs-file "defuns.el"))
 
 (scroll-bar-mode -1)
@@ -110,6 +108,7 @@
 (use-package comint
   :init
   (progn
+    (bind-key "s-k" 'clear-shell comint-mode-map)
     (setq comint-process-echoes t)
     (setq-default comint-prompt-read-only t)
     (setq-default comint-input-ignoredups t)
@@ -232,6 +231,7 @@
 (use-package dired-x
   :init
   (progn
+    (bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-recursive-deletes 'always)
@@ -305,6 +305,7 @@
 (use-package projectile
   :bind (("s-t" . projectile-find-file)
          ("s-b" . projectile-switch-to-buffer)
+         ("s-o" . projectile-switch-project-vc)
          ("s-p" . projectile-commander))
   :init
   (progn
@@ -369,6 +370,7 @@
     (use-package rhtml-mode))
   :config
   (progn
+    (bind-key "<C-return>" 'ruby-smart-newline-end-defun ruby-mode-map)
     (setq ruby-use-smie nil)
     (setq ruby-deep-arglist nil)
     (setq ruby-deep-indent-paren nil))
@@ -380,6 +382,9 @@
   :bind ("s-m" . magit-status)
   :init
   (progn
+    (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
+    (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
+    (bind-key "C-x C-k" 'magit-kill-file-on-line magit-mode-map)
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
     (setq magit-completing-read-function 'magit-ido-completing-read)
     (setq magit-emacsclient-executable "/usr/local/Cellar/emacs/HEAD/bin/emacsclient")
@@ -596,19 +601,13 @@
   :idle (smart-newline-mode))
 
 (bind-key "TAB" 'tab-dwim)
-
-(bind-key "C-`" 'list-processes)
-
-(bind-key "C-x \\" 'align-regexp)
-(bind-key "C-x w" 'what-face)
+(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
+(bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
 
 (bind-key "<M-up>" 'move-line-up)
 (bind-key "<M-down>" 'move-line-down)
-
 (bind-key "<s-up>" 'increment-number-at-point)
 (bind-key "<s-down>" 'decrement-number-at-point)
-
-(bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
 
 (bind-key "s-:" 'pad-colon)
 (bind-key "s-l" 'goto-line-with-feedback)
@@ -622,30 +621,26 @@
 (bind-key "s-_" 'text-scale-decrease)
 (bind-key "s-+" 'text-scale-increase)
 (bind-key "s-/" 'comment-or-uncomment-region)
-
-(bind-key "C-a" 'back-to-indentation-or-beginning)
-(bind-key "C-o" 'smart-open-line-above)
-(bind-key "C-l" 'log-statement)
-
-(bind-key "C-c u" 'browse-url-at-point)
-(bind-key "C-c o" 'ffap)
-
-(bind-key "<s-return>" 'smart-open-line)
-(bind-key "<C-return>" 'newline-dwim)
-(bind-key "<C-return>" 'ruby-smart-newline-end-defun ruby-mode-map)
+(bind-key "s-," 'find-user-init-file-other-window)
+(bind-key "<s-return>" 'eol-then-newline)
 
 (bind-key "M--" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
 (bind-key "M-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
 (bind-key "M-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
 (bind-key "M-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
 
-(bind-key "C-x C-r" 'rename-file-and-buffer)
+(bind-key "C-a" 'back-to-indentation-or-beginning)
+(bind-key "C-o" 'smart-open-line-above)
 (bind-key "C-x C-k" 'delete-file-and-buffer)
-(bind-key "C-x C-k" 'magit-kill-file-on-line magit-mode-map)
-(bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
 
-(bind-key "C-x RET" 'shell)
-(bind-key "s-," 'find-user-init-file-other-window)
+(bind-key "C-c C-r" 'rename-file-and-buffer)
+(bind-key "C-c `" 'list-processes)
+(bind-key "C-c C-\\" 'align-regexp)
+(bind-key "C-c C-w" 'what-face)
+(bind-key "C-c m" 'shell)
+(bind-key "C-c C-l" 'log-statement)
+(bind-key "C-c C-o" 'google-dwim)
+(bind-key "C-c C-e" 'eval-region-and-maybe-deactivate-mark emacs-lisp-mode-map)
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
@@ -653,17 +648,6 @@
 (bind-key "<M-S-tab>" 'comint-next-matching-input-from-input comint-mode-map)
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input inf-ruby-mode-map)
 (bind-key "<M-S-tab>" 'comint-next-matching-input-from-input inf-ruby-mode-map)
-
-(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
-
-(bind-key "s-o" 'projectile-switch-project-vc)
-
-(bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
-(bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
-
-(bind-key "C-c e" 'eval-region-and-maybe-deactivate-mark emacs-lisp-mode-map)
-
-(bind-key "s-k" 'clear-shell comint-mode-map)
 
 (load-theme 'hemacs :no-confirm)
 
