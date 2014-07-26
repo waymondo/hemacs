@@ -235,7 +235,9 @@
     (setq dired-recursive-copies 'always)
     (setq dired-auto-revert-buffer t)
     (when (and (memq window-system '(mac ns)) (executable-find "gls"))
-      (setq insert-directory-program "gls" dired-use-ls-dired t))))
+      (setq insert-directory-program "gls" dired-use-ls-dired t))
+    (use-package dired-toggle
+      :bind ("s-\\" . dired-toggle))))
 
 (use-package ignoramus
   :init (ignoramus-setup))

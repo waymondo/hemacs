@@ -17,6 +17,7 @@
 (depends-on "dash")
 (depends-on "dash-at-point")
 (depends-on "diff-hl")
+(depends-on "dired-toggle")
 (depends-on "discover-my-major")
 (depends-on "easy-kill")
 (depends-on "edit-server")
