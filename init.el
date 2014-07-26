@@ -46,7 +46,6 @@
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 (add-hook 'find-file-hook 'sm-try-smerge t)
-(add-hook 'emacs-lisp-mode-hook 'recompile-elc-on-save)
 
 (setq next-error-recenter t)
 (setq async-shell-command-buffer 'new-buffer)
@@ -380,7 +379,7 @@
 
 (use-package magit
   :bind ("s-m" . magit-status)
-  :init
+  :config
   (progn
     (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
     (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
@@ -400,7 +399,7 @@
     (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
     (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)
     (use-package magit-filenotify
-      :init (remove-hook 'magit-status-mode-hook 'magit-filenotify-mode))))
+      :init (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))))
 
 (use-package git-timemachine
   :bind ("C-x v t" . git-timemachine))
