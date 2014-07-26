@@ -62,6 +62,7 @@
 (depends-on "rhtml-mode")
 (depends-on "robe")
 (depends-on "rspec-mode")
+(depends-on "ruby-end")
 (depends-on "ruby-hash-syntax")
 (depends-on "s")
 (depends-on "slim-mode")

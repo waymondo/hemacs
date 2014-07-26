@@ -161,20 +161,6 @@
              (file-exists-p (byte-compile-dest-file buffer-file-name)))
     (byte-compile-file buffer-file-name)))
 
-(defn ruby-smart-newline-end-defun
-  (let ((whites
-         (save-excursion
-           (back-to-indentation)
-           (current-column))))
-    (end-of-line)
-    (save-excursion
-      (newline)
-      (indent-line-to (+ whites ruby-indent-level))
-      (newline)
-      (indent-line-to whites)
-      (insert "end"))
-    (next-line)))
-
 (defn google-dwim
   (browse-url
    (concat

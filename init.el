@@ -351,6 +351,7 @@
   :init
   (progn
     (use-package rspec-mode)
+    (use-package ruby-end)
     (use-package robe
       :init (add-hook 'ruby-mode-hook 'robe-mode))
     (use-package inf-ruby
@@ -370,7 +371,6 @@
     (use-package rhtml-mode))
   :config
   (progn
-    (bind-key "<C-return>" 'ruby-smart-newline-end-defun ruby-mode-map)
     (setq ruby-use-smie nil)
     (setq ruby-deep-arglist nil)
     (setq ruby-deep-indent-paren nil))
