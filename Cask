@@ -12,7 +12,6 @@
 (depends-on "change-inner")
 (depends-on "crab" :git "https://github.com/waymondo/crab-emacs.git")
 (depends-on "coffee-mode")
-(depends-on "color-identifiers-mode")
 (depends-on "company")
 (depends-on "company-inf-ruby")
 (depends-on "dash")
