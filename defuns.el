@@ -367,6 +367,10 @@
    nil
    t))
 
+(defun beautify-css (beg end)
+  (interactive "r")
+  (shell-command-on-region beg end "js-beautify --css -f - -s 2 --no-preserve-newlines" (current-buffer) 'replace))
+
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))

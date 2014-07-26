@@ -327,10 +327,11 @@
   :config (add-hook 'markdown-mode-hook 'hemacs-writing-hook))
 
 (use-package css-mode
-  :config (setq css-indent-offset 2))
-
-(use-package less-css-mode
-  :mode ("\\.scss$" . less-css-mode))
+  :bind ("C-c C-b" . beautify-css)
+  :config (setq css-indent-offset 2)
+  :init
+  (use-package less-css-mode
+    :mode ("\\.scss$" . less-css-mode)))
 
 (use-package js
   :mode ("\\.json$" . js-mode)
@@ -345,13 +346,6 @@
     (bind-key "C-j" 'coffee-newline-and-indent coffee-mode-map)
     (bind-key "M-r" 'coffee-compile-region coffee-mode-map)))
 
-(use-package slim-mode
-  :config
-  (progn
-    (setq slim-backspace-backdents-nesting nil)
-    (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
-    (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))))
-
 (use-package ruby-mode
   :init
   (progn
@@ -361,6 +355,12 @@
     (use-package inf-ruby
       :init (add-λ 'inf-ruby-mode-hook
               (turn-on-comint-history "~/.irb_history")))
+    (use-package slim-mode
+      :config
+      (progn
+        (setq slim-backspace-backdents-nesting nil)
+        (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
+        (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))))
     (use-package ruby-hash-syntax
       :init
       (progn
