@@ -634,8 +634,6 @@
 (bind-key "C-c u" 'browse-url-at-point)
 (bind-key "C-c o" 'ffap)
 
-(bind-key "C-x m" 'eshell)
-
 (bind-key "<s-return>" 'smart-open-line)
 (bind-key "<C-return>" 'newline-dwim)
 (bind-key "<C-return>" 'ruby-smart-newline-end-defun ruby-mode-map)
@@ -649,6 +647,9 @@
 (bind-key "C-x C-k" 'delete-file-and-buffer)
 (bind-key "C-x C-k" 'magit-kill-file-on-line magit-mode-map)
 (bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
+
+(bind-key "C-x RET" 'shell)
+(bind-key "C-x C-," 'find-user-init-file-other-window)
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
