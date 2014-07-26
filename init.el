@@ -496,6 +496,8 @@
   :bind ("C-h C-m" . discover-my-major))
 
 (use-package jump-char
+  :bind (("s-n" . jump-char-forward)
+         ("s-p" . jump-char-backward))
   :config (setq jump-char-lazy-highlight-face nil))
 
 (use-package undo-tree
