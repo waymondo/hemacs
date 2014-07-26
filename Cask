@@ -50,6 +50,7 @@
 (depends-on "magit-filenotify")
 (depends-on "markdown-mode")
 (depends-on "multiple-cursors")
+(depends-on "noflet")
 (depends-on "org-repo-todo")
 (depends-on "page-break-lines")
 (depends-on "popwin")

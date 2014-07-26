@@ -51,7 +51,9 @@
   (unwind-protect
       (progn
         (linum-mode 1)
-        (goto-line (read-number "Goto line: ")))
+        (let ((line-number (read-number "Goto line: ")))
+          (goto-char (point-min))
+          (forward-line (1- line-number))))
     (linum-mode -1)))
 
 (defn subword-backward-delete
@@ -122,7 +124,6 @@
     (switch-to-buffer-other-window nil)))
 
 (defn tab-dwim
-  (interactive)
   (if (minibufferp)
       (hippie-expand nil)
     (if mark-active
@@ -178,12 +179,11 @@
     (setq comint-buffer-maximum-size 0)
     (comint-truncate-buffer)
     (setq comint-buffer-maximum-size old-max)
-    (end-of-buffer)))
+    (goto-char (point-max))))
 
 (defn magit-kill-file-on-line
-  (interactive)
   (magit-visit-item)
-  (delete-current-buffer-file)
+  (delete-file-and-buffer)
   (magit-refresh))
 
 (defn magit-just-amend
@@ -206,7 +206,7 @@
 (defn open-brackets-newline-and-indent
   (insert " {\n\n}")
   (indent-according-to-mode)
-  (previous-line)
+  (forward-line -1)
   (indent-according-to-mode))
 
 (defn pad-brackets
@@ -250,14 +250,7 @@
   (let ((matching-buffers (--filter
                            (eq major-mode (with-current-buffer it major-mode))
                            (buffer-list))))
-    (flet ((buffer-list () matching-buffers))
-      (try-expand-dabbrev-all-buffers old))))
-
-(defun try-expand-dabbrev-other-buffers (old)
-  (let ((matching-buffers (--remove
-                           (eq major-mode (with-current-buffer it major-mode))
-                           (buffer-list))))
-    (flet ((buffer-list () matching-buffers))
+    (noflet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
 (defadvice kill-line (before check-position activate compile)

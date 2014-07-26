@@ -2,6 +2,7 @@
 (cask-initialize)
 (require 'use-package)
 (use-package s)
+(use-package noflet)
 (use-package dash :config (dash-enable-font-lock))
 (load (locate-user-emacs-file "defuns.el"))
 
@@ -19,6 +20,7 @@
 (setq confirm-kill-emacs nil)
 (setq vc-follow-symlinks t)
 (setq load-prefer-newer t)
+(setq byte-compile-warnings '(not obsolete))
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
@@ -203,8 +205,6 @@
     (setq hippie-expand-try-functions-list '(try-expand-dabbrev-visible
                                              try-expand-dabbrev
                                              try-expand-dabbrev-matching-buffers
-                                             try-expand-dabbrev-other-buffers
-                                             try-expand-dabbrev-from-kill
                                              try-expand-all-abbrevs
                                              try-complete-file-name-partially
                                              try-complete-file-name))
