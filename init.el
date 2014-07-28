@@ -124,7 +124,7 @@
     (setq compilation-disable-input t)
     (setq compilation-message-face nil)
     (setq compilation-always-kill t)
-    (add-hook 'comint-mode-hook 'hemacs-shellish-hook)))
+    (add-hook 'compilation-mode-hook 'hemacs-shellish-hook)))
 
 (use-package shell
   :init
