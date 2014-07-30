@@ -316,7 +316,7 @@
 (use-package page-break-lines
   :init (global-page-break-lines-mode))
 
-(use-package sgml-mode)
+(use-package httprepl)
 
 (use-package handlebars-mode)
 
