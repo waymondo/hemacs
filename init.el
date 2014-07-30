@@ -159,6 +159,7 @@
   :init
   (progn
     (recentf-mode t)
+    (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG"))
     (setq recentf-max-saved-items 500)))
 
 (use-package paren
