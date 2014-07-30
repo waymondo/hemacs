@@ -287,7 +287,7 @@
 (use-package crab-mode
   :bind (("C-M-," . crab-reload)
          ("C-M-;" . crab-eval-coffee))
-  :init (crab-server-start))
+  :idle (crab-server-start))
 
 (use-package elisp-slime-nav
   :init
