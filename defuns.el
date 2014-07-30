@@ -151,12 +151,6 @@
 (defn sudo-edit
   (find-alternate-file (concat "/sudo::" (buffer-file-name))))
 
-(defn eval-region-and-maybe-deactivate-mark
-  (eval-region (region-beginning)
-               (region-end))
-  (if (region-active-p) (deactivate-mark t))
-  (minibuffer-message "Lisp evaluated"))
-
 (defn byte-compile-current-buffer
   (when (and (eq major-mode 'emacs-lisp-mode)
              (file-exists-p (byte-compile-dest-file buffer-file-name)))
@@ -259,13 +253,18 @@
              (just-one-space 0)
              (backward-char 1))))
 
+(defadvice eval-region (after maybe-deactivate-mark activate compile)
+  (if (region-active-p) (deactivate-mark t)))
+
 (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
   (let ((case-fold-search nil))
     ad-do-it))
 
-(defun space-chord-define-global (key command)
-  (define-key (current-global-map)
-    (vector 'key-chord ? (if (stringp key) (aref key 0) key)) command))
+(defn create-scratch-buffer
+  (let ((current-major-mode major-mode)
+        (buf (generate-new-buffer "*scratch*")))
+    (switch-to-buffer buf)
+    (funcall current-major-mode)))
 
 (defvar yankee-do-modes '(css-mode less-css-mode sgml-mode))
 (defvar yankee-no-modes '(coffee-mode slim-mode c-mode objc-mode))
