@@ -493,6 +493,9 @@
     (dolist (mode '(git-commit-mode))
       (add-to-list 'god-exempt-major-modes mode))))
 
+(use-package bind-key
+  :bind ("C-h C-k" . describe-personal-keybindings))
+
 (use-package guide-key
   :init (guide-key-mode 1)
   :config
@@ -502,6 +505,9 @@
             "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
     (setq guide-key/popup-window-position 'bottom)
     (setq guide-key/idle-delay 0.5)))
+
+(use-package free-keys
+  :bind ("C-h C-f" . free-keys))
 
 (use-package discover-my-major
   :bind ("C-h C-m" . discover-my-major))
