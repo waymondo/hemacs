@@ -39,6 +39,8 @@
 (with-region-or-line comment-or-uncomment-region)
 (with-region-or-line capitalize-region)
 (with-region-or-line downcase-region)
+(with-region-or-line kill-region)
+(with-region-or-line eval-region)
 
 (add-λ 'before-save-hook
   (unless (eq major-mode 'markdown-mode)
