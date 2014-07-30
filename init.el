@@ -637,7 +637,7 @@
 (bind-key "C-c C-\\" 'align-regexp)
 (bind-key "C-c C-w" 'what-face)
 (bind-key "C-c m" 'shell)
-(bind-key "C-c C-l" 'log-statement)
+(bind-key "C-c l" 'log-statement)
 (bind-key "C-c C-o" 'google-dwim)
 (bind-key "C-c C-e" 'eval-region-and-maybe-deactivate-mark emacs-lisp-mode-map)
 
