@@ -260,6 +260,9 @@
   (let ((case-fold-search nil))
     ad-do-it))
 
+(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+  (noflet ((process-list ())) ad-do-it))
+
 (defn create-scratch-buffer
   (let ((current-major-mode major-mode)
         (buf (generate-new-buffer "*scratch*")))
