@@ -50,9 +50,7 @@
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 (add-hook 'find-file-hook 'sm-try-smerge t)
-
 (setq next-error-recenter t)
-(setq async-shell-command-buffer 'new-buffer)
 
 (setq echo-keystrokes 0.1)
 (setq completion-pcm-complete-word-inserts-delimiters t)
@@ -131,7 +129,8 @@
 (use-package shell
   :init
   (progn
-    (setq explicit-shell-file-name "bash")
+    (setq async-shell-command-buffer 'new-buffer)
+    (setq shell-command-switch (purecopy "-ic"))
     (setq explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
     (add-λ 'shell-mode-hook
       (turn-on-comint-history (getenv "HISTFILE")))))
