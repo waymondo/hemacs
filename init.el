@@ -544,8 +544,7 @@
     (global-set-key [remap kill-ring-save] 'easy-kill)
     (global-set-key [remap mark-sexp] 'easy-mark)))
 
-(use-package misc
-  :bind ("C-z" . zap-up-to-char))
+(use-package misc)
 
 (use-package ace-jump-buffer)
 
@@ -554,29 +553,28 @@
   :config
   (progn
 
+    (key-chord-define-global ",." "<>\C-b")
     (key-chord-define-global "<>" 'sgml-close-tag)
     (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
     (key-chord-define-global "[]" 'pad-brackets)
     (key-chord-define-global "_+" 'insert-fat-arrow)
     (key-chord-define-global "-=" 'insert-arrow)
-    (key-chord-define-global "}|" 'delete-other-windows)
     (key-chord-define-global "^^" (λ (insert "λ")))
 
-    (key-chord-define-global ";a" 'ace-jump-buffer-in-one-window)
+    (key-chord-define-global ";a" 'ace-jump-buffer)
     (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
+    (key-chord-define-global ";s" 'ido-switch-buffer)
+    (key-chord-define-global ":S" 'ido-switch-buffer-other-window)
     (key-chord-define-global ";w" 'toggle-split-window)
-    (key-chord-define-global ";s" 'projectile-recentf)
-    (key-chord-define-global ":S" 'ido-switch-buffer)
-    (key-chord-define-global ";t" 'projectile-find-file)
-    (key-chord-define-global ";r" 'imenu-anywhere)
-    (key-chord-define-global ";f" 'ido-find-file)
+    (key-chord-define-global ":W" 'delete-other-windows)
+    (key-chord-define-global ";f" 'projectile-find-file)
+    (key-chord-define-global ":F" 'projectile-find-file-other-window)
     (key-chord-define-global ";g" 'projectile-ag)
-    (key-chord-define-global ":G" 'ag)
-    (key-chord-define-global ";x" 'projector-switch-to-shell-buffer)
-    (key-chord-define-global ";c" 'projector-switch-to-or-create-project-shell)
+    (key-chord-define-global ";x" 'projector-switch-to-or-create-project-shell)
+    (key-chord-define-global ";z" 'zap-up-to-char)
+    (key-chord-define-global ":Z" 'ace-jump-zap-up-to-char)
 
-    (setq key-chord-two-keys-delay 0.05)
-    (setq key-chord-two-keys-delay 0.1)))
+    (setq key-chord-two-keys-delay 0.07)))
 
 (use-package company
   :init (add-hook 'after-init-hook 'global-company-mode)

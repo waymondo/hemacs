@@ -341,3 +341,20 @@
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))
+
+(defvar ace-jump-zapping nil)
+
+(defun ace-jump-zap-up-to-char-hook ()
+  (unless (not ace-jump-zapping)
+    (call-interactively 'delete-region)
+    (deactivate-mark))
+  (setq ace-jump-zapping nil))
+
+(add-hook 'ace-jump-mode-end-hook 'ace-jump-zap-up-to-char-hook)
+
+(defn ace-jump-zap-up-to-char
+  (setq ace-jump-zapping t)
+  (call-interactively 'set-mark-command)
+  (call-interactively 'ace-jump-mode)
+  (define-key overriding-local-map [t]
+    (λ (setq ace-jump-zapping nil))))
