@@ -605,7 +605,7 @@
     (push 'company-robe company-backends)))
 
 (use-package smart-newline
-  :idle (smart-newline-mode))
+  :init (add-hook 'prog-mode-hook 'smart-newline-mode))
 
 (bind-key "TAB" 'tab-dwim)
 (bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
@@ -631,12 +631,12 @@
 (bind-key "M-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
 
 (bind-key "C-a" 'back-to-indentation-or-beginning)
-(bind-key "C-o" 'smart-open-line-above)
 (bind-key "s-l" 'goto-line-with-feedback)
 (bind-key "s-," 'find-user-init-file-other-window)
 (bind-key "s-n" 'create-scratch-buffer)
 (bind-key "s-k" 'kill-whole-line)
 (bind-key "s-w" 'bury-buffer)
+(bind-key "s-W" 'kill-this-buffer)
 
 (bind-key "C-x C-k" 'delete-file-and-buffer)
 (bind-key "C-c r" 'rename-file-and-buffer)

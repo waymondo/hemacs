@@ -98,12 +98,6 @@
   (cond ((eq major-mode 'coffee-mode) (coffee-newline-and-indent))
         (t (newline-and-indent))))
 
-(defn smart-open-line-above
-  (move-beginning-of-line nil)
-  (newline-and-indent)
-  (forward-line -1)
-  (indent-according-to-mode))
-
 (defn move-line-up
   (transpose-lines 1)
   (forward-line -2)
