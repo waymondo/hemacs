@@ -352,7 +352,8 @@
   :init
   (progn
     (use-package rspec-mode)
-    (use-package ruby-end)
+    (use-package ruby-end
+      :config (setq ruby-end-insert-newline nil))
     (use-package robe
       :init (add-hook 'ruby-mode-hook 'robe-mode))
     (use-package inf-ruby
@@ -370,11 +371,6 @@
         (bind-key "C-:" 'ruby-toggle-hash-syntax ruby-mode-map)
         (bind-key "C-:" 'ruby-toggle-hash-syntax slim-mode-map)))
     (use-package rhtml-mode))
-  :config
-  (progn
-    (setq ruby-use-smie nil)
-    (setq ruby-deep-arglist nil)
-    (setq ruby-deep-indent-paren nil))
   :mode (("Procfile$" . ruby-mode)
          ("\\.rabl$" . ruby-mode)
          ("\\.env\\.*" . ruby-mode)))
