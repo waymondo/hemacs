@@ -6,7 +6,7 @@
 (use-package dash :config (dash-enable-font-lock))
 (load (locate-user-emacs-file "defuns.el"))
 
-(if window-system
+(if (not (window-system))
     (menu-bar-mode -1)
   (scroll-bar-mode -1)
   (tool-bar-mode -1))
