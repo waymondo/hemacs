@@ -6,9 +6,11 @@
 (use-package dash :config (dash-enable-font-lock))
 (load (locate-user-emacs-file "defuns.el"))
 
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
+(if window-system
+    (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1))
+
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
