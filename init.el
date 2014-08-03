@@ -69,6 +69,7 @@
 (setq delete-by-moving-to-trash t)
 (setq gc-cons-threshold 50000000)
 
+(setq mac-right-option-modifier 'none)
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
 (setq pop-up-windows nil)
