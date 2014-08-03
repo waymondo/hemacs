@@ -557,6 +557,7 @@
   (progn
 
     (key-chord-define-global ",." "<>\C-b")
+    (key-chord-define-global "}|" "||\C-b")
     (key-chord-define-global "<>" 'sgml-close-tag)
     (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
     (key-chord-define-global "[]" 'pad-brackets)
