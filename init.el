@@ -642,6 +642,8 @@
 (bind-key "C-c l" 'log-statement)
 (bind-key "C-c C-o" 'google-dwim)
 
+(bind-key "M-s-≥" 'find-function-at-point)
+
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input comint-mode-map)
