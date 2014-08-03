@@ -603,7 +603,9 @@
     (push 'company-robe company-backends)))
 
 (use-package smart-newline
-  :init (add-hook 'prog-mode-hook 'smart-newline-mode))
+  :init (add-λ 'prog-mode-hook
+          (when (not (member major-mode '(coffee-mode slim-mode)))
+            (smart-newline-mode 1))))
 
 (bind-key "TAB" 'tab-dwim)
 (bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
