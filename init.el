@@ -210,9 +210,9 @@
     (setq hippie-expand-try-functions-list '(try-expand-dabbrev-visible
                                              try-expand-dabbrev
                                              try-expand-dabbrev-matching-buffers
-                                             try-expand-all-abbrevs
                                              try-complete-file-name-partially
-                                             try-complete-file-name))
+                                             try-complete-file-name
+                                             try-expand-dabbrev-other-buffers))
     (add-λ 'emacs-lisp-mode-hook
       (set (make-local-variable 'hippie-expand-try-functions-list)
            (append '(try-complete-lisp-symbol-partially

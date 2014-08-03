@@ -241,6 +241,17 @@
     (noflet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
+(defun try-expand-dabbrev-other-buffers (old)
+  (let ((matching-buffers (--reject
+                           (eq major-mode (with-current-buffer it major-mode))
+                           (buffer-list))))
+    (noflet ((buffer-list () matching-buffers))
+      (try-expand-dabbrev-all-buffers old))))
+
+(defadvice hippie-expand (around hippie-expand-case-fold activate compile)
+  (let ((case-fold-search nil))
+    ad-do-it))
+
 (defadvice kill-line (before check-position activate compile)
   (if (and (eolp) (not (bolp)))
       (progn (forward-char 1)
@@ -249,10 +260,6 @@
 
 (defadvice eval-region (after maybe-deactivate-mark activate compile)
   (if (region-active-p) (deactivate-mark t)))
-
-(defadvice hippie-expand (around hippie-expand-case-fold activate compile)
-  (let ((case-fold-search nil))
-    ad-do-it))
 
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
   (noflet ((process-list ())) ad-do-it))
