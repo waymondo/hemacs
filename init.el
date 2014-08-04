@@ -206,11 +206,12 @@
                                              try-complete-file-name-partially
                                              try-complete-file-name
                                              try-expand-dabbrev-other-buffers))
-    (add-λ 'emacs-lisp-mode-hook
-      (set (make-local-variable 'hippie-expand-try-functions-list)
-           (append '(try-complete-lisp-symbol-partially
-                     try-complete-lisp-symbol)
-                   hippie-expand-try-functions-list)))))
+    (--each '(emacs-lisp-mode-hook ielm-mode-hook minibuffer-setup-hook)
+      (add-λ it
+        (set (make-local-variable 'hippie-expand-try-functions-list)
+             (append '(try-complete-lisp-symbol-partially
+                       try-complete-lisp-symbol)
+                     hippie-expand-try-functions-list))))))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
