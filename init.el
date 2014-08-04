@@ -165,6 +165,9 @@
 (use-package paren
   :init (show-paren-mode t))
 
+(use-package hl-line
+  :init (global-hl-line-mode t))
+
 (use-package elec-pair
   :init
   (progn
