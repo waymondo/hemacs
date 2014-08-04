@@ -362,6 +362,6 @@
 (defn ace-jump-zap-up-to-char
   (setq ace-jump-zapping t)
   (call-interactively 'set-mark-command)
-  (call-interactively 'ace-jump-mode)
+  (call-interactively 'ace-jump-char-mode)
   (define-key overriding-local-map [t]
     (λ (setq ace-jump-zapping nil))))
