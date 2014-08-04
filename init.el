@@ -6,11 +6,9 @@
 (use-package dash :config (dash-enable-font-lock))
 (load (locate-user-emacs-file "defuns.el"))
 
-(if (not (window-system))
-    (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1))
-
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(unless (window-system) (menu-bar-mode -1))
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
@@ -226,6 +224,9 @@
 
 (use-package edit-server
   :init (edit-server-start t))
+
+(use-package zone
+  :init (zone-when-idle 120))
 
 (use-package dired-x
   :init
@@ -550,7 +551,6 @@
   :init (key-chord-mode 1)
   :config
   (progn
-
     (key-chord-define-global ",." "<>\C-b")
     (key-chord-define-global "}|" "||\C-b")
     (key-chord-define-global "<>" 'sgml-close-tag)
@@ -559,7 +559,6 @@
     (key-chord-define-global "_+" 'insert-fat-arrow)
     (key-chord-define-global "-=" 'insert-arrow)
     (key-chord-define-global "^^" (λ (insert "λ")))
-
     (key-chord-define-global ";a" 'ace-jump-buffer)
     (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
     (key-chord-define-global ";s" 'ido-switch-buffer)
@@ -572,7 +571,6 @@
     (key-chord-define-global ";x" 'projector-switch-to-or-create-project-shell)
     (key-chord-define-global ";z" 'zap-up-to-char)
     (key-chord-define-global ":Z" 'ace-jump-zap-up-to-char)
-
     (setq key-chord-two-keys-delay 0.07)))
 
 (use-package company
