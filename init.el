@@ -94,12 +94,7 @@
 (setq-default show-trailing-whitespace t)
 (fringe-mode '(24 . 8))
 (column-number-mode t)
-(set-face-attribute 'default nil :height 190 :font "Inconsolata")
-(setq-default mode-line-format
-              '("%e" mode-line-front-space mode-line-modified
-                " " mode-line-buffer-identification " "
-                mode-line-position (vc-mode vc-mode) " "
-                mode-name " " mode-line-misc-info mode-line-end-spaces))
+(set-face-attribute 'default nil :height 190 :font "Inconsolata for Powerline")
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
@@ -606,6 +601,13 @@
   :init (add-λ 'prog-mode-hook
           (when (not (member major-mode '(coffee-mode slim-mode)))
             (smart-newline-mode 1))))
+
+(use-package powerline
+  :init (powerline-default-theme)
+  :config
+  (progn
+    (setq powerline-default-separator 'utf-8)
+    (defpowerline powerline-minor-modes nil)))
 
 (bind-key "TAB" 'tab-dwim)
 (bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)

@@ -54,6 +54,7 @@
 (depends-on "org-repo-todo")
 (depends-on "page-break-lines")
 (depends-on "popwin")
+(depends-on "powerline" :git "https://github.com/unic0rn/powerline.git")
 (depends-on "projectile")
 (depends-on "projectile-rails")
 (depends-on "projector")
