@@ -1,4 +1,5 @@
 (deftheme hemacs)
+
 (let ((base00 "#2d2d2d")
       (base01 "#393939")
       (base02 "#515151")
@@ -31,11 +32,11 @@
    `(link-visited ((t (:foreground ,base0E))))
    `(minibuffer-prompt ((t (:foreground ,base0D))))
    `(region ((t (:background ,base02))))
+   `(vhl/default-face ((t (:background ,base02))))
    `(next-error ((t (:background ,base02))))
    `(secondary-selection ((t (:background ,base01))))
    `(header-line ((t (:foreground ,base0E :background nil))))
-   `(auto-dim-other-buffers-face ((t (:background ,(color-darken-name base01 2)))))
-   `(vhl/default-face ((t (:background ,(color-lighten-name base00 5)))))
+   `(auto-dim-other-buffers-face ((t (:background ,base01))))
 
    `(ace-jump-face-foreground ((t (:foreground ,base08))))
    `(guide-key/highlight-command-face ((t (:foreground ,base0A))))
@@ -44,10 +45,14 @@
 
    ;; modeline
    `(mode-line ((t (:background "black" :foreground ,base04 :box (:line-width 4 :color "black" :style nil)))))
-   `(mode-line-inactive ((t (:background ,(color-darken-name base00 4) :foreground ,base03 :box (:line-width 4 :color ,base00 :style nil)))))
+   `(mode-line-inactive ((t (:background ,(color-darken-name base00 4) :foreground ,base03 :box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)))))
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
+   `(powerline-active1 ((t :background ,base00)))
+   `(powerline-active2 ((t :background ,(color-lighten-name base00 10))))
+   `(powerline-inactive1 ((t :background ,(color-darken-name base00 4))))
+   `(powerline-inactive2 ((t :background ,(color-darken-name base00 4))))
    `(mm-command-output ((t (:background ,base02 :foreground ,base04))))
    `(alert-trivial-face ((t (:inherit nil :foreground nil :background nil))))
    `(anzu-mode-line ((t (:foreground ,base0A))))
@@ -161,9 +166,9 @@
    `(whitespace-tab ((t (:background ,base04 :foreground ,base04))))
    `(whitespace-trailing ((t (:background ,base08 :foreground ,base0A))))
 
-   `(git-gutter-fr:added ((t (:foreground ,base03))))
-   `(git-gutter-fr:deleted ((t (:foreground ,base03))))
-   `(git-gutter-fr:modified ((t (:foreground ,base03))))
+   `(git-gutter:added ((t (:foreground ,base03))))
+   `(git-gutter:deleted ((t (:foreground ,base03))))
+   `(git-gutter:modified ((t (:foreground ,base03))))
 
    `(paren-face-match ((t (:foreground nil :background nil :inherit show-paren-match))))
    `(paren-face-mismatch ((t (:foreground nil :background nil :inherit show-paren-mismatch))))
@@ -174,10 +179,10 @@
    `(show-paren-mismatch ((t (:background ,base08 :foreground ,base01))))
    `(highlight-symbol-face ((t (:foreground nil :background nil :underline t))))
 
-   `(diff-hl-insert ((t (:foreground ,(color-darken-name base0B 10) :background ,base02))))
-   `(diff-hl-unknown ((t (:foreground ,(color-darken-name base0B 10) :background ,base02))))
-   `(diff-hl-delete ((t (:foreground ,(color-darken-name base08 10) :background ,base02))))
-   `(diff-hl-change ((t (:foreground ,(color-darken-name base0D 10) :background ,base02))))
+   `(diff-hl-insert ((t (:foreground ,(color-darken-name base0B 10) :background ,base01))))
+   `(diff-hl-unknown ((t (:foreground ,(color-darken-name base0B 10) :background ,base01))))
+   `(diff-hl-delete ((t (:foreground ,(color-darken-name base08 10) :background ,base01))))
+   `(diff-hl-change ((t (:foreground ,(color-darken-name base0D 10) :background ,base01))))
 
    `(sh-heredoc ((t (:foreground nil :inherit font-lock-string-face :weight normal))))
    `(sh-quoted-exec ((t (:foreground nil :inherit font-lock-preprocessor-face))))

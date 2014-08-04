@@ -90,8 +90,8 @@
 (setq linum-format " %3s ")
 (setq-default indicate-empty-lines t)
 (setq-default show-trailing-whitespace t)
-(fringe-mode '(24 . 8))
-(column-number-mode t)
+(setq-default left-fringe-width 10)
+(setq-default right-fringe-width 1)
 (set-face-attribute 'default nil :height 190 :font "Inconsolata for Powerline")
 
 (use-package exec-path-from-shell
@@ -329,11 +329,13 @@
   :config (add-hook 'markdown-mode-hook 'hemacs-writing-hook))
 
 (use-package css-mode
-  :bind ("C-c C-b" . beautify-css)
-  :config (setq css-indent-offset 2)
   :init
   (use-package less-css-mode
-    :mode ("\\.scss$" . less-css-mode)))
+    :mode ("\\.scss$" . less-css-mode))
+  :config
+  (progn
+    (setq css-indent-offset 2)
+    (bind-key "C-c C-b" 'beautify-css css-mode-map)))
 
 (use-package js
   :mode ("\\.json$" . js-mode)
