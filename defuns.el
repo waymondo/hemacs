@@ -261,8 +261,11 @@
 (defadvice eval-region (after maybe-deactivate-mark activate compile)
   (if (region-active-p) (deactivate-mark t)))
 
-(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
   (noflet ((process-list ())) ad-do-it))
+
+(defadvice zone (before zone-one-buffer activate compile)
+  (delete-other-windows))
 
 (defn create-scratch-buffer
   (let ((current-major-mode major-mode)
