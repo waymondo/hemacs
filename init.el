@@ -60,6 +60,9 @@
 (minibuffer-electric-default-mode t)
 (setq history-length 100)
 (setq history-delete-duplicates t)
+(add-λ 'minibuffer-setup-hook
+  (set (make-local-variable 'face-remapping-alist)
+       '((default :height 0.9))))
 
 (setq ns-use-native-fullscreen nil)
 (setq mac-function-modifier 'hyper)

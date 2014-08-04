@@ -44,8 +44,8 @@
    `(guide-key/prefix-command-face ((t (:foreground ,base0C))))
 
    ;; modeline
-   `(mode-line ((t (:background "black" :foreground ,base04 :box (:line-width 4 :color "black" :style nil)))))
-   `(mode-line-inactive ((t (:background ,(color-darken-name base00 4) :foreground ,base03 :box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)))))
+   `(mode-line ((t (:height 0.9 :background "black" :foreground ,base04 :box (:line-width 4 :color "black" :style nil)))))
+   `(mode-line-inactive ((t (:height 0.9 :background ,(color-darken-name base00 4) :foreground ,base03 :box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)))))
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
@@ -57,6 +57,9 @@
    `(alert-trivial-face ((t (:inherit nil :foreground nil :background nil))))
    `(anzu-mode-line ((t (:foreground ,base0A))))
    `(persp-selected-face ((t (:foreground ,base05))))
+   `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
+   `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
+   `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
 
    ;; Font-lock stuff
    `(font-lock-builtin-face ((t (:foreground ,base0C))))
@@ -258,9 +261,6 @@
    `(compilation-column-number ((t (:foreground ,base0A))))
    `(compilation-line-number ((t (:foreground ,base0A))))
    `(compilation-message-face ((t (:foreground ,base0D))))
-   `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
-   `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
-   `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
    `(success ((t (:foreground ,base0B))))
 
    `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
