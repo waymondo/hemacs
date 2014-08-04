@@ -293,8 +293,8 @@
 
 (use-package elisp-slime-nav
   :init
-  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-    (add-hook hook 'elisp-slime-nav-mode)))
+  (--each '(emacs-lisp-mode-hook ielm-mode-hook minibuffer-setup-hook)
+    (add-hook it 'elisp-slime-nav-mode)))
 
 (use-package popwin
   :init (popwin-mode 1)
