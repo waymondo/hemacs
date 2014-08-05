@@ -421,13 +421,10 @@
     (setq projector-projects-root "~/code/")
     (setq projector-always-background-regex
           '("^mysql.server\\.*"
-            "^bundle install"
-            "^bundle update\\.*"
             "^powder restart"
             "^heroku restart\\.*"
             "^spring stop"
             "^git push\\.*"
-            "^rake db:migrate"
             "\\.*cordova run\\.*"
             "^redis-server"
             "^pkill\\.*"))))
