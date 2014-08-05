@@ -325,6 +325,12 @@
 
 (use-package httprepl)
 
+(use-package sgml-mode
+  :init
+  (progn
+    (modify-syntax-entry ?= "." html-mode-syntax-table)
+    (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)))
+
 (use-package handlebars-mode)
 
 (use-package fountain-mode
