@@ -21,6 +21,8 @@
       (if mark-active (list (region-beginning) (region-end))
         (list (line-beginning-position) (line-beginning-position 2))))))
 
+(defvar indent-sensitive-modes '(coffee-mode slim-mode))
+
 (defun dwim-at-point ()
   (cond ((use-region-p)
          (buffer-substring-no-properties (region-beginning) (region-end)))
@@ -95,19 +97,22 @@
 
 (defn eol-then-newline
   (move-end-of-line nil)
-  (cond ((eq major-mode 'coffee-mode) (coffee-newline-and-indent))
+  (cond ((eq major-mode 'coffee-mode)
+         (coffee-newline-and-indent))
         (t (newline-and-indent))))
 
 (defn move-line-up
   (transpose-lines 1)
   (forward-line -2)
-  (indent-according-to-mode))
+  (unless (member major-mode indent-sensitive-modes)
+    (indent-according-to-mode)))
 
 (defn move-line-down
   (forward-line 1)
   (transpose-lines 1)
   (forward-line -1)
-  (indent-according-to-mode))
+  (unless (member major-mode indent-sensitive-modes)
+    (indent-according-to-mode)))
 
 (defn toggle-split-window
   (if (eq last-command 'toggle-split-window)
@@ -274,12 +279,11 @@
     (funcall current-major-mode)))
 
 (defvar yankee-do-modes '(css-mode less-css-mode sgml-mode))
-(defvar yankee-no-modes '(coffee-mode slim-mode c-mode objc-mode))
 
 (dolist (command '(yank yank-pop clipboard-yank))
   (eval `(defadvice ,command (after indent-region activate compile)
            (and (not current-prefix-arg)
-                (not (member major-mode yankee-no-modes))
+                (not (member major-mode indent-sensitive-modes))
                 (or (derived-mode-p 'prog-mode)
                     (member major-mode yankee-do-modes))
                 (let ((mark-even-if-inactive transient-mark-mode))
