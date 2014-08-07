@@ -105,6 +105,11 @@
 (setq-default right-fringe-width 1)
 (set-face-attribute 'default nil :height 190 :font "Inconsolata for Powerline")
 
+(define-prefix-command 'hemacs-map)
+(define-prefix-command 'hemacs-github-map)
+(bind-key "C-z" 'hemacs-map)
+(bind-key "C-z g" 'hemacs-github-map)
+
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
   :init
@@ -246,7 +251,7 @@
 (use-package dired-x
   :init
   (progn
-    (bind-key "C-x C-k" 'dired-do-delete dired-mode-map)
+    (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-recursive-deletes 'always)
@@ -279,17 +284,13 @@
     (global-set-key [remap execute-extended-command] #'smex)))
 
 (use-package dash-at-point
-  :bind (("C-c d" . dash-at-point)
-         ("C-c D" . dash-at-point-with-docset))
+  :bind (("C-z C-d" . dash-at-point)
+         ("C-z C-D" . dash-at-point-with-docset))
   :config
   (setq dash-at-point-docsets
         '("coffee" "lisp" "css" "elisp" "html" "javascript" "iphoneos"
           "ruby" "jquery" "meteor" "phonegap" "rubygems" "rails" "macosx"
           "underscore" "d3" "backbone" "bootstrap" "markdown" "zepto")))
-
-(use-package github-browse-file
-  :bind (("C-c g" . github-browse-file)
-         ("C-c G" . github-browse-file-blame)))
 
 (use-package ag
   :config
@@ -355,7 +356,7 @@
   :config
   (progn
     (setq css-indent-offset 2)
-    (bind-key "C-c C-b" 'beautify-css css-mode-map)))
+    (bind-key "C-z C-b" 'beautify-css css-mode-map)))
 
 (use-package js
   :mode ("\\.json$" . js-mode)
@@ -403,7 +404,7 @@
   (progn
     (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
     (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
-    (bind-key "C-x C-k" 'magit-kill-file-on-line magit-mode-map)
+    (bind-key "C-z C-k" 'magit-kill-file-on-line magit-mode-map)
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
     (setq magit-completing-read-function 'magit-ido-completing-read)
     (setq magit-emacsclient-executable "/usr/local/Cellar/emacs/HEAD/bin/emacsclient")
@@ -417,21 +418,23 @@
     (setq magit-unstage-all-confirm nil)
     (setq magit-commit-ask-to-stage nil)
     (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
-    (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)
-    (use-package magit-filenotify
-      :init (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))))
+    (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)))
+
+(use-package github-browse-file
+  :bind (("C-z g o" . github-browse-file)
+         ("C-z g b" . github-browse-file-blame)))
 
 (use-package git-timemachine
-  :bind ("C-x v t" . git-timemachine))
+  :bind ("C-z g t" . git-timemachine))
 
 (use-package git-messenger
-  :bind ("C-x v p" . git-messenger:popup-message)
+  :bind ("C-z g p" . git-messenger:popup-message)
   :config (setq git-messenger:show-detail t))
 
 (use-package projector
   :config
   (progn
-    (bind-key* "C-c RET" 'projector-run-shell-command-project-root)
+    (bind-key* "C-z RET" 'projector-run-shell-command-project-root)
     (setq projector-projects-root "~/code/")
     (setq projector-always-background-regex
           '("^mysql.server\\.*"
@@ -506,11 +509,16 @@
       (setq cursor-type 'box))
     (add-λ 'god-mode-disabled-hook
       (setq cursor-type 'bar))
-    (dolist (mode '(git-commit-mode))
-      (add-to-list 'god-exempt-major-modes mode))))
+    (add-to-list 'god-exempt-major-modes 'git-commit-mode)))
 
 (use-package bind-key
   :bind ("C-h C-k" . describe-personal-keybindings))
+
+(use-package free-keys
+  :bind ("C-h C-f" . free-keys))
+
+(use-package discover-my-major
+  :bind ("C-h C-m" . discover-my-major))
 
 (use-package guide-key
   :init (guide-key-mode 1)
@@ -518,15 +526,9 @@
   (progn
     (setq guide-key/guide-key-sequence
           '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
-            "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
+            "C-z" "C-z g" "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
     (setq guide-key/popup-window-position 'bottom)
     (setq guide-key/idle-delay 0.5)))
-
-(use-package free-keys
-  :bind ("C-h C-f" . free-keys))
-
-(use-package discover-my-major
-  :bind ("C-h C-m" . discover-my-major))
 
 (use-package undo-tree
   :init (global-undo-tree-mode)
@@ -543,13 +545,13 @@
   :init (bind-key* "C-," 'er/expand-region))
 
 (use-package multiple-cursors
-  :bind (("C-c C-." . mc/mark-next-like-this)
-         ("C-c C-," . mc/mark-previous-like-this)
-         ("C-c C-/" . mc/mark-all-like-this-dwim)))
+  :bind (("C-z C-." . mc/mark-next-like-this)
+         ("C-z C-," . mc/mark-previous-like-this)
+         ("C-z C-/" . mc/mark-all-like-this-dwim)))
 
 (use-package change-inner
-  :bind (("M-i" . change-inner)
-         ("M-o" . change-outer)))
+  :bind (("C-z TAB" . change-inner)
+         ("C-z C-o" . change-outer)))
 
 (use-package org-repo-todo
   :init
@@ -648,11 +650,6 @@
 (bind-key "s-/" 'comment-or-uncomment-region)
 (bind-key "<s-return>" 'eol-then-newline)
 
-(bind-key "M--" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
-(bind-key "M-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
-(bind-key "M-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
-(bind-key "M-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
-
 (bind-key "C-a" 'back-to-indentation-or-beginning)
 (bind-key "s-l" 'goto-line-with-feedback)
 (bind-key "s-," 'find-user-init-file-other-window)
@@ -661,16 +658,19 @@
 (bind-key "s-w" 'bury-buffer)
 (bind-key "s-W" 'kill-this-buffer)
 
-(bind-key "C-x C-k" 'delete-file-and-buffer)
-(bind-key "C-c r" 'rename-file-and-buffer)
-(bind-key "C-c `" 'list-processes)
-(bind-key "C-c C-\\" 'align-regexp)
-(bind-key "C-c C-w" 'what-face)
-(bind-key "C-c m" 'shell)
-(bind-key "C-c l" 'log-statement)
-(bind-key "C-c C-o" 'google-dwim)
-
-(bind-key "M-s-≥" 'find-function-at-point)
+(bind-key "C-z C-k" 'delete-file-and-buffer)
+(bind-key "C-z C-r" 'rename-file-and-buffer)
+(bind-key "C-z `" 'list-processes)
+(bind-key "C-z C-\\" 'align-regexp)
+(bind-key "C-z C-w" 'what-face)
+(bind-key "C-z m" 'shell)
+(bind-key "C-z C-l" 'log-statement)
+(bind-key "C-z C-g" 'google-dwim)
+(bind-key "C-z C-f" 'ffap)
+(bind-key "C-z C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
+(bind-key "C-z -" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
+(bind-key "C-z _" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
+(bind-key "C-z c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
