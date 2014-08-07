@@ -622,9 +622,10 @@
     (push 'company-robe company-backends)))
 
 (use-package smart-newline
-  :init (add-λ 'prog-mode-hook
-          (when (not (member major-mode indent-sensitive-modes))
-            (smart-newline-mode 1))))
+  :init (--each '(prog-mode-hook css-mode-hook sgml-mode-hook)
+          (add-λ it
+            (when (not (member major-mode indent-sensitive-modes))
+              (smart-newline-mode 1)))))
 
 (use-package powerline
   :init (powerline-default-theme)
