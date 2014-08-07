@@ -103,7 +103,8 @@
 (setq-default show-trailing-whitespace t)
 (setq-default left-fringe-width 10)
 (setq-default right-fringe-width 1)
-(set-face-attribute 'default nil :height 190 :font "Inconsolata for Powerline")
+;; https://github.com/Lokaltog/powerline-fonts
+(set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
 
 (define-prefix-command 'hemacs-map)
 (define-prefix-command 'hemacs-github-map)
