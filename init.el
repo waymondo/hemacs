@@ -338,7 +338,8 @@
   :init
   (progn
     (modify-syntax-entry ?= "." html-mode-syntax-table)
-    (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)))
+    (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
+    (bind-key "<C-return>" 'html-smarter-newline html-mode-map)))
 
 (use-package handlebars-mode)
 

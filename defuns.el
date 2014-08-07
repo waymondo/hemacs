@@ -99,6 +99,13 @@
          (coffee-newline-and-indent))
         (t (newline-and-indent))))
 
+(defn html-smarter-newline
+  (move-end-of-line nil)
+  (smart-newline)
+  (sgml-close-tag)
+  (move-beginning-of-line nil)
+  (smart-newline))
+
 (defn move-line-up
   (transpose-lines 1)
   (forward-line -2)
