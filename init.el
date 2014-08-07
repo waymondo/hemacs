@@ -108,8 +108,10 @@
 
 (define-prefix-command 'hemacs-map)
 (define-prefix-command 'hemacs-github-map)
+(define-prefix-command 'hemacs-crab-map)
 (bind-key "C-z" 'hemacs-map)
 (bind-key "C-z g" 'hemacs-github-map)
+(bind-key "C-z c" 'hemacs-crab-map)
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
@@ -303,8 +305,11 @@
   :config (setq alert-default-style 'notifier))
 
 (use-package crab-mode
-  :bind (("C-M-," . crab-reload)
-         ("C-M-;" . crab-eval-coffee))
+  :bind (("C-z c r" . crab-reload)
+         ("C-z c e" . crab-eval-coffee)
+         ("C-z c l" . crab-console-log)
+         ("C-z c <left>" . crab-prev-tab)
+         ("C-z c <right>" . crab-next-tab))
   :idle (crab-server-start))
 
 (use-package elisp-slime-nav
@@ -437,6 +442,7 @@
   :config
   (progn
     (bind-key* "C-z RET" 'projector-run-shell-command-project-root)
+    (bind-key* "C-z m" 'projector-switch-to-or-create-project-shell)
     (setq projector-projects-root "~/code/")
     (setq projector-always-background-regex
           '("^mysql.server\\.*"
@@ -592,7 +598,6 @@
     (key-chord-define-global ";f" 'projectile-find-file)
     (key-chord-define-global ":F" 'projectile-find-file-other-window)
     (key-chord-define-global ";g" 'projectile-ag)
-    (key-chord-define-global ";x" 'projector-switch-to-or-create-project-shell)
     (key-chord-define-global ";z" 'zap-up-to-char)
     (key-chord-define-global ":Z" 'ace-jump-zap-up-to-char)
     (key-chord-define-global ";j" 'ace-jump-char-mode)
@@ -666,14 +671,13 @@
 (bind-key "C-z `" 'list-processes)
 (bind-key "C-z C-\\" 'align-regexp)
 (bind-key "C-z C-w" 'what-face)
-(bind-key "C-z m" 'shell)
 (bind-key "C-z C-l" 'log-statement)
 (bind-key "C-z C-g" 'google-dwim)
 (bind-key "C-z C-f" 'ffap)
-(bind-key "C-z C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
-(bind-key "C-z -" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
-(bind-key "C-z _" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
-(bind-key "C-z c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
+(bind-key "C-z C-" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
+(bind-key "C-z C-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
+(bind-key "C-z C-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
+(bind-key "C-z C-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
