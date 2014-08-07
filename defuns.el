@@ -21,8 +21,6 @@
       (if mark-active (list (region-beginning) (region-end))
         (list (line-beginning-position) (line-beginning-position 2))))))
 
-(defvar indent-sensitive-modes '(coffee-mode slim-mode))
-
 (defun dwim-at-point ()
   (cond ((use-region-p)
          (buffer-substring-no-properties (region-beginning) (region-end)))
@@ -278,14 +276,12 @@
     (switch-to-buffer buf)
     (funcall current-major-mode)))
 
-(defvar yankee-do-modes '(css-mode less-css-mode sgml-mode))
-
 (dolist (command '(yank yank-pop clipboard-yank))
   (eval `(defadvice ,command (after indent-region activate compile)
            (and (not current-prefix-arg)
                 (not (member major-mode indent-sensitive-modes))
                 (or (derived-mode-p 'prog-mode)
-                    (member major-mode yankee-do-modes))
+                    (member major-mode indent-insensitive-modes))
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 

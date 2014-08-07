@@ -4,11 +4,19 @@
 (use-package s)
 (use-package noflet)
 (use-package dash :config (dash-enable-font-lock))
+
+(defvar indent-sensitive-modes '(coffee-mode slim-mode))
+(defvar indent-insensitive-modes '(css-mode less-css-mode sgml-mode))
+
 (load (locate-user-emacs-file "defuns.el"))
 
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(unless (window-system) (menu-bar-mode -1))
+(when (window-system)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1))
+
+(unless (window-system)
+  (menu-bar-mode -1))
+
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
@@ -612,7 +620,7 @@
 
 (use-package smart-newline
   :init (add-λ 'prog-mode-hook
-          (when (not (member major-mode '(coffee-mode slim-mode)))
+          (when (not (member major-mode indent-sensitive-modes))
             (smart-newline-mode 1))))
 
 (use-package powerline
