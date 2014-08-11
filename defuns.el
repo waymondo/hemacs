@@ -258,10 +258,6 @@
     (noflet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
-(defadvice hippie-expand (around hippie-expand-case-fold activate compile)
-  (let ((case-fold-search nil))
-    ad-do-it))
-
 (defadvice kill-line (before check-position activate compile)
   (if (and (eolp) (not (bolp)))
       (progn (forward-char 1)
@@ -273,9 +269,6 @@
 
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
   (noflet ((process-list ())) ad-do-it))
-
-(defadvice zone (before zone-one-buffer activate compile)
-  (delete-other-windows))
 
 (defn create-scratch-buffer
   (let ((current-major-mode major-mode)

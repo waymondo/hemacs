@@ -217,6 +217,9 @@
 (use-package hippie-exp
   :init
   (progn
+    (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
+      (let ((case-fold-search nil))
+        ad-do-it))
     (global-set-key [remap dabbrev-expand] #'hippie-expand)
     (bind-key "TAB" 'hippie-expand read-expression-map)
     (bind-key "TAB" 'hippie-expand minibuffer-local-map)
@@ -249,7 +252,11 @@
   :init (edit-server-start t))
 
 (use-package zone
-  :init (zone-when-idle 120))
+  :init
+  (progn
+    (defadvice zone (before zone-one-buffer activate compile)
+      (delete-other-windows))
+    (zone-when-idle 248)))
 
 (use-package dired-x
   :init
