@@ -276,12 +276,11 @@
     (switch-to-buffer buf)
     (funcall current-major-mode)))
 
-(dolist (command '(yank yank-pop clipboard-yank))
-  (eval `(defadvice ,command (after indent-region activate compile)
+(--each '(yank yank-pop clipboard-yank)
+  (eval `(defadvice ,it (after indent-region activate compile)
            (and (not current-prefix-arg)
                 (not (member major-mode indent-sensitive-modes))
-                (or (derived-mode-p 'prog-mode)
-                    (member major-mode indent-insensitive-modes))
+                (or (-any? 'derived-mode-p indent-insensitive-modes))
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 

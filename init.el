@@ -6,7 +6,7 @@
 (use-package dash :config (dash-enable-font-lock))
 
 (defvar indent-sensitive-modes '(coffee-mode slim-mode))
-(defvar indent-insensitive-modes '(css-mode less-css-mode sgml-mode))
+(defvar indent-insensitive-modes '(prog-mode css-mode sgml-mode))
 
 (load (locate-user-emacs-file "defuns.el"))
 
@@ -283,8 +283,8 @@
 
 (use-package eldoc
   :init
-  (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
-    (add-hook hook 'turn-on-eldoc-mode)))
+  (--each '(emacs-lisp-mode-hook ielm-mode-hook)
+    (add-hook it 'turn-on-eldoc-mode)))
 
 (use-package smex
   :bind ("s-P" . smex)
@@ -332,15 +332,15 @@
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
 
 (use-package projectile
-  :bind (("s-t" . projectile-find-file)
-         ("s-b" . projectile-switch-to-buffer)
-         ("s-o" . projectile-switch-project-vc)
-         ("s-p" . projectile-commander))
-  :init
-  (progn
-    (use-package projectile-rails
-      :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
-    (projectile-global-mode)))
+ :bind (("s-t" . projectile-find-file)
+        ("s-b" . projectile-switch-to-buffer)
+        ("s-o" . projectile-switch-project-vc)
+        ("s-p" . projectile-commander))
+ :init
+ (progn
+   (use-package projectile-rails
+     :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
+   (projectile-global-mode)))
 
 (use-package page-break-lines
   :init (global-page-break-lines-mode))
@@ -494,9 +494,10 @@
 
 (use-package highlight-symbol
   :init
-  (progn
-    (add-hook 'prog-mode-hook #'highlight-symbol-mode)
-    (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode))
+  (--each indent-insensitive-modes
+    (add-λ (intern (format "%s-hook" it))
+      (highlight-symbol-mode)
+      (highlight-symbol-nav-mode)))
   :config (setq highlight-symbol-idle-delay 0))
 
 (use-package volatile-highlights
@@ -508,11 +509,11 @@
 
 (use-package rainbow-mode
   :init
-  (dolist (hook '(css-mode-hook emacs-lisp-mode-hook))
-    (add-hook hook 'rainbow-mode)))
+  (--each '(css-mode-hook emacs-lisp-mode-hook)
+    (add-hook it 'rainbow-mode)))
 
 (use-package rainbow-delimiters
-  :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :init (global-rainbow-delimiters-mode))
 
 (use-package god-mode
   :bind ("s-`" . god-mode-all)
@@ -635,10 +636,11 @@
     (push 'company-robe company-backends)))
 
 (use-package smart-newline
-  :init (--each '(prog-mode-hook css-mode-hook sgml-mode-hook)
-          (add-λ it
-            (when (not (member major-mode indent-sensitive-modes))
-              (smart-newline-mode 1)))))
+  :init
+  (--each indent-insensitive-modes
+    (add-λ (intern (format "%s-hook" it))
+      (when (not (member major-mode indent-sensitive-modes))
+        (smart-newline-mode 1)))))
 
 (use-package powerline
   :init (powerline-default-theme)
