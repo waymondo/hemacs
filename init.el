@@ -668,7 +668,6 @@
 (bind-key "<s-return>" 'eol-then-newline)
 
 (bind-key "C-a" 'back-to-indentation-or-beginning)
-(bind-key "s-l" 'goto-line-with-feedback)
 (bind-key "s-," 'find-user-init-file-other-window)
 (bind-key "s-n" 'create-scratch-buffer)
 (bind-key "s-k" 'kill-whole-line)

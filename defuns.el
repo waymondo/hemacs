@@ -47,15 +47,6 @@
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
 
-(defn goto-line-with-feedback
-  (unwind-protect
-      (progn
-        (linum-mode 1)
-        (let ((line-number (read-number "Goto line: ")))
-          (goto-char (point-min))
-          (forward-line (1- line-number))))
-    (linum-mode -1)))
-
 (defn subword-backward-delete
   (let ((beg (point)))
     (subword-backward arg)

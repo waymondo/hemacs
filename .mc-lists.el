@@ -17,6 +17,7 @@
         electric-indent-just-newline
         electric-pair-backward-delete-char
         electric-pair-backward-delete-char-untabify
+        eol-then-newline
         highlight-symbol-next
         indent-for-tab-command
         insert-arrow
