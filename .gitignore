@@ -10,6 +10,7 @@ recentf
 saveplace
 bookmarks
 var
+*.smex-items
 /.cask
 /savehist
 /completions
