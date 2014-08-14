@@ -1,22 +1,18 @@
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-(require 'use-package)
-(use-package s)
-(use-package noflet)
-(use-package dash :config (dash-enable-font-lock))
-
 (defvar indent-sensitive-modes '(coffee-mode slim-mode))
 (defvar progish-modes '(prog-mode css-mode sgml-mode))
 (defvar lispy-modes '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
 
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+(add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
+(require 'use-package)
+(use-package s)
+(use-package noflet)
+(use-package dash :config (dash-enable-font-lock))
 (load (locate-user-emacs-file "defuns.el"))
 
-(when (window-system)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1))
-(unless (window-system)
-  (menu-bar-mode -1))
-
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
@@ -27,7 +23,7 @@
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq confirm-kill-emacs nil)
 (setq vc-follow-symlinks t)
-(setq load-prefer-newer t)
+(setq gc-cons-threshold 50000000)
 (setq byte-compile-warnings '(not obsolete))
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
@@ -35,6 +31,7 @@
 
 (transient-mark-mode t)
 (delete-selection-mode t)
+(setq echo-keystrokes 0.1)
 (setq require-final-newline t)
 (setq-default indent-tabs-mode nil)
 (setq standard-indent 2)
@@ -42,6 +39,8 @@
 (setq kill-do-not-save-duplicates t)
 (setq kill-whole-line t)
 (setq x-select-enable-clipboard t)
+(setq history-length 100)
+(setq history-delete-duplicates t)
 (put 'downcase-region 'disabled nil)
 (put 'capitalize-region 'disabled nil)
 (with-region-or-line comment-or-uncomment-region)
@@ -50,43 +49,23 @@
 (with-region-or-line kill-region)
 (with-region-or-line eval-region)
 
-(add-λ 'before-save-hook
-  (unless (eq major-mode 'markdown-mode)
-    (delete-trailing-whitespace)))
-(add-λ 'before-save-hook
-  (when (region-active-p) (deactivate-mark t)))
-(add-hook 'after-save-hook 'byte-compile-current-buffer)
-(add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
-(add-hook 'find-file-hook 'sm-try-smerge t)
-(setq next-error-recenter t)
-
-(setq echo-keystrokes 0.1)
-(setq completion-pcm-complete-word-inserts-delimiters t)
-(setq minibuffer-eldef-shorten-default t)
-(setq minibuffer-prompt-properties
-      '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
-(minibuffer-electric-default-mode t)
-(setq history-length 100)
-(setq history-delete-duplicates t)
-(add-λ 'minibuffer-setup-hook
-  (set (make-local-variable 'face-remapping-alist)
-       '((default :height 0.9))))
-
 (setq ns-use-native-fullscreen nil)
 (setq mac-function-modifier 'hyper)
 (setq browse-url-browser-function 'browse-url-default-macosx-browser)
 (setq ns-pop-up-frames nil)
 (setq ns-use-srgb-colorspace t)
 (setq delete-by-moving-to-trash t)
-(setq gc-cons-threshold 50000000)
-
 (setq mac-right-option-modifier 'none)
+
+(setq completion-pcm-complete-word-inserts-delimiters t)
+(setq minibuffer-eldef-shorten-default t)
+(setq minibuffer-prompt-properties
+      '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
+(minibuffer-electric-default-mode t)
+
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
 (setq pop-up-windows nil)
-(setq scroll-margin 24)
-(setq scroll-conservatively 10000)
-(setq scroll-preserve-screen-position t)
 (setq truncate-partial-width-windows 90)
 (setq display-buffer-fallback-action
       '((display-buffer--maybe-same-window
@@ -96,13 +75,29 @@
          display-buffer--maybe-pop-up-frame-or-window
          display-buffer-pop-up-frame)))
 
+(setq scroll-margin 24)
+(setq scroll-conservatively 10000)
+(setq scroll-preserve-screen-position t)
+
 (setq-default cursor-type 'bar)
 (setq blink-cursor-blinks 0)
 (setq-default indicate-empty-lines t)
 (setq-default show-trailing-whitespace t)
 (setq-default left-fringe-width 10)
 (setq-default right-fringe-width 1)
+
 (set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
+(add-λ 'minibuffer-setup-hook
+  (set (make-local-variable 'face-remapping-alist)
+       '((default :height 0.9))))
+
+(add-λ 'before-save-hook
+  (unless (eq major-mode 'markdown-mode)
+    (delete-trailing-whitespace))
+  (when (region-active-p)
+    (deactivate-mark t)))
+(add-hook 'after-save-hook 'byte-compile-current-buffer)
+(add-hook 'find-file-hook 'sm-try-smerge t)
 
 (define-prefix-command 'hemacs-map)
 (define-prefix-command 'hemacs-github-map)
