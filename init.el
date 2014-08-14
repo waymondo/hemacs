@@ -6,7 +6,7 @@
 (use-package dash :config (dash-enable-font-lock))
 
 (defvar indent-sensitive-modes '(coffee-mode slim-mode))
-(defvar indent-insensitive-modes '(prog-mode css-mode sgml-mode))
+(defvar progish-modes '(prog-mode css-mode sgml-mode))
 
 (load (locate-user-emacs-file "defuns.el"))
 
@@ -494,10 +494,9 @@
 
 (use-package highlight-symbol
   :init
-  (--each indent-insensitive-modes
-    (add-λ (intern (format "%s-hook" it))
-      (highlight-symbol-mode)
-      (highlight-symbol-nav-mode)))
+  (hook-modes progish-modes
+    (highlight-symbol-mode)
+    (highlight-symbol-nav-mode))
   :config (setq highlight-symbol-idle-delay 0))
 
 (use-package volatile-highlights
@@ -637,10 +636,9 @@
 
 (use-package smart-newline
   :init
-  (--each indent-insensitive-modes
-    (add-λ (intern (format "%s-hook" it))
-      (when (not (member major-mode indent-sensitive-modes))
-        (smart-newline-mode 1)))))
+  (hook-modes progish-modes
+    (when (not (member major-mode indent-sensitive-modes))
+      (smart-newline-mode 1))))
 
 (use-package powerline
   :init (powerline-default-theme)

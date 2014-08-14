@@ -15,6 +15,12 @@
   (declare (indent 1))
   `(add-hook ,hook (lambda () ,@body)))
 
+(defmacro hook-modes (modes &rest body)
+  (declare (indent 1))
+  `(--each ,modes
+     (add-λ (intern (format "%s-hook" it))
+       ,@body)))
+
 (defmacro with-region-or-line (func)
   `(defadvice ,func (before with-region-or-line activate compile)
      (interactive
