@@ -277,7 +277,7 @@
   (eval `(defadvice ,it (after indent-region activate compile)
            (and (not current-prefix-arg)
                 (not (member major-mode indent-sensitive-modes))
-                (or (-any? 'derived-mode-p indent-insensitive-modes))
+                (or (-any? 'derived-mode-p progish-modes))
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 

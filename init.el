@@ -13,7 +13,6 @@
 (when (window-system)
   (scroll-bar-mode -1)
   (tool-bar-mode -1))
-
 (unless (window-system)
   (menu-bar-mode -1))
 
@@ -98,12 +97,10 @@
 
 (setq-default cursor-type 'bar)
 (setq blink-cursor-blinks 0)
-(setq linum-format " %3s ")
 (setq-default indicate-empty-lines t)
 (setq-default show-trailing-whitespace t)
 (setq-default left-fringe-width 10)
 (setq-default right-fringe-width 1)
-;; https://github.com/Lokaltog/powerline-fonts
 (set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
 
 (define-prefix-command 'hemacs-map)
@@ -266,9 +263,6 @@
     (use-package dired-toggle
       :bind ("s-\\" . dired-toggle))))
 
-(use-package ignoramus
-  :init (ignoramus-setup))
-
 (use-package org
   :config
   (progn
@@ -415,8 +409,6 @@
     (bind-key "C-z C-k" 'magit-kill-file-on-line magit-mode-map)
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
     (setq magit-completing-read-function 'magit-ido-completing-read)
-    (setq magit-emacsclient-executable "/usr/local/Cellar/emacs/HEAD/bin/emacsclient")
-    (setq magit-git-executable "/usr/local/bin/git")
     (setq magit-log-auto-more t)
     (setq magit-set-upstream-on-push t)
     (setq magit-restore-window-configuration t)
@@ -568,12 +560,6 @@
     (bind-key* "C-." 'ort/capture-todo)
     (bind-key* "C-/" 'ort/goto-todos)))
 
-(use-package easy-kill
-  :init
-  (progn
-    (global-set-key [remap kill-ring-save] 'easy-kill)
-    (global-set-key [remap mark-sexp] 'easy-mark)))
-
 (use-package misc)
 
 (use-package ace-jump-buffer)
@@ -611,13 +597,10 @@
   :config
   (progn
     (setq company-tooltip-flip-when-above t)
-    (setq company-idle-delay 0.4)
-    (setq company-minimum-prefix-length 2)
-    (setq company-dabbrev-code-other-buffers 'code)
-    (setq company-require-match nil)
-    (setq company-auto-complete t)
     (setq company-show-numbers t)
     (setq company-tooltip-align-annotations t)
+    (setq company-dabbrev-ignore-case nil)
+    (setq company-require-match nil)
     (bind-key "C-n" 'company-select-next company-active-map)
     (bind-key "C-p" 'company-select-previous company-active-map)
     (use-package readline-complete
