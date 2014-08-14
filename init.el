@@ -7,6 +7,7 @@
 
 (defvar indent-sensitive-modes '(coffee-mode slim-mode))
 (defvar progish-modes '(prog-mode css-mode sgml-mode))
+(defvar lispy-modes '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
 
 (load (locate-user-emacs-file "defuns.el"))
 
@@ -222,12 +223,11 @@
                                              try-complete-file-name-partially
                                              try-complete-file-name
                                              try-expand-dabbrev-other-buffers))
-    (--each '(emacs-lisp-mode-hook ielm-mode-hook minibuffer-setup-hook)
-      (add-λ it
-        (set (make-local-variable 'hippie-expand-try-functions-list)
-             (append '(try-complete-lisp-symbol-partially
-                       try-complete-lisp-symbol)
-                     hippie-expand-try-functions-list))))))
+    (hook-modes lispy-modes
+      (set (make-local-variable 'hippie-expand-try-functions-list)
+           (append '(try-complete-lisp-symbol-partially
+                     try-complete-lisp-symbol)
+                   hippie-expand-try-functions-list)))))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
@@ -271,8 +271,13 @@
 
 (use-package eldoc
   :init
-  (--each '(emacs-lisp-mode-hook ielm-mode-hook)
-    (add-hook it 'turn-on-eldoc-mode)))
+  (hook-modes lispy-modes
+    (eldoc-mode)))
+
+(use-package elisp-slime-nav
+  :init
+  (hook-modes lispy-modes
+    (elisp-slime-nav-mode)))
 
 (use-package smex
   :bind ("s-P" . smex)
@@ -306,11 +311,6 @@
          ("C-z c <left>" . crab-prev-tab)
          ("C-z c <right>" . crab-next-tab))
   :idle (crab-server-start))
-
-(use-package elisp-slime-nav
-  :init
-  (--each '(emacs-lisp-mode-hook ielm-mode-hook minibuffer-setup-hook)
-    (add-hook it 'elisp-slime-nav-mode)))
 
 (use-package popwin
   :init (popwin-mode 1)
