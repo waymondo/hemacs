@@ -664,6 +664,8 @@
 (bind-key "<M-S-tab>" 'comint-next-matching-input-from-input comint-mode-map)
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input inf-ruby-mode-map)
 (bind-key "<M-S-tab>" 'comint-next-matching-input-from-input inf-ruby-mode-map)
+(bind-key "M-TAB" 'previous-history-element ido-completion-map)
+(bind-key "<M-S-tab>" 'next-history-element ido-completion-map)
 
 (load-theme 'hemacs :no-confirm)
 
