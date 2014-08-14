@@ -642,8 +642,8 @@
 (bind-key "s-," 'find-user-init-file-other-window)
 (bind-key "s-n" 'create-scratch-buffer)
 (bind-key "s-k" 'kill-whole-line)
-(bind-key "s-w" 'bury-buffer)
-(bind-key "s-W" 'kill-this-buffer)
+(bind-key "s-w" 'kill-this-buffer)
+(bind-key "s-W" 'bury-buffer)
 
 (bind-key "C-z C-k" 'delete-file-and-buffer)
 (bind-key "C-z C-r" 'rename-file-and-buffer)

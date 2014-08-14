@@ -350,13 +350,11 @@
 
 (defvar ace-jump-zapping nil)
 
-(defun ace-jump-zap-up-to-char-hook ()
+(add-λ 'ace-jump-mode-end-hook
   (unless (not ace-jump-zapping)
     (call-interactively 'delete-region)
     (deactivate-mark))
   (setq ace-jump-zapping nil))
-
-(add-hook 'ace-jump-mode-end-hook 'ace-jump-zap-up-to-char-hook)
 
 (defn ace-jump-zap-up-to-char
   (setq ace-jump-zapping t)
