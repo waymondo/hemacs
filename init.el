@@ -366,8 +366,8 @@
   (progn
     (setq coffee-args-repl '("-i" "--nodejs"))
     (add-to-list 'auto-mode-alist '("\\.coffee\\.*" . coffee-mode))
-    (bind-key "C-j" 'coffee-newline-and-indent coffee-mode-map)
-    (bind-key "M-r" 'coffee-compile-region coffee-mode-map)))
+    (bind-key "<C-return>" 'coffee-smarter-newline coffee-mode-map)
+    (bind-key "C-c C-c" 'coffee-compile-region coffee-mode-map)))
 
 (use-package ruby-mode
   :init

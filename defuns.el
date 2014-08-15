@@ -103,6 +103,11 @@
   (move-beginning-of-line nil)
   (smart-newline))
 
+(defn coffee-smarter-newline
+  (move-end-of-line nil)
+  (insert " ->")
+  (coffee-newline-and-indent))
+
 (defn move-line-up
   (transpose-lines 1)
   (forward-line -2)
