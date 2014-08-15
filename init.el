@@ -583,9 +583,9 @@
     (key-chord-define-global ";g" 'projectile-ag)
     (key-chord-define-global ";z" 'zap-up-to-char)
     (key-chord-define-global ":Z" 'ace-jump-zap-up-to-char)
-    (key-chord-define-global ";j" 'ace-jump-char-mode)
-    (key-chord-define-global ";k" 'ace-jump-word-mode)
-    (key-chord-define-global ";l" 'ace-jump-line-mode)
+    (key-chord-define-global "jj" 'ace-jump-char-mode)
+    (key-chord-define-global "jk" 'ace-jump-word-mode)
+    (key-chord-define-global "jl" 'ace-jump-line-mode)
     (setq key-chord-two-keys-delay 0.07)))
 
 (use-package company
