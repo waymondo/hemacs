@@ -18,8 +18,6 @@
 (setq initial-scratch-message nil)
 (setq inhibit-startup-echo-area-message "")
 (setq ring-bell-function 'ignore)
-(setq make-backup-files nil)
-(setq auto-save-default nil)
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq confirm-kill-emacs nil)
 (setq vc-follow-symlinks t)
@@ -98,6 +96,8 @@
     (deactivate-mark t)))
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-hook 'find-file-hook 'sm-try-smerge t)
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 (define-prefix-command 'hemacs-map)
 (define-prefix-command 'hemacs-github-map)
