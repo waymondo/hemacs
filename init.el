@@ -262,7 +262,10 @@
   :config
   (progn
     (setq org-support-shift-select t)
-    (setq org-completion-use-ido t)))
+    (setq org-completion-use-ido t)
+    (use-package org-repo-todo
+      :bind (("s-n" . ort/capture-todo)
+             ("s-`" . ort/goto-todos)))))
 
 (use-package eldoc
   :init
@@ -497,7 +500,7 @@
   :init (global-rainbow-delimiters-mode))
 
 (use-package god-mode
-  :bind ("s-`" . god-mode-all)
+  :bind ("<escape>" . god-local-mode)
   :config
   (progn
     (bind-key "i" 'kill-region-and-god-local-mode god-local-mode-map)
@@ -550,14 +553,6 @@
   :bind (("C-z TAB" . change-inner)
          ("C-z C-o" . change-outer)))
 
-(use-package org-repo-todo
-  :init
-  (progn
-    (bind-key* "C-." 'ort/capture-todo)
-    (bind-key* "C-/" 'ort/goto-todos)))
-
-(use-package misc)
-
 (use-package ace-jump-buffer)
 
 (use-package key-chord
@@ -578,14 +573,16 @@
     (key-chord-define-global ":S" 'ido-switch-buffer-other-window)
     (key-chord-define-global ";w" 'toggle-split-window)
     (key-chord-define-global ":W" 'delete-other-windows)
-    (key-chord-define-global ";f" 'projectile-find-file)
-    (key-chord-define-global ":F" 'projectile-find-file-other-window)
+    (key-chord-define-global ";f" 'ido-find-file)
+    (key-chord-define-global ":F" 'ido-find-file-other-window)
+    (key-chord-define-global ";t" 'projectile-find-file)
+    (key-chord-define-global ":T" 'projectile-find-file-other-window)
     (key-chord-define-global ";g" 'projectile-ag)
-    (key-chord-define-global ";z" 'zap-up-to-char)
-    (key-chord-define-global ":Z" 'ace-jump-zap-up-to-char)
+    (key-chord-define-global ":G" 'ag)
     (key-chord-define-global "jj" 'ace-jump-char-mode)
     (key-chord-define-global "jk" 'ace-jump-word-mode)
     (key-chord-define-global "jl" 'ace-jump-line-mode)
+    (key-chord-define-global "jz" 'ace-jump-zap-up-to-char)
     (setq key-chord-two-keys-delay 0.07)))
 
 (use-package company
@@ -597,8 +594,6 @@
     (setq company-tooltip-align-annotations t)
     (setq company-dabbrev-ignore-case nil)
     (setq company-require-match nil)
-    (bind-key "C-n" 'company-select-next company-active-map)
-    (bind-key "C-p" 'company-select-previous company-active-map)
     (use-package readline-complete
       :init (push 'company-readline company-backends)
       :config (add-λ 'rlc-no-readline-hook
