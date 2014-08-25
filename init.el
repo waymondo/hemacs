@@ -85,6 +85,7 @@
 (setq-default right-fringe-width 1)
 
 (set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
+(global-prettify-symbols-mode t)
 (add-λ 'minibuffer-setup-hook
   (set (make-local-variable 'face-remapping-alist)
        '((default :height 0.9))))
