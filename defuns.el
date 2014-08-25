@@ -260,12 +260,6 @@
     (noflet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
-(defadvice kill-line (before check-position activate compile)
-  (if (and (eolp) (not (bolp)))
-      (progn (forward-char 1)
-             (just-one-space 0)
-             (backward-char 1))))
-
 (defadvice eval-region (after maybe-deactivate-mark activate compile)
   (if (region-active-p) (deactivate-mark t)))
 

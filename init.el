@@ -477,6 +477,9 @@
 (use-package auto-dim-other-buffers
   :init (auto-dim-other-buffers-mode))
 
+(use-package hungry-delete
+  :init (global-hungry-delete-mode))
+
 (use-package highlight-symbol
   :init
   (hook-modes progish-modes
