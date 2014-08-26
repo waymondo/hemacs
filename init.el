@@ -273,6 +273,9 @@
       :bind (("s-n" . ort/capture-todo)
              ("s-`" . ort/goto-todos)))))
 
+(use-package find-func
+  :init (find-function-setup-keys))
+
 (use-package eldoc
   :init
   (hook-modes lispy-modes
