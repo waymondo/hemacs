@@ -103,6 +103,13 @@
   (move-beginning-of-line nil)
   (smart-newline))
 
+(defn ruby-smarter-newline
+  (move-end-of-line nil)
+  (smart-newline)
+  (insert "end")
+  (move-beginning-of-line nil)
+  (smart-newline))
+
 (defn coffee-smarter-newline
   (move-end-of-line nil)
   (insert " ->")
@@ -330,18 +337,9 @@
   (interactive "p")
   (increment-number-at-point (- arg)))
 
-(defun recompile-elc-on-save ()
-  (add-hook
-   'after-save-hook
-   (lambda ()
-     (when (string-prefix-p user-emacs-directory (file-truename buffer-file-name))
-       (emacs-lisp-byte-compile)))
-   nil
-   t))
-
 (defun beautify-css (beg end)
   (interactive "r")
-  (shell-command-on-region beg end "js-beautify --css -f - -s 2 --no-preserve-newlines" (current-buffer) 'replace))
+  (shell-command-on-region beg end "js-beautify --css -f - -s 2 -m 1" (current-buffer) 'replace))
 
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)

@@ -384,6 +384,7 @@
 (use-package ruby-mode
   :init
   (progn
+    (bind-key "<C-return>" 'ruby-smarter-newline ruby-mode-map)
     (use-package rspec-mode)
     (use-package ruby-end
       :config (setq ruby-end-insert-newline nil))
@@ -539,8 +540,7 @@
     (setq guide-key/guide-key-sequence
           '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
             "C-z" "C-z g" "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
-    (setq guide-key/popup-window-position 'bottom)
-    (setq guide-key/idle-delay 0.5)))
+    (setq guide-key/popup-window-position 'bottom)))
 
 (use-package undo-tree
   :init (global-undo-tree-mode)
