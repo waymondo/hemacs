@@ -155,7 +155,8 @@
   :config (setq imenu-auto-rescan t)
   :init
   (use-package imenu-anywhere
-    :bind ("s-r" . imenu-anywhere)))
+    :bind ("s-r" . imenu-anywhere)
+    :config (add-hook 'imenu-after-jump-hook #'pulse-line-hook-function)))
 
 (use-package savehist
   :init
@@ -174,9 +175,6 @@
 
 (use-package paren
   :init (show-paren-mode t))
-
-(use-package hl-line
-  :init (global-hl-line-mode t))
 
 (use-package elec-pair
   :init
@@ -201,6 +199,13 @@
     (bind-key* "<M-left>" 'subword-left)
     (bind-key* "<M-right>" 'subword-right)
     (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete)))
+
+(use-package pulse
+  :config
+  (progn
+    (setq pulse-command-advice-flag t)
+    (setq pulse-delay .01)
+    (add-hook 'next-error-hook #'pulse-line-hook-function)))
 
 (use-package hippie-exp
   :init

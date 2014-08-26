@@ -437,7 +437,8 @@
 
    `(custom-variable-tag ((t (:foreground ,base0D))))
    `(custom-group-tag ((t (:foreground ,base0D))))
-   `(custom-state ((t (:foreground ,base0B)))))
+   `(custom-state ((t (:foreground ,base0B))))
+   `(pulse-highlight-face ((t (:background ,(color-darken-name base0A 33))))))
 
   (custom-theme-set-variables
    'hemacs
