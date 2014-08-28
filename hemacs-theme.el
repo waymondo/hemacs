@@ -20,7 +20,6 @@
   (custom-theme-set-faces
    'hemacs
 
-   ;; Built-in stuff (Emacs 23)
    `(default ((t (:background ,base00 :foreground ,base05))))
    `(border ((t (:background ,base03))))
    `(border-glyph ((t (nil))))
@@ -32,18 +31,23 @@
    `(link-visited ((t (:foreground ,base0E))))
    `(minibuffer-prompt ((t (:foreground ,base0D))))
    `(region ((t (:background ,base02))))
-   `(vhl/default-face ((t (:background ,base02))))
+   `(vhl/default-face ((t (:background ,(color-lighten-name base01 2)))))
+   `(trailing-whitespace ((t (:background ,(color-lighten-name base01 2) :foreground ,base0A))))
    `(next-error ((t (:background ,base02))))
    `(secondary-selection ((t (:background ,base01))))
    `(header-line ((t (:foreground ,base0E :background nil))))
    `(auto-dim-other-buffers-face ((t (:background ,base01))))
+   `(linum ((t (:background ,base01 :foreground ,base03))))
+   `(fringe ((t (:background ,base01 :foreground ,base03))))
+   `(vertical-border ((t (:foreground ,base02))))
+   `(widget-button ((t (:underline t))))
+   `(widget-field ((t (:background ,base03 :box (:line-width 1 :color ,base06)))))
 
    `(ace-jump-face-foreground ((t (:foreground ,base08))))
    `(guide-key/highlight-command-face ((t (:foreground ,base0A))))
    `(guide-key/key-face ((t (:foreground ,base08))))
    `(guide-key/prefix-command-face ((t (:foreground ,base0C))))
 
-   ;; modeline
    `(mode-line ((t (:height 0.9 :background "black" :foreground ,base04 :box (:line-width 4 :color "black" :style nil)))))
    `(mode-line-inactive ((t (:height 0.9 :background ,(color-darken-name base00 4) :foreground ,base03 :box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)))))
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
@@ -61,7 +65,6 @@
    `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
    `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
 
-   ;; Font-lock stuff
    `(font-lock-builtin-face ((t (:foreground ,base0C))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,base02))))
    `(font-lock-comment-face ((t (:foreground ,base03))))
@@ -79,19 +82,13 @@
    `(font-lock-variable-name-face ((t (:foreground ,base0C))))
    `(font-lock-warning-face ((t (:foreground ,base08))))
 
-   ;; linum-mode
-   `(linum ((t (:background ,base01 :foreground ,base03))))
-   `(fringe ((t (:background ,base01 :foreground ,base03))))
-   `(vertical-border ((t (:foreground ,base02))))
-
-   ;; Search
    `(match ((t (:foreground ,base0D :background ,base01 :inverse-video t))))
    `(isearch ((t (:foreground ,base0A :background ,base01 :inverse-video t))))
    `(query-replace ((t (:foreground ,base0A :background ,base01 :inverse-video t))))
    `(isearch-lazy-highlight-face ((t (:foreground ,base0C :background ,base01 :inverse-video t))))
    `(isearch-fail ((t (:background ,base01 :inherit font-lock-warning-face :inverse-video t))))
+   `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
 
-   ;; Company
    `(company-tooltip ((t (:background ,(color-darken-name base01 10) :foreground ,base04))))
    `(company-tooltip-selection ((t (:background ,(color-darken-name base01 12) :foreground ,base06))))
    `(company-tooltip-common ((t (:inherit company-tooltip :foreground ,base04))))
@@ -103,43 +100,13 @@
    `(company-preview ((t (:background ,base00 :foreground ,base03))))
    `(company-preview-common ((t (:foreground ,base03))))
    `(company-preview-search ((t (:background ,base00))))
-
    `(popup-face ((t (:foreground ,base01 :background ,base05))))
    `(popup-menu-selection-face ((t (:foreground ,base07 :background ,base0D))))
    `(popup-isearch-match ((t (:foreground ,base0A :background nil))))
 
-   ;; Flymake
    `(flymake-warnline ((t (:underline ,base09 :background ,base01))))
    `(flymake-errline ((t (:underline ,base08 :background ,base01))))
 
-   ;; Clojure errors
-   `(clojure-test-failure-face ((t (:background nil :inherit flymake-warnline))))
-   `(clojure-test-error-face ((t (:background nil :inherit flymake-errline))))
-   `(clojure-test-success-face ((t (:background nil :foreground nil :underline ,base0B))))
-
-   ;; For Brian Carper's extended clojure syntax table
-   `(clojure-keyword ((t (:foreground ,base0A))))
-   `(clojure-parens ((t (:foreground ,base06))))
-   `(clojure-braces ((t (:foreground ,base0B))))
-   `(clojure-brackets ((t (:foreground ,base0A))))
-   `(clojure-double-quote ((t (:foreground ,base0C :background nil))))
-   `(clojure-special ((t (:foreground ,base0D))))
-   `(clojure-java-call ((t (:foreground ,base0E))))
-
-   ;; MMM-mode
-   `(mmm-code-submode-face ((t (:background ,base03))))
-   `(mmm-comment-submode-face ((t (:inherit font-lock-comment-face))))
-   `(mmm-output-submode-face ((t (:background ,base03))))
-
-   ;; org-mode
-   `(org-date ((t (:foreground ,base0E))))
-   `(org-done ((t (:foreground ,base0B))))
-   `(org-hide ((t (:foreground ,base01))))
-   `(org-link ((t (:foreground ,base0D))))
-   `(org-todo ((t (:foreground ,base08))))
-   `(org-checkbox ((t (:foreground ,base0E))))
-
-   ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,base0E))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,base0D))))
    `(rainbow-delimiters-depth-3-face ((t (:foreground ,base0C))))
@@ -150,14 +117,12 @@
    `(rainbow-delimiters-depth-8-face ((t (:foreground ,base03))))
    `(rainbow-delimiters-depth-9-face ((t (:foreground ,base05))))
 
-   ;; IDO
    `(ido-subdir ((t (:foreground ,base04))))
    `(ido-first-match ((t (:foreground ,base09 :weight bold))))
    `(ido-only-match ((t (:foreground ,base08 :weight bold))))
    `(ido-indicator ((t (:foreground ,base08 :background ,base01))))
    `(ido-virtual ((t (:foreground ,base04))))
 
-   `(trailing-whitespace ((t (:background ,(color-darken-name base00 2) :foreground ,base0A))))
    `(whitespace-empty ((t (:foreground ,base08 :background ,base0A))))
    `(whitespace-hspace ((t (:background ,base04 :foreground ,base04))))
    `(whitespace-indentation ((t (:background ,base0A :foreground ,base08))))
@@ -172,20 +137,29 @@
    `(git-gutter:added ((t (:foreground ,base03))))
    `(git-gutter:deleted ((t (:foreground ,base03))))
    `(git-gutter:modified ((t (:foreground ,base03))))
+   `(diff-hl-insert ((t (:foreground ,(color-darken-name base0B 10) :background ,base01))))
+   `(diff-hl-unknown ((t (:foreground ,(color-darken-name base0B 10) :background ,base01))))
+   `(diff-hl-delete ((t (:foreground ,(color-darken-name base08 10) :background ,base01))))
+   `(diff-hl-change ((t (:foreground ,(color-darken-name base0D 10) :background ,base01))))
+   `(diff-added ((t (:foreground ,base0B))))
+   `(diff-changed ((t (:foreground ,base0A))))
+   `(diff-removed ((t (:foreground ,base08))))
+   `(diff-header ((t (:background ,base01))))
+   `(diff-file-header ((t (:background ,base02))))
+   `(diff-hunk-header ((t (:background ,base01 :foreground ,base0E))))
+   `(ediff-even-diff-A ((t (:foreground nil :background nil :inverse-video t))))
+   `(ediff-even-diff-B ((t (:foreground nil :background nil :inverse-video t))))
+   `(ediff-odd-diff-A  ((t (:foreground ,base04 :background nil :inverse-video t))))
+   `(ediff-odd-diff-B  ((t (:foreground ,base04 :background nil :inverse-video t))))
 
    `(paren-face-match ((t (:foreground nil :background nil :inherit show-paren-match))))
    `(paren-face-mismatch ((t (:foreground nil :background nil :inherit show-paren-mismatch))))
    `(paren-face-no-match ((t (:foreground nil :background nil :inherit show-paren-mismatch))))
    `(paren-face ((t (:foreground ,base04 :background nil))))
-
    `(show-paren-match ((t (:background nil :foreground nil :underline t))))
    `(show-paren-mismatch ((t (:background ,base08 :foreground ,base01))))
    `(highlight-symbol-face ((t (:foreground nil :background nil :underline t))))
-
-   `(diff-hl-insert ((t (:foreground ,(color-darken-name base0B 10) :background ,base01))))
-   `(diff-hl-unknown ((t (:foreground ,(color-darken-name base0B 10) :background ,base01))))
-   `(diff-hl-delete ((t (:foreground ,(color-darken-name base08 10) :background ,base01))))
-   `(diff-hl-change ((t (:foreground ,(color-darken-name base0D 10) :background ,base01))))
+   `(eldoc-highlight-function-argument ((t (:foreground ,base0B :weight bold))))
 
    `(sh-heredoc ((t (:foreground nil :inherit font-lock-string-face :weight normal))))
    `(sh-quoted-exec ((t (:foreground nil :inherit font-lock-preprocessor-face))))
@@ -195,29 +169,11 @@
    `(slime-repl-result-face ((t (:foreground ,base0B))))
    `(slime-repl-output-face ((t (:foreground ,base0D :background ,base01))))
 
-   `(csv-separator-face ((t (:foreground ,base09))))
-
-   `(diff-added ((t (:foreground ,base0B))))
-   `(diff-changed ((t (:foreground ,base0A))))
-   `(diff-removed ((t (:foreground ,base08))))
-   `(diff-header ((t (:background ,base01))))
-   `(diff-file-header ((t (:background ,base02))))
-   `(diff-hunk-header ((t (:background ,base01 :foreground ,base0E))))
-
-   `(ediff-even-diff-A ((t (:foreground nil :background nil :inverse-video t))))
-   `(ediff-even-diff-B ((t (:foreground nil :background nil :inverse-video t))))
-   `(ediff-odd-diff-A  ((t (:foreground ,base04 :background nil :inverse-video t))))
-   `(ediff-odd-diff-B  ((t (:foreground ,base04 :background nil :inverse-video t))))
-
-   `(eldoc-highlight-function-argument ((t (:foreground ,base0B :weight bold))))
-
-   ;; undo-tree
    `(undo-tree-visualizer-default-face ((t (:foreground ,base06))))
    `(undo-tree-visualizer-current-face ((t (:foreground ,base0B :weight bold))))
    `(undo-tree-visualizer-active-branch-face ((t (:foreground ,base08))))
    `(undo-tree-visualizer-register-face ((t (:foreground ,base0A))))
 
-   ;; dired+
    `(diredp-compressed-file-suffix ((t (:foreground ,base0D))))
    `(diredp-dir-heading ((t (:foreground nil :background nil :inherit heading))))
    `(diredp-dir-priv ((t (:foreground ,base0C :background nil))))
@@ -238,7 +194,6 @@
    `(diredp-symlink ((t (:foreground ,base0E))))
    `(diredp-write-priv ((t (:foreground ,base0A :background nil))))
 
-   ;; Magit (a patch is pending in magit to make these standard upstream)
    `(magit-branch ((t (:foreground ,base0B))))
    `(magit-header ((t (:inherit nil :weight bold))))
    `(magit-item-highlight ((t (:inherit highlight :background nil))))
@@ -252,23 +207,21 @@
    `(magit-log-head-label-tags ((t (:foreground ,base0C :box nil :weight bold))))
    `(magit-section-title ((t (:inherit diff-hunk-header))))
 
-   `(link ((t (:foreground nil :underline t))))
-   `(widget-button ((t (:underline t))))
-   `(widget-field ((t (:background ,base03 :box (:line-width 1 :color ,base06)))))
-
-   ;; Compilation (most faces politely inherit from 'success, 'error, 'warning etc.)
+   `(success ((t (:foreground ,base0B))))
    `(compilation-info ((t (:foreground ,base0A))))
    `(compilation-column-number ((t (:foreground ,base0A))))
    `(compilation-line-number ((t (:foreground ,base0A))))
    `(compilation-message-face ((t (:foreground ,base0D))))
-   `(success ((t (:foreground ,base0B))))
 
-   `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
-
-   ;; mark-multiple
    `(mm/master-face ((t (:inherit region :foreground nil :background nil))))
    `(mm/mirror-face ((t (:inherit region :foreground nil :background nil))))
 
+   `(org-date ((t (:foreground ,base0E))))
+   `(org-done ((t (:foreground ,base0B))))
+   `(org-hide ((t (:foreground ,base01))))
+   `(org-link ((t (:foreground ,base0D))))
+   `(org-todo ((t (:foreground ,base08))))
+   `(org-checkbox ((t (:foreground ,base0E))))
    `(org-agenda-structure ((t (:foreground ,base0E))))
    `(org-agenda-date ((t (:foreground ,base0D :underline nil))))
    `(org-agenda-done ((t (:foreground ,base0B))))
@@ -299,15 +252,12 @@
    `(markdown-url-face ((t (:inherit link))))
    `(markdown-link-face ((t (:foreground ,base0D :underline t))))
 
-   ;; js2-mode
    `(js2-warning-face ((t (:underline ,base09))))
    `(js2-error-face ((t (:foreground nil :underline ,base08))))
    `(js2-external-variable-face ((t (:foreground ,base0E))))
    `(js2-function-param-face ((t (:foreground ,base0D))))
    `(js2-instance-member-face ((t (:foreground ,base0D))))
    `(js2-private-function-call-face ((t (:foreground ,base08))))
-
-   ;; js3-mode
    `(js3-warning-face ((t (:underline ,base09))))
    `(js3-error-face ((t (:foreground nil :underline ,base08))))
    `(js3-external-variable-face ((t (:foreground ,base0E))))
@@ -320,7 +270,6 @@
    `(js3-instance-member-face ((t (:foreground ,base0D))))
    `(js3-private-function-call-face ((t (:foreground ,base08))))
 
-   ;; nxml
    `(nxml-name-face ((t (:foreground unspecified :inherit font-lock-constant-face))))
    `(nxml-attribute-local-name-face ((t (:foreground unspecified :inherit font-lock-variable-name-face))))
    `(nxml-ref-face ((t (:foreground unspecified :inherit font-lock-preprocessor-face))))
@@ -328,7 +277,6 @@
    `(nxml-delimited-data-face ((t (:foreground unspecified :inherit font-lock-string-face))))
    `(rng-error-face ((t (:underline ,base08))))
 
-   ;; RHTML
    `(erb-delim-face ((t (:background ,base01))))
    `(erb-exec-face ((t (:background ,base01 :weight bold))))
    `(erb-exec-delim-face ((t (:background ,base01))))
@@ -337,107 +285,6 @@
    `(erb-comment-face ((t (:background ,base01 :weight bold :slant italic))))
    `(erb-comment-delim-face ((t (:background ,base01))))
 
-   ;; Message-mode
-   `(message-header-other ((t (:foreground nil :background nil :weight normal))))
-   `(message-header-subject ((t (:inherit message-header-other :weight bold :foreground ,base0A))))
-   `(message-header-to ((t (:inherit message-header-other :weight bold :foreground ,base09))))
-   `(message-header-cc ((t (:inherit message-header-to :foreground nil))))
-   `(message-header-name ((t (:foreground ,base0D :background nil))))
-   `(message-header-newsgroups ((t (:foreground ,base0C :background nil :slant normal))))
-   `(message-separator ((t (:foreground ,base0E))))
-
-   ;; Jabber
-   `(jabber-chat-prompt-local ((t (:foreground ,base0A))))
-   `(jabber-chat-prompt-foreign ((t (:foreground ,base09))))
-   `(jabber-chat-prompt-system ((t (:foreground ,base0A :weight bold))))
-   `(jabber-chat-text-local ((t (:foreground ,base0A))))
-   `(jabber-chat-text-foreign ((t (:foreground ,base09))))
-   `(jabber-chat-text-error ((t (:foreground ,base08))))
-   `(jabber-roster-user-online ((t (:foreground ,base0B))))
-   `(jabber-roster-user-xa ((t :foreground ,base04)))
-   `(jabber-roster-user-dnd ((t :foreground ,base0A)))
-   `(jabber-roster-user-away ((t (:foreground ,base09))))
-   `(jabber-roster-user-chatty ((t (:foreground ,base0E))))
-   `(jabber-roster-user-error ((t (:foreground ,base08))))
-   `(jabber-roster-user-offline ((t (:foreground ,base04))))
-   `(jabber-rare-time-face ((t (:foreground ,base04))))
-   `(jabber-activity-face ((t (:foreground ,base0E))))
-   `(jabber-activity-personal-face ((t (:foreground ,base0C))))
-
-   ;; Gnus
-   `(gnus-cite-1 ((t (:inherit outline-1 :foreground nil))))
-   `(gnus-cite-2 ((t (:inherit outline-2 :foreground nil))))
-   `(gnus-cite-3 ((t (:inherit outline-3 :foreground nil))))
-   `(gnus-cite-4 ((t (:inherit outline-4 :foreground nil))))
-   `(gnus-cite-5 ((t (:inherit outline-5 :foreground nil))))
-   `(gnus-cite-6 ((t (:inherit outline-6 :foreground nil))))
-   `(gnus-cite-7 ((t (:inherit outline-7 :foreground nil))))
-   `(gnus-cite-8 ((t (:inherit outline-8 :foreground nil))))
-   ;; there are several more -cite- faces...
-   `(gnus-header-content ((t (:inherit message-header-other))))
-   `(gnus-header-subject ((t (:inherit message-header-subject))))
-   `(gnus-header-from ((t (:inherit message-header-other-face :weight bold :foreground ,base09))))
-   `(gnus-header-name ((t (:inherit message-header-name))))
-   `(gnus-button ((t (:inherit link :foreground nil))))
-   `(gnus-signature ((t (:inherit font-lock-comment-face))))
-
-   `(gnus-summary-normal-unread ((t (:foreground ,base0D :weight normal))))
-   `(gnus-summary-normal-read ((t (:foreground ,base06 :weight normal))))
-   `(gnus-summary-normal-ancient ((t (:foreground ,base0C :weight normal))))
-   `(gnus-summary-normal-ticked ((t (:foreground ,base09 :weight normal))))
-   `(gnus-summary-low-unread ((t (:foreground ,base04 :weight normal))))
-   `(gnus-summary-low-read ((t (:foreground ,base04 :weight normal))))
-   `(gnus-summary-low-ancient ((t (:foreground ,base04 :weight normal))))
-   `(gnus-summary-high-unread ((t (:foreground ,base0A :weight normal))))
-   `(gnus-summary-high-read ((t (:foreground ,base0B :weight normal))))
-   `(gnus-summary-high-ancient ((t (:foreground ,base0B :weight normal))))
-   `(gnus-summary-high-ticked ((t (:foreground ,base09 :weight normal))))
-   `(gnus-summary-cancelled ((t (:foreground ,base08 :background nil :weight normal))))
-
-   `(gnus-group-mail-low ((t (:foreground ,base04))))
-   `(gnus-group-mail-low-empty ((t (:foreground ,base04))))
-   `(gnus-group-mail-1 ((t (:foreground nil :weight normal :inherit outline-1))))
-   `(gnus-group-mail-2 ((t (:foreground nil :weight normal :inherit outline-2))))
-   `(gnus-group-mail-3 ((t (:foreground nil :weight normal :inherit outline-3))))
-   `(gnus-group-mail-4 ((t (:foreground nil :weight normal :inherit outline-4))))
-   `(gnus-group-mail-5 ((t (:foreground nil :weight normal :inherit outline-5))))
-   `(gnus-group-mail-6 ((t (:foreground nil :weight normal :inherit outline-6))))
-   `(gnus-group-mail-1-empty ((t (:inherit gnus-group-mail-1 :foreground ,base04))))
-   `(gnus-group-mail-2-empty ((t (:inherit gnus-group-mail-2 :foreground ,base04))))
-   `(gnus-group-mail-3-empty ((t (:inherit gnus-group-mail-3 :foreground ,base04))))
-   `(gnus-group-mail-4-empty ((t (:inherit gnus-group-mail-4 :foreground ,base04))))
-   `(gnus-group-mail-5-empty ((t (:inherit gnus-group-mail-5 :foreground ,base04))))
-   `(gnus-group-mail-6-empty ((t (:inherit gnus-group-mail-6 :foreground ,base04))))
-   `(gnus-group-news-1 ((t (:foreground nil :weight normal :inherit outline-5))))
-   `(gnus-group-news-2 ((t (:foreground nil :weight normal :inherit outline-6))))
-   `(gnus-group-news-3 ((t (:foreground nil :weight normal :inherit outline-7))))
-   `(gnus-group-news-4 ((t (:foreground nil :weight normal :inherit outline-8))))
-   `(gnus-group-news-5 ((t (:foreground nil :weight normal :inherit outline-1))))
-   `(gnus-group-news-6 ((t (:foreground nil :weight normal :inherit outline-2))))
-   `(gnus-group-news-1-empty ((t (:inherit gnus-group-news-1 :foreground ,base04))))
-   `(gnus-group-news-2-empty ((t (:inherit gnus-group-news-2 :foreground ,base04))))
-   `(gnus-group-news-3-empty ((t (:inherit gnus-group-news-3 :foreground ,base04))))
-   `(gnus-group-news-4-empty ((t (:inherit gnus-group-news-4 :foreground ,base04))))
-   `(gnus-group-news-5-empty ((t (:inherit gnus-group-news-5 :foreground ,base04))))
-   `(gnus-group-news-6-empty ((t (:inherit gnus-group-news-6 :foreground ,base04))))
-
-   `(erc-direct-msg-face ((t (:foreground ,base09))))
-   `(erc-error-face ((t (:foreground ,base08))))
-   `(erc-header-face ((t (:foreground ,base06 :background ,base04))))
-   `(erc-input-face ((t (:foreground ,base0B))))
-   `(erc-keyword-face ((t (:foreground ,base0A))))
-   `(erc-current-nick-face ((t (:foreground ,base0B))))
-   `(erc-my-nick-face ((t (:foreground ,base0B))))
-   `(erc-nick-default-face ((t (:weight normal :foreground ,base0E))))
-   `(erc-nick-msg-face ((t (:weight normal :foreground ,base0A))))
-   `(erc-notice-face ((t (:foreground ,base04))))
-   `(erc-pal-face ((t (:foreground ,base09))))
-   `(erc-prompt-face ((t (:foreground ,base0D))))
-   `(erc-timestamp-face ((t (:foreground ,base0C))))
-
-   `(custom-variable-tag ((t (:foreground ,base0D))))
-   `(custom-group-tag ((t (:foreground ,base0D))))
-   `(custom-state ((t (:foreground ,base0B))))
    `(pulse-highlight-face ((t (:background ,(color-darken-name base0A 33))))))
 
   (custom-theme-set-variables
