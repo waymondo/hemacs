@@ -548,6 +548,7 @@
          ("s-Z" . undo-tree-redo)))
 
 (use-package anzu
+  :bind ("s-q" . anzu-query-replace)
   :init (global-anzu-mode 1))
 
 (use-package ace-jump-mode
@@ -638,7 +639,6 @@
 
 (bind-key "s-:" 'pad-colon)
 (bind-key "s-u" 'duplicate-dwim)
-(bind-key "s-q" 'query-replace)
 (bind-key "s-s" 'save-buffer)
 (bind-key "s-/" 'comment-or-uncomment-region)
 (bind-key "<s-return>" 'eol-then-newline)
