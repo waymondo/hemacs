@@ -194,8 +194,6 @@
   :init
   (progn
     (global-subword-mode 1)
-    (setq subword-forward-regexp "\\W*\\(\\([_[:upper:]]*\\(\\W\\)?\\)[[:lower:][:digit:]]*\\)")
-    (setq subword-backward-regexp "\\(\\(\\W\\|[[:lower:][:digit:]]\\)\\([[:upper:]]+\\W*\\)\\|\\W\\w+\\|_\\w+\\)")
     (bind-key* "<M-left>" 'subword-left)
     (bind-key* "<M-right>" 'subword-right)
     (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete)))
