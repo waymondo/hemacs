@@ -171,6 +171,7 @@
   (progn
     (recentf-mode t)
     (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG"))
+    (setq initial-buffer-choice (car recentf-list))
     (setq recentf-max-saved-items 500)))
 
 (use-package paren
@@ -330,11 +331,11 @@
         ("s-b" . projectile-switch-to-buffer)
         ("s-o" . projectile-switch-project-vc)
         ("s-p" . projectile-commander))
+ :idle (projectile-global-mode)
+ :config (setq projectile-enable-caching t)
  :init
- (progn
-   (use-package projectile-rails
-     :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
-   (projectile-global-mode)))
+ (use-package projectile-rails
+   :init (add-hook 'projectile-mode-hook 'projectile-rails-on)))
 
 (use-package page-break-lines
   :init (global-page-break-lines-mode))
@@ -372,10 +373,11 @@
   :config (setq-default js-indent-level 2))
 
 (use-package coffee-mode
+  :mode ("\\.coffee\\.*" . coffee-mode)
+  :ensure coffee-mode
   :config
   (progn
     (setq coffee-args-repl '("-i" "--nodejs"))
-    (add-to-list 'auto-mode-alist '("\\.coffee\\.*" . coffee-mode))
     (bind-key "<C-return>" 'coffee-smarter-newline coffee-mode-map)
     (bind-key "C-c C-c" 'coffee-compile-region coffee-mode-map)))
 
