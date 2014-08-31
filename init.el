@@ -436,6 +436,9 @@
   :bind (("C-z g o" . github-browse-file)
          ("C-z g b" . github-browse-file-blame)))
 
+(use-package github-clone
+  :bind ("C-z g c" . github-clone))
+
 (use-package git-timemachine
   :bind ("C-z g t" . git-timemachine))
 
