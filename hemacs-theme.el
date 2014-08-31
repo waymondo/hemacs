@@ -48,8 +48,10 @@
    `(guide-key/key-face ((t (:foreground ,base08))))
    `(guide-key/prefix-command-face ((t (:foreground ,base0C))))
 
-   `(mode-line ((t (:height 0.9 :background "black" :foreground ,base04 :box (:line-width 4 :color "black" :style nil)))))
-   `(mode-line-inactive ((t (:height 0.9 :background ,(color-darken-name base00 4) :foreground ,base03 :box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)))))
+   `(mode-line ((t (:box (:line-width 4 :color "black" :style nil)
+                         :height 0.9 :background "black" :foreground ,base04))))
+   `(mode-line-inactive ((t (:box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)
+                                  :height 0.9 :background ,(color-darken-name base00 4) :foreground ,base03))))
    `(mode-line-buffer-id ((t (:foreground ,base0E :background nil))))
    `(mode-line-emphasis ((t (:foreground ,base06 :slant italic))))
    `(mode-line-highlight ((t (:foreground ,base0E :box nil :weight bold))))
@@ -64,6 +66,13 @@
    `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
    `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
    `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
+
+   `(tabbar-default ((t (:inherit default :box (:line-width 4 :color ,base00 :style nil)
+                                  :foreground ,base03 :background ,(color-darken-name base00 4)))))
+   `(tabbar-button ((t (:height 0.8 :box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)))))
+   `(tabbar-unselected ((t (:inherit tabbar-button :background ,(color-darken-name base00 4)))))
+   `(tabbar-modified ((t (:inherit tabbar-unselected))))
+   `(tabbar-selected ((t (:inherit tabbar-button :box (:line-width 4 :color ,base00 :style nil)))))
 
    `(font-lock-builtin-face ((t (:foreground ,base0C))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,base02))))
@@ -295,6 +304,8 @@
                              (,base02 . 20)
                              (,base01 . 45)
                              (,base00 . 70)))
+
+   `(tabbar-background-color ,(color-darken-name base00 4))
 
    `(ansi-color-names-vector
      ;; black, base08, base0B, base0A, base0D, magenta, cyan, white

@@ -572,6 +572,23 @@
   :bind (("C-z TAB" . change-inner)
          ("C-z C-o" . change-outer)))
 
+(use-package tabbar
+  :bind (("s-{" . tabbar-backward)
+         ("s-}" . tabbar-forward))
+  :init (tabbar-mode)
+  :config
+  (progn
+    (setq tabbar-inhibit-functions
+          (list (λ (or (window-dedicated-p (selected-window))
+                       (member (buffer-name) '("*buffer-selection*" "*zone*"))))))
+    (setq tabbar-buffer-groups-function
+          (λ (list (if (projectile-project-p) (projectile-project-name) "Emacs"))))
+    (defadvice tabbar-line-format (around no-tabbar-buttons activate compile)
+      (noflet ((tabbar-line-buttons (tabset) (list tabbar-separator-value)))
+        ad-do-it))
+    (defadvice tabbar-buffer-tab-label (after buffer-tab-padding activate compile)
+      (setq ad-return-value (concat " " (concat ad-return-value " "))))))
+
 (use-package ace-jump-buffer)
 
 (use-package key-chord

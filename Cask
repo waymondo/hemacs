@@ -68,6 +68,7 @@
 (depends-on "smart-newline")
 (depends-on "smex")
 (depends-on "stylus-mode")
+(depends-on "tabbar")
 (depends-on "undo-tree")
 (depends-on "use-package")
 (depends-on "volatile-highlights")
