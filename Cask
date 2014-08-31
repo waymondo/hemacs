@@ -16,7 +16,7 @@
 (depends-on "dash")
 (depends-on "dash-at-point")
 (depends-on "diff-hl")
-(depends-on "dired-toggle")
+(depends-on "direx")
 (depends-on "discover-my-major")
 (depends-on "edit-server")
 (depends-on "elisp-slime-nav")

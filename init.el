@@ -259,9 +259,7 @@
     (setq dired-recursive-copies 'always)
     (setq dired-auto-revert-buffer t)
     (when (and (memq window-system '(mac ns)) (executable-find "gls"))
-      (setq insert-directory-program "gls" dired-use-ls-dired t))
-    (use-package dired-toggle
-      :bind ("s-\\" . dired-toggle))))
+      (setq insert-directory-program "gls" dired-use-ls-dired t))))
 
 (use-package org
   :config
@@ -325,6 +323,11 @@
   (progn
     (setq popwin:popup-window-height 0.3)
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
+
+(use-package direx
+  :bind ("s-\\" . direx:jump-to-directory-other-window)
+  :config (push '(direx:direx-mode :position left :width 25 :dedicated t)
+                popwin:special-display-config))
 
 (use-package projectile
  :bind (("s-t" . projectile-find-file)
