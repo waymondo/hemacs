@@ -679,7 +679,7 @@
 (bind-key "C-z C-l" 'log-statement)
 (bind-key "C-z C-g" 'google-dwim)
 (bind-key "C-z C-f" 'ffap)
-(bind-key "C-z C-" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
+(bind-key "C-z C--" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
 (bind-key "C-z C-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
 (bind-key "C-z C-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
 (bind-key "C-z C-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
