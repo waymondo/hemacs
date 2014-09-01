@@ -57,8 +57,6 @@
 
 (setq completion-pcm-complete-word-inserts-delimiters t)
 (setq minibuffer-eldef-shorten-default t)
-(setq minibuffer-prompt-properties
-      '(read-only t point-entered minibuffer-avoid-prompt face minibuffer-prompt))
 (minibuffer-electric-default-mode t)
 
 (setq split-height-threshold nil)
@@ -580,7 +578,7 @@
   (progn
     (setq tabbar-inhibit-functions
           (list (λ (or (window-dedicated-p (selected-window))
-                       (member (buffer-name) '("*buffer-selection*" "*zone*"))))))
+                       (member (buffer-name) '("*zone*"))))))
     (setq tabbar-buffer-groups-function
           (λ (list (if (projectile-project-p) (projectile-project-name) "Emacs"))))
     (defadvice tabbar-line-format (around no-tabbar-buttons activate compile)

@@ -19,6 +19,7 @@
         electric-pair-backward-delete-char-untabify
         eol-then-newline
         highlight-symbol-next
+        hungry-delete-backward
         indent-for-tab-command
         insert-arrow
         jump-char-forward

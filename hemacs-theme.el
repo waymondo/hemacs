@@ -73,6 +73,7 @@
    `(tabbar-unselected ((t (:inherit tabbar-button :background ,(color-darken-name base00 4)))))
    `(tabbar-modified ((t (:inherit tabbar-unselected))))
    `(tabbar-selected ((t (:inherit tabbar-button :box (:line-width 4 :color ,base00 :style nil)))))
+   `(tabbar-separator ((t (:inherit tabbar-selected))))
 
    `(font-lock-builtin-face ((t (:foreground ,base0C))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,base02))))
