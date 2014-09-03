@@ -1,6 +1,9 @@
 (defvar indent-sensitive-modes '(coffee-mode slim-mode))
 (defvar progish-modes '(prog-mode css-mode sgml-mode))
 (defvar lispy-modes '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
+(defvar unmemorable-buffer-names '(".ido.last" "*zone*" "*magit-process*" "*Life*"
+                                   "*vc*" "*Help*" "*buffer-selection*"
+                                   "COMMIT_EDITMSG"))
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
@@ -168,7 +171,7 @@
   :init
   (progn
     (recentf-mode t)
-    (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG"))
+    (setq recentf-exclude unmemorable-buffer-names)
     (setq initial-buffer-choice (car recentf-list))
     (setq recentf-max-saved-items 500)))
 
@@ -578,12 +581,11 @@
   (progn
     (setq tabbar-inhibit-functions
           (list (λ (or (window-dedicated-p (selected-window))
-                       (member (buffer-name) '("*zone*"))))))
-    (setq tabbar-buffer-groups-function
+                       (member (buffer-name) unmemorable-buffer-names))))
+          tabbar-buffer-groups-function
           (λ (list (if (projectile-project-p) (projectile-project-name) "Emacs"))))
     (defadvice tabbar-line-format (around no-tabbar-buttons activate compile)
-      (noflet ((tabbar-line-buttons (tabset) (list tabbar-separator-value)))
-        ad-do-it))
+      (noflet ((tabbar-line-buttons (tabset) (list tabbar-separator-value))) ad-do-it))
     (defadvice tabbar-buffer-tab-label (after buffer-tab-padding activate compile)
       (setq ad-return-value (concat " " (concat ad-return-value " "))))))
 
