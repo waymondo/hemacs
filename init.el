@@ -96,6 +96,7 @@
     (deactivate-mark t)))
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-hook 'find-file-hook 'sm-try-smerge t)
+(add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line)
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 

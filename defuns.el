@@ -345,6 +345,13 @@
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))
 
+(defun show-image-dimensions-in-mode-line ()
+  (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
+         (width (car image-dimensions))
+         (height (cdr image-dimensions)))
+    (setq mode-line-buffer-identification
+          (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
+
 (defvar ace-jump-zapping nil)
 
 (add-λ 'ace-jump-mode-end-hook
