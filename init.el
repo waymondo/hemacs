@@ -1,9 +1,9 @@
-(defvar indent-sensitive-modes '(coffee-mode slim-mode))
-(defvar progish-modes '(prog-mode css-mode sgml-mode))
-(defvar lispy-modes '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
-(defvar unmemorable-buffer-names '(".ido.last" "*zone*" "*magit-process*" "*Life*"
-                                   "*vc*" "*Help*" "*buffer-selection*"
-                                   "COMMIT_EDITMSG"))
+(defvar indent-sensitive-modes
+  '(coffee-mode slim-mode))
+(defvar progish-modes
+  '(prog-mode css-mode sgml-mode))
+(defvar lispy-modes
+  '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
@@ -170,7 +170,7 @@
   :init
   (progn
     (recentf-mode t)
-    (setq recentf-exclude unmemorable-buffer-names)
+    (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG"))
     (setq initial-buffer-choice (car recentf-list))
     (setq recentf-max-saved-items 500)))
 
@@ -185,8 +185,7 @@
           ((?\( . ?\))
            (?\" . ?\")
            (?\{ . ?\})
-           (?\[ . ?\])
-           (?\` . ?\`)))
+           (?\[ . ?\])))
     (setq electric-pair-text-pairs '
           ((?\" . ?\")
            (?\` . ?\`)))))
@@ -503,10 +502,6 @@
 (use-package volatile-highlights
   :init (volatile-highlights-mode t))
 
-(use-package highlight-tail
-  ;; :idle (highlight-tail-mode)
-  :config (setq highlight-tail-timer 0.02))
-
 (use-package rainbow-mode
   :init
   (--each '(css-mode-hook emacs-lisp-mode-hook)
@@ -569,10 +564,14 @@
   :bind (("C-z TAB" . change-inner)
          ("C-z C-o" . change-outer)))
 
+(use-package highlight-tail
+  ;; :idle (highlight-tail-mode)
+  :config (setq highlight-tail-timer 0.02))
+
 (use-package tabbar
   :bind (("s-{" . tabbar-backward)
          ("s-}" . tabbar-forward))
-  :init (tabbar-mode)
+  ;; :init (tabbar-mode)
   :config
   (progn
     (setq tabbar-inhibit-functions
@@ -585,12 +584,28 @@
     (defadvice tabbar-buffer-tab-label (after buffer-tab-padding activate compile)
       (setq ad-return-value (concat " " (concat ad-return-value " "))))))
 
-(use-package ace-jump-buffer)
+(use-package golden-ratio
+  ;; :init (golden-ratio-mode)
+  :config
+  (progn
+    (setq golden-ratio-extra-commands
+          (append golden-ratio-extra-commands
+                  '(next-multiframe-window)))
+    (setq golden-ratio-exclude-modes
+          '("magit-key-mode"))
+    (setq golden-ratio-inhibit-functions
+          '(golden-ratio-inhibit-popwin-config))
+    (setq golden-ratio-recenter t)
+    (setq golden-ratio-exclude-buffer-names
+          '("*buffer-selection*"
+            " *guide-key*"
+            "CAPTURE-TODO.org"))))
 
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
   (progn
+    (use-package ace-jump-buffer)
     (key-chord-define-global ",." "<>\C-b")
     (key-chord-define-global "}|" "||\C-b")
     (key-chord-define-global "<>" 'sgml-close-tag)

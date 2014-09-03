@@ -20,6 +20,7 @@
         eol-then-newline
         highlight-symbol-next
         hungry-delete-backward
+        hungry-delete-forward
         indent-for-tab-command
         insert-arrow
         jump-char-forward

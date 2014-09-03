@@ -29,6 +29,7 @@
 (depends-on "git-timemachine")
 (depends-on "github-browse-file")
 (depends-on "github-clone")
+(depends-on "golden-ratio")
 (depends-on "god-mode")
 (depends-on "guide-key")
 (depends-on "handlebars-mode")

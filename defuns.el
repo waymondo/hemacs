@@ -345,6 +345,10 @@
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))
 
+(defun golden-ratio-inhibit-popwin-config ()
+  (let ((buffer (current-buffer)))
+    (if (popwin:match-config buffer) t)))
+
 (defun show-image-dimensions-in-mode-line ()
   (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
          (width (car image-dimensions))
