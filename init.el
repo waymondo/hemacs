@@ -78,13 +78,11 @@
 (setq scroll-conservatively 10000)
 (setq scroll-preserve-screen-position t)
 
-(setq-default cursor-type 'bar)
 (setq blink-cursor-blinks 0)
+(setq-default cursor-type 'bar)
 (setq-default indicate-empty-lines t)
-(setq-default show-trailing-whitespace t)
 (setq-default left-fringe-width 10)
-(setq-default right-fringe-width 1)
-
+(setq-default right-fringe-width 5)
 (set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
 (global-prettify-symbols-mode t)
 (add-λ 'minibuffer-setup-hook
@@ -508,7 +506,7 @@
   :init (volatile-highlights-mode t))
 
 (use-package highlight-tail
-  :idle (highlight-tail-mode)
+  ;; :idle (highlight-tail-mode)
   :config (setq highlight-tail-timer 0.02))
 
 (use-package rainbow-mode

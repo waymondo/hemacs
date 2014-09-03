@@ -67,10 +67,9 @@
    `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
    `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
 
-   `(tabbar-default ((t (:inherit default :box (:line-width 4 :color ,base00 :style nil)
-                                  :foreground ,base03 :background ,(color-darken-name base00 4)))))
-   `(tabbar-button ((t (:height 0.8 :box (:line-width 4 :color ,(color-darken-name base00 4) :style nil)))))
-   `(tabbar-unselected ((t (:inherit tabbar-button :background ,(color-darken-name base00 4)))))
+   `(tabbar-default ((t (:inherit default :box (:line-width 4 :color ,base00 :style nil) :foreground ,base03 :background "black"))))
+   `(tabbar-button ((t (:height 0.8 :box (:line-width 4 :color "black" :style nil)))))
+   `(tabbar-unselected ((t (:inherit tabbar-button :background "black"))))
    `(tabbar-modified ((t (:inherit tabbar-unselected))))
    `(tabbar-selected ((t (:inherit tabbar-button :box (:line-width 4 :color ,base00 :style nil)))))
    `(tabbar-separator ((t (:inherit tabbar-selected))))
@@ -306,7 +305,7 @@
                              (,base01 . 45)
                              (,base00 . 70)))
 
-   `(tabbar-background-color ,(color-darken-name base00 4))
+   `(tabbar-background-color "black")
 
    `(ansi-color-names-vector
      ;; black, base08, base0B, base0A, base0D, magenta, cyan, white
