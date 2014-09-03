@@ -251,6 +251,7 @@
 (use-package dired-x
   :init
   (progn
+    (bind-key "s-\\" 'dired-jump-other-window)
     (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
     (put 'dired-find-alternate-file 'disabled nil)
@@ -321,12 +322,8 @@
   :config
   (progn
     (setq popwin:popup-window-height 0.3)
+    (push '(dired-mode :position left) popwin:special-display-config)
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
-
-(use-package direx
-  :bind ("s-\\" . direx:jump-to-directory-other-window)
-  :config (push '(direx:direx-mode :position left :width 25 :dedicated t)
-                popwin:special-display-config))
 
 (use-package projectile
  :bind (("s-t" . projectile-find-file)
