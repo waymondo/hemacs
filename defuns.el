@@ -181,6 +181,10 @@
   (let ((projectile-switch-project-action 'projectile-vc))
     (call-interactively 'projectile-switch-project)))
 
+(defn projectile-switch-project-run-command-project-root
+  (let ((projectile-switch-project-action 'projector-run-shell-command-project-root))
+    (call-interactively 'projectile-switch-project)))
+
 (defn clear-shell
   (let ((old-max comint-buffer-maximum-size))
     (setq comint-buffer-maximum-size 0)

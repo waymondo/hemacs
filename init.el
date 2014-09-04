@@ -329,6 +329,7 @@
  :bind (("s-t" . projectile-find-file)
         ("s-b" . projectile-switch-to-buffer)
         ("s-o" . projectile-switch-project-vc)
+        ("s-O" . projectile-switch-project-run-command-project-root)
         ("s-p" . projectile-commander))
  :idle (projectile-global-mode)
  :config (setq projectile-enable-caching t)
