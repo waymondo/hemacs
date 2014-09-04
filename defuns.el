@@ -27,6 +27,15 @@
       (if mark-active (list (region-beginning) (region-end))
         (list (line-beginning-position) (line-beginning-position 2))))))
 
+(defmacro make-beautify-defun (type)
+  (let ((defun-name (intern (format "beautify-%s" type))))
+    `(progn
+       (defun ,defun-name (beg end)
+         (interactive "r")
+         (shell-command-on-region beg end ,(format "js-beautify --%s -f - -s 2 -m 1" type)
+                                  (current-buffer) 'replace))
+       (bind-key "C-z C-b" ',defun-name ,(intern (format "%s-mode-map" type))))))
+
 (defun dwim-at-point ()
   (cond ((use-region-p)
          (buffer-substring-no-properties (region-beginning) (region-end)))
@@ -340,10 +349,6 @@
 (defun decrement-number-at-point (arg)
   (interactive "p")
   (increment-number-at-point (- arg)))
-
-(defun beautify-css (beg end)
-  (interactive "r")
-  (shell-command-on-region beg end "js-beautify --css -f - -s 2 -m 1" (current-buffer) 'replace))
 
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)

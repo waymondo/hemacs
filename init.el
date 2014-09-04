@@ -347,7 +347,8 @@
   (progn
     (modify-syntax-entry ?= "." html-mode-syntax-table)
     (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
-    (bind-key "<C-return>" 'html-smarter-newline html-mode-map)))
+    (bind-key "<C-return>" 'html-smarter-newline html-mode-map)
+    (make-beautify-defun "html")))
 
 (use-package handlebars-mode)
 
@@ -365,12 +366,15 @@
   :config
   (progn
     (setq css-indent-offset 2)
-    (bind-key "C-z C-b" 'beautify-css css-mode-map)))
+    (make-beautify-defun "css")))
 
 (use-package js
   :mode ("\\.json$" . js-mode)
   :interpreter ("node" . js-mode)
-  :config (setq-default js-indent-level 2))
+  :config
+  (progn
+    (make-beautify-defun "js")
+    (setq-default js-indent-level 2)))
 
 (use-package coffee-mode
   :mode ("\\.coffee\\.*" . coffee-mode)
@@ -575,10 +579,7 @@
   ;; :init (tabbar-mode)
   :config
   (progn
-    (setq tabbar-inhibit-functions
-          (list (λ (or (window-dedicated-p (selected-window))
-                       (member (buffer-name) unmemorable-buffer-names))))
-          tabbar-buffer-groups-function
+    (setq tabbar-buffer-groups-function
           (λ (list (if (projectile-project-p) (projectile-project-name) "Emacs"))))
     (defadvice tabbar-line-format (around no-tabbar-buttons activate compile)
       (noflet ((tabbar-line-buttons (tabset) (list tabbar-separator-value))) ad-do-it))
