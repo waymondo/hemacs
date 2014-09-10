@@ -611,6 +611,7 @@
   :init (key-chord-mode 1)
   :config
   (progn
+    (use-package misc)
     (use-package ace-jump-buffer)
     (key-chord-define-global ",." "<>\C-b")
     (key-chord-define-global "}|" "||\C-b")
@@ -636,6 +637,7 @@
     (key-chord-define-global "jk" 'ace-jump-word-mode)
     (key-chord-define-global "jl" 'ace-jump-line-mode)
     (key-chord-define-global "jz" 'ace-jump-zap-up-to-char)
+    (key-chord-define-global "zz" 'zap-up-to-char)
     (setq key-chord-two-keys-delay 0.07)))
 
 (use-package company
