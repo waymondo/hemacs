@@ -294,7 +294,8 @@
    `(erb-comment-face ((t (:background ,base01 :weight bold :slant italic))))
    `(erb-comment-delim-face ((t (:background ,base01))))
 
-   `(pulse-highlight-face ((t (:background ,(color-darken-name base0A 33))))))
+   `(pulse-highlight-face ((t (:background ,base0F))))
+   `(pulse-highlight-start-face ((t (:background ,base0F)))))
 
   (custom-theme-set-variables
    'hemacs

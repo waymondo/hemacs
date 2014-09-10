@@ -206,8 +206,10 @@
   :config
   (progn
     (setq pulse-command-advice-flag t)
-    (setq pulse-delay .01)
-    (add-hook 'next-error-hook #'pulse-line-hook-function)))
+    (setq pulse-delay 0)
+    (setq pulse-iterations 8)
+    (--each '(next-error-hook focus-in-hook)
+      (add-hook it #'pulse-line-hook-function))))
 
 (use-package hippie-exp
   :init
