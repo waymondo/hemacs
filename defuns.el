@@ -21,11 +21,27 @@
      (add-λ (intern (format "%s-hook" it))
        ,@body)))
 
-(defmacro with-region-or-line (func)
-  `(defadvice ,func (before with-region-or-line activate compile)
+(defmacro with-region-or-line (func &optional point-to-eol)
+  `(progn
+     (defadvice ,func (before with-region-or-line activate compile)
+       (interactive
+        (cond (mark-active
+               (list (region-beginning) (region-end)))
+              (,point-to-eol
+               (list (point) (line-beginning-position 2)))
+              ((list (line-beginning-position) (line-beginning-position 2))))))
+     (defadvice ,func (after pulse-line-or-region activate compile)
+       (unless mark-active
+         (if ,point-to-eol
+             (pulse-momentary-highlight-region (point) (line-beginning-position 2))
+           (pulse-line-hook-function))))))
+
+(defmacro with-region-or-buffer (func)
+  `(defadvice ,func (before with-region-or-buffer activate compile)
      (interactive
-      (if mark-active (list (region-beginning) (region-end))
-        (list (line-beginning-position) (line-beginning-position 2))))))
+      (if mark-active
+          (list (region-beginning) (region-end))
+        (list (point-min) (point-max))))))
 
 (defmacro make-beautify-defun (type)
   (let ((defun-name (intern (format "beautify-%s" type))))

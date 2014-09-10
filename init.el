@@ -26,6 +26,7 @@
 (setq vc-follow-symlinks t)
 (setq gc-cons-threshold 50000000)
 (setq byte-compile-warnings '(not obsolete))
+(setq disabled-command-function nil)
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
@@ -42,13 +43,16 @@
 (setq x-select-enable-clipboard t)
 (setq history-length 100)
 (setq history-delete-duplicates t)
-(put 'downcase-region 'disabled nil)
-(put 'capitalize-region 'disabled nil)
+
 (with-region-or-line comment-or-uncomment-region)
+(with-region-or-line upcase-region)
 (with-region-or-line capitalize-region)
 (with-region-or-line downcase-region)
-(with-region-or-line kill-region)
-(with-region-or-line eval-region)
+(with-region-or-line yank-region)
+(with-region-or-line kill-region t)
+(with-region-or-line kill-ring-save t)
+(with-region-or-buffer indent-region)
+(with-region-or-buffer untabify)
 
 (setq ns-use-native-fullscreen nil)
 (setq mac-function-modifier 'hyper)
