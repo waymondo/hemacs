@@ -667,6 +667,11 @@
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode 1))))
 
+(use-package back-button
+  :bind (("s-{" . back-button-global-backward)
+         ("s-}" . back-button-global-forward))
+  :idle (back-button-mode))
+
 (use-package powerline
   :init (powerline-default-theme)
   :config

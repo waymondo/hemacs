@@ -7,6 +7,7 @@
 (depends-on "alert")
 (depends-on "anzu")
 (depends-on "auto-dim-other-buffers")
+(depends-on "back-button")
 (depends-on "cask")
 (depends-on "change-inner")
 (depends-on "crab" :git "https://github.com/waymondo/crab-emacs.git")
