@@ -108,7 +108,6 @@
 (define-prefix-command 'hemacs-github-map)
 (define-prefix-command 'hemacs-crab-map)
 (bind-key "C-z" 'hemacs-map)
-(bind-key "C-z g" 'hemacs-github-map)
 (bind-key "C-z c" 'hemacs-crab-map)
 
 (use-package exec-path-from-shell
@@ -332,16 +331,16 @@
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
 
 (use-package projectile
- :bind (("s-t" . projectile-find-file)
-        ("s-b" . projectile-switch-to-buffer)
-        ("s-o" . projectile-switch-project-vc)
-        ("s-O" . projectile-switch-project-run-command-project-root)
-        ("s-p" . projectile-commander))
- :idle (projectile-global-mode)
- :config (setq projectile-enable-caching t)
- :init
- (use-package projectile-rails
-   :init (add-hook 'projectile-mode-hook 'projectile-rails-on)))
+  :bind (("s-t" . projectile-find-file)
+         ("s-b" . projectile-switch-to-buffer)
+         ("s-o" . projectile-switch-project-vc)
+         ("s-O" . projectile-switch-project-run-command-project-root)
+         ("s-p" . projectile-commander))
+  :idle (projectile-global-mode)
+  :config (setq projectile-enable-caching t)
+  :init
+  (use-package projectile-rails
+    :init (add-hook 'projectile-mode-hook 'projectile-rails-on)))
 
 (use-package page-break-lines
   :init (global-page-break-lines-mode))
@@ -440,17 +439,17 @@
     (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)))
 
 (use-package github-browse-file
-  :bind (("C-z g o" . github-browse-file)
-         ("C-z g b" . github-browse-file-blame)))
+  :bind (("C-x v o" . github-browse-file)
+         ("C-x v b" . github-browse-file-blame)))
 
 (use-package github-clone
-  :bind ("C-z g c" . github-clone))
+  :bind ("C-x v c" . github-clone))
 
 (use-package git-timemachine
-  :bind ("C-z g t" . git-timemachine))
+  :bind ("C-x v t" . git-timemachine))
 
 (use-package git-messenger
-  :bind ("C-z g p" . git-messenger:popup-message)
+  :bind ("C-x v p" . git-messenger:popup-message)
   :config (setq git-messenger:show-detail t))
 
 (use-package projector
@@ -548,7 +547,7 @@
   (progn
     (setq guide-key/guide-key-sequence
           '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
-            "C-z" "C-z g" "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
+            "C-z" "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
     (setq guide-key/popup-window-position 'bottom)))
 
 (use-package undo-tree
