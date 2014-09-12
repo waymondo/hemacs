@@ -390,8 +390,9 @@
   (setq ace-jump-zapping nil))
 
 (defn ace-jump-zap-up-to-char
-  (setq ace-jump-zapping t)
-  (call-interactively 'set-mark-command)
-  (call-interactively 'ace-jump-char-mode)
-  (define-key overriding-local-map [t]
-    (λ (setq ace-jump-zapping nil))))
+  (let ((ace-jump-mode-scope 'window))
+    (setq ace-jump-zapping t)
+    (call-interactively 'set-mark-command)
+    (call-interactively 'ace-jump-char-mode)
+    (define-key overriding-local-map [t]
+      (λ (setq ace-jump-zapping nil)))))

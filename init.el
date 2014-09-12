@@ -561,7 +561,9 @@
   :init (global-anzu-mode 1))
 
 (use-package ace-jump-mode
-  :init (bind-key* "C-;" 'ace-jump-word-mode))
+  :init (bind-key* "C-;" 'ace-jump-word-mode)
+  :config (setq ace-jump-mode-case-fold nil
+                ace-jump-mode-scope 'visible))
 
 (use-package expand-region
   :init (bind-key* "C-," 'er/expand-region))
