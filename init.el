@@ -645,20 +645,18 @@
     (setq key-chord-two-keys-delay 0.07)))
 
 (use-package company
-  :init (add-hook 'after-init-hook 'global-company-mode)
+  :init (add-hook 'after-init-hook #'global-company-mode)
   :config
   (progn
     (setq company-tooltip-flip-when-above t)
     (setq company-show-numbers t)
     (setq company-tooltip-align-annotations t)
-    (setq company-dabbrev-ignore-case nil)
-    (setq company-require-match nil)
+    (setq company-auto-complete t)
+    (setq company-occurrence-weight-function 'company-occurrence-prefer-any-closest)
+    (setq company-dabbrev-downcase nil)
     (use-package readline-complete
       :init (push 'company-readline company-backends)
-      :config (add-λ 'rlc-no-readline-hook
-                (company-mode -1)))
-    (use-package company-inf-ruby
-      :init (push 'company-inf-ruby company-backends))
+      :config (add-λ 'rlc-no-readline-hook (company-mode -1)))
     (push 'company-robe company-backends)))
 
 (use-package smart-newline

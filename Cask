@@ -13,7 +13,6 @@
 (depends-on "crab" :git "https://github.com/waymondo/crab-emacs.git")
 (depends-on "coffee-mode")
 (depends-on "company")
-(depends-on "company-inf-ruby")
 (depends-on "dash")
 (depends-on "dash-at-point")
 (depends-on "diff-hl")
