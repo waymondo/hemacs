@@ -52,6 +52,10 @@
                                   (current-buffer) 'replace))
        (bind-key "C-z C-b" ',defun-name ,(intern (format "%s-mode-map" type))))))
 
+(defmacro projectile-switch-project-command (func)
+  `(let ((projectile-switch-project-action ,func))
+     (call-interactively 'projectile-switch-project)))
+
 (defun dwim-at-point ()
   (cond ((use-region-p)
          (buffer-substring-no-properties (region-beginning) (region-end)))
@@ -201,14 +205,6 @@
     (if (region-active-p)
         (buffer-substring (region-beginning) (region-end))
       (read-string "Query: " (dwim-at-point))))))
-
-(defn projectile-switch-project-vc
-  (let ((projectile-switch-project-action 'projectile-vc))
-    (call-interactively 'projectile-switch-project)))
-
-(defn projectile-switch-project-run-command-project-root
-  (let ((projectile-switch-project-action 'projector-run-shell-command-project-root))
-    (call-interactively 'projectile-switch-project)))
 
 (defn clear-shell
   (let ((old-max comint-buffer-maximum-size))

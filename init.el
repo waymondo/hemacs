@@ -105,9 +105,10 @@
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 (define-prefix-command 'hemacs-map)
-(define-prefix-command 'hemacs-github-map)
+(define-prefix-command 'hemacs-projectile-map)
 (define-prefix-command 'hemacs-crab-map)
 (bind-key "C-z" 'hemacs-map)
+(bind-key "s-o" 'hemacs-projectile-map)
 (bind-key "C-z c" 'hemacs-crab-map)
 
 (use-package exec-path-from-shell
@@ -333,8 +334,6 @@
 (use-package projectile
   :bind (("s-t" . projectile-find-file)
          ("s-b" . projectile-switch-to-buffer)
-         ("s-o" . projectile-switch-project-vc)
-         ("s-O" . projectile-switch-project-run-command-project-root)
          ("s-p" . projectile-commander))
   :idle (projectile-global-mode)
   :config (setq projectile-enable-caching t)
@@ -710,6 +709,10 @@
 (bind-key "C-z C-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
 (bind-key "C-z C-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
 (bind-key "C-z C-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
+
+(bind-key "s-o g" (λ (projectile-switch-project-command 'projectile-vc)))
+(bind-key "s-o m" (λ (projectile-switch-project-command 'projector-run-shell-command-project-root)))
+(bind-key "s-o x" (λ (projectile-switch-project-command 'projector-switch-to-or-create-project-shell)))
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
