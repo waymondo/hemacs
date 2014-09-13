@@ -291,15 +291,6 @@
     (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
     (global-set-key [remap execute-extended-command] #'smex)))
 
-(use-package dash-at-point
-  :bind (("C-z C-d" . dash-at-point)
-         ("C-z C-D" . dash-at-point-with-docset))
-  :config
-  (setq dash-at-point-docsets
-        '("coffee" "lisp" "css" "elisp" "html" "javascript" "iphoneos"
-          "ruby" "jquery" "meteor" "phonegap" "rubygems" "rails" "macosx"
-          "underscore" "d3" "backbone" "bootstrap" "markdown" "zepto")))
-
 (use-package ag
   :config
   (progn
@@ -524,6 +515,15 @@
     (add-λ 'god-mode-disabled-hook
       (setq cursor-type 'bar))
     (add-to-list 'god-exempt-major-modes 'git-commit-mode)))
+
+(use-package dash-at-point
+  :bind (("C-h d" . dash-at-point)
+         ("C-h C-d" . dash-at-point-with-docset))
+  :config
+  (setq dash-at-point-docsets
+        '("coffee" "lisp" "css" "less" "html" "javascript" "iphoneos" "ruby" "elisp"
+          "jquery" "rails" "underscore" "backbone" "bootstrap" "markdown" "zepto"
+          "angularjs" "psql" "emacs" "fa" "redis" "git" "bash" "moment")))
 
 (use-package bind-key
   :bind ("C-h C-k" . describe-personal-keybindings))
