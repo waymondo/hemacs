@@ -38,8 +38,6 @@
 (setq-default indent-tabs-mode nil)
 (setq standard-indent 2)
 (setq-default tab-width 2)
-(setq kill-do-not-save-duplicates t)
-(setq kill-whole-line t)
 (setq x-select-enable-clipboard t)
 (setq history-length 100)
 (setq history-delete-duplicates t)
@@ -82,22 +80,18 @@
 (setq scroll-conservatively 10000)
 (setq scroll-preserve-screen-position t)
 
-(setq blink-cursor-blinks 0)
-(setq-default cursor-type 'bar)
-(setq-default indicate-empty-lines t)
-(setq-default left-fringe-width 10)
-(setq-default right-fringe-width 5)
+(setq-default cursor-type 'bar
+              indicate-empty-lines t
+              left-fringe-width 10
+              right-fringe-width 5)
+
 (set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
-(global-prettify-symbols-mode t)
+(global-prettify-symbols-mode)
 (add-λ 'minibuffer-setup-hook
   (set (make-local-variable 'face-remapping-alist)
        '((default :height 0.9))))
 
-(add-λ 'before-save-hook
-  (unless (eq major-mode 'markdown-mode)
-    (delete-trailing-whitespace))
-  (when (region-active-p)
-    (deactivate-mark t)))
+(add-hook 'before-save-hook 'hemacs-save-hook)
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-hook 'find-file-hook 'sm-try-smerge t)
 (add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line)
@@ -229,10 +223,10 @@
                                              try-complete-file-name
                                              try-expand-dabbrev-other-buffers))
     (hook-modes lispy-modes
-      (set (make-local-variable 'hippie-expand-try-functions-list)
-           (append '(try-complete-lisp-symbol-partially
-                     try-complete-lisp-symbol)
-                   hippie-expand-try-functions-list)))))
+      (setq-local hippie-expand-try-functions-list
+                  (append '(try-complete-lisp-symbol-partially
+                            try-complete-lisp-symbol)
+                          hippie-expand-try-functions-list)))))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
@@ -572,8 +566,8 @@
          ("C-z C-/" . mc/mark-all-like-this-dwim)))
 
 (use-package change-inner
-  :bind (("C-z TAB" . change-inner)
-         ("C-z C-o" . change-outer)))
+  :bind (("M-i" . change-inner)
+         ("M-o" . change-outer)))
 
 (use-package highlight-tail
   ;; :idle (highlight-tail-mode)
@@ -676,14 +670,16 @@
     (defpowerline powerline-minor-modes nil)))
 
 (bind-key "TAB" 'tab-dwim)
-(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
 (bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
+(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
 
-(bind-key "<M-up>" 'move-line-up)
-(bind-key "<M-down>" 'move-line-down)
-(bind-key "<s-up>" 'increment-number-at-point)
-(bind-key "<s-down>" 'decrement-number-at-point)
+(bind-key "<M-up>" 'increment-number-at-point)
+(bind-key "<M-down>" 'decrement-number-at-point)
+(bind-key "<M-S-up>" 'move-line-up)
+(bind-key "<M-S-down>" 'move-line-down)
 
+(bind-key "s-[" 'shift-left)
+(bind-key "s-]" 'shift-right)
 (bind-key "s-:" 'pad-colon)
 (bind-key "s-u" 'duplicate-dwim)
 (bind-key "s-s" 'save-buffer)

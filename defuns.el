@@ -166,13 +166,13 @@
     (switch-to-buffer-other-window nil)))
 
 (defn tab-dwim
-  (if (minibufferp)
-      (hippie-expand nil)
-    (if mark-active
-        (indent-region (region-beginning) (region-end))
-      (if (looking-at "\\_>")
-          (hippie-expand nil)
-        (indent-for-tab-command)))))
+  (cond ((minibufferp)
+         (hippie-expand nil))
+        (mark-active
+         (indent-region (region-beginning) (region-end)))
+        ((looking-at "\\_>")
+         (hippie-expand nil))
+        ((indent-for-tab-command))))
 
 (defn ido-go-home
   (cond
@@ -249,9 +249,9 @@
   (if (not (member major-mode '(css-mode less-css-mode)))
       (insert ": ")
     (if (looking-at "\;.*")
-          (insert ": ")
-        (insert ": ;")
-        (backward-char))))
+        (insert ": ")
+      (insert ": ;")
+      (backward-char))))
 
 (defn log-statement
   (cond ((member major-mode '(js-mode coffee-mode))
@@ -266,6 +266,12 @@
 (defun hemacs-writing-hook ()
   (visual-line-mode)
   (flyspell-mode))
+
+(defun hemacs-save-hook ()
+  (unless (eq major-mode 'markdown-mode)
+    (delete-trailing-whitespace))
+  (when (region-active-p)
+    (deactivate-mark t)))
 
 (defun hemacs-shellish-hook ()
   (setq truncate-lines nil)
