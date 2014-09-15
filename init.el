@@ -542,13 +542,12 @@
   :bind ("C-h C-m" . discover-my-major))
 
 (use-package guide-key
-  :init (guide-key-mode 1)
+  :init (guide-key-mode)
   :config
-  (progn
-    (setq guide-key/guide-key-sequence
-          '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
-            "C-z" "C-c p" "C-x +" "C-c ," "C-h" "M-s"))
-    (setq guide-key/popup-window-position 'bottom)))
+  (setq guide-key/guide-key-sequence
+        '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
+          "C-z" "C-c p" "C-x +" "C-c ," "C-h" "M-s" "s-o")
+        guide-key/popup-window-position 'bottom))
 
 (use-package undo-tree
   :init (global-undo-tree-mode)
@@ -716,6 +715,8 @@
 (bind-key "s-o g" (λ (projectile-switch-project-command 'projectile-vc)))
 (bind-key "s-o m" (λ (projectile-switch-project-command 'projector-run-shell-command-project-root)))
 (bind-key "s-o x" (λ (projectile-switch-project-command 'projector-switch-to-or-create-project-shell)))
+(bind-key "s-o n" (λ (projectile-switch-project-command 'ort/capture-todo)))
+(bind-key "s-o `" (λ (projectile-switch-project-command 'ort/goto-todos)))
 
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
