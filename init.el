@@ -19,7 +19,8 @@
 
 (load (locate-user-emacs-file "defuns.el"))
 
-(setq history-length 100
+(setq debug-on-error t
+      history-length 100
       history-delete-duplicates t
       scroll-margin 24
       scroll-conservatively 10000
@@ -728,5 +729,5 @@
 (bind-key "<M-S-tab>" 'next-history-element ido-completion-map)
 
 (load-theme 'hemacs :no-confirm)
-
 (toggle-frame-fullscreen)
+(setq debug-on-error nil)
