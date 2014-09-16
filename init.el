@@ -44,6 +44,7 @@
 (setq-default indent-tabs-mode nil
               tab-width 2
               cursor-type 'bar
+              cursor-in-non-selected-windows nil
               indicate-empty-lines t
               left-fringe-width 10
               right-fringe-width 5)
