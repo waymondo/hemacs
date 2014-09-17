@@ -220,6 +220,7 @@
     (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
       (let ((case-fold-search nil))
         ad-do-it))
+    (defalias 'he-dabbrev-beg 'hemacs-dabbrev-beg)
     (global-set-key [remap dabbrev-expand] #'hippie-expand)
     (bind-key "TAB" 'hippie-expand read-expression-map)
     (bind-key "TAB" 'hippie-expand minibuffer-local-map)

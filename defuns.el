@@ -284,6 +284,12 @@
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
+(defun hemacs-dabbrev-beg ()
+  (let ((op (point)))
+    (save-excursion
+      (skip-chars-backward "0-9a-zA-Z\\?!_-")
+      (point))))
+
 (defun try-expand-dabbrev-matching-buffers (old)
   (let ((matching-buffers (--filter
                            (eq major-mode (with-current-buffer it major-mode))
