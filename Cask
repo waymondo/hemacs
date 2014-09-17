@@ -69,6 +69,7 @@
 (depends-on "smex")
 (depends-on "stylus-mode")
 (depends-on "tabbar")
+(depends-on "toggle-quotes")
 (depends-on "undo-tree")
 (depends-on "use-package")
 (depends-on "volatile-highlights")
