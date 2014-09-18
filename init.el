@@ -258,18 +258,17 @@
       (delete-other-windows))
     (zone-when-idle 248)))
 
-(use-package dired-x
+(use-package dired
   :init
   (progn
-    (bind-key "s-\\" 'dired-jump-other-window)
+    (use-package dired-toggle
+      :bind ("s-\\" . dired-toggle)
+      :config (setq dired-toggle-window-size 48))
     (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-    (put 'dired-find-alternate-file 'disabled nil)
-    (setq dired-recursive-deletes 'always)
-    (setq dired-recursive-copies 'always)
-    (setq dired-auto-revert-buffer t)
-    (when (and (memq window-system '(mac ns)) (executable-find "gls"))
-      (setq insert-directory-program "gls" dired-use-ls-dired t))))
+    (setq dired-recursive-deletes 'always
+          dired-recursive-copies 'always
+          dired-auto-revert-buffer t)))
 
 (use-package org
   :config
@@ -323,7 +322,6 @@
   :config
   (progn
     (setq popwin:popup-window-height 0.3)
-    (push '(dired-mode :position left) popwin:special-display-config)
     (push "COMMIT_EDITMSG" popwin:special-display-config)))
 
 (use-package projectile
