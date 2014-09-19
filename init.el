@@ -314,13 +314,6 @@
          ("C-z c <right>" . crab-next-tab))
   :idle (crab-server-start))
 
-(use-package popwin
-  :init (popwin-mode 1)
-  :config
-  (progn
-    (setq popwin:popup-window-height 0.3)
-    (push "COMMIT_EDITMSG" popwin:special-display-config)))
-
 (use-package projectile
   :bind (("s-t" . projectile-find-file)
          ("s-b" . projectile-switch-to-buffer)
@@ -588,36 +581,6 @@
 (use-package highlight-tail
   ;; :idle (highlight-tail-mode)
   :config (setq highlight-tail-timer 0.02))
-
-(use-package tabbar
-  :bind (("s-{" . tabbar-backward)
-         ("s-}" . tabbar-forward))
-  ;; :init (tabbar-mode)
-  :config
-  (progn
-    (setq tabbar-buffer-groups-function
-          (λ (list (if (projectile-project-p) (projectile-project-name) "Emacs"))))
-    (defadvice tabbar-line-format (around no-tabbar-buttons activate compile)
-      (noflet ((tabbar-line-buttons (tabset) (list tabbar-separator-value))) ad-do-it))
-    (defadvice tabbar-buffer-tab-label (after buffer-tab-padding activate compile)
-      (setq ad-return-value (concat " " (concat ad-return-value " "))))))
-
-(use-package golden-ratio
-  ;; :init (golden-ratio-mode)
-  :config
-  (progn
-    (setq golden-ratio-extra-commands
-          (append golden-ratio-extra-commands
-                  '(next-multiframe-window)))
-    (setq golden-ratio-exclude-modes
-          '("magit-key-mode"))
-    (setq golden-ratio-inhibit-functions
-          '(golden-ratio-inhibit-popwin-config))
-    (setq golden-ratio-recenter t)
-    (setq golden-ratio-exclude-buffer-names
-          '("*buffer-selection*"
-            " *guide-key*"
-            "CAPTURE-TODO.org"))))
 
 (use-package key-chord
   :init (key-chord-mode 1)
