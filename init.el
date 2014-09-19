@@ -441,6 +441,15 @@
   :bind ("C-x v p" . git-messenger:popup-message)
   :config (setq git-messenger:show-detail t))
 
+(use-package swoop
+  :bind ("C-s" . swoop)
+  :config
+  (progn
+    (setq swoop-font-size-change: nil
+          swoop-window-split-direction: 'split-window-horizontally
+          swoop-pre-input-point-at-function: (λ))
+    (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)))
+
 (use-package projector
   :bind* (("C-z RET" . projector-run-shell-command-project-root)
           ("C-z m" . projector-switch-to-or-create-project-shell))
