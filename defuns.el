@@ -304,12 +304,6 @@
     (noflet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
-(defadvice eval-region (after maybe-deactivate-mark activate compile)
-  (if (region-active-p) (deactivate-mark t)))
-
-(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
-  (noflet ((process-list ())) ad-do-it))
-
 (defn create-scratch-buffer
   (let ((current-major-mode major-mode)
         (buf (generate-new-buffer "*scratch*")))
@@ -331,7 +325,6 @@
       (smerge-mode 1))))
 
 (defun set-clean-margins (&optional arg)
-  "Set window-body-width to ARG or 90 with relative margins."
   (interactive "P")
   (let* ((width (if arg (prefix-numeric-value arg) 90))
          (margin (/ (- (window-total-width) width) 2)))

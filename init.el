@@ -110,6 +110,8 @@
 (use-package files
   :config
   (progn
+    (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
+      (noflet ((process-list ())) ad-do-it))
     (setq require-final-newline t
           confirm-kill-emacs nil
           confirm-nonexistent-file-or-buffer nil
@@ -152,58 +154,53 @@
       (turn-on-comint-history (getenv "HISTFILE")))))
 
 (use-package autorevert
-  :init
-  (progn
-    (global-auto-revert-mode t)
-    (setq auto-revert-verbose nil)
-    (setq global-auto-revert-non-file-buffers t)))
+  :init (global-auto-revert-mode)
+  :config
+  (setq auto-revert-verbose nil
+        global-auto-revert-non-file-buffers t))
 
 (use-package imenu
-  :config (setq imenu-auto-rescan t)
   :init
   (use-package imenu-anywhere
     :bind ("s-r" . imenu-anywhere)
-    :config (add-hook 'imenu-after-jump-hook #'pulse-line-hook-function)))
+    :config (add-hook 'imenu-after-jump-hook #'pulse-line-hook-function))
+  :config (setq imenu-auto-rescan t))
 
 (use-package savehist
-  :init
-  (progn
-    (savehist-mode t)
-    (setq savehist-additional-variables
-          '(search-ring regexp-search-ring comint-input-ring))
-    (setq savehist-autosave-interval 30)))
+  :init (savehist-mode)
+  :config
+  (setq savehist-additional-variables
+          '(search-ring regexp-search-ring comint-input-ring)
+          savehist-autosave-interval 30))
 
 (use-package recentf
-  :init
-  (progn
-    (recentf-mode t)
-    (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG"))
-    (setq initial-buffer-choice (car recentf-list))
-    (setq recentf-max-saved-items 500)))
+  :init (recentf-mode)
+  :config
+  (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG")
+        initial-buffer-choice (car recentf-list)
+        recentf-max-saved-items 500))
 
 (use-package paren
-  :init (show-paren-mode t))
+  :init (show-paren-mode))
 
 (use-package elec-pair
-  :init
-  (progn
-    (electric-pair-mode t)
-    (setq electric-pair-pairs '
-          ((?\( . ?\))
-           (?\" . ?\")
-           (?\{ . ?\})
-           (?\[ . ?\])))
-    (setq electric-pair-text-pairs '
-          ((?\" . ?\")
-           (?\` . ?\`)))))
+  :init (electric-pair-mode)
+  :config
+  (setq electric-pair-pairs '
+        ((?\( . ?\))
+         (?\" . ?\")
+         (?\{ . ?\})
+         (?\[ . ?\]))
+        electric-pair-text-pairs '
+        ((?\" . ?\")
+         (?\` . ?\`))))
 
 (use-package subword
-  :init
-  (progn
-    (global-subword-mode 1)
-    (bind-key* "<M-left>" 'subword-left)
-    (bind-key* "<M-right>" 'subword-right)
-    (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete)))
+  :bind* (("<M-left>" . subword-left)
+          ("<M-right>" . subword-right))
+  :init (global-subword-mode)
+  :config
+  (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete))
 
 (use-package pulse
   :config
@@ -445,20 +442,19 @@
   :config (setq git-messenger:show-detail t))
 
 (use-package projector
+  :bind* (("C-z RET" . projector-run-shell-command-project-root)
+          ("C-z m" . projector-switch-to-or-create-project-shell))
   :config
-  (progn
-    (bind-key* "C-z RET" 'projector-run-shell-command-project-root)
-    (bind-key* "C-z m" 'projector-switch-to-or-create-project-shell)
-    (setq projector-projects-root "~/code/")
-    (setq projector-always-background-regex
+  (setq projector-projects-root "~/code/"
+        projector-always-background-regex
           '("^mysql.server\\.*"
-            "^powder restart"
+            "^powder\\.*"
             "^heroku restart\\.*"
             "^spring stop"
             "^git push\\.*"
             "\\.*cordova run\\.*"
             "^redis-server"
-            "^pkill\\.*"))))
+            "^pkill\\.*")))
 
 (use-package ido
   :init
@@ -563,13 +559,13 @@
   :bind ("C-'" . toggle-quotes))
 
 (use-package ace-jump-mode
-  :init (bind-key* "C-;" 'ace-jump-word-mode)
+  :bind* ("C-;" . ace-jump-word-mode)
   :config
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
 (use-package expand-region
-  :init (bind-key* "C-," 'er/expand-region))
+  :bind* ("C-," . er/expand-region))
 
 (use-package multiple-cursors
   :bind (("C-z C-." . mc/mark-next-like-this)
