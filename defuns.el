@@ -371,19 +371,3 @@
          (height (cdr image-dimensions)))
     (setq mode-line-buffer-identification
           (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
-
-(defvar ace-jump-zapping nil)
-
-(add-λ 'ace-jump-mode-end-hook
-  (unless (not ace-jump-zapping)
-    (call-interactively 'delete-region)
-    (deactivate-mark))
-  (setq ace-jump-zapping nil))
-
-(defn ace-jump-zap-up-to-char
-  (let ((ace-jump-mode-scope 'window))
-    (setq ace-jump-zapping t)
-    (call-interactively 'set-mark-command)
-    (call-interactively 'ace-jump-char-mode)
-    (define-key overriding-local-map [t]
-      (λ (setq ace-jump-zapping nil)))))

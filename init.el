@@ -587,6 +587,7 @@
   (progn
     (use-package misc)
     (use-package ace-jump-buffer)
+    (use-package ace-jump-zap)
     (key-chord-define-global ",." "<>\C-b")
     (key-chord-define-global "}|" "||\C-b")
     (key-chord-define-global "<>" 'sgml-close-tag)
