@@ -170,8 +170,8 @@
   :init (savehist-mode)
   :config
   (setq savehist-additional-variables
-          '(search-ring regexp-search-ring comint-input-ring)
-          savehist-autosave-interval 30))
+        '(search-ring regexp-search-ring comint-input-ring)
+        savehist-autosave-interval 30))
 
 (use-package recentf
   :init (recentf-mode)
@@ -407,16 +407,16 @@
     (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
     (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
     (bind-key "C-z C-k" 'magit-kill-file-on-line magit-mode-map)
-    (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
-    (setq magit-completing-read-function 'magit-ido-completing-read)
-    (setq magit-log-auto-more t)
-    (setq magit-set-upstream-on-push t)
-    (setq magit-restore-window-configuration t)
-    (setq magit-save-some-buffers nil)
-    (setq magit-revert-item-confirm nil)
-    (setq magit-stage-all-confirm nil)
-    (setq magit-unstage-all-confirm nil)
-    (setq magit-commit-ask-to-stage nil)
+    (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
+          magit-completing-read-function 'magit-ido-completing-read
+          magit-log-auto-more t
+          magit-set-upstream-on-push t
+          magit-restore-window-configuration t
+          magit-save-some-buffers nil
+          magit-revert-item-confirm nil
+          magit-stage-all-confirm nil
+          magit-unstage-all-confirm nil
+          magit-commit-ask-to-stage nil)
     (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
     (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)))
 
@@ -449,36 +449,35 @@
   :config
   (setq projector-projects-root "~/code/"
         projector-always-background-regex
-          '("^mysql.server\\.*"
-            "^powder\\.*"
-            "^heroku restart\\.*"
-            "^spring stop"
-            "^git push\\.*"
-            "\\.*cordova run\\.*"
-            "^redis-server"
-            "^pkill\\.*")))
+        '("^mysql.server\\.*"
+          "^powder restart\\.*"
+          "^heroku restart\\.*"
+          "^spring stop"
+          "^git push\\.*"
+          "\\.*cordova run\\.*"
+          "^redis-server"
+          "^pkill\\.*")))
 
 (use-package ido
   :init
   (progn
-    (ido-mode t)
+    (ido-mode)
     (use-package ido-ubiquitous
-      :init (ido-ubiquitous-mode 1))
+      :init (ido-ubiquitous-mode))
     (use-package flx-ido
-      :init (flx-ido-mode 1))
+      :init (flx-ido-mode)
+      :config (setq flx-ido-use-faces nil))
     (use-package ido-vertical-mode
-      :init (ido-vertical-mode 1)
+      :init (ido-vertical-mode)
       :config (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)))
   :config
-  (progn
-    (setq ido-cannot-complete-command 'exit-minibuffer)
-    (setq ido-use-virtual-buffers t)
-    (setq ido-auto-merge-delay-time 10)
-    (setq ido-enable-flex-matching t)
-    (setq ido-enable-dot-prefix t)
-    (setq ido-max-prospects 10)
-    (setq ido-create-new-buffer 'always)
-    (bind-key "~" 'ido-go-home ido-file-completion-map)))
+  (setq ido-cannot-complete-command 'exit-minibuffer
+        ido-use-virtual-buffers t
+        ido-auto-merge-delay-time 10
+        ido-enable-flex-matching t
+        ido-enable-dot-prefix t
+        ido-max-prospects 10
+        ido-create-new-buffer 'always))
 
 (use-package diff-hl
   :init
@@ -500,7 +499,7 @@
   :config (setq highlight-symbol-idle-delay 0))
 
 (use-package volatile-highlights
-  :init (volatile-highlights-mode t))
+  :init (volatile-highlights-mode))
 
 (use-package rainbow-mode
   :init
@@ -616,19 +615,20 @@
     (setq key-chord-two-keys-delay 0.07)))
 
 (use-package company
-  :init (add-hook 'after-init-hook #'global-company-mode)
-  :config
+  :init
   (progn
-    (setq company-tooltip-flip-when-above t)
-    (setq company-show-numbers t)
-    (setq company-tooltip-align-annotations t)
-    (setq company-auto-complete t)
-    (setq company-occurrence-weight-function 'company-occurrence-prefer-any-closest)
-    (setq company-dabbrev-downcase nil)
+    (add-hook 'after-init-hook #'global-company-mode)
     (use-package readline-complete
       :init (push 'company-readline company-backends)
-      :config (add-λ 'rlc-no-readline-hook (company-mode -1)))
-    (push 'company-robe company-backends)))
+      :config (add-λ 'rlc-no-readline-hook (company-mode -1))))
+  :config
+  (setq company-tooltip-flip-when-above t
+        company-show-numbers t
+        company-tooltip-align-annotations t
+        company-require-match nil
+        company-occurrence-weight-function 'company-occurrence-prefer-any-closest
+        company-dabbrev-downcase nil)
+  (bind-key "TAB" 'company-complete shell-mode-map))
 
 (use-package smart-newline
   :init

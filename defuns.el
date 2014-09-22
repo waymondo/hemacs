@@ -174,12 +174,6 @@
          (hippie-expand nil))
         ((indent-for-tab-command))))
 
-(defn ido-go-home
-  (cond
-   ((looking-back "~/") (insert "code/"))
-   ((looking-back "/") (insert "~/"))
-   (:else (call-interactively 'self-insert-command))))
-
 (defn shift-right
   (let ((deactivate-mark nil)
         (beg (or (and mark-active (region-beginning))
