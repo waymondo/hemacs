@@ -508,7 +508,9 @@
     (add-hook it 'rainbow-mode)))
 
 (use-package rainbow-delimiters
-  :init (global-rainbow-delimiters-mode))
+  :init
+  (hook-modes progish-modes
+    (rainbow-delimiters-mode)))
 
 (use-package god-mode
   :bind ("<escape>" . god-local-mode)
