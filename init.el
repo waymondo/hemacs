@@ -37,6 +37,7 @@
       gc-cons-threshold 50000000
       byte-compile-warnings '(not obsolete)
       disabled-command-function nil
+      create-lockfiles nil
       kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
