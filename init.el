@@ -674,6 +674,8 @@
 (bind-key "s-w" 'kill-this-buffer)
 (bind-key "s-W" 'bury-buffer)
 
+(bind-key "C-h C-p" 'describe-thing-in-popup)
+
 (bind-key "C-z C-k" 'delete-file-and-buffer)
 (bind-key "C-z C-r" 'rename-file-and-buffer)
 (bind-key "C-z `" 'list-processes)

@@ -371,3 +371,18 @@
          (height (cdr image-dimensions)))
     (setq mode-line-buffer-identification
           (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
+
+(defn describe-thing-in-popup
+  (let* ((thing (symbol-at-point))
+         (help-xref-following t)
+         (description (save-window-excursion
+                        (with-temp-buffer
+                          (help-mode)
+                          (help-xref-interned thing)
+                          (buffer-string)))))
+    (popup-tip description
+               :point (point)
+               :around t
+               :height 30
+               :scroll-bar t
+               :margin t)))
