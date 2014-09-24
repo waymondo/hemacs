@@ -564,12 +564,6 @@
 (use-package toggle-quotes
   :bind ("C-'" . toggle-quotes))
 
-(use-package ace-jump-mode
-  :bind* ("C-;" . ace-jump-word-mode)
-  :config
-  (setq ace-jump-mode-case-fold nil
-        ace-jump-mode-scope 'visible))
-
 (use-package expand-region
   :bind* ("C-," . er/expand-region))
 
@@ -586,13 +580,23 @@
   ;; :idle (highlight-tail-mode)
   :config (setq highlight-tail-timer 0.02))
 
+(use-package ace-jump-mode
+  :bind* ("C-;" . ace-jump-word-mode)
+  :init (use-package ace-jump-zap)
+  :config
+  (setq ace-jump-mode-case-fold nil
+        ace-jump-mode-scope 'visible))
+
+(use-package ace-jump-buffer
+  :init
+  (make-ace-jump-buffer-function "shellish"
+    (with-current-buffer buffer
+      (not (derived-mode-p 'comint-mode)))))
+
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
   (progn
-    (use-package misc)
-    (use-package ace-jump-buffer)
-    (use-package ace-jump-zap)
     (key-chord-define-global ",." "<>\C-b")
     (key-chord-define-global "}|" "||\C-b")
     (key-chord-define-global "<>" 'sgml-close-tag)
@@ -613,6 +617,7 @@
     (key-chord-define-global ":T" 'projectile-find-file-other-window)
     (key-chord-define-global ";g" 'projectile-ag)
     (key-chord-define-global ":G" 'ag)
+    (key-chord-define-global "jb" 'ace-jump-buffer-with-configuration)
     (key-chord-define-global "jj" 'ace-jump-char-mode)
     (key-chord-define-global "jk" 'ace-jump-word-mode)
     (key-chord-define-global "jl" 'ace-jump-line-mode)
