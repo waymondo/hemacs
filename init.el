@@ -316,7 +316,6 @@
 
 (use-package projectile
   :bind (("s-t" . projectile-find-file)
-         ("s-b" . projectile-switch-to-buffer)
          ("s-p" . projectile-commander))
   :idle (projectile-global-mode)
   :config (setq projectile-enable-caching t)
@@ -435,7 +434,7 @@
   :config (setq git-messenger:show-detail t))
 
 (use-package swoop
-  :bind ("C-s" . swoop)
+  :bind ("s-f" . swoop)
   :config
   (progn
     (setq swoop-font-size-change: nil
@@ -549,7 +548,7 @@
   :config
   (setq guide-key/guide-key-sequence
         '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
-          "C-z" "C-c p" "C-x +" "C-c ," "C-h" "M-s" "s-o")
+          "C-z" "C-c p" "C-x +" "C-c ," "C-h" "M-s")
         guide-key/popup-window-position 'bottom))
 
 (use-package undo-tree
@@ -558,7 +557,8 @@
          ("s-Z" . undo-tree-redo)))
 
 (use-package anzu
-  :bind ("s-q" . anzu-query-replace)
+  :bind (("s-q" . anzu-query-replace)
+         ("M-q" . anzu-query-replace-at-cursor))
   :init (global-anzu-mode))
 
 (use-package toggle-quotes
@@ -699,8 +699,9 @@
 (bind-key "C-z C-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
 (bind-key "C-z C-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
 
-(bind-key "s-o g" (λ (projectile-switch-project-command 'projectile-vc)))
-(bind-key "s-o m" (λ (projectile-switch-project-command 'projector-run-shell-command-project-root)))
+(bind-key "s-o m" (λ (projectile-switch-project-command 'projectile-vc)))
+(bind-key "s-o f" (λ (projectile-switch-project-command 'projectile-find-file)))
+(bind-key "s-o c" (λ (projectile-switch-project-command 'projector-run-shell-command-project-root)))
 (bind-key "s-o x" (λ (projectile-switch-project-command 'projector-switch-to-or-create-project-shell)))
 (bind-key "s-o n" (λ (projectile-switch-project-command 'ort/capture-todo)))
 (bind-key "s-o `" (λ (projectile-switch-project-command 'ort/goto-todos)))
