@@ -591,7 +591,10 @@
   :init
   (make-ace-jump-buffer-function "shellish"
     (with-current-buffer buffer
-      (not (derived-mode-p 'comint-mode)))))
+      (not (derived-mode-p 'comint-mode))))
+  (make-ace-jump-buffer-function "magit"
+    (with-current-buffer buffer
+      (not (derived-mode-p 'magit-mode)))))
 
 (use-package key-chord
   :init (key-chord-mode 1)
