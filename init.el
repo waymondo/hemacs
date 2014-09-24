@@ -19,8 +19,7 @@
 
 (load (locate-user-emacs-file "defuns.el"))
 
-(setq debug-on-error t
-      history-length 100
+(setq history-length 100
       history-delete-duplicates t
       scroll-margin 24
       scroll-conservatively 10000
@@ -542,6 +541,9 @@
 (use-package discover-my-major
   :bind ("C-h C-m" . discover-my-major))
 
+(use-package popup
+  :bind ("C-h C-p" . describe-thing-in-popup))
+
 (use-package guide-key
   :init (guide-key-mode)
   :config
@@ -676,8 +678,6 @@
 (bind-key "s-w" 'kill-this-buffer)
 (bind-key "s-W" 'bury-buffer)
 
-(bind-key "C-h C-p" 'describe-thing-in-popup)
-
 (bind-key "C-z C-k" 'delete-file-and-buffer)
 (bind-key "C-z C-r" 'rename-file-and-buffer)
 (bind-key "C-z `" 'list-processes)
@@ -708,4 +708,3 @@
 
 (load-theme 'hemacs :no-confirm)
 (toggle-frame-fullscreen)
-(setq debug-on-error nil)
