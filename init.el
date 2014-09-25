@@ -65,8 +65,8 @@
 (with-region-or-line capitalize-region)
 (with-region-or-line downcase-region)
 (with-region-or-line yank-region)
-(with-region-or-line kill-region t)
-(with-region-or-line kill-ring-save t)
+(with-region-or-line kill-region :point-to-eol)
+(with-region-or-line kill-ring-save :point-to-eol)
 (with-region-or-buffer indent-region)
 (with-region-or-buffer untabify)
 

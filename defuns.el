@@ -28,12 +28,12 @@
         (cond (mark-active
                (list (region-beginning) (region-end)))
               (,point-to-eol
-               (list (point) (line-beginning-position 2)))
+               (list (point) (line-end-position)))
               ((list (line-beginning-position) (line-beginning-position 2))))))
      (defadvice ,func (after pulse-line-or-region activate compile)
        (unless mark-active
          (if ,point-to-eol
-             (pulse-momentary-highlight-region (point) (line-beginning-position 2))
+             (pulse-momentary-highlight-region (point) (line-end-position))
            (pulse-line-hook-function))))))
 
 (defmacro with-region-or-buffer (func)
