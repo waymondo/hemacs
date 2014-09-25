@@ -459,23 +459,20 @@
 
 (use-package ido
   :init
-  (progn
-    (ido-mode)
-    (use-package ido-ubiquitous
-      :init (ido-ubiquitous-mode))
-    (use-package flx-ido
-      :init (flx-ido-mode)
-      :config (setq flx-ido-use-faces nil))
-    (use-package ido-vertical-mode
-      :init (ido-vertical-mode)
-      :config (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)))
+  (ido-mode t)
+  (use-package ido-ubiquitous
+    :init (ido-ubiquitous-mode t))
+  (use-package flx-ido
+    :init (flx-ido-mode)
+    :config (setq flx-ido-use-faces nil))
+  (use-package ido-vertical-mode
+    :init (ido-vertical-mode t))
   :config
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
-        ido-auto-merge-delay-time 10
-        ido-enable-flex-matching t
-        ido-enable-dot-prefix t
-        ido-max-prospects 10
+        ido-auto-merge-delay-time 2
+        ido-use-filename-at-point 'guess
+        ido-use-url-at-point t
         ido-create-new-buffer 'always))
 
 (use-package diff-hl
