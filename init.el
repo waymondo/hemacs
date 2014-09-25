@@ -26,9 +26,6 @@
       scroll-conservatively 10000
       scroll-preserve-screen-position t
       echo-keystrokes 0.1
-      inhibit-startup-screen t
-      initial-scratch-message nil
-      inhibit-startup-echo-area-message ""
       ns-use-native-fullscreen nil
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
@@ -49,7 +46,10 @@
               left-fringe-width 10
               right-fringe-width 5)
 
-(setq split-height-threshold nil
+(setq inhibit-startup-screen t
+      initial-scratch-message nil
+      inhibit-startup-echo-area-message ""
+      split-height-threshold nil
       split-width-threshold 0
       pop-up-windows nil
       display-buffer-fallback-action
@@ -97,6 +97,7 @@
     :init (minibuffer-electric-default-mode)
     :config (setq minibuffer-eldef-shorten-default t))
   :config
+  (bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'face-remapping-alist)
          '((default :height 0.9)))))
@@ -104,10 +105,18 @@
 (use-package prog-mode
   :init (global-prettify-symbols-mode))
 
+(use-package simple
+  :bind (("C-`" . list-processes)
+         ("s-k" . kill-whole-line)))
+
+(use-package align
+  :bind ("C-\\" . align-regexp))
+
 (use-package image-mode
   :init (add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line))
 
 (use-package files
+  :bind ("s-s" . save-buffer)
   :config
   (progn
     (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
@@ -119,6 +128,12 @@
           auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
     (add-hook 'before-save-hook 'hemacs-save-hook)
     (add-hook 'find-file-hook 'sm-try-smerge t)))
+
+(use-package newcomment
+  :bind ("s-/" . comment-or-uncomment-region))
+
+(use-package ffap
+  :bind ("C-z C-f" . ffap))
 
 (use-package delsel
   :init (delete-selection-mode))
@@ -462,20 +477,19 @@
 
 (use-package ido
   :init
-  (ido-mode t)
+  (ido-mode)
   (use-package ido-ubiquitous
-    :init (ido-ubiquitous-mode t))
+    :init (ido-ubiquitous-mode))
   (use-package flx-ido
     :init (flx-ido-mode)
     :config (setq flx-ido-use-faces nil))
   (use-package ido-vertical-mode
-    :init (ido-vertical-mode t))
+    :init (ido-vertical-mode))
   :config
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
         ido-use-filename-at-point 'guess
-        ido-use-url-at-point t
         ido-create-new-buffer 'always))
 
 (use-package diff-hl
@@ -663,8 +677,6 @@
     (defpowerline powerline-minor-modes nil)))
 
 (bind-key "TAB" 'tab-dwim)
-(bind-key "<C-s-268632070>" 'toggle-frame-fullscreen)
-(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
 
 (bind-key "<M-up>" 'increment-number-at-point)
 (bind-key "<M-down>" 'decrement-number-at-point)
@@ -675,25 +687,20 @@
 (bind-key "s-]" 'shift-right)
 (bind-key "s-:" 'pad-colon)
 (bind-key "s-u" 'duplicate-dwim)
-(bind-key "s-s" 'save-buffer)
-(bind-key "s-/" 'comment-or-uncomment-region)
 (bind-key "<s-return>" 'eol-then-newline)
 
 (bind-key "C-a" 'back-to-indentation-or-beginning)
 (bind-key "s-," 'find-user-init-file-other-window)
 (bind-key "s-N" 'create-scratch-buffer)
-(bind-key "s-k" 'kill-whole-line)
 (bind-key "s-w" 'kill-this-buffer)
 (bind-key "s-W" 'bury-buffer)
 
 (bind-key "C-z C-k" 'delete-file-and-buffer)
 (bind-key "C-z C-r" 'rename-file-and-buffer)
-(bind-key "C-z `" 'list-processes)
-(bind-key "C-z C-\\" 'align-regexp)
 (bind-key "C-z C-w" 'what-face)
 (bind-key "C-z C-l" 'log-statement)
 (bind-key "C-z C-g" 'google-dwim)
-(bind-key "C-z C-f" 'ffap)
+
 (bind-key "C-z C--" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
 (bind-key "C-z C-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
 (bind-key "C-z C-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
