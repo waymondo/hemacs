@@ -109,12 +109,6 @@
       (delete-file filename)
       (kill-buffer)))))
 
-(defn back-to-indentation-or-beginning
-  (if (or (looking-back "^\s*")
-          (eq last-command 'back-to-indentation-or-beginning))
-      (beginning-of-line)
-    (back-to-indentation)))
-
 (defn kill-region-and-god-local-mode
   (when (region-active-p) (call-interactively 'kill-region))
   (god-local-mode -1))

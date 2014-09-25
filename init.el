@@ -107,7 +107,14 @@
 
 (use-package simple
   :bind (("C-`" . list-processes)
-         ("s-k" . kill-whole-line)))
+         ("s-k" . kill-whole-line))
+  :init
+  (defadvice move-beginning-of-line
+      (around move-beginning-of-line-or-indentation activate compile)
+    (let ((orig-point (point)))
+      (back-to-indentation)
+      (when (= orig-point (point))
+        ad-do-it))))
 
 (use-package align
   :bind ("C-\\" . align-regexp))
@@ -689,7 +696,6 @@
 (bind-key "s-u" 'duplicate-dwim)
 (bind-key "<s-return>" 'eol-then-newline)
 
-(bind-key "C-a" 'back-to-indentation-or-beginning)
 (bind-key "s-," 'find-user-init-file-other-window)
 (bind-key "s-N" 'create-scratch-buffer)
 (bind-key "s-w" 'kill-this-buffer)
