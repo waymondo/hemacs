@@ -187,11 +187,6 @@
 (defn sudo-edit
   (find-alternate-file (concat "/sudo::" (buffer-file-name))))
 
-(defn byte-compile-current-buffer
-  (when (and (eq major-mode 'emacs-lisp-mode)
-             (file-exists-p (byte-compile-dest-file buffer-file-name)))
-    (byte-compile-file buffer-file-name)))
-
 (defn google-dwim
   (browse-url
    (concat

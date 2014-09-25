@@ -19,7 +19,8 @@
 
 (load (locate-user-emacs-file "defuns.el"))
 
-(setq history-length 100
+(setq load-prefer-newer t
+      history-length 100
       history-delete-duplicates t
       scroll-margin 24
       scroll-conservatively 10000
@@ -34,7 +35,6 @@
       ring-bell-function 'ignore
       vc-follow-symlinks t
       gc-cons-threshold 50000000
-      byte-compile-warnings '(not obsolete)
       disabled-command-function nil
       create-lockfiles nil
       kill-buffer-query-functions
@@ -118,7 +118,6 @@
           backup-directory-alist `((".*" . ,temporary-file-directory))
           auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
     (add-hook 'before-save-hook 'hemacs-save-hook)
-    (add-hook 'after-save-hook 'byte-compile-current-buffer)
     (add-hook 'find-file-hook 'sm-try-smerge t)))
 
 (use-package delsel
@@ -158,6 +157,10 @@
   :config
   (setq auto-revert-verbose nil
         global-auto-revert-non-file-buffers t))
+
+(use-package auto-compile
+  :init (auto-compile-on-load-mode)
+  :config (setq auto-compile-display-buffer nil))
 
 (use-package imenu
   :init
