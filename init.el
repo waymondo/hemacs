@@ -351,17 +351,14 @@
 (use-package page-break-lines
   :init (global-page-break-lines-mode))
 
-(use-package httprepl)
-
 (use-package sgml-mode
   :init
-  (progn
-    (modify-syntax-entry ?= "." html-mode-syntax-table)
-    (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
-    (bind-key "<C-return>" 'html-smarter-newline html-mode-map)
-    (make-beautify-defun "html")))
-
-(use-package handlebars-mode)
+  (add-to-list 'auto-mode-alist '("\\.hbs$" . html-mode))
+  (add-to-list 'auto-mode-alist '("\\.handlebars$" . html-mode))
+  (modify-syntax-entry ?= "." html-mode-syntax-table)
+  (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
+  (bind-key "<C-return>" 'html-smarter-newline html-mode-map)
+  (make-beautify-defun "html"))
 
 (use-package fountain-mode
   :mode ("\\.fountain$" . fountain-mode)
