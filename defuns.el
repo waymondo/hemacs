@@ -56,13 +56,6 @@
   `(let ((projectile-switch-project-action ,func))
      (call-interactively 'projectile-switch-project)))
 
-(defun dwim-at-point ()
-  (cond ((use-region-p)
-         (buffer-substring-no-properties (region-beginning) (region-end)))
-        ((symbol-at-point)
-         (substring-no-properties
-          (symbol-name (symbol-at-point))))))
-
 (defn open-finder
   (shell-command (concat "open " (shell-quote-argument default-directory))))
 
@@ -151,14 +144,6 @@
   (unless (member major-mode indent-sensitive-modes)
     (indent-according-to-mode)))
 
-(defn toggle-split-window
-  (if (eq last-command 'toggle-split-window)
-      (progn
-        (jump-to-register :toggle-split-window)
-        (setq this-command 'toggle-unsplit-window))
-    (window-configuration-to-register :toggle-split-window)
-    (switch-to-buffer-other-window nil)))
-
 (defn tab-dwim
   (cond ((minibufferp)
          (hippie-expand nil))
@@ -178,16 +163,13 @@
 (defn shift-left
   (shift-right (* -1 (or arg 1))))
 
-(defn sudo-edit
-  (find-alternate-file (concat "/sudo::" (buffer-file-name))))
-
-(defn google-dwim
+(defn google
   (browse-url
    (concat
     "http://www.google.com/search?q="
     (if (region-active-p)
         (buffer-substring (region-beginning) (region-end))
-      (read-string "Query: " (dwim-at-point))))))
+      (read-string "Google Search: ")))))
 
 (defn clear-shell
   (let ((old-max comint-buffer-maximum-size))
@@ -212,11 +194,11 @@
     (shell-command (concat "hub pull-request -i " prompt))
     (magit-refresh)))
 
-(defn insert-fat-arrow
-  (insert " => "))
-
 (defn insert-arrow
   (insert " -> "))
+
+(defn insert-fat-arrow
+  (insert " => "))
 
 (defn open-brackets-newline-and-indent
   (insert " {\n\n}")

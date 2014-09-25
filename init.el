@@ -142,6 +142,9 @@
 (use-package ffap
   :bind ("C-z C-f" . ffap))
 
+(use-package menu-bar
+  :bind ("s-w" . kill-this-buffer))
+
 (use-package delsel
   :init (delete-selection-mode))
 
@@ -695,14 +698,13 @@
 
 (bind-key "s-," 'find-user-init-file-other-window)
 (bind-key "s-N" 'create-scratch-buffer)
-(bind-key "s-w" 'kill-this-buffer)
 (bind-key "s-W" 'bury-buffer)
 
 (bind-key "C-z C-k" 'delete-file-and-buffer)
 (bind-key "C-z C-r" 'rename-file-and-buffer)
 (bind-key "C-z C-w" 'what-face)
 (bind-key "C-z C-l" 'log-statement)
-(bind-key "C-z C-g" 'google-dwim)
+(bind-key "C-z C-g" 'google)
 
 (bind-key "C-z C--" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
 (bind-key "C-z C-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
