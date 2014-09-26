@@ -50,6 +50,7 @@
 (depends-on "noflet")
 (depends-on "org-repo-todo")
 (depends-on "page-break-lines")
+(depends-on "paredit")
 (depends-on "powerline" :git "https://github.com/unic0rn/powerline.git")
 (depends-on "projectile")
 (depends-on "projectile-rails")

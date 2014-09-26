@@ -299,6 +299,11 @@
 (use-package find-func
   :init (find-function-setup-keys))
 
+(use-package paredit
+  :init
+  (hook-modes lispy-modes
+    (enable-paredit-mode)))
+
 (use-package eldoc
   :init
   (hook-modes lispy-modes
