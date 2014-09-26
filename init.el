@@ -40,6 +40,7 @@
 
 (setq-default indent-tabs-mode nil
               tab-width 2
+              tab-always-indent 'complete
               cursor-type 'bar
               cursor-in-non-selected-windows nil
               indicate-empty-lines t
@@ -236,6 +237,7 @@
       (add-hook it #'pulse-line-hook-function))))
 
 (use-package hippie-exp
+  :bind ("s-;" . hippie-expand)
   :init
   (progn
     (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
@@ -677,8 +679,6 @@
   (progn
     (setq powerline-default-separator 'utf-8)
     (defpowerline powerline-minor-modes nil)))
-
-(bind-key "TAB" 'tab-dwim)
 
 (bind-key "<M-up>" 'increment-number-at-point)
 (bind-key "<M-down>" 'decrement-number-at-point)
