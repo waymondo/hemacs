@@ -471,6 +471,7 @@
           "^powder restart\\.*"
           "^heroku restart\\.*"
           "^spring stop"
+          "^gulp publish\\.*"
           "^git push\\.*"
           "\\.*cordova run\\.*"
           "^redis-server"
