@@ -77,10 +77,9 @@
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
   :init
-  (progn
-    (exec-path-from-shell-initialize)
-    (--each '("HISTFILE" "NODE_PATH" "SSL_CERT_FILE")
-      (exec-path-from-shell-copy-env it))))
+  (exec-path-from-shell-initialize)
+  (--each '("HISTFILE" "NODE_PATH" "SSL_CERT_FILE")
+    (exec-path-from-shell-copy-env it)))
 
 (use-package ns-win
   :config
@@ -122,16 +121,15 @@
 (use-package files
   :bind ("s-s" . save-buffer)
   :config
-  (progn
-    (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
-      (noflet ((process-list ())) ad-do-it))
-    (setq require-final-newline t
-          confirm-kill-emacs nil
-          confirm-nonexistent-file-or-buffer nil
-          backup-directory-alist `((".*" . ,temporary-file-directory))
-          auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-    (add-hook 'before-save-hook 'hemacs-save-hook)
-    (add-hook 'find-file-hook 'sm-try-smerge t)))
+  (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
+    (noflet ((process-list ())) ad-do-it))
+  (setq require-final-newline t
+        confirm-kill-emacs nil
+        confirm-nonexistent-file-or-buffer nil
+        backup-directory-alist `((".*" . ,temporary-file-directory))
+        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+  (add-hook 'before-save-hook 'hemacs-save-hook)
+  (add-hook 'find-file-hook 'sm-try-smerge t))
 
 (use-package newcomment
   :bind ("s-/" . comment-or-uncomment-region))
@@ -147,32 +145,29 @@
 
 (use-package comint
   :init
-  (progn
-    (bind-key "s-k" 'clear-shell comint-mode-map)
-    (setq comint-process-echoes t)
-    (setq-default comint-prompt-read-only t)
-    (setq-default comint-input-ignoredups t)
-    (setq comint-buffer-maximum-size 5000)
-    (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
-    (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
-    (add-hook 'comint-mode-hook 'hemacs-shellish-hook)))
+  (bind-key "s-k" 'clear-shell comint-mode-map)
+  (setq comint-process-echoes t
+        comint-buffer-maximum-size 5000)
+  (setq-default comint-prompt-read-only t
+                comint-input-ignoredups t)
+  (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
+  (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
+  (add-hook 'comint-mode-hook 'hemacs-shellish-hook))
 
 (use-package compile
   :init
-  (progn
-    (setq compilation-disable-input t)
-    (setq compilation-message-face nil)
-    (setq compilation-always-kill t)
-    (add-hook 'compilation-mode-hook 'hemacs-shellish-hook)))
+  (setq compilation-disable-input t
+        compilation-message-face nil
+        compilation-always-kill t)
+  (add-hook 'compilation-mode-hook 'hemacs-shellish-hook))
 
 (use-package shell
   :init
-  (progn
-    (setq async-shell-command-buffer 'new-buffer)
-    (setq shell-command-switch (purecopy "-ic"))
-    (setq explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
-    (add-λ 'shell-mode-hook
-      (turn-on-comint-history (getenv "HISTFILE")))))
+  (setq async-shell-command-buffer 'new-buffer
+        shell-command-switch (purecopy "-ic")
+        explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
+  (add-λ 'shell-mode-hook
+    (turn-on-comint-history (getenv "HISTFILE"))))
 
 (use-package autorevert
   :init (global-auto-revert-mode)
@@ -229,37 +224,35 @@
 
 (use-package pulse
   :config
-  (progn
-    (setq pulse-command-advice-flag t)
-    (setq pulse-delay 0)
-    (setq pulse-iterations 8)
-    (--each '(next-error-hook focus-in-hook)
-      (add-hook it #'pulse-line-hook-function))))
+  (setq pulse-command-advice-flag t
+        pulse-delay 0
+        pulse-iterations 8)
+  (--each '(next-error-hook focus-in-hook)
+    (add-hook it #'pulse-line-hook-function)))
 
 (use-package hippie-exp
   :bind ("s-;" . hippie-expand)
   :init
-  (progn
-    (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
-      (let ((case-fold-search nil))
-        ad-do-it))
-    (defalias 'he-dabbrev-beg 'hemacs-dabbrev-beg)
-    (global-set-key [remap dabbrev-expand] #'hippie-expand)
-    (bind-key "TAB" 'hippie-expand read-expression-map)
-    (bind-key "TAB" 'hippie-expand minibuffer-local-map)
-    (bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
-    (setq hippie-expand-verbose nil)
-    (setq hippie-expand-try-functions-list '(try-expand-dabbrev-visible
-                                             try-expand-dabbrev
-                                             try-expand-dabbrev-matching-buffers
-                                             try-complete-file-name-partially
-                                             try-complete-file-name
-                                             try-expand-dabbrev-other-buffers))
-    (hook-modes lispy-modes
-      (setq-local hippie-expand-try-functions-list
-                  (append '(try-complete-lisp-symbol-partially
-                            try-complete-lisp-symbol)
-                          hippie-expand-try-functions-list)))))
+  (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
+    (let ((case-fold-search nil))
+      ad-do-it))
+  (defalias 'he-dabbrev-beg 'hemacs-dabbrev-beg)
+  (global-set-key [remap dabbrev-expand] #'hippie-expand)
+  (bind-key "TAB" 'hippie-expand read-expression-map)
+  (bind-key "TAB" 'hippie-expand minibuffer-local-map)
+  (bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
+  (setq hippie-expand-verbose nil
+        hippie-expand-try-functions-list '(try-expand-dabbrev-visible
+                                           try-expand-dabbrev
+                                           try-expand-dabbrev-matching-buffers
+                                           try-complete-file-name-partially
+                                           try-complete-file-name
+                                           try-expand-dabbrev-other-buffers))
+  (hook-modes lispy-modes
+    (setq-local hippie-expand-try-functions-list
+                (append '(try-complete-lisp-symbol-partially
+                          try-complete-lisp-symbol)
+                        hippie-expand-try-functions-list))))
 
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
@@ -276,31 +269,30 @@
 
 (use-package zone
   :init
-  (progn
-    (defadvice zone (before zone-one-buffer activate compile)
-      (delete-other-windows))
-    (zone-when-idle 248)))
+  (defadvice zone (before zone-one-buffer activate compile)
+    (delete-other-windows))
+  (zone-when-idle 248))
 
 (use-package dired
   :init
-  (progn
-    (use-package dired-toggle
-      :bind ("s-\\" . dired-toggle)
-      :config (setq dired-toggle-window-size 48))
-    (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
-    (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-    (setq dired-recursive-deletes 'always
-          dired-recursive-copies 'always
-          dired-auto-revert-buffer t)))
+  (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (setq dired-recursive-deletes 'always
+        dired-recursive-copies 'always
+        dired-auto-revert-buffer t))
+
+(use-package dired-toggle
+  :bind ("s-\\" . dired-toggle)
+  :config (setq dired-toggle-window-size 48))
 
 (use-package org
   :config
-  (progn
-    (setq org-support-shift-select t)
-    (setq org-completion-use-ido t)
-    (use-package org-repo-todo
-      :bind (("s-n" . ort/capture-todo)
-             ("s-`" . ort/goto-todos)))))
+  (setq org-support-shift-select t
+        org-completion-use-ido t))
+
+(use-package org-repo-todo
+  :bind (("s-n" . ort/capture-todo)
+         ("s-`" . ort/goto-todos)))
 
 (use-package find-func
   :init (find-function-setup-keys))
@@ -318,16 +310,14 @@
 (use-package smex
   :bind ("s-P" . smex)
   :init
-  (progn
-    (smex-initialize)
-    (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
-    (global-set-key [remap execute-extended-command] #'smex)))
+  (smex-initialize)
+  (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
+  (global-set-key [remap execute-extended-command] #'smex))
 
 (use-package ag
   :config
-  (progn
-    (setq ag-reuse-buffers t)
-    (setq ag-highlight-search t)))
+  (setq ag-reuse-buffers t
+        ag-highlight-search t))
 
 (use-package alert
   :config (setq alert-default-style 'notifier))
@@ -367,55 +357,49 @@
   :config (add-hook 'markdown-mode-hook 'hemacs-writing-hook))
 
 (use-package css-mode
-  :init
-  (use-package less-css-mode
-    :mode ("\\.scss$" . less-css-mode))
   :config
-  (progn
-    (setq css-indent-offset 2)
-    (make-beautify-defun "css")))
+  (setq css-indent-offset 2)
+  (make-beautify-defun "css"))
+
+(use-package less-css-mode
+  :mode ("\\.scss$" . less-css-mode))
 
 (use-package js
   :mode ("\\.json$" . js-mode)
   :interpreter ("node" . js-mode)
   :config
-  (progn
-    (make-beautify-defun "js")
-    (setq-default js-indent-level 2)))
+  (make-beautify-defun "js")
+  (setq-default js-indent-level 2))
 
 (use-package coffee-mode
   :mode ("\\.coffee\\.*" . coffee-mode)
   :ensure coffee-mode
   :config
-  (progn
-    (setq coffee-args-repl '("-i" "--nodejs"))
-    (bind-key "<C-return>" 'coffee-smarter-newline coffee-mode-map)
-    (bind-key "C-c C-c" 'coffee-compile-region coffee-mode-map)))
+  (setq coffee-args-repl '("-i" "--nodejs"))
+  (bind-key "<C-return>" 'coffee-smarter-newline coffee-mode-map)
+  (bind-key "C-c C-c" 'coffee-compile-region coffee-mode-map))
 
 (use-package ruby-mode
   :init
-  (progn
-    (bind-key "<C-return>" 'ruby-smarter-newline ruby-mode-map)
-    (use-package rspec-mode)
-    (use-package ruby-end
-      :config (setq ruby-end-insert-newline nil))
-    (use-package robe
-      :init (add-hook 'ruby-mode-hook 'robe-mode))
-    (use-package inf-ruby
-      :init (add-λ 'inf-ruby-mode-hook
-              (turn-on-comint-history "~/.irb_history")))
-    (use-package slim-mode
-      :config
-      (progn
-        (setq slim-backspace-backdents-nesting nil)
-        (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
-        (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))))
-    (use-package ruby-hash-syntax
-      :init
-      (progn
-        (bind-key "C-:" 'ruby-toggle-hash-syntax ruby-mode-map)
-        (bind-key "C-:" 'ruby-toggle-hash-syntax slim-mode-map)))
-    (use-package rhtml-mode))
+  (bind-key "<C-return>" 'ruby-smarter-newline ruby-mode-map)
+  (use-package rspec-mode)
+  (use-package ruby-end
+    :config (setq ruby-end-insert-newline nil))
+  (use-package robe
+    :init (add-hook 'ruby-mode-hook 'robe-mode))
+  (use-package inf-ruby
+    :init (add-λ 'inf-ruby-mode-hook
+            (turn-on-comint-history "~/.irb_history")))
+  (use-package slim-mode
+    :config
+    (setq slim-backspace-backdents-nesting nil)
+    (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
+    (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
+  (use-package ruby-hash-syntax
+    :init
+    (bind-key "C-:" 'ruby-toggle-hash-syntax ruby-mode-map)
+    (bind-key "C-:" 'ruby-toggle-hash-syntax slim-mode-map))
+  (use-package rhtml-mode)
   :mode (("Procfile$" . ruby-mode)
          ("\\.rabl$" . ruby-mode)
          ("\\.env\\.*" . ruby-mode)))
@@ -423,22 +407,21 @@
 (use-package magit
   :bind ("s-m" . magit-status)
   :config
-  (progn
-    (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
-    (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
-    (bind-key "C-z C-k" 'magit-kill-file-on-line magit-mode-map)
-    (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
-          magit-completing-read-function 'magit-ido-completing-read
-          magit-log-auto-more t
-          magit-set-upstream-on-push t
-          magit-restore-window-configuration t
-          magit-save-some-buffers nil
-          magit-revert-item-confirm nil
-          magit-stage-all-confirm nil
-          magit-unstage-all-confirm nil
-          magit-commit-ask-to-stage nil)
-    (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
-    (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook)))
+  (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
+  (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
+  (bind-key "C-z C-k" 'magit-kill-file-on-line magit-mode-map)
+  (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
+        magit-completing-read-function 'magit-ido-completing-read
+        magit-log-auto-more t
+        magit-set-upstream-on-push t
+        magit-restore-window-configuration t
+        magit-save-some-buffers nil
+        magit-revert-item-confirm nil
+        magit-stage-all-confirm nil
+        magit-unstage-all-confirm nil
+        magit-commit-ask-to-stage nil)
+  (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
+  (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook))
 
 (use-package github-browse-file
   :bind (("C-x v o" . github-browse-file)
@@ -457,11 +440,10 @@
 (use-package swoop
   :bind ("s-f" . swoop)
   :config
-  (progn
-    (setq swoop-font-size-change: nil
-          swoop-window-split-direction: 'split-window-horizontally
-          swoop-pre-input-point-at-function: (λ))
-    (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)))
+  (setq swoop-font-size-change: nil
+        swoop-window-split-direction: 'split-window-horizontally
+        swoop-pre-input-point-at-function: (λ))
+  (bind-key "C-o" 'swoop-multi-from-swoop swoop-map))
 
 (use-package projector
   :bind* (("C-z RET" . projector-run-shell-command-project-root)
@@ -498,9 +480,8 @@
 
 (use-package diff-hl
   :init
-  (progn
-    (global-diff-hl-mode)
-    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)))
+  (global-diff-hl-mode)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
 
 (use-package auto-dim-other-buffers
   :init (auto-dim-other-buffers-mode))
@@ -531,14 +512,13 @@
 (use-package god-mode
   :bind ("<escape>" . god-local-mode)
   :config
-  (progn
-    (bind-key "i" 'kill-region-and-god-local-mode god-local-mode-map)
-    (bind-key "." 'repeat god-local-mode-map)
-    (add-λ 'god-mode-enabled-hook
-      (setq cursor-type 'box))
-    (add-λ 'god-mode-disabled-hook
-      (setq cursor-type 'bar))
-    (add-to-list 'god-exempt-major-modes 'git-commit-mode)))
+  (bind-key "i" 'kill-region-and-god-local-mode god-local-mode-map)
+  (bind-key "." 'repeat god-local-mode-map)
+  (add-λ 'god-mode-enabled-hook
+    (setq cursor-type 'box))
+  (add-λ 'god-mode-disabled-hook
+    (setq cursor-type 'bar))
+  (add-to-list 'god-exempt-major-modes 'git-commit-mode))
 
 (use-package dash-at-point
   :bind (("C-h d" . dash-at-point)
@@ -617,47 +597,47 @@
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
-  (progn
-    (key-chord-define-global ",." "<>\C-b")
-    (key-chord-define-global "}|" "||\C-b")
-    (key-chord-define-global "<>" 'sgml-close-tag)
-    (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
-    (key-chord-define-global "[]" 'pad-brackets)
-    (key-chord-define-global "_+" 'insert-fat-arrow)
-    (key-chord-define-global "-=" 'insert-arrow)
-    (key-chord-define-global "^^" (λ (insert "λ")))
-    (key-chord-define-global ";a" 'ace-jump-buffer)
-    (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
-    (key-chord-define-global ";s" 'ido-switch-buffer)
-    (key-chord-define-global ":S" 'ido-switch-buffer-other-window)
-    (key-chord-define-global ";w" 'toggle-split-window)
-    (key-chord-define-global ":W" 'delete-other-windows)
-    (key-chord-define-global ";f" 'ido-find-file)
-    (key-chord-define-global ":F" 'ido-find-file-other-window)
-    (key-chord-define-global ";t" 'projectile-find-file)
-    (key-chord-define-global ":T" 'projectile-find-file-other-window)
-    (key-chord-define-global ";g" 'projectile-ag)
-    (key-chord-define-global ":G" 'ag)
-    (key-chord-define-global "jb" 'ace-jump-buffer-with-configuration)
-    (key-chord-define-global "jj" 'ace-jump-char-mode)
-    (key-chord-define-global "jk" 'ace-jump-word-mode)
-    (key-chord-define-global "jl" 'ace-jump-line-mode)
-    (key-chord-define-global "jz" 'ace-jump-zap-up-to-char)
-    (key-chord-define-global "zz" 'zap-up-to-char)
-    (setq key-chord-two-keys-delay 0.07)))
+  (key-chord-define-global ",." "<>\C-b")
+  (key-chord-define-global "}|" "||\C-b")
+  (key-chord-define-global "<>" 'sgml-close-tag)
+  (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
+  (key-chord-define-global "[]" 'pad-brackets)
+  (key-chord-define-global "_+" 'insert-fat-arrow)
+  (key-chord-define-global "-=" 'insert-arrow)
+  (key-chord-define-global "^^" (λ (insert "λ")))
+  (key-chord-define-global ";a" 'ace-jump-buffer)
+  (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
+  (key-chord-define-global ";s" 'ido-switch-buffer)
+  (key-chord-define-global ":S" 'ido-switch-buffer-other-window)
+  (key-chord-define-global ";w" 'toggle-split-window)
+  (key-chord-define-global ":W" 'delete-other-windows)
+  (key-chord-define-global ";f" 'ido-find-file)
+  (key-chord-define-global ":F" 'ido-find-file-other-window)
+  (key-chord-define-global ";t" 'projectile-find-file)
+  (key-chord-define-global ":T" 'projectile-find-file-other-window)
+  (key-chord-define-global ";g" 'projectile-ag)
+  (key-chord-define-global ":G" 'ag)
+  (key-chord-define-global "jb" 'ace-jump-buffer-with-configuration)
+  (key-chord-define-global "jj" 'ace-jump-char-mode)
+  (key-chord-define-global "jk" 'ace-jump-word-mode)
+  (key-chord-define-global "jl" 'ace-jump-line-mode)
+  (key-chord-define-global "jz" 'ace-jump-zap-up-to-char)
+  (key-chord-define-global "zz" 'zap-up-to-char)
+  (setq key-chord-two-keys-delay 0.07))
 
 (use-package company
   :init
-  (progn
-    (add-hook 'after-init-hook #'global-company-mode)
-    (use-package readline-complete
-      :init (push 'company-readline company-backends)
-      :config (add-λ 'rlc-no-readline-hook (company-mode -1))))
+  (add-hook 'after-init-hook #'global-company-mode)
+  (add-hook 'inf-ruby-mode-hook #'company-mode)
+  (use-package readline-complete
+    :init (push 'company-readline company-backends)
+    :config (add-λ 'rlc-no-readline-hook (company-mode -1)))
   :config
   (setq company-tooltip-flip-when-above t
         company-show-numbers t
         company-tooltip-align-annotations t
         company-require-match nil
+        company-minimum-prefix-length 2
         company-occurrence-weight-function 'company-occurrence-prefer-any-closest
         company-dabbrev-downcase nil)
   (bind-key "TAB" 'company-complete shell-mode-map))
@@ -676,9 +656,8 @@
 (use-package powerline
   :init (powerline-default-theme)
   :config
-  (progn
-    (setq powerline-default-separator 'utf-8)
-    (defpowerline powerline-minor-modes nil)))
+  (setq powerline-default-separator 'utf-8)
+  (defpowerline powerline-minor-modes nil))
 
 (bind-key "<M-up>" 'increment-number-at-point)
 (bind-key "<M-down>" 'decrement-number-at-point)
