@@ -71,11 +71,7 @@
 (with-region-or-buffer untabify)
 
 (define-prefix-command 'hemacs-map)
-(define-prefix-command 'hemacs-projectile-map)
-(define-prefix-command 'hemacs-crab-map)
 (bind-key "C-z" 'hemacs-map)
-(bind-key "s-o" 'hemacs-projectile-map)
-(bind-key "C-z c" 'hemacs-crab-map)
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
@@ -335,11 +331,9 @@
   :config (setq alert-default-style 'notifier))
 
 (use-package crab-mode
-  :bind (("C-z c r" . crab-reload)
-         ("C-z c e" . crab-eval-coffee)
-         ("C-z c l" . crab-console-log)
-         ("C-z c <left>" . crab-prev-tab)
-         ("C-z c <right>" . crab-next-tab))
+  :bind (("s-R" . crab-reload)
+         ("s-”" . crab-prev-tab)
+         ("s-’" . crab-next-tab))
   :idle (crab-server-start))
 
 (use-package projectile
@@ -699,18 +693,20 @@
 (bind-key "s-," 'find-user-init-file-other-window)
 (bind-key "s-N" 'create-scratch-buffer)
 (bind-key "s-W" 'bury-buffer)
+(bind-key "s-g" 'google)
 
 (bind-key "C-z C-k" 'delete-file-and-buffer)
 (bind-key "C-z C-r" 'rename-file-and-buffer)
-(bind-key "C-z C-w" 'what-face)
 (bind-key "C-z C-l" 'log-statement)
-(bind-key "C-z C-g" 'google)
+(bind-key "C-z C-w" 'what-face)
 
-(bind-key "C-z C--" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
-(bind-key "C-z C-_" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
-(bind-key "C-z C-c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
-(bind-key "C-z C-C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
+(bind-key "C-z -" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
+(bind-key "C-z _" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
+(bind-key "C-z c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
+(bind-key "C-z C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
 
+(define-prefix-command 'hemacs-projectile-map)
+(bind-key "s-o" 'hemacs-projectile-map)
 (bind-key "s-o m" (λ (projectile-switch-project-command 'projectile-vc)))
 (bind-key "s-o f" (λ (projectile-switch-project-command 'projectile-find-file)))
 (bind-key "s-o c" (λ (projectile-switch-project-command 'projector-run-shell-command-project-root)))
