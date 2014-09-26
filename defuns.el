@@ -275,6 +275,14 @@
     (switch-to-buffer buf)
     (funcall current-major-mode)))
 
+(defn toggle-split-window
+  (if (eq last-command 'toggle-split-window)
+      (progn
+        (jump-to-register :toggle-split-window)
+        (setq this-command 'toggle-unsplit-window))
+    (window-configuration-to-register :toggle-split-window)
+    (switch-to-buffer-other-window nil)))
+
 (--each '(yank yank-pop clipboard-yank)
   (eval `(defadvice ,it (after indent-region activate compile)
            (and (not current-prefix-arg)

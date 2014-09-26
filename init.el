@@ -1,13 +1,15 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
-(add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 (require 'use-package)
 (use-package s)
 (use-package noflet)
-(use-package dash :config (dash-enable-font-lock))
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
+(use-package dash
+  :config (dash-enable-font-lock))
+(use-package tool-bar
+  :init (tool-bar-mode -1))
+(use-package scroll-bar
+  :init (scroll-bar-mode -1))
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
@@ -15,7 +17,6 @@
   '(prog-mode css-mode sgml-mode))
 (defvar lispy-modes
   '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
-(defalias 'yes-or-no-p 'y-or-n-p)
 
 (load (locate-user-emacs-file "defuns.el"))
 
@@ -119,6 +120,7 @@
   :init (add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line))
 
 (use-package files
+  :mode ("Cask" . emacs-lisp-mode)
   :bind ("s-s" . save-buffer)
   :config
   (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
@@ -646,7 +648,7 @@
   :init
   (hook-modes progish-modes
     (when (not (member major-mode indent-sensitive-modes))
-      (smart-newline-mode 1))))
+      (smart-newline-mode))))
 
 (use-package back-button
   :bind (("s-{" . back-button-global-backward)
@@ -703,5 +705,6 @@
 (bind-key "M-TAB" 'previous-history-element ido-completion-map)
 (bind-key "<M-S-tab>" 'next-history-element ido-completion-map)
 
+(set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
 (load-theme 'hemacs :no-confirm)
 (toggle-frame-fullscreen)
