@@ -128,6 +128,7 @@
   (setq require-final-newline t
         confirm-kill-emacs nil
         confirm-nonexistent-file-or-buffer nil
+        insert-directory-program "gls"
         backup-directory-alist `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
   (add-hook 'before-save-hook 'hemacs-save-hook)
