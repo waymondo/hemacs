@@ -59,7 +59,6 @@
 (depends-on "rainbow-delimiters")
 (depends-on "readline-complete")
 (depends-on "rhtml-mode")
-(depends-on "robe")
 (depends-on "rspec-mode")
 (depends-on "ruby-end")
 (depends-on "ruby-hash-syntax")

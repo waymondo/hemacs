@@ -393,8 +393,6 @@
   (use-package rspec-mode)
   (use-package ruby-end
     :config (setq ruby-end-insert-newline nil))
-  (use-package robe
-    :init (add-hook 'ruby-mode-hook 'robe-mode))
   (use-package inf-ruby
     :init (add-λ 'inf-ruby-mode-hook
             (turn-on-comint-history "~/.irb_history")))
