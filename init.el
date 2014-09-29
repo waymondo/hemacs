@@ -455,8 +455,7 @@
   :bind* (("C-z RET" . projector-run-shell-command-project-root)
           ("C-z m" . projector-switch-to-or-create-project-shell))
   :config
-  (setq projector-projects-root "~/code/"
-        projector-always-background-regex
+  (setq projector-always-background-regex
         '("^mysql.server\\.*"
           "^powder restart\\.*"
           "^heroku restart\\.*"
