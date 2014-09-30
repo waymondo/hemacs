@@ -12,15 +12,14 @@ cask
 open /Applications/Emacs.app
 ```
 
-##### Extra Dependencies
+Extra dependencies:
 
 ```
-brew install git hub ag terminal-notifier node the_silver_searcher ctags markdown bash-completion xz coreutils
-# follow brew post-install instructions
+brew install git hub ag terminal-notifier node the_silver_searcher markdown bash-completion xz coreutils
 npm install -g js-beautifier
 gem install ripper-tags
 ```
 
 Uses [Meslo LG M DZ for Powerline](https://github.com/Lokaltog/powerline-fonts) as the default font.
 
-Control Google Chrome with the [https://github.com/puffnfresh/crab-chrome](Crab Chrome Extension).
+Control Google Chrome with the [Crab Chrome Extension](https://github.com/puffnfresh/crab-chrome).

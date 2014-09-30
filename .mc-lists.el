@@ -36,6 +36,7 @@
         nxml-electric-slash
         org-self-insert-command
         pad-colon
+        paredit-forward-delete
         right-subword
         ruby-end-space
         ruby-smart-newline-end-defun
@@ -72,6 +73,7 @@
         next-error
         ort/capture-todo
         persp-switch
+        projector-switch-to-or-create-project-shell
         query-replace
         smex
         swoop-action-cancel
