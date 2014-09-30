@@ -185,8 +185,7 @@
 (use-package imenu
   :init
   (use-package imenu-anywhere
-    :bind ("s-r" . imenu-anywhere)
-    :config (add-hook 'imenu-after-jump-hook #'pulse-line-hook-function))
+    :bind ("s-r" . imenu-anywhere))
   :config (setq imenu-auto-rescan t))
 
 (use-package savehist
@@ -230,7 +229,7 @@
   (setq pulse-command-advice-flag t
         pulse-delay 0
         pulse-iterations 8)
-  (--each '(next-error-hook focus-in-hook)
+  (--each '(next-error-hook focus-in-hook find-tag-hook find-function-after-hook imenu-after-jump-hook)
     (add-hook it #'pulse-line-hook-function)))
 
 (use-package hippie-exp
