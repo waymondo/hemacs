@@ -340,7 +340,8 @@
   :bind (("s-t" . projectile-find-file)
          ("s-p" . projectile-commander))
   :idle (projectile-global-mode)
-  :config (setq projectile-enable-caching t)
+  :config (setq projectile-enable-caching t
+                projectile-tags-command "ripper-tags -R -f TAGS")
   :init
   (use-package projectile-rails
     :init (add-hook 'projectile-mode-hook 'projectile-rails-on)))

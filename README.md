@@ -18,6 +18,7 @@ open /Applications/Emacs.app
 brew install git hub ag terminal-notifier node the_silver_searcher ctags markdown bash-completion xz coreutils
 # follow brew post-install instructions
 npm install -g js-beautifier
+gem install ripper-tags
 ```
 
 Uses [Meslo LG M DZ for Powerline](https://github.com/Lokaltog/powerline-fonts) as the default font.
