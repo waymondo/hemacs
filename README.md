@@ -2,10 +2,11 @@ An ever evolving Carbon Emacs 24.4+ setup on OSX. I'm mainly writing Ruby and Co
 
 ### Installation
 
-Install [Homebrew](http://mxcl.github.com/homebrew) and [Cask](http://cask.readthedocs.org/en/latest/guide/installation.html), then:
+Install [Homebrew](http://mxcl.github.com/homebrew), then:
 
 ```
 brew install emacs --cocoa --srgb --with-glib --with-imagemagick --use-git-head --HEAD
+brew install cask
 brew linkapps
 git clone git://github.com/waymondo/hemacs ~/.emacs.d && cd ~/.emacs.d 
 cask
@@ -15,7 +16,7 @@ open /Applications/Emacs.app
 Extra dependencies:
 
 ```
-brew install git hub ag terminal-notifier node the_silver_searcher markdown bash-completion xz coreutils
+brew install git hub ag terminal-notifier node the_silver_searcher markdown bash-completion coreutils
 npm install -g js-beautifier
 gem install ripper-tags
 ```
