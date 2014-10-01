@@ -391,8 +391,6 @@
   :init
   (bind-key "<C-return>" 'ruby-smarter-newline ruby-mode-map)
   (use-package rspec-mode)
-  (use-package ruby-end
-    :config (setq ruby-end-insert-newline nil))
   (use-package inf-ruby
     :init (add-λ 'inf-ruby-mode-hook
             (turn-on-comint-history "~/.irb_history")))
