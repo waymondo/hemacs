@@ -41,7 +41,6 @@
 
 (setq-default indent-tabs-mode nil
               tab-width 2
-              tab-always-indent 'complete
               cursor-type 'bar
               cursor-in-non-selected-windows nil
               indicate-empty-lines t
@@ -121,7 +120,6 @@
 
 (use-package files
   :mode ("Cask" . emacs-lisp-mode)
-  :bind ("s-s" . save-buffer)
   :config
   (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
     (noflet ((process-list ())) ad-do-it))
@@ -233,7 +231,6 @@
     (add-hook it #'pulse-line-hook-function)))
 
 (use-package hippie-exp
-  :bind ("s-;" . hippie-expand)
   :init
   (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
     (let ((case-fold-search nil))
@@ -661,6 +658,8 @@
   :config
   (setq powerline-default-separator 'utf-8)
   (defpowerline powerline-minor-modes nil))
+
+(bind-key "TAB" 'tab-dwim)
 
 (bind-key "<M-up>" 'increment-number-at-point)
 (bind-key "<M-down>" 'decrement-number-at-point)
