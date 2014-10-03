@@ -79,7 +79,7 @@
   :if (memq window-system '(mac ns))
   :init
   (exec-path-from-shell-initialize)
-  (--each '("HISTFILE" "NODE_PATH" "SSL_CERT_FILE")
+  (--each '("HISTFILE" "NODE_PATH")
     (exec-path-from-shell-copy-env it)))
 
 (use-package ns-win
