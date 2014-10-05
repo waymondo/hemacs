@@ -539,6 +539,7 @@
   :bind ("C-h C-m" . discover-my-major))
 
 (use-package popup
+  :commands popup-tip
   :bind ("C-h C-p" . describe-thing-in-popup))
 
 (use-package guide-key
