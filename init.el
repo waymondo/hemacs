@@ -17,6 +17,8 @@
   '(prog-mode css-mode sgml-mode))
 (defvar lispy-modes
   '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
+(defvar ruby-modes
+  '(ruby-mode rhtml-mode slim-mode inf-ruby-mode))
 
 (load (locate-user-emacs-file "defuns.el"))
 
@@ -396,11 +398,15 @@
     (setq slim-backspace-backdents-nesting nil)
     (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
     (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
+  (use-package rhtml-mode)
+  (use-package chruby
+    :init
+    (add-hook 'projectile-switch-project-hook 'chruby-use-corresponding))
   (use-package ruby-hash-syntax
     :init
-    (bind-key "C-:" 'ruby-toggle-hash-syntax ruby-mode-map)
-    (bind-key "C-:" 'ruby-toggle-hash-syntax slim-mode-map))
-  (use-package rhtml-mode)
+    (--each ruby-modes
+      (bind-key "C-:" 'ruby-toggle-hash-syntax
+                (symbol-value (intern (format "%s-map" it))))))
   :mode (("Procfile$" . ruby-mode)
          ("\\.rabl$" . ruby-mode)
          ("\\.env\\.*" . ruby-mode)))

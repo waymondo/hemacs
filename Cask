@@ -12,6 +12,7 @@
 (depends-on "back-button")
 (depends-on "cask")
 (depends-on "change-inner")
+(depends-on "chruby")
 (depends-on "crab" :git "https://github.com/waymondo/crab-emacs.git")
 (depends-on "coffee-mode")
 (depends-on "company")
