@@ -16,7 +16,7 @@ open /Applications/Emacs.app
 Extra dependencies:
 
 ```
-brew install git hub ag terminal-notifier node the_silver_searcher markdown bash-completion coreutils
+brew install git hub terminal-notifier node the_silver_searcher markdown bash-completion coreutils
 npm install -g js-beautifier
 gem install ripper-tags
 ```
