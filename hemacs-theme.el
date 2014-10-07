@@ -124,12 +124,6 @@
    `(flymake-warnline ((t (:underline ,orange :background ,base00+1))))
    `(flymake-errline ((t (:underline ,red :background ,base00+1))))
 
-   `(swoop-face-target-words ((t (:foreground ,yellow))))
-   `(swoop-face-target-line ((t (:background ,base01))))
-   `(swoop-face-line-buffer-name ((t (:inherit header-line :foreground ,base02))))
-   `(swoop-face-header-format-line ((t (:inherit swoop-face-line-buffer-name :foreground ,purple))))
-   `(swoop-face-line-number ((t (:foreground ,base02))))
-
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,purple))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,blue))))
    `(rainbow-delimiters-depth-3-face ((t (:foreground ,aqua))))

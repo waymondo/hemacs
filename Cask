@@ -67,7 +67,6 @@
 (depends-on "smart-newline")
 (depends-on "smex")
 (depends-on "stylus-mode")
-(depends-on "swoop")
 (depends-on "toggle-quotes")
 (depends-on "undo-tree")
 (depends-on "use-package")
