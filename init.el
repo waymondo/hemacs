@@ -185,9 +185,10 @@
 
 (use-package imenu
   :init
+  (add-hook 'emacs-lisp-mode-hook 'setup-imenu-for-use-package)
+  (setq imenu-auto-rescan t)
   (use-package imenu-anywhere
-    :bind ("s-r" . imenu-anywhere))
-  :config (setq imenu-auto-rescan t))
+    :bind ("s-r" . imenu-anywhere)))
 
 (use-package savehist
   :init (savehist-mode)

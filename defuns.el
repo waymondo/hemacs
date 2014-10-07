@@ -351,6 +351,11 @@
     (setq mode-line-buffer-identification
           (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
 
+(defun setup-imenu-for-use-package ()
+  (add-to-list
+   'imenu-generic-expression
+   '("Packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)))
+
 (defn describe-thing-in-popup
   (let* ((thing (symbol-at-point))
          (help-xref-following t)
