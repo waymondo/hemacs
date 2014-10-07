@@ -28,6 +28,7 @@
       scroll-margin 24
       scroll-conservatively 10000
       scroll-preserve-screen-position t
+      auto-window-vscroll nil
       echo-keystrokes 0.1
       ns-use-native-fullscreen nil
       ns-use-srgb-colorspace t
