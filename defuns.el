@@ -75,11 +75,6 @@
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
 
-(defn subword-backward-delete
-  (let ((beg (point)))
-    (subword-backward arg)
-    (delete-region (point) beg)))
-
 (defn rename-file-and-buffer
   (let* ((filename (buffer-file-name))
          (old-name (if filename

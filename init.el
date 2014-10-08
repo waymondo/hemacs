@@ -108,6 +108,9 @@
   :bind (("C-`" . list-processes)
          ("s-k" . kill-whole-line))
   :init
+  (defadvice backward-kill-word (around backward-kill-subword activate compile)
+    (noflet ((kill-region (beg end) (delete-region beg end)))
+      ad-do-it))
   (defadvice move-beginning-of-line
       (around move-beginning-of-line-or-indentation activate compile)
     (let ((orig-point (point)))
@@ -220,11 +223,7 @@
          (?\` . ?\`))))
 
 (use-package subword
-  :bind* (("<M-left>" . subword-left)
-          ("<M-right>" . subword-right))
-  :init (global-subword-mode)
-  :config
-  (define-key subword-mode-map [remap backward-kill-word] 'subword-backward-delete))
+  :init (global-subword-mode))
 
 (use-package pulse
   :config
