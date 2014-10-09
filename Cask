@@ -22,6 +22,7 @@
 (depends-on "diff-hl")
 (depends-on "dired-toggle")
 (depends-on "discover-my-major")
+(depends-on "easy-kill")
 (depends-on "edit-server")
 (depends-on "elisp-slime-nav")
 (depends-on "exec-path-from-shell")

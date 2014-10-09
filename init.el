@@ -88,17 +88,6 @@
         ns-pop-up-frames nil
         mac-right-option-modifier 'none))
 
-(use-package minibuffer
-  :init
-  (use-package minibuf-eldef
-    :init (minibuffer-electric-default-mode)
-    :config (setq minibuffer-eldef-shorten-default t))
-  :config
-  (bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
-  (add-λ 'minibuffer-setup-hook
-    (set (make-local-variable 'face-remapping-alist)
-         '((default :height 0.9)))))
-
 (use-package prog-mode
   :init (global-prettify-symbols-mode))
 
@@ -263,10 +252,6 @@
 
 (use-package saveplace
   :config (setq-default save-place t))
-
-(use-package server
-  :if window-system
-  :init (unless (server-running-p) (server-start)))
 
 (use-package edit-server
   :init (edit-server-start t))
@@ -679,6 +664,7 @@
   (defpowerline powerline-minor-modes nil))
 
 (bind-key "TAB" 'tab-dwim)
+(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
 
 (bind-key "<M-up>" 'increment-number-at-point)
 (bind-key "<M-down>" 'decrement-number-at-point)
