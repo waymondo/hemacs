@@ -601,6 +601,18 @@
     (with-current-buffer buffer
       (not (derived-mode-p 'magit-mode)))))
 
+(use-package swoop
+  :config
+  (setq swoop-font-size-change: nil
+        swoop-window-split-direction: 'split-window-horizontally)
+  (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)
+  (bind-key "C-s" 'swoop-action-goto-line-next swoop-map)
+  (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
+
+(use-package ace-isearch
+  :init (global-ace-isearch-mode)
+  :config (setq ace-isearch-funtion-from-isearch 'swoop-from-isearch))
+
 (use-package key-chord
   :init (key-chord-mode 1)
   :config

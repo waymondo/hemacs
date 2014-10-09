@@ -1,6 +1,7 @@
 (source gnu)
 (source melpa)
 
+(depends-on "ace-isearch")
 (depends-on "ace-jump-buffer")
 (depends-on "ace-jump-mode")
 (depends-on "ace-jump-zap")
@@ -67,6 +68,7 @@
 (depends-on "smart-newline")
 (depends-on "smex")
 (depends-on "stylus-mode")
+(depends-on "swoop")
 (depends-on "toggle-quotes")
 (depends-on "undo-tree")
 (depends-on "use-package")
