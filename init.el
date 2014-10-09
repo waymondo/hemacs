@@ -1,15 +1,12 @@
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
 (require 'use-package)
+
 (use-package s)
 (use-package noflet)
-(use-package dash
-  :config (dash-enable-font-lock))
-(use-package tool-bar
-  :init (tool-bar-mode -1))
-(use-package scroll-bar
-  :init (scroll-bar-mode -1))
-(defalias 'yes-or-no-p 'y-or-n-p)
+(use-package dash :config (dash-enable-font-lock))
+(use-package tool-bar :init (tool-bar-mode -1))
+(use-package scroll-bar :init (scroll-bar-mode -1))
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
@@ -50,6 +47,7 @@
               left-fringe-width 10
               right-fringe-width 5)
 
+(defalias 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t
       initial-scratch-message nil
       inhibit-startup-echo-area-message ""
@@ -230,7 +228,11 @@
   (setq pulse-command-advice-flag t
         pulse-delay 0
         pulse-iterations 8)
-  (--each '(next-error-hook focus-in-hook find-tag-hook find-function-after-hook imenu-after-jump-hook)
+  (--each '(next-error-hook
+            focus-in-hook
+            find-tag-hook
+            find-function-after-hook
+            imenu-after-jump-hook)
     (add-hook it #'pulse-line-hook-function)))
 
 (use-package hippie-exp
@@ -239,7 +241,7 @@
     (let ((case-fold-search nil))
       ad-do-it))
   (defalias 'he-dabbrev-beg 'hemacs-dabbrev-beg)
-  (global-set-key [remap dabbrev-expand] #'hippie-expand)
+  (bind-key [remap dabbrev-expand] #'hippie-expand)
   (bind-key "TAB" 'hippie-expand read-expression-map)
   (bind-key "TAB" 'hippie-expand minibuffer-local-map)
   (bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
@@ -319,12 +321,17 @@
   :init
   (smex-initialize)
   (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
-  (global-set-key [remap execute-extended-command] #'smex))
+  (bind-key [remap execute-extended-command] #'smex))
 
 (use-package ag
   :config
   (setq ag-reuse-buffers t
         ag-highlight-search t))
+
+(use-package easy-kill
+  :init
+  (bind-key [remap kill-ring-save] 'easy-kill)
+  (bind-key [remap mark-sexp] 'easy-mark))
 
 (use-package alert
   :config (setq alert-default-style 'notifier))
