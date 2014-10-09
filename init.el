@@ -1,7 +1,6 @@
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
 (require 'use-package)
-
 (use-package s)
 (use-package noflet)
 (use-package dash :config (dash-enable-font-lock))
@@ -87,6 +86,9 @@
   (setq mac-function-modifier 'hyper
         ns-pop-up-frames nil
         mac-right-option-modifier 'none))
+
+(use-package frame
+  :config (setq blink-cursor-blinks 0))
 
 (use-package prog-mode
   :init (global-prettify-symbols-mode))
@@ -215,11 +217,17 @@
 (use-package pulse
   :config
   (setq pulse-command-advice-flag t
-        pulse-delay 0
-        pulse-iterations 8)
+        pulse-delay 0.01
+        pulse-iterations 4)
+  (add-λ 'post-command-hook
+    (when (member this-command
+                  '(scroll-down-command
+                    scroll-up-command
+                    next-multiframe-window
+                    find-tag))
+      (pulse-line-hook-function)))
   (--each '(next-error-hook
             focus-in-hook
-            find-tag-hook
             find-function-after-hook
             imenu-after-jump-hook)
     (add-hook it #'pulse-line-hook-function)))
@@ -565,10 +573,6 @@
 (use-package change-inner
   :bind (("M-i" . change-inner)
          ("M-o" . change-outer)))
-
-(use-package highlight-tail
-  ;; :idle (highlight-tail-mode)
-  :config (setq highlight-tail-timer 0.02))
 
 (use-package ace-jump-mode
   :bind* ("C-;" . ace-jump-word-mode)

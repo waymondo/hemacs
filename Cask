@@ -38,7 +38,6 @@
 (depends-on "god-mode")
 (depends-on "guide-key")
 (depends-on "highlight-symbol")
-(depends-on "highlight-tail")
 (depends-on "hungry-delete")
 (depends-on "ido-ubiquitous")
 (depends-on "ido-vertical-mode")
