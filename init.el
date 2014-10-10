@@ -684,6 +684,7 @@
 (bind-key "C-z C-r" 'rename-file-and-buffer)
 (bind-key "C-z C-l" 'log-statement)
 (bind-key "C-z C-w" 'what-face)
+(bind-key "C-z C-o" 'open-package)
 
 (bind-key "C-z -" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
 (bind-key "C-z _" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))

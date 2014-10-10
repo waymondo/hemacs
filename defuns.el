@@ -88,6 +88,11 @@
       (rename-file filename new-name :force-overwrite)
       (set-visited-file-name new-name :no-query :along-with-file)))))
 
+(defn open-package
+  (let* ((packages (mapcar 'symbol-name (mapcar 'car package-alist)))
+         (package (completing-read "Open package: " packages nil t)))
+    (find-library package)))
+
 (defn delete-file-and-buffer
   (let ((filename (buffer-file-name)))
     (cond
