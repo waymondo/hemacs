@@ -262,7 +262,8 @@
   :config (setq-default save-place t))
 
 (use-package edit-server
-  :init (edit-server-start t))
+  :init (edit-server-start)
+  :config (setq edit-server-new-frame nil))
 
 (use-package dired
   :init
