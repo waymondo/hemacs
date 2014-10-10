@@ -264,12 +264,6 @@
 (use-package edit-server
   :init (edit-server-start t))
 
-(use-package zone
-  :init
-  (defadvice zone (before zone-one-buffer activate compile)
-    (delete-other-windows))
-  (zone-when-idle 248))
-
 (use-package dired
   :init
   (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
