@@ -421,8 +421,10 @@
         magit-stage-all-confirm nil
         magit-unstage-all-confirm nil
         magit-commit-ask-to-stage nil)
-  (add-hook 'magit-log-edit-mode-hook 'flyspell-mode)
   (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook))
+
+(use-package git-commit-mode
+  :config (setq git-commit-fill-column 90))
 
 (use-package github-browse-file
   :bind (("C-x v o" . github-browse-file)
