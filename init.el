@@ -34,9 +34,7 @@
       gc-cons-threshold 50000000
       disabled-command-function nil
       create-lockfiles nil
-      kill-buffer-query-functions
-      (remq 'process-kill-buffer-query-function
-            kill-buffer-query-functions))
+      kill-buffer-query-functions '(hemacs-kill-buffer-query))
 
 (setq-default indent-tabs-mode nil
               tab-width 2

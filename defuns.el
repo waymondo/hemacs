@@ -374,3 +374,9 @@
                :height 30
                :scroll-bar t
                :margin t)))
+
+(defun hemacs-kill-buffer-query ()
+  (if (not (member (buffer-name) '("*Messages*")))
+      t
+    (bury-buffer)
+    nil))
