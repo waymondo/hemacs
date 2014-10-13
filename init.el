@@ -99,6 +99,8 @@
   (defadvice backward-kill-word (around backward-kill-subword activate compile)
     (noflet ((kill-region (beg end) (delete-region beg end)))
       ad-do-it))
+  (defadvice kill-whole-line (after kill-whole-lines-back-to-indentation activate compile)
+    (back-to-indentation))
   (defadvice move-beginning-of-line
       (around move-beginning-of-line-or-indentation activate compile)
     (let ((orig-point (point)))
