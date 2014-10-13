@@ -63,7 +63,6 @@
 (depends-on "rhtml-mode")
 (depends-on "rspec-mode")
 (depends-on "ruby-hash-syntax")
-(depends-on "s")
 (depends-on "slim-mode")
 (depends-on "smart-newline")
 (depends-on "smex")

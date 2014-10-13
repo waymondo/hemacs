@@ -1,7 +1,6 @@
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
 (require 'use-package)
-(use-package s)
 (use-package noflet)
 (use-package dash :config (dash-enable-font-lock))
 (use-package tool-bar :init (tool-bar-mode -1))
@@ -191,7 +190,6 @@
   :init (recentf-mode)
   :config
   (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG")
-        initial-buffer-choice (car recentf-list)
         recentf-max-saved-items 500))
 
 (use-package paren
