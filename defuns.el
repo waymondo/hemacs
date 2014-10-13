@@ -1,27 +1,28 @@
 (defmacro defn (name &rest body)
-  (declare (indent 1))
+  (declare (indent 1) (debug t))
   `(defun ,name (&optional arg)
      ,(if (stringp (car body)) (car body))
      (interactive "p")
      ,@(if (stringp (car body)) (cdr `,body) body)))
 
 (defmacro λ (&rest body)
-  (declare (indent 1))
+  (declare (indent 1) (debug t))
   `(lambda ()
      (interactive)
      ,@body))
 
 (defmacro add-λ (hook &rest body)
-  (declare (indent 1))
+  (declare (indent 1) (debug t))
   `(add-hook ,hook (lambda () ,@body)))
 
 (defmacro hook-modes (modes &rest body)
-  (declare (indent 1))
+  (declare (indent 1) (debug t))
   `(--each ,modes
      (add-λ (intern (format "%s-hook" it))
        ,@body)))
 
 (defmacro with-region-or-line (func &optional point-to-eol)
+  (declare (indent 1) (debug t))
   `(progn
      (defadvice ,func (before with-region-or-line activate compile)
        (interactive
@@ -37,6 +38,7 @@
            (pulse-line-hook-function))))))
 
 (defmacro with-region-or-buffer (func)
+  (declare (indent 1) (debug t))
   `(defadvice ,func (before with-region-or-buffer activate compile)
      (interactive
       (if mark-active
@@ -44,6 +46,7 @@
         (list (point-min) (point-max))))))
 
 (defmacro make-beautify-defun (type)
+  (declare (indent 1) (debug t))
   (let ((defun-name (intern (format "beautify-%s" type))))
     `(progn
        (defun ,defun-name (beg end)
@@ -53,6 +56,7 @@
        (bind-key "C-z C-b" ',defun-name ,(intern (format "%s-mode-map" type))))))
 
 (defmacro projectile-switch-project-command (func)
+  (declare (indent 1) (debug t))
   `(let ((projectile-switch-project-action ,func))
      (call-interactively 'projectile-switch-project)))
 
