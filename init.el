@@ -575,6 +575,7 @@
   :bind* ("C-;" . ace-jump-word-mode)
   :init (use-package ace-jump-zap)
   :config
+  (ace-jump-mode-enable-mark-sync)
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
