@@ -75,7 +75,6 @@
 (bind-key "C-z" 'hemacs-map)
 
 (use-package exec-path-from-shell
-  :if (memq window-system '(mac ns))
   :init
   (exec-path-from-shell-initialize)
   (--each '("HISTFILE" "NODE_PATH")
@@ -83,8 +82,8 @@
 
 (use-package ns-win
   :config
-  (setq mac-function-modifier 'hyper
-        ns-pop-up-frames nil
+  (setq ns-pop-up-frames nil
+        mac-function-modifier 'hyper
         mac-right-option-modifier 'none))
 
 (use-package frame
@@ -121,7 +120,6 @@
   (setq require-final-newline t
         confirm-kill-emacs nil
         confirm-nonexistent-file-or-buffer nil
-        insert-directory-program "gls"
         backup-directory-alist `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
   (add-hook 'before-save-hook 'hemacs-save-hook)
@@ -269,7 +267,8 @@
   :init
   (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-  (setq dired-recursive-deletes 'always
+  (setq dired-use-ls-dired nil
+        dired-recursive-deletes 'always
         dired-recursive-copies 'always
         dired-auto-revert-buffer t))
 
