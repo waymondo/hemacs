@@ -41,7 +41,7 @@
    `(vhl/default-face ((t (:background ,base00+1))))
    `(trailing-whitespace ((t (:background ,base00+1 :foreground ,yellow))))
    `(next-error ((t (:background ,base01))))
-   `(secondary-selection ((t (:background ,base00+1))))
+   `(secondary-selection ((t (:background ,yellow-2))))
    `(header-line ((t (:foreground ,purple :background nil))))
    `(auto-dim-other-buffers-face ((t (:background ,base00+1))))
    `(fringe ((t (:background ,base00+2 :foreground ,base02))))
@@ -189,7 +189,7 @@
    `(diff-hl-delete ((t (:foreground ,red-1 :background ,base00+1))))
    `(diff-hl-change ((t (:foreground ,blue-1 :background ,base00+1))))
 
-   `(show-paren-match ((t (:background ,base00+2 :underline t))))
+   `(show-paren-match ((t (:background ,base00+2))))
    `(show-paren-mismatch ((t (:background ,red :foreground ,base00-2))))
 
    `(highlight-symbol-face ((t (:foreground unspecified :background unspecified :underline t))))
@@ -304,8 +304,8 @@
    `(erb-comment-face ((t (:background ,base00+1 :foreground ,base02))))
    `(erb-comment-delim-face ((t (:background ,base00+1 :foreground ,base01))))
 
-   `(pulse-highlight-face ((t (:background ,base02))))
-   `(pulse-highlight-start-face ((t (:background ,base02)))))
+   `(pulse-highlight-face ((t (:background ,yellow-2))))
+   `(pulse-highlight-start-face ((t (:background ,yellow-2)))))
 
   (custom-theme-set-variables
    'hemacs

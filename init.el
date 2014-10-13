@@ -195,7 +195,8 @@
         recentf-max-saved-items 500))
 
 (use-package paren
-  :init (show-paren-mode))
+  :init (show-paren-mode)
+  :config (setq show-paren-style 'mixed))
 
 (use-package elec-pair
   :init (electric-pair-mode)
