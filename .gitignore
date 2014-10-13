@@ -17,3 +17,5 @@ var
 /projectile-bookmarks.eld
 /projectile.cache
 /lisp/
+/elpa/
+/.emacs.desktop

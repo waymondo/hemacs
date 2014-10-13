@@ -37,6 +37,7 @@
         org-self-insert-command
         pad-colon
         paredit-forward-delete
+        paredit-kill
         right-subword
         ruby-end-space
         ruby-smart-newline-end-defun
@@ -78,4 +79,5 @@
         smex
         swoop-action-cancel
         toggle-split-window
+        undefined
         ))
