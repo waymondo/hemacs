@@ -601,6 +601,8 @@
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
+  (add-λ 'minibuffer-setup-hook
+    (set (make-local-variable 'input-method-function) nil))
   (key-chord-define-global ",." "<>\C-b")
   (key-chord-define-global "}|" "||\C-b")
   (key-chord-define-global "<>" 'sgml-close-tag)
