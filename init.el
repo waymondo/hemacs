@@ -608,15 +608,14 @@
  ("s-u"        . duplicate-dwim)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
+ ("s-`"        . ort/goto-todos)
+ ("s-n"        . ort/capture-todo)
  ("s-N"        . create-scratch-buffer)
- ("s-g"        . google)
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
  ("s-r"        . imenu-anywhere)
  ("C-\\"       . align-regexp)
  ("C-'"        . toggle-quotes)
- ("s-n"        . ort/capture-todo)
- ("s-`"        . ort/goto-todos)
  ("M-i"        . change-inner)
  ("M-o"        . change-outer))
 
@@ -630,18 +629,20 @@
  ("C-o" . open-package)
  ("RET" . projector-run-shell-command-project-root)
  ("m"   . projector-switch-to-or-create-project-shell)
+ ("g"   . google)
  ("C-." . mc/mark-next-like-this)
  ("C-," . mc/mark-previous-like-this)
  ("C-/" . mc/mark-all-like-this-dwim))
 
 (bind-keys
- :prefix-map help-map
- :prefix "C-h"
- ("C-k" . describe-personal-keybindings)
- ("C-f" . free-keys)
- ("C-m" . discover-my-major)
- ("d"   . dash-at-point)
- ("C-d" . dash-at-point-with-docset))
+ :prefix-map hemacs-help-map
+ :prefix "s-h"
+ ("k" . describe-personal-keybindings)
+ ("f" . free-keys)
+ ("m" . discover-my-major)
+ ("d" . dash-at-point)
+ ("D" . dash-at-point-with-docset)
+ ("p" . describe-thing-in-popup))
 
 (bind-keys
  :prefix-map hemacs-projectile-map
@@ -654,8 +655,8 @@
  ("`" . projectile-switch-project-ort/goto-todos))
 
 (bind-keys
- :prefix-map vc-prefix-map
- :prefix "C-x v"
+ :prefix-map hemacs-git-map
+ :prefix "s-g"
  ("o" . github-browse-file)
  ("b" . github-browse-file-blame)
  ("c" . github-clone)
