@@ -92,9 +92,6 @@
       (when (= orig-point (point))
         ad-do-it))))
 
-(use-package align
-  :bind ("C-\\" . align-regexp))
-
 (use-package image-mode
   :init (add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line))
 
@@ -110,15 +107,6 @@
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
   (add-hook 'before-save-hook 'hemacs-save-hook)
   (add-hook 'find-file-hook 'sm-try-smerge t))
-
-(use-package newcomment
-  :bind ("s-/" . comment-or-uncomment-region))
-
-(use-package ffap
-  :bind ("C-z C-f" . ffap))
-
-(use-package menu-bar
-  :bind ("s-w" . kill-this-buffer))
 
 (use-package delsel
   :init (delete-selection-mode))
@@ -162,9 +150,7 @@
 (use-package imenu
   :init
   (add-hook 'emacs-lisp-mode-hook 'setup-imenu-for-use-package)
-  (setq imenu-auto-rescan t)
-  (use-package imenu-anywhere
-    :bind ("s-r" . imenu-anywhere)))
+  (setq imenu-auto-rescan t))
 
 (use-package savehist
   :init (savehist-mode)
@@ -251,7 +237,6 @@
 
 (use-package dired
   :init
-  (bind-key "C-z C-k" 'dired-do-delete dired-mode-map)
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
         dired-recursive-deletes 'always
@@ -266,10 +251,6 @@
   :config
   (setq org-support-shift-select t
         org-completion-use-ido t))
-
-(use-package org-repo-todo
-  :bind (("s-n" . ort/capture-todo)
-         ("s-`" . ort/goto-todos)))
 
 (use-package find-func
   :init (find-function-setup-keys))
@@ -397,7 +378,6 @@
   :config
   (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
   (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
-  (bind-key "C-z C-k" 'magit-kill-file-on-line magit-mode-map)
   (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
         magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
@@ -413,23 +393,10 @@
 (use-package git-commit-mode
   :config (setq git-commit-fill-column 90))
 
-(use-package github-browse-file
-  :bind (("C-x v o" . github-browse-file)
-         ("C-x v b" . github-browse-file-blame)))
-
-(use-package github-clone
-  :bind ("C-x v c" . github-clone))
-
-(use-package git-timemachine
-  :bind ("C-x v t" . git-timemachine))
-
 (use-package git-messenger
-  :bind ("C-x v p" . git-messenger:popup-message)
   :config (setq git-messenger:show-detail t))
 
 (use-package projector
-  :bind* (("C-z RET" . projector-run-shell-command-project-root)
-          ("C-z m" . projector-switch-to-or-create-project-shell))
   :config
   (setq projector-always-background-regex
         '("^mysql.server\\.*"
@@ -502,26 +469,14 @@
   (add-to-list 'god-exempt-major-modes 'git-commit-mode))
 
 (use-package dash-at-point
-  :bind (("C-h d" . dash-at-point)
-         ("C-h C-d" . dash-at-point-with-docset))
   :config
   (setq dash-at-point-docsets
         '("coffee" "lisp" "css" "less" "html" "javascript" "iphoneos" "ruby" "elisp"
           "jquery" "rails" "underscore" "backbone" "bootstrap" "markdown" "zepto"
           "angularjs" "psql" "emacs" "fa" "redis" "git" "bash" "moment")))
 
-(use-package bind-key
-  :bind ("C-h C-k" . describe-personal-keybindings))
-
-(use-package free-keys
-  :bind ("C-h C-f" . free-keys))
-
-(use-package discover-my-major
-  :bind ("C-h C-m" . discover-my-major))
-
 (use-package popup
-  :commands popup-tip
-  :bind ("C-h C-p" . describe-thing-in-popup))
+  :commands popup-tip)
 
 (use-package guide-key
   :init (guide-key-mode)
@@ -541,20 +496,8 @@
          ("M-q" . anzu-query-replace-at-cursor))
   :init (global-anzu-mode))
 
-(use-package toggle-quotes
-  :bind ("C-'" . toggle-quotes))
-
 (use-package expand-region
   :bind* ("C-," . er/expand-region))
-
-(use-package multiple-cursors
-  :bind (("C-z C-." . mc/mark-next-like-this)
-         ("C-z C-," . mc/mark-previous-like-this)
-         ("C-z C-/" . mc/mark-all-like-this-dwim)))
-
-(use-package change-inner
-  :bind (("M-i" . change-inner)
-         ("M-o" . change-outer)))
 
 (use-package ace-jump-mode
   :bind* ("C-;" . ace-jump-word-mode)
@@ -577,6 +520,7 @@
   :config
   (setq swoop-font-size-change: nil
         swoop-window-split-direction: 'split-window-horizontally)
+  (bind-key "C-o" 'swoop-from-isearch isearch-mode-map)
   (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)
   (bind-key "C-s" 'swoop-action-goto-line-next swoop-map)
   (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
@@ -652,45 +596,73 @@
   (setq powerline-default-separator 'utf-8)
   (defpowerline powerline-minor-modes nil))
 
-(bind-key "TAB" 'tab-dwim)
+(bind-keys
+ ("TAB"        . tab-dwim)
+ ("<M-up>"     . increment-number-at-point)
+ ("<M-down>"   . decrement-number-at-point)
+ ("<M-S-up>"   . move-line-up)
+ ("<M-S-down>" . move-line-down)
+ ("s-["        . shift-left)
+ ("s-]"        . shift-right)
+ ("s-:"        . pad-colon)
+ ("s-u"        . duplicate-dwim)
+ ("<s-return>" . eol-then-newline)
+ ("s-,"        . find-user-init-file-other-window)
+ ("s-N"        . create-scratch-buffer)
+ ("s-g"        . google)
+ ("s-w"        . kill-this-buffer)
+ ("s-/"        . comment-or-uncomment-region)
+ ("s-r"        . imenu-anywhere)
+ ("C-\\"       . align-regexp)
+ ("C-'"        . toggle-quotes)
+ ("s-n"        . ort/capture-todo)
+ ("s-`"        . ort/goto-todos)
+ ("M-i"        . change-inner)
+ ("M-o"        . change-outer))
+
+(bind-keys
+ :prefix-map hemacs-map
+ :prefix "C-z"
+ ("C-k" . hemacs-delete)
+ ("C-r" . rename-file-and-buffer)
+ ("C-l" . log-statement)
+ ("C-w" . what-face)
+ ("C-o" . open-package)
+ ("RET" . projector-run-shell-command-project-root)
+ ("m"   . projector-switch-to-or-create-project-shell)
+ ("C-." . mc/mark-next-like-this)
+ ("C-," . mc/mark-previous-like-this)
+ ("C-/" . mc/mark-all-like-this-dwim))
+
+(bind-keys
+ :prefix-map help-map
+ :prefix "C-h"
+ ("C-k" . describe-personal-keybindings)
+ ("C-f" . free-keys)
+ ("C-m" . discover-my-major)
+ ("d"   . dash-at-point)
+ ("C-d" . dash-at-point-with-docset))
+
+(bind-keys
+ :prefix-map hemacs-projectile-map
+ :prefix "s-o"
+ ("m" . projectile-switch-project-projectile-vc)
+ ("f" . projectile-switch-project-projectile-find-file)
+ ("c" . projectile-switch-project-projector-run-shell-command-project-root)
+ ("x" . projectile-switch-project-projector-switch-to-or-create-project-shell)
+ ("n" . projectile-switch-project-ort/capture-todo)
+ ("`" . projectile-switch-project-ort/goto-todos))
+
+(bind-keys
+ :prefix-map vc-prefix-map
+ :prefix "C-x v"
+ ("o" . github-browse-file)
+ ("b" . github-browse-file-blame)
+ ("c" . github-clone)
+ ("t" . git-timemachine)
+ ("p" . git-messenger:popup-message))
+
 (bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
-
-(bind-key "<M-up>" 'increment-number-at-point)
-(bind-key "<M-down>" 'decrement-number-at-point)
-(bind-key "<M-S-up>" 'move-line-up)
-(bind-key "<M-S-down>" 'move-line-down)
-
-(bind-key "s-[" 'shift-left)
-(bind-key "s-]" 'shift-right)
-(bind-key "s-:" 'pad-colon)
-(bind-key "s-u" 'duplicate-dwim)
-(bind-key "<s-return>" 'eol-then-newline)
-
-(bind-key "s-," 'find-user-init-file-other-window)
-(bind-key "s-N" 'create-scratch-buffer)
-(bind-key "s-W" 'bury-buffer)
-(bind-key "s-g" 'google)
-
-(bind-key "C-z C-k" 'delete-file-and-buffer)
-(bind-key "C-z C-r" 'rename-file-and-buffer)
-(bind-key "C-z C-l" 'log-statement)
-(bind-key "C-z C-w" 'what-face)
-(bind-key "C-z C-o" 'open-package)
-
-(bind-key "C-z -" (λ (replace-region-or-symbol-at-point-with 's-dashed-words)))
-(bind-key "C-z _" (λ (replace-region-or-symbol-at-point-with 's-snake-case)))
-(bind-key "C-z c" (λ (replace-region-or-symbol-at-point-with 's-lower-camel-case)))
-(bind-key "C-z C" (λ (replace-region-or-symbol-at-point-with 's-upper-camel-case)))
-
-(define-prefix-command 'hemacs-projectile-map)
-(bind-key "s-o" 'hemacs-projectile-map)
-(bind-key "s-o m" (λ (projectile-switch-project-command 'projectile-vc)))
-(bind-key "s-o f" (λ (projectile-switch-project-command 'projectile-find-file)))
-(bind-key "s-o c" (λ (projectile-switch-project-command 'projector-run-shell-command-project-root)))
-(bind-key "s-o x" (λ (projectile-switch-project-command 'projector-switch-to-or-create-project-shell)))
-(bind-key "s-o n" (λ (projectile-switch-project-command 'ort/capture-todo)))
-(bind-key "s-o `" (λ (projectile-switch-project-command 'ort/goto-todos)))
-
 (bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
 (bind-key "M-TAB" 'comint-previous-matching-input-from-input comint-mode-map)
