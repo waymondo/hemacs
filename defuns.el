@@ -126,6 +126,17 @@
       (delete-file filename)
       (kill-buffer)))))
 
+(defn hemacs-delete
+  (cond
+   ((eq major-mode 'dired-mode)
+    (dired-do-delete))
+   ((eq major-mode 'magit-status-mode)
+    (magit-visit-item)
+    (delete-file-and-buffer)
+    (magit-refresh))
+   (:else
+    (delete-file-and-buffer))))
+
 (defn kill-region-and-god-local-mode
   (when (region-active-p) (call-interactively 'kill-region))
   (god-local-mode -1))
@@ -201,11 +212,6 @@
     (comint-truncate-buffer)
     (setq comint-buffer-maximum-size old-max)
     (goto-char (point-max))))
-
-(defn magit-kill-file-on-line
-  (magit-visit-item)
-  (delete-file-and-buffer)
-  (magit-refresh))
 
 (defn magit-just-amend
   (save-window-excursion
