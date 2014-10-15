@@ -58,19 +58,6 @@
          display-buffer--maybe-pop-up-frame-or-window
          display-buffer-pop-up-frame)))
 
-(with-region-or-line comment-or-uncomment-region)
-(with-region-or-line upcase-region)
-(with-region-or-line capitalize-region)
-(with-region-or-line downcase-region)
-(with-region-or-line yank-region)
-(with-region-or-line kill-region :point-to-eol)
-(with-region-or-line kill-ring-save :point-to-eol)
-(with-region-or-buffer indent-region)
-(with-region-or-buffer untabify)
-
-(define-prefix-command 'hemacs-map)
-(bind-key "C-z" 'hemacs-map)
-
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize)

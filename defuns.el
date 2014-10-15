@@ -55,10 +55,30 @@
                                   (current-buffer) 'replace))
        (bind-key "C-z C-b" ',defun-name ,(intern (format "%s-mode-map" type))))))
 
-(defmacro projectile-switch-project-command (func)
+(defmacro make-projectile-switch-project-command (func)
   (declare (indent 1) (debug t))
-  `(let ((projectile-switch-project-action ,func))
-     (call-interactively 'projectile-switch-project)))
+  (let ((defun-name (intern (format "projectile-switch-project-%s" (symbol-name func)))))
+    `(defun ,defun-name ()
+       (interactive)
+       (let ((projectile-switch-project-action ',func))
+         (call-interactively 'projectile-switch-project)))))
+
+(with-region-or-line comment-or-uncomment-region)
+(with-region-or-line upcase-region)
+(with-region-or-line capitalize-region)
+(with-region-or-line downcase-region)
+(with-region-or-line yank-region)
+(with-region-or-line kill-region :point-to-eol)
+(with-region-or-line kill-ring-save :point-to-eol)
+(with-region-or-buffer indent-region)
+(with-region-or-buffer untabify)
+
+(make-projectile-switch-project-command projectile-vc)
+(make-projectile-switch-project-command projectile-find-file)
+(make-projectile-switch-project-command projector-run-shell-command-project-root)
+(make-projectile-switch-project-command projector-switch-to-or-create-project-shell)
+(make-projectile-switch-project-command ort/capture-todo)
+(make-projectile-switch-project-command ort/goto-todos)
 
 (defn open-finder
   (shell-command (concat "open " (shell-quote-argument default-directory))))
