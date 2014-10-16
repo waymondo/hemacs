@@ -373,6 +373,9 @@
          ("\\.rabl$" . ruby-mode)
          ("\\.env\\.*" . ruby-mode)))
 
+(use-package ediff
+  :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
 (use-package magit
   :bind ("s-m" . magit-status)
   :config
