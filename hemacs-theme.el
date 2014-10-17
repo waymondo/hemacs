@@ -328,6 +328,11 @@
   (custom-theme-set-variables
    'hemacs
 
+   `(evil-emacs-state-cursor '(,red bar))
+   `(evil-insert-state-cursor '(,red hbar))
+   `(evil-normal-state-cursor '(,yellow box))
+   `(evil-visual-state-cursor '(,green box))
+
    `(highlight-symbol-foreground-color ,base03)
    `(highlight-symbol-colors '(,yellow
                                ,green

@@ -400,6 +400,8 @@
   :config (setq git-messenger:show-detail t))
 
 (use-package projector
+  :bind* (("C-c RET" . projector-run-shell-command-project-root)
+          ("C-c m"   . projector-switch-to-or-create-project-shell))
   :config
   (setq projector-always-background-regex
         '("^mysql.server\\.*"
@@ -460,16 +462,6 @@
   (hook-modes progish-modes
     (rainbow-delimiters-mode)))
 
-(use-package god-mode
-  :bind ("<escape>" . god-local-mode)
-  :config
-  (bind-key "i" 'kill-region-and-god-local-mode god-local-mode-map)
-  (bind-key "." 'repeat god-local-mode-map)
-  (add-λ 'god-mode-enabled-hook
-    (setq cursor-type 'box))
-  (add-λ 'god-mode-disabled-hook
-    (setq cursor-type 'bar))
-  (add-to-list 'god-exempt-major-modes 'git-commit-mode))
 
 (use-package dash-at-point
   :config
@@ -526,6 +518,34 @@
   (bind-key "C-o" 'swoop-from-isearch isearch-mode-map)
   (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)
   (bind-key "C-s" 'swoop-action-goto-line-next swoop-map)
+(use-package evil
+  :init
+  (use-package evil-leader
+    :init (global-evil-leader-mode)
+    :config (evil-leader/set-leader ",")
+    (evil-leader/set-key
+      "k" 'hemacs-delete
+      "r" 'rename-file-and-buffer
+      "f" 'what-face
+      "o" 'open-package
+      "c" 'projector-run-shell-command-project-root
+      "x" 'projector-switch-to-or-create-project-shell
+      "g" 'google
+      "." 'mc/mark-next-like-this
+      "," 'mc/mark-previous-like-this
+      "/" 'mc/mark-all-like-this-dwim))
+  (use-package evil-surround
+    :init (global-evil-surround-mode))
+  (--each '(dired git-commit-mode comint-mode shell-mode org-mode help-mode)
+    (evil-set-initial-state it 'emacs))
+  (bind-key "Y" (λ (evil-yank (point) (point-at-eol))) evil-normal-state-map)
+  (bind-key "SPC" 'ace-jump-mode evil-normal-state-map)
+  (evil-mode)
+  :config
+  (setq evil-shift-width 2
+        evil-move-cursor-back nil
+        evil-symbol-word-search t))
+
   (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
 
 (use-package ace-isearch
@@ -602,8 +622,8 @@
 
 (bind-keys
  ("TAB"        . tab-dwim)
- ("<M-up>"     . increment-number-at-point)
- ("<M-down>"   . decrement-number-at-point)
+ ("<M-up>"     . evil-numbers/inc-at-pt)
+ ("<M-down>"   . evil-numbers/dec-at-pt)
  ("<M-S-up>"   . move-line-up)
  ("<M-S-down>" . move-line-down)
  ("s-["        . shift-left)
@@ -618,25 +638,7 @@
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
  ("s-r"        . imenu-anywhere)
- ("C-\\"       . align-regexp)
- ("C-'"        . toggle-quotes)
- ("M-i"        . change-inner)
- ("M-o"        . change-outer))
-
-(bind-keys
- :prefix-map hemacs-map
- :prefix "C-z"
- ("C-k" . hemacs-delete)
- ("C-r" . rename-file-and-buffer)
- ("C-l" . log-statement)
- ("C-w" . what-face)
- ("C-o" . open-package)
- ("RET" . projector-run-shell-command-project-root)
- ("m"   . projector-switch-to-or-create-project-shell)
- ("g"   . google)
- ("C-." . mc/mark-next-like-this)
- ("C-," . mc/mark-previous-like-this)
- ("C-/" . mc/mark-all-like-this-dwim))
+ ("C-\\"       . align-regexp))
 
 (bind-keys
  :prefix-map hemacs-help-map
