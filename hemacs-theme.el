@@ -94,6 +94,7 @@
    `(isearch ((t (:inherit match :foreground ,purple))))
    `(query-replace ((t (:inherit isearch))))
    `(anzu-replace-to ((t (:foreground ,yellow :background ,base00+1))))
+   `(lazy-highlight ((t (:foreground ,yellow))))
    `(isearch-lazy-highlight-face ((t (:foreground ,yellow))))
    `(isearch-fail ((t (:inherit font-lock-warning-face))))
    `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
@@ -135,6 +136,9 @@
    `(swoop-face-line-buffer-name ((t (:inherit header-line :foreground ,base02))))
    `(swoop-face-header-format-line ((t (:inherit swoop-face-line-buffer-name :foreground ,purple))))
    `(swoop-face-line-number ((t (:foreground ,base02))))
+
+   `(show-paren-match ((t (:background ,base00-2))))
+   `(show-paren-mismatch ((t (:background ,red :foreground ,base00-2))))
 
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,purple))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,blue))))
@@ -189,9 +193,6 @@
    `(diff-hl-delete ((t (:foreground ,red-1 :background ,base00+1))))
    `(diff-hl-change ((t (:foreground ,blue-1 :background ,base00+1))))
 
-   `(show-paren-match ((t (:background ,base00+2))))
-   `(show-paren-mismatch ((t (:background ,red :foreground ,base00-2))))
-
    `(highlight-symbol-face ((t (:foreground unspecified :background unspecified :underline t))))
 
    `(eldoc-highlight-function-argument ((t (:foreground ,green :weight bold))))
@@ -237,6 +238,23 @@
    `(magit-section-title ((t (:foreground ,purple :weight bold))))
    `(magit-process-ok ((t (:foreground ,green))))
    `(magit-process-ng ((t (:foreground ,red))))
+
+   `(ediff-current-diff-A ((t (:foreground ,base03 :background ,red-1))))
+   `(ediff-current-diff-Ancestor ((t (:foreground ,base03 :background ,red-1))))
+   `(ediff-current-diff-B ((t (:foreground ,base03 :background ,green-1))))
+   `(ediff-current-diff-C ((t (:foreground ,base03 :background ,blue-1))))
+   `(ediff-even-diff-A ((t (:background ,base00+2))))
+   `(ediff-even-diff-Ancestor ((t (:background ,base00+2))))
+   `(ediff-even-diff-B ((t (:background ,base00+2))))
+   `(ediff-even-diff-C ((t (:background ,base00+2))))
+   `(ediff-fine-diff-A ((t (:foreground ,base03 :background ,red-1 :weight bold))))
+   `(ediff-fine-diff-Ancestor ((t (:foreground ,base03 :background ,red-1 weight bold))))
+   `(ediff-fine-diff-B ((t (:foreground ,base03 :background ,green-1 :weight bold))))
+   `(ediff-fine-diff-C ((t (:foreground ,base03 :background ,blue-1 :weight bold ))))
+   `(ediff-odd-diff-A ((t (:background ,base01))))
+   `(ediff-odd-diff-Ancestor ((t (:background ,base01))))
+   `(ediff-odd-diff-B ((t (:background ,base01))))
+   `(ediff-odd-diff-C ((t (:background ,base01))))
 
    `(compilation-info ((t (:foreground ,base02 :underline t))))
    `(compilation-column-number ((t (:foreground ,base02))))
