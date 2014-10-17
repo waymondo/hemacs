@@ -546,8 +546,6 @@
         evil-move-cursor-back nil
         evil-symbol-word-search t))
 
-  (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
-
 (use-package ace-isearch
   :init (global-ace-isearch-mode)
   :config (setq ace-isearch-funtion-from-isearch 'swoop-from-isearch))
@@ -608,11 +606,6 @@
   (hook-modes progish-modes
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))))
-
-(use-package back-button
-  :bind (("s-{" . back-button-global-backward)
-         ("s-}" . back-button-global-forward))
-  :idle (back-button-mode))
 
 (use-package powerline
   :init (powerline-default-theme)
