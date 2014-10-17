@@ -14,6 +14,8 @@
   '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
 (defvar ruby-modes
   '(ruby-mode rhtml-mode slim-mode inf-ruby-mode))
+(defvar shellish-modes
+  '(comint-mode inf-ruby-mode ielm-mode))
 
 (load (locate-user-emacs-file "defuns.el"))
 
@@ -415,13 +417,11 @@
           "^pkill\\.*")))
 
 (use-package ido
-  :init
-  (ido-mode)
+  :init (ido-mode)
   (use-package ido-ubiquitous
     :init (ido-ubiquitous-mode))
   (use-package flx-ido
-    :init (flx-ido-mode)
-    :config (setq flx-ido-use-faces nil))
+    :init (flx-ido-mode))
   (use-package ido-vertical-mode
     :init (ido-vertical-mode))
   :config
