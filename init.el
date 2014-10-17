@@ -107,8 +107,7 @@
         confirm-nonexistent-file-or-buffer nil
         backup-directory-alist `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-  (add-hook 'before-save-hook 'hemacs-save-hook)
-  (add-hook 'find-file-hook 'sm-try-smerge t))
+  (add-hook 'before-save-hook 'hemacs-save-hook))
 
 (use-package delsel
   :init (delete-selection-mode))
@@ -283,11 +282,6 @@
   :config
   (setq ag-reuse-buffers t
         ag-highlight-search t))
-
-(use-package easy-kill
-  :init
-  (bind-key [remap kill-ring-save] 'easy-kill)
-  (bind-key [remap mark-sexp] 'easy-mark))
 
 (use-package alert
   :config (setq alert-default-style 'notifier))
@@ -495,10 +489,7 @@
   :bind* ("C-," . er/expand-region))
 
 (use-package ace-jump-mode
-  :bind* ("C-;" . ace-jump-word-mode)
-  :init (use-package ace-jump-zap)
   :config
-  (ace-jump-mode-enable-mark-sync)
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
@@ -518,6 +509,8 @@
   (bind-key "C-o" 'swoop-from-isearch isearch-mode-map)
   (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)
   (bind-key "C-s" 'swoop-action-goto-line-next swoop-map)
+  (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
+
 (use-package evil
   :init
   (use-package evil-leader
@@ -545,10 +538,6 @@
   (setq evil-shift-width 2
         evil-move-cursor-back nil
         evil-symbol-word-search t))
-
-(use-package ace-isearch
-  :init (global-ace-isearch-mode)
-  :config (setq ace-isearch-funtion-from-isearch 'swoop-from-isearch))
 
 (use-package key-chord
   :init (key-chord-mode 1)

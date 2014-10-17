@@ -321,12 +321,6 @@
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-(defun sm-try-smerge ()
-  (save-excursion
-    (goto-char (point-min))
-    (when (re-search-forward "^<<<<<<< " nil t)
-      (smerge-mode 1))))
-
 (defun set-clean-margins (&optional arg)
   (interactive "P")
   (let* ((width (if arg (prefix-numeric-value arg) 90))
@@ -338,14 +332,6 @@
     (add-hook 'after-init-hook func)
     (when after-init-time
       (eval form))))
-
-(defun replace-region-or-symbol-at-point-with (fn)
-  (unless (use-region-p) (er/mark-symbol))
-  (let* ((beg (region-beginning))
-         (end (region-end))
-         (contents (buffer-substring beg end)))
-    (delete-region beg end)
-    (insert (funcall fn contents))))
 
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)
