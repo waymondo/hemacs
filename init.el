@@ -34,6 +34,8 @@
       vc-follow-symlinks t
       gc-cons-threshold 50000000
       disabled-command-function nil
+      ns-function-modifier 'hyper
+      ns-right-option-modifier 'none
       create-lockfiles nil
       kill-buffer-query-functions '(hemacs-kill-buffer-query))
 
@@ -67,10 +69,7 @@
     (exec-path-from-shell-copy-env it)))
 
 (use-package ns-win
-  :config
-  (setq ns-pop-up-frames nil
-        mac-function-modifier 'hyper
-        mac-right-option-modifier 'none))
+  :config (setq ns-pop-up-frames nil))
 
 (use-package frame
   :config (setq blink-cursor-blinks 0))
