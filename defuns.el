@@ -134,6 +134,8 @@
     (magit-visit-item)
     (delete-file-and-buffer)
     (magit-refresh))
+   ((derived-mode-p 'comint-mode)
+    (clear-shell))
    (:else
     (delete-file-and-buffer))))
 

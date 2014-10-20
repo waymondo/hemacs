@@ -113,19 +113,14 @@
 
 (use-package comint
   :init
-  (bind-key "s-k" 'clear-shell comint-mode-map)
-  (setq comint-process-echoes t
-        comint-buffer-maximum-size 5000)
-  (setq-default comint-prompt-read-only t
-                comint-input-ignoredups t)
+  (setq comint-prompt-read-only t)
+  (setq-default comint-process-echoes t)
   (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
-  (add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
   (add-hook 'comint-mode-hook 'hemacs-shellish-hook))
 
 (use-package compile
   :init
   (setq compilation-disable-input t
-        compilation-message-face nil
         compilation-always-kill t)
   (add-hook 'compilation-mode-hook 'hemacs-shellish-hook))
 
