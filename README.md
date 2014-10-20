@@ -1,11 +1,11 @@
-An ever evolving Carbon Emacs 24.4+ setup on OSX. I'm mainly writing Ruby and CoffeeScript, interfacing with Git and Bash, writing compiled stylesheets and templates, and hacking on this Elisp dump.
+An ever evolving Cocoa Emacs 24.4+ setup on OSX. I'm mainly writing Ruby and CoffeeScript, interfacing with Git and Bash, writing compiled stylesheets and templates, and hacking on this Elisp dump.
 
 ### Installation
 
 Install [Homebrew](http://mxcl.github.com/homebrew), then:
 
 ```
-brew install emacs --cocoa --srgb --with-glib --with-imagemagick --use-git-head --HEAD
+brew install emacs --cocoa --srgb --with-glib --with-imagemagick --with-rsvg --use-git-head --HEAD
 brew install cask
 brew linkapps
 git clone git://github.com/waymondo/hemacs ~/.emacs.d && cd ~/.emacs.d 
