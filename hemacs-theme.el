@@ -260,9 +260,9 @@
    `(compilation-column-number ((t (:foreground ,base02))))
    `(compilation-line-number ((t (:foreground ,base02))))
    `(compilation-message-face ((t (:foreground ,blue))))
-   `(compilation-mode-line-exit ((t (:inherit nil :foreground nil :background nil))))
-   `(compilation-mode-line-fail ((t (:inherit nil :foreground nil :background nil))))
-   `(compilation-mode-line-run ((t (:inherit nil :foreground nil :background nil))))
+   `(compilation-mode-line-exit ((t (:inherit nil :foreground unspecified :background unspecified))))
+   `(compilation-mode-line-fail ((t (:inherit nil :foreground unspecified :background unspecified))))
+   `(compilation-mode-line-run ((t (:inherit nil :foreground unspecified :background unspecified))))
 
    `(org-date ((t (:foreground ,purple))))
    `(org-done ((t (:foreground ,green))))
