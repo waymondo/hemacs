@@ -395,8 +395,8 @@
   :config (setq git-messenger:show-detail t))
 
 (use-package projector
-  :bind* (("C-c RET" . projector-run-shell-command-project-root)
-          ("C-c m"   . projector-switch-to-or-create-project-shell))
+  :bind* (("C-x RET" . projector-run-shell-command-project-root)
+          ("C-x m"   . projector-switch-to-or-create-project-shell))
   :config
   (setq projector-always-background-regex
         '("^mysql.server\\.*"
@@ -512,20 +512,6 @@
 
 (use-package evil
   :init
-  (use-package evil-leader
-    :init (global-evil-leader-mode)
-    :config (evil-leader/set-leader ",")
-    (evil-leader/set-key
-      "k" 'hemacs-delete
-      "r" 'rename-file-and-buffer
-      "f" 'what-face
-      "o" 'open-package
-      "c" 'projector-run-shell-command-project-root
-      "x" 'projector-switch-to-or-create-project-shell
-      "g" 'google
-      "." 'mc/mark-next-like-this
-      "," 'mc/mark-previous-like-this
-      "/" 'mc/mark-all-like-this-dwim))
   (use-package evil-surround
     :init (global-evil-surround-mode))
   (--each '(dired git-commit-mode comint-mode shell-mode org-mode help-mode)
@@ -607,6 +593,7 @@
  ("<M-down>"   . evil-numbers/dec-at-pt)
  ("<M-S-up>"   . move-line-up)
  ("<M-S-down>" . move-line-down)
+ ("s-K"        . hemacs-delete)
  ("s-["        . shift-left)
  ("s-]"        . shift-right)
  ("s-:"        . pad-colon)
@@ -619,16 +606,23 @@
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
  ("s-r"        . imenu-anywhere)
- ("C-\\"       . align-regexp))
+ ("C-\\"       . align-regexp)
+ ("C-x C-r"    . rename-file-and-buffer)
+ ("C->"        . mc/mark-next-like-this)
+ ("C-<"        . mc/mark-previous-like-this)
+ ("C-x C-<"    . mc/mark-all-like-this))
 
 (bind-keys
  :prefix-map hemacs-help-map
  :prefix "s-h"
  ("k" . describe-personal-keybindings)
  ("f" . free-keys)
+ ("F" . what-face)
+ ("g" . google)
  ("m" . discover-my-major)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
+ ("o" . open-package)
  ("p" . describe-thing-in-popup))
 
 (bind-keys

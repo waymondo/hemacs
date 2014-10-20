@@ -22,7 +22,6 @@
 (depends-on "edit-server")
 (depends-on "elisp-slime-nav")
 (depends-on "evil")
-(depends-on "evil-leader")
 (depends-on "evil-numbers")
 (depends-on "evil-surround")
 (depends-on "exec-path-from-shell")
