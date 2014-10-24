@@ -1,3 +1,5 @@
+;;;;; Bootstrap
+
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
 (require 'use-package)
@@ -18,6 +20,8 @@
   '(comint-mode inf-ruby-mode ielm-mode))
 
 (load (locate-user-emacs-file "defuns.el"))
+
+;;;;; Source Variables
 
 (setq load-prefer-newer t
       history-length 100
@@ -47,6 +51,8 @@
               left-fringe-width 10
               right-fringe-width 5)
 
+;;;;; Unprovided Internal Packages
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t
       initial-scratch-message nil
@@ -62,20 +68,111 @@
          display-buffer--maybe-pop-up-frame-or-window
          display-buffer-pop-up-frame)))
 
+;;;;; Processes, Shells, Compilation
+
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize)
   (--each '("HISTFILE" "NODE_PATH")
     (exec-path-from-shell-copy-env it)))
 
-(use-package ns-win
-  :config (setq ns-pop-up-frames nil))
+(use-package comint
+  :init
+  (setq comint-prompt-read-only t)
+  (setq-default comint-process-echoes t)
+  (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
+  (add-hook 'comint-mode-hook 'hemacs-shellish-hook))
 
-(use-package frame
-  :config (setq blink-cursor-blinks 0))
+(use-package compile
+  :init
+  (setq compilation-disable-input t
+        compilation-always-kill t)
+  (add-hook 'compilation-mode-hook 'hemacs-shellish-hook))
 
-(use-package prog-mode
-  :init (global-prettify-symbols-mode))
+(use-package auto-compile
+  :init (auto-compile-on-load-mode)
+  :config (setq auto-compile-display-buffer nil))
+
+(use-package shell
+  :init
+  (setq async-shell-command-buffer 'new-buffer
+        shell-command-switch (purecopy "-ic")
+        explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
+  (add-λ 'shell-mode-hook
+    (turn-on-comint-history (getenv "HISTFILE"))))
+
+(use-package projector
+  :bind* (("C-x RET" . projector-run-shell-command-project-root)
+          ("C-x m"   . projector-switch-to-or-create-project-shell))
+  :config
+  (setq projector-always-background-regex
+        '("^mysql.server\\.*"
+          "^powder restart\\.*"
+          "^heroku restart\\.*"
+          "^spring stop"
+          "^gulp publish\\.*"
+          "^git push\\.*"
+          "\\.*cordova run\\.*"
+          "^redis-server"
+          "^pkill\\.*")))
+
+;;;;; Files & History
+
+(use-package image-mode
+  :init (add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line))
+
+(use-package files
+  :mode ("Cask" . emacs-lisp-mode)
+  :config
+  (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
+    (noflet ((process-list ())) ad-do-it))
+  (setq require-final-newline t
+        confirm-kill-emacs nil
+        confirm-nonexistent-file-or-buffer nil
+        backup-directory-alist `((".*" . ,temporary-file-directory))
+        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+  (add-hook 'before-save-hook 'hemacs-save-hook))
+
+(use-package autorevert
+  :init (global-auto-revert-mode)
+  :config
+  (setq auto-revert-verbose nil
+        global-auto-revert-non-file-buffers t))
+
+(use-package savehist
+  :init (savehist-mode)
+  :config
+  (setq savehist-additional-variables
+        '(search-ring regexp-search-ring comint-input-ring)
+        savehist-autosave-interval 30))
+
+(use-package saveplace
+  :config (setq-default save-place t))
+
+(use-package recentf
+  :init (recentf-mode)
+  :config
+  (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG")
+        recentf-max-saved-items 500))
+
+(use-package dired
+  :init
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (setq dired-use-ls-dired nil
+        dired-recursive-deletes 'always
+        dired-recursive-copies 'always
+        dired-auto-revert-buffer t))
+
+(use-package dired-toggle
+  :bind ("s-\\" . dired-toggle)
+  :config (setq dired-toggle-window-size 48))
+
+(use-package undo-tree
+  :init (global-undo-tree-mode)
+  :bind (("s-z" . undo-tree-undo)
+         ("s-Z" . undo-tree-redo)))
+
+;;;;; Editing
 
 (use-package simple
   :bind (("C-`" . list-processes)
@@ -93,76 +190,8 @@
       (when (= orig-point (point))
         ad-do-it))))
 
-(use-package image-mode
-  :init (add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line))
-
-(use-package files
-  :mode ("Cask" . emacs-lisp-mode)
-  :config
-  (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
-    (noflet ((process-list ())) ad-do-it))
-  (setq require-final-newline t
-        confirm-kill-emacs nil
-        confirm-nonexistent-file-or-buffer nil
-        backup-directory-alist `((".*" . ,temporary-file-directory))
-        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-  (add-hook 'before-save-hook 'hemacs-save-hook))
-
 (use-package delsel
   :init (delete-selection-mode))
-
-(use-package comint
-  :init
-  (setq comint-prompt-read-only t)
-  (setq-default comint-process-echoes t)
-  (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
-  (add-hook 'comint-mode-hook 'hemacs-shellish-hook))
-
-(use-package compile
-  :init
-  (setq compilation-disable-input t
-        compilation-always-kill t)
-  (add-hook 'compilation-mode-hook 'hemacs-shellish-hook))
-
-(use-package shell
-  :init
-  (setq async-shell-command-buffer 'new-buffer
-        shell-command-switch (purecopy "-ic")
-        explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
-  (add-λ 'shell-mode-hook
-    (turn-on-comint-history (getenv "HISTFILE"))))
-
-(use-package autorevert
-  :init (global-auto-revert-mode)
-  :config
-  (setq auto-revert-verbose nil
-        global-auto-revert-non-file-buffers t))
-
-(use-package auto-compile
-  :init (auto-compile-on-load-mode)
-  :config (setq auto-compile-display-buffer nil))
-
-(use-package imenu
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'setup-imenu-for-use-package)
-  (setq imenu-auto-rescan t))
-
-(use-package savehist
-  :init (savehist-mode)
-  :config
-  (setq savehist-additional-variables
-        '(search-ring regexp-search-ring comint-input-ring)
-        savehist-autosave-interval 30))
-
-(use-package recentf
-  :init (recentf-mode)
-  :config
-  (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG")
-        recentf-max-saved-items 500))
-
-(use-package paren
-  :init (show-paren-mode)
-  :config (setq show-paren-style 'mixed))
 
 (use-package elec-pair
   :init (electric-pair-mode)
@@ -179,23 +208,51 @@
 (use-package subword
   :init (global-subword-mode))
 
-(use-package pulse
+(use-package hungry-delete
+  :init (global-hungry-delete-mode))
+
+(use-package expand-region
+  :bind* ("C-," . er/expand-region))
+
+(use-package ace-jump-mode
   :config
-  (setq pulse-command-advice-flag t
-        pulse-delay 0.01
-        pulse-iterations 4)
-  (add-λ 'post-command-hook
-    (when (member this-command
-                  '(scroll-down-command
-                    scroll-up-command
-                    next-multiframe-window
-                    find-tag))
-      (pulse-line-hook-function)))
-  (--each '(next-error-hook
-            focus-in-hook
-            find-function-after-hook
-            imenu-after-jump-hook)
-    (add-hook it #'pulse-line-hook-function)))
+  (setq ace-jump-mode-case-fold nil
+        ace-jump-mode-scope 'visible))
+
+(use-package smart-newline
+  :init
+  (hook-modes progish-modes
+    (when (not (member major-mode indent-sensitive-modes))
+      (smart-newline-mode))))
+
+(use-package paredit
+  :init
+  (hook-modes lispy-modes
+    (enable-paredit-mode)))
+
+;;;;; Completion
+
+(use-package ido
+  :init (ido-mode)
+  (use-package ido-ubiquitous
+    :init (ido-ubiquitous-mode))
+  (use-package flx-ido
+    :init (flx-ido-mode))
+  (use-package ido-vertical-mode
+    :init (ido-vertical-mode))
+  :config
+  (setq ido-cannot-complete-command 'exit-minibuffer
+        ido-use-virtual-buffers t
+        ido-auto-merge-delay-time 2
+        ido-use-filename-at-point 'guess
+        ido-create-new-buffer 'always))
+
+(use-package smex
+  :bind ("s-P" . smex)
+  :init
+  (smex-initialize)
+  (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
+  (bind-key [remap execute-extended-command] #'smex))
 
 (use-package hippie-exp
   :init
@@ -220,71 +277,48 @@
                           try-complete-lisp-symbol)
                         hippie-expand-try-functions-list))))
 
-(use-package uniquify
-  :config (setq uniquify-buffer-name-style 'forward))
-
-(use-package saveplace
-  :config (setq-default save-place t))
-
-(use-package edit-server
-  :init (edit-server-start)
-  :config (setq edit-server-new-frame nil))
-
-(use-package dired
+(use-package company
   :init
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-  (setq dired-use-ls-dired nil
-        dired-recursive-deletes 'always
-        dired-recursive-copies 'always
-        dired-auto-revert-buffer t))
-
-(use-package dired-toggle
-  :bind ("s-\\" . dired-toggle)
-  :config (setq dired-toggle-window-size 48))
-
-(use-package org
+  (add-hook 'after-init-hook #'global-company-mode)
+  (add-hook 'inf-ruby-mode-hook #'company-mode)
+  (use-package readline-complete
+    :init (push 'company-readline company-backends)
+    :config (add-λ 'rlc-no-readline-hook (company-mode -1)))
   :config
-  (setq org-support-shift-select t
-        org-completion-use-ido t))
+  (setq company-tooltip-flip-when-above t
+        company-show-numbers t
+        company-tooltip-align-annotations t
+        company-require-match nil
+        company-minimum-prefix-length 2
+        company-occurrence-weight-function 'company-occurrence-prefer-any-closest
+        company-dabbrev-downcase nil)
+  (bind-key "TAB" 'company-complete shell-mode-map))
 
-(use-package find-func
-  :init (find-function-setup-keys))
-
-(use-package paredit
-  :init
-  (hook-modes lispy-modes
-    (enable-paredit-mode)))
-
-(use-package eldoc
-  :init
-  (hook-modes lispy-modes
-    (eldoc-mode)))
-
-(use-package elisp-slime-nav
-  :init
-  (hook-modes lispy-modes
-    (elisp-slime-nav-mode)))
-
-(use-package smex
-  :bind ("s-P" . smex)
-  :init
-  (smex-initialize)
-  (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
-  (bind-key [remap execute-extended-command] #'smex))
+;;;;; Navigation & Search
 
 (use-package ag
   :config
   (setq ag-reuse-buffers t
         ag-highlight-search t))
 
-(use-package alert
-  :config (setq alert-default-style 'notifier))
+(use-package anzu
+  :bind (("s-q" . anzu-query-replace)
+         ("M-q" . anzu-query-replace-at-cursor))
+  :init (global-anzu-mode))
 
-(use-package crab-mode
-  :bind (("s-R" . crab-reload)
-         ("s-”" . crab-prev-tab)
-         ("s-’" . crab-next-tab))
-  :idle (crab-server-start))
+(use-package imenu
+  :init
+  (add-hook 'emacs-lisp-mode-hook 'hemacs-imenu-elisp-expressions)
+  (setq imenu-auto-rescan t))
+
+(use-package ace-jump-buffer
+  :init
+  (make-ace-jump-buffer-function "shellish"
+    (with-current-buffer buffer
+      (not (derived-mode-p 'comint-mode))))
+  (make-ace-jump-buffer-function "magit"
+    (with-current-buffer buffer
+      (not (derived-mode-p 'magit-mode)))))
 
 (use-package projectile
   :bind (("s-t" . projectile-find-file)
@@ -297,8 +331,33 @@
   (use-package projectile-rails
     :init (add-hook 'projectile-mode-hook 'projectile-rails-on)))
 
-(use-package page-break-lines
-  :init (global-page-break-lines-mode))
+(use-package swoop
+  :config
+  (setq swoop-font-size-change: nil
+        swoop-window-split-direction: 'split-window-horizontally)
+  (bind-key "C-o" 'swoop-from-isearch isearch-mode-map)
+  (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)
+  (bind-key "C-s" 'swoop-action-goto-line-next swoop-map)
+  (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
+
+;;;;; External Utilities
+
+(use-package edit-server
+  :init (edit-server-start)
+  :config (setq edit-server-new-frame nil))
+
+(use-package crab-mode
+  :bind (("s-R" . crab-reload)
+         ("s-”" . crab-prev-tab)
+         ("s-’" . crab-next-tab))
+  :idle (crab-server-start))
+
+;;;;; Major Modes
+
+(use-package org
+  :config
+  (setq org-support-shift-select t
+        org-completion-use-ido t))
 
 (use-package sgml-mode
   :init
@@ -364,8 +423,13 @@
          ("\\.rabl$" . ruby-mode)
          ("\\.env\\.*" . ruby-mode)))
 
+;;;;; Version Control
+
 (use-package ediff
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
+(use-package git-commit-mode
+  :config (setq git-commit-fill-column 90))
 
 (use-package magit
   :bind ("s-m" . magit-status)
@@ -384,73 +448,28 @@
         magit-commit-ask-to-stage nil)
   (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook))
 
-(use-package git-commit-mode
-  :config (setq git-commit-fill-column 90))
-
 (use-package git-messenger
   :config (setq git-messenger:show-detail t))
-
-(use-package projector
-  :bind* (("C-x RET" . projector-run-shell-command-project-root)
-          ("C-x m"   . projector-switch-to-or-create-project-shell))
-  :config
-  (setq projector-always-background-regex
-        '("^mysql.server\\.*"
-          "^powder restart\\.*"
-          "^heroku restart\\.*"
-          "^spring stop"
-          "^gulp publish\\.*"
-          "^git push\\.*"
-          "\\.*cordova run\\.*"
-          "^redis-server"
-          "^pkill\\.*")))
-
-(use-package ido
-  :init (ido-mode)
-  (use-package ido-ubiquitous
-    :init (ido-ubiquitous-mode))
-  (use-package flx-ido
-    :init (flx-ido-mode))
-  (use-package ido-vertical-mode
-    :init (ido-vertical-mode))
-  :config
-  (setq ido-cannot-complete-command 'exit-minibuffer
-        ido-use-virtual-buffers t
-        ido-auto-merge-delay-time 2
-        ido-use-filename-at-point 'guess
-        ido-create-new-buffer 'always))
 
 (use-package diff-hl
   :init
   (global-diff-hl-mode)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
 
-(use-package auto-dim-other-buffers
-  :init (auto-dim-other-buffers-mode))
+;;;;; Help & Docs
 
-(use-package hungry-delete
-  :init (global-hungry-delete-mode))
+(use-package find-func
+  :init (find-function-setup-keys))
 
-(use-package highlight-symbol
+(use-package eldoc
   :init
-  (hook-modes progish-modes
-    (highlight-symbol-mode)
-    (highlight-symbol-nav-mode))
-  :config (setq highlight-symbol-idle-delay 0))
+  (hook-modes lispy-modes
+    (eldoc-mode)))
 
-(use-package volatile-highlights
-  :init (volatile-highlights-mode))
-
-(use-package rainbow-mode
+(use-package elisp-slime-nav
   :init
-  (--each '(css-mode-hook emacs-lisp-mode-hook)
-    (add-hook it 'rainbow-mode)))
-
-(use-package rainbow-delimiters
-  :init
-  (hook-modes progish-modes
-    (rainbow-delimiters-mode)))
-
+  (hook-modes lispy-modes
+    (elisp-slime-nav-mode)))
 
 (use-package dash-at-point
   :config
@@ -470,41 +489,7 @@
           "C-z" "C-c p" "C-x +" "C-c ," "C-h" "M-s")
         guide-key/popup-window-position 'bottom))
 
-(use-package undo-tree
-  :init (global-undo-tree-mode)
-  :bind (("s-z" . undo-tree-undo)
-         ("s-Z" . undo-tree-redo)))
-
-(use-package anzu
-  :bind (("s-q" . anzu-query-replace)
-         ("M-q" . anzu-query-replace-at-cursor))
-  :init (global-anzu-mode))
-
-(use-package expand-region
-  :bind* ("C-," . er/expand-region))
-
-(use-package ace-jump-mode
-  :config
-  (setq ace-jump-mode-case-fold nil
-        ace-jump-mode-scope 'visible))
-
-(use-package ace-jump-buffer
-  :init
-  (make-ace-jump-buffer-function "shellish"
-    (with-current-buffer buffer
-      (not (derived-mode-p 'comint-mode))))
-  (make-ace-jump-buffer-function "magit"
-    (with-current-buffer buffer
-      (not (derived-mode-p 'magit-mode)))))
-
-(use-package swoop
-  :config
-  (setq swoop-font-size-change: nil
-        swoop-window-split-direction: 'split-window-horizontally)
-  (bind-key "C-o" 'swoop-from-isearch isearch-mode-map)
-  (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)
-  (bind-key "C-s" 'swoop-action-goto-line-next swoop-map)
-  (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
+;;;;; Bindings & Chords
 
 (use-package evil
   :init
@@ -512,8 +497,9 @@
     :init (global-evil-surround-mode))
   (--each '(dired git-commit-mode comint-mode shell-mode org-mode help-mode)
     (evil-set-initial-state it 'emacs))
-  (bind-key "Y" (λ (evil-yank (point) (point-at-eol))) evil-normal-state-map)
-  (bind-key "SPC" 'ace-jump-mode evil-normal-state-map)
+  (bind-key "Y" "y$" evil-normal-state-map)
+  (bind-key "SPC" 'ace-jump-word-mode evil-normal-state-map)
+  (bind-key "SPC" 'ace-jump-word-mode evil-visual-state-map)
   (evil-mode)
   :config
   (setq evil-shift-width 2
@@ -553,35 +539,6 @@
   (key-chord-define-global "jz" 'ace-jump-zap-up-to-char)
   (key-chord-define-global "zz" 'zap-up-to-char)
   (setq key-chord-two-keys-delay 0.07))
-
-(use-package company
-  :init
-  (add-hook 'after-init-hook #'global-company-mode)
-  (add-hook 'inf-ruby-mode-hook #'company-mode)
-  (use-package readline-complete
-    :init (push 'company-readline company-backends)
-    :config (add-λ 'rlc-no-readline-hook (company-mode -1)))
-  :config
-  (setq company-tooltip-flip-when-above t
-        company-show-numbers t
-        company-tooltip-align-annotations t
-        company-require-match nil
-        company-minimum-prefix-length 2
-        company-occurrence-weight-function 'company-occurrence-prefer-any-closest
-        company-dabbrev-downcase nil)
-  (bind-key "TAB" 'company-complete shell-mode-map))
-
-(use-package smart-newline
-  :init
-  (hook-modes progish-modes
-    (when (not (member major-mode indent-sensitive-modes))
-      (smart-newline-mode))))
-
-(use-package powerline
-  :init (powerline-default-theme)
-  :config
-  (setq powerline-default-separator 'utf-8)
-  (defpowerline powerline-minor-modes nil))
 
 (bind-keys
  ("TAB"        . tab-dwim)
@@ -650,6 +607,77 @@
 (bind-key "M-TAB" 'previous-history-element ido-completion-map)
 (bind-key "<M-S-tab>" 'next-history-element ido-completion-map)
 
-(set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline")
-(load-theme 'hemacs :no-confirm)
-(toggle-frame-fullscreen)
+;;;;; Appearance
+
+(use-package ns-win
+  :config (setq ns-pop-up-frames nil))
+
+(use-package frame
+  :init (toggle-frame-fullscreen)
+  :config (setq blink-cursor-blinks 0))
+
+(use-package prog-mode
+  :init (global-prettify-symbols-mode))
+
+(use-package uniquify
+  :config (setq uniquify-buffer-name-style 'forward))
+
+(use-package pulse
+  :config
+  (setq pulse-command-advice-flag t
+        pulse-delay 0.01
+        pulse-iterations 4)
+  (add-λ 'post-command-hook
+    (when (member this-command
+                  '(scroll-down-command
+                    scroll-up-command
+                    next-multiframe-window
+                    find-tag))
+      (pulse-line-hook-function)))
+  (--each '(next-error-hook
+            focus-in-hook
+            find-function-after-hook
+            imenu-after-jump-hook)
+    (add-hook it #'pulse-line-hook-function)))
+
+(use-package highlight-symbol
+  :init
+  (hook-modes progish-modes
+    (highlight-symbol-mode)
+    (highlight-symbol-nav-mode))
+  :config (setq highlight-symbol-idle-delay 0))
+
+(use-package volatile-highlights
+  :init (volatile-highlights-mode))
+
+(use-package rainbow-mode
+  :init
+  (--each '(css-mode-hook emacs-lisp-mode-hook)
+    (add-hook it 'rainbow-mode)))
+
+(use-package rainbow-delimiters
+  :init
+  (hook-modes progish-modes
+    (rainbow-delimiters-mode)))
+
+(use-package powerline
+  :init (powerline-default-theme)
+  :config
+  (setq powerline-default-separator 'utf-8)
+  (defpowerline powerline-minor-modes nil))
+
+(use-package paren
+  :init (show-paren-mode)
+  :config (setq show-paren-style 'mixed))
+
+(use-package alert
+  :config (setq alert-default-style 'notifier))
+
+(use-package auto-dim-other-buffers
+  :init (auto-dim-other-buffers-mode))
+
+(use-package faces
+  :init (set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline"))
+
+(use-package custom
+  :init (load-theme 'hemacs :no-confirm))

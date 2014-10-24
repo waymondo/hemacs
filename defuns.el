@@ -346,10 +346,13 @@
     (setq mode-line-buffer-identification
           (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
 
-(defun setup-imenu-for-use-package ()
+(defun hemacs-imenu-elisp-expressions ()
   (add-to-list
    'imenu-generic-expression
-   '("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)))
+   '("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2))
+  (add-to-list
+   'imenu-generic-expression
+   '("sections" "^;;;;; \\(.+\\)$" 1) t))
 
 (defn describe-thing-in-popup
   (let* ((thing (symbol-at-point))
