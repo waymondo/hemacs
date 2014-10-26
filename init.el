@@ -4,6 +4,7 @@
 (cask-initialize)
 (require 'use-package)
 (use-package noflet)
+(use-package s)
 (use-package dash :config (dash-enable-font-lock))
 (use-package tool-bar :init (tool-bar-mode -1))
 (use-package scroll-bar :init (scroll-bar-mode -1))
@@ -67,6 +68,30 @@
          display-buffer-use-some-window
          display-buffer--maybe-pop-up-frame-or-window
          display-buffer-pop-up-frame)))
+
+;;;;; Apply Macros
+
+(with-region-or-line comment-or-uncomment-region)
+(with-region-or-line upcase-region)
+(with-region-or-line capitalize-region)
+(with-region-or-line downcase-region)
+(with-region-or-line yank-region)
+(with-region-or-line kill-region :point-to-eol)
+(with-region-or-line kill-ring-save :point-to-eol)
+(with-region-or-buffer indent-region)
+(with-region-or-buffer untabify)
+
+(make-projectile-switch-project-defun projectile-vc)
+(make-projectile-switch-project-defun projectile-find-file)
+(make-projectile-switch-project-defun projector-run-shell-command-project-root)
+(make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
+(make-projectile-switch-project-defun ort/capture-todo)
+(make-projectile-switch-project-defun ort/goto-todos)
+
+(make-transform-symbol-at-point-defun s-lower-camel-case)
+(make-transform-symbol-at-point-defun s-upper-camel-case)
+(make-transform-symbol-at-point-defun s-snake-case)
+(make-transform-symbol-at-point-defun s-dashed-words)
 
 ;;;;; Processes, Shells, Compilation
 

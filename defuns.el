@@ -53,9 +53,9 @@
          (interactive "r")
          (shell-command-on-region beg end ,(format "js-beautify --%s -f - -s 2 -m 1" type)
                                   (current-buffer) 'replace))
-       (bind-key "C-z C-b" ',defun-name ,(intern (format "%s-mode-map" type))))))
+       (bind-key "s-b" ',defun-name ,(intern (format "%s-mode-map" type))))))
 
-(defmacro make-projectile-switch-project-command (func)
+(defmacro make-projectile-switch-project-defun (func)
   (declare (indent 1) (debug t))
   (let ((defun-name (intern (format "projectile-switch-project-%s" (symbol-name func)))))
     `(defun ,defun-name ()
@@ -63,22 +63,18 @@
        (let ((projectile-switch-project-action ',func))
          (call-interactively 'projectile-switch-project)))))
 
-(with-region-or-line comment-or-uncomment-region)
-(with-region-or-line upcase-region)
-(with-region-or-line capitalize-region)
-(with-region-or-line downcase-region)
-(with-region-or-line yank-region)
-(with-region-or-line kill-region :point-to-eol)
-(with-region-or-line kill-ring-save :point-to-eol)
-(with-region-or-buffer indent-region)
-(with-region-or-buffer untabify)
-
-(make-projectile-switch-project-command projectile-vc)
-(make-projectile-switch-project-command projectile-find-file)
-(make-projectile-switch-project-command projector-run-shell-command-project-root)
-(make-projectile-switch-project-command projector-switch-to-or-create-project-shell)
-(make-projectile-switch-project-command ort/capture-todo)
-(make-projectile-switch-project-command ort/goto-todos)
+(defmacro make-transform-symbol-at-point-defun (func)
+  (declare (indent 1) (debug t))
+  (let ((defun-name (intern (format "%s-symbol-at-point" (symbol-name func)))))
+    `(progn
+       (defun ,defun-name ()
+         (interactive)
+         (save-excursion
+           (er/mark-symbol)
+           (let* ((beg (region-beginning))
+                  (end (region-end))
+                  (current-symbol (buffer-substring-no-properties beg end)))
+             (replace-string current-symbol (funcall ',func current-symbol) nil beg end)))))))
 
 (defn open-finder
   (shell-command (concat "open " (shell-quote-argument default-directory))))
