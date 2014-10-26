@@ -105,14 +105,15 @@
   :init
   (setq comint-prompt-read-only t)
   (setq-default comint-process-echoes t)
-  (add-to-list 'comint-output-filter-functions 'comint-truncate-buffer)
-  (add-hook 'comint-mode-hook 'hemacs-shellish-hook))
+  (add-to-list 'comint-output-filter-functions #'comint-truncate-buffer)
+  (add-hook 'comint-mode-hook #'hemacs-shellish-hook))
 
 (use-package compile
   :init
   (setq compilation-disable-input t
         compilation-always-kill t)
-  (add-hook 'compilation-mode-hook 'hemacs-shellish-hook))
+  (add-hook 'compilation-mode-hook #'hemacs-shellish-hook)
+  (add-hook 'compilation-finish-functions #'alert-after-compilation-finish))
 
 (use-package auto-compile
   :init (auto-compile-on-load-mode)
