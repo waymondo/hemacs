@@ -614,10 +614,19 @@
  ("`" . projectile-switch-project-ort/goto-todos))
 
 (bind-keys
+ :prefix-map hemacs-transform-map
+ :prefix "s-;"
+ ("c" . s-lower-camel-case-symbol-at-point)
+ ("C" . s-upper-camel-case-symbol-at-point)
+ ("_" . s-snake-case-symbol-at-point)
+ ("-" . s-dashed-words-symbol-at-point))
+
+(bind-keys
  :prefix-map hemacs-git-map
  :prefix "s-g"
  ("o" . github-browse-file)
  ("b" . github-browse-file-blame)
+ ("i" . gist-region-or-buffer-private)
  ("c" . github-clone)
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
