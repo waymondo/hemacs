@@ -7,7 +7,6 @@ Install [Homebrew](http://mxcl.github.com/homebrew), then:
 ```
 brew install emacs --cocoa --srgb --with-glib --with-imagemagick --with-rsvg --use-git-head --HEAD
 brew install cask
-brew linkapps
 git clone git://github.com/waymondo/hemacs ~/.emacs.d && cd ~/.emacs.d 
 cask
 open /Applications/Emacs.app
@@ -16,8 +15,8 @@ open /Applications/Emacs.app
 Extra dependencies:
 
 ```
-brew install git hub terminal-notifier node the_silver_searcher markdown bash-completion coreutils
-npm install -g js-beautifier
+brew install git hub terminal-notifier node the_silver_searcher bash-completion coreutils
+npm install -g js-beautifier marked
 gem install ripper-tags
 ```
 

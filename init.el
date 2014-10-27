@@ -399,7 +399,9 @@
   :config (add-hook 'fountain-mode-hook 'hemacs-writing-hook))
 
 (use-package markdown-mode
-  :config (add-hook 'markdown-mode-hook 'hemacs-writing-hook))
+  :config
+  (add-hook 'markdown-mode-hook 'hemacs-writing-hook)
+  (setq markdown-command "marked"))
 
 (use-package css-mode
   :config
