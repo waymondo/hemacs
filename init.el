@@ -448,8 +448,7 @@
       (bind-key "C-:" 'ruby-toggle-hash-syntax
                 (symbol-value (intern (format "%s-map" it))))))
   :mode (("Procfile$" . ruby-mode)
-         ("\\.rabl$" . ruby-mode)
-         ("\\.env\\.*" . ruby-mode)))
+         ("\\.rabl$" . ruby-mode)))
 
 ;;;;; Version Control
 
