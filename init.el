@@ -374,8 +374,8 @@
 
 (use-package crab-mode
   :bind (("s-R" . crab-reload)
-         ("s-”" . crab-prev-tab)
-         ("s-’" . crab-next-tab))
+         ("<S-s-left>" . crab-prev-tab)
+         ("<S-s-right>" . crab-next-tab))
   :idle (crab-server-start))
 
 ;;;;; Major Modes
