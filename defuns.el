@@ -361,7 +361,7 @@
     (popup-tip description
                :point (point)
                :around t
-               :height 30
+               :height 20
                :scroll-bar t
                :margin t)))
 
