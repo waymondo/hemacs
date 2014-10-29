@@ -515,6 +515,9 @@
         '("C-x r" "C-x v" "C-x" "C-c" "C-c p" "C-h" "s-h")
         guide-key/popup-window-position 'bottom))
 
+(use-package flycheck
+  :init (add-hook 'after-init-hook #'global-flycheck-mode))
+
 ;;;;; Bindings & Chords
 
 (use-package evil

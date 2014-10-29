@@ -26,6 +26,7 @@
 (depends-on "exec-path-from-shell")
 (depends-on "expand-region")
 (depends-on "flx-ido")
+(depends-on "flycheck")
 (depends-on "free-keys")
 (depends-on "fountain-mode")
 (depends-on "gist")
