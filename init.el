@@ -512,8 +512,7 @@
   :init (guide-key-mode)
   :config
   (setq guide-key/guide-key-sequence
-        '("C-x r" "C-x 4" "C-x x" "C-x v" "C-c r" "C-x" "C-c"
-          "C-z" "C-c p" "C-x +" "C-c ," "C-h" "M-s")
+        '("C-x r" "C-x v" "C-x" "C-c" "C-c p" "C-h" "s-h")
         guide-key/popup-window-position 'bottom))
 
 ;;;;; Bindings & Chords
