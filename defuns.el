@@ -130,7 +130,8 @@
     (magit-visit-item)
     (delete-file-and-buffer)
     (magit-refresh))
-   ((derived-mode-p 'comint-mode)
+   ((or (derived-mode-p 'comint-mode)
+        (eq major-mode 'inf-ruby-mode))
     (clear-shell))
    (:else
     (delete-file-and-buffer))))
