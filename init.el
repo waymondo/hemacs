@@ -423,6 +423,7 @@
   :ensure coffee-mode
   :config
   (setq coffee-args-repl '("-i" "--nodejs"))
+  (add-to-list 'coffee-args-compile "--no-header")
   (bind-key "<C-return>" 'coffee-smarter-newline coffee-mode-map)
   (bind-key "C-c C-c" 'coffee-compile-region coffee-mode-map))
 
