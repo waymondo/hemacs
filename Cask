@@ -68,4 +68,5 @@
 (depends-on "swoop")
 (depends-on "use-package")
 (depends-on "volatile-highlights")
+(depends-on "wgrep-ag")
 (depends-on "yaml-mode")
