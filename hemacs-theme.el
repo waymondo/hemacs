@@ -49,6 +49,7 @@
    `(vertical-border ((t (:foreground ,base01))))
    `(widget-button ((t (:underline t))))
    `(widget-field ((t (:background ,base02 :box (:line-width 1 :color ,base03)))))
+   `(error ((t (:foreground ,red))))
    `(warning ((t (:foreground ,orange :weight bold))))
    `(success ((t (:foreground ,green :weight bold))))
    `(ace-jump-face-background ((t (:foreground ,base01 :weight bold))))
@@ -100,6 +101,8 @@
    `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
    `(ag-match-face ((t (:inherit isearch-lazy-highlight-face))))
 
+   `(wgrep-face ((t (:background ,base00+2))))
+
    `(guide-key/highlight-command-face ((t (:foreground ,yellow))))
    `(guide-key/key-face ((t (:foreground ,red))))
    `(guide-key/prefix-command-face ((t (:foreground ,aqua))))
@@ -135,14 +138,20 @@
    `(flymake-warnline ((t (:underline ,orange :background ,base00+1))))
    `(flymake-errline ((t (:underline ,red :background ,base00+1))))
 
+   `(flycheck-error ((t (:underline (:style wave :color ,red) :inherit unspecified))))
+   `(flycheck-info ((t (:underline (:style wave :color ,green) :inherit unspecified))))
+   `(flycheck-warning ((t (:underline (:style wave :color ,orange) :inherit unspecified))))
+
    `(swoop-face-target-words ((t (:foreground ,yellow))))
    `(swoop-face-target-line ((t (:background ,base01))))
    `(swoop-face-line-buffer-name ((t (:inherit header-line :foreground ,base02))))
    `(swoop-face-header-format-line ((t (:inherit swoop-face-line-buffer-name :foreground ,purple))))
    `(swoop-face-line-number ((t (:foreground ,base02))))
 
-   `(show-paren-match ((t (:background ,base00-2))))
+   `(show-paren-match ((t (:background ,base00+2))))
    `(show-paren-mismatch ((t (:background ,red :foreground ,base00-2))))
+
+   `(highlight-symbol-face ((t (:foreground unspecified :background unspecified :underline (:style line :color ,yellow)))))
 
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,purple))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,blue))))
@@ -196,8 +205,6 @@
    `(diff-hl-unknown ((t (:foreground ,green-1 :background ,base00+1))))
    `(diff-hl-delete ((t (:foreground ,red-1 :background ,base00+1))))
    `(diff-hl-change ((t (:foreground ,blue-1 :background ,base00+1))))
-
-   `(highlight-symbol-face ((t (:foreground unspecified :background unspecified :underline t))))
 
    `(eldoc-highlight-function-argument ((t (:foreground ,green :weight bold))))
 
