@@ -316,8 +316,7 @@
         company-tooltip-align-annotations t
         company-require-match nil
         company-minimum-prefix-length 2
-        company-occurrence-weight-function 'company-occurrence-prefer-any-closest
-        company-dabbrev-downcase nil)
+        company-occurrence-weight-function 'company-occurrence-prefer-any-closest)
   (bind-key "TAB" 'company-complete shell-mode-map))
 
 ;;;;; Navigation & Search
@@ -464,8 +463,7 @@
   :config
   (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
   (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
-  (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
-        magit-completing-read-function 'magit-ido-completing-read
+  (setq magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
         magit-set-upstream-on-push t
         magit-restore-window-configuration t
