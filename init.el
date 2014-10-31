@@ -518,6 +518,7 @@
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
   (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
+  (setq-default flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;;;;; Bindings & Chords
