@@ -1,3 +1,5 @@
+;;; hemacs --- an emacs configuration -*- flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
+
 ;;;;; Bootstrap
 
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
