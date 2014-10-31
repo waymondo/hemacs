@@ -515,7 +515,10 @@
         guide-key/popup-window-position 'bottom))
 
 (use-package flycheck
-  :init (add-hook 'after-init-hook #'global-flycheck-mode))
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
+  (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;;;;; Bindings & Chords
 

@@ -16,7 +16,7 @@ Extra dependencies:
 
 ```
 brew install git hub terminal-notifier node the_silver_searcher bash-completion coreutils
-npm install -g js-beautifier marked
+npm install -g js-beautifier marked less coffee-script
 gem install ripper-tags rubocop ruby-lint
 ```
 

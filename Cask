@@ -27,6 +27,8 @@
 (depends-on "expand-region")
 (depends-on "flx-ido")
 (depends-on "flycheck")
+(depends-on "flycheck-cask")
+(depends-on "flycheck-pos-tip")
 (depends-on "free-keys")
 (depends-on "fountain-mode")
 (depends-on "gist")

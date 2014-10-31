@@ -127,7 +127,7 @@
    `(company-preview-common ((t (:foreground ,base02))))
    `(company-preview-search ((t (:background ,base00))))
 
-   `(tooltip ((t (:background ,base03 :foreground ,base00))))
+   `(tooltip ((t (:background ,base03 :foreground ,base00 :height 0.9))))
    `(popup-tip-face ((t (:inherit tooltip))))
    `(popup-face ((t (:foreground ,base00+1 :background ,base03))))
    `(popup-menu-selection-face ((t (:foreground ,base03 :background ,blue))))
