@@ -18,6 +18,13 @@
         electric-pair-backward-delete-char
         electric-pair-backward-delete-char-untabify
         eol-then-newline
+        evil-emacs-state
+        evil-exit-emacs-state
+        evil-force-normal-state
+        evil-insert
+        evil-normal-state
+        evil-previous-line
+        evil-visual-char
         highlight-symbol-next
         hungry-delete-backward
         hungry-delete-forward
@@ -64,6 +71,7 @@
         beginning-of-buffer
         crab-reload
         end-of-buffer
+        evil-search-next
         god-local-mode
         god-mode-all
         goto-line
@@ -80,4 +88,5 @@
         swoop-action-cancel
         toggle-split-window
         undefined
+        wgrep-change-to-wgrep-mode
         ))
