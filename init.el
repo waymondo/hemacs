@@ -124,10 +124,14 @@
 (use-package shell
   :init
   (setq async-shell-command-buffer 'new-buffer
-        shell-command-switch (purecopy "-ic")
+        shell-command-switch "-ic"
         explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
   (add-λ 'shell-mode-hook
     (turn-on-comint-history (getenv "HISTFILE"))))
+
+(use-package sh-script
+  :mode (("\\.*bashrc$" . sh-mode)
+         ("\\.*bash_profile" . sh-mode)))
 
 (use-package projector
   :bind* (("C-x RET" . projector-run-shell-command-project-root)
