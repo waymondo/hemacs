@@ -61,15 +61,7 @@
       initial-scratch-message nil
       inhibit-startup-echo-area-message ""
       split-height-threshold nil
-      split-width-threshold 0
-      pop-up-windows nil
-      display-buffer-fallback-action
-      '((display-buffer--maybe-same-window
-         display-buffer-reuse-window
-         display-buffer-in-previous-window
-         display-buffer-use-some-window
-         display-buffer--maybe-pop-up-frame-or-window
-         display-buffer-pop-up-frame)))
+      pop-up-windows nil)
 
 ;;;;; Apply Macros
 
