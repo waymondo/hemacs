@@ -246,6 +246,10 @@
 (use-package expand-region
   :bind* ("C-," . er/expand-region))
 
+(use-package change-inner
+  :bind* (("M-i" . change-inner)
+          ("M-o" . change-outer)))
+
 (use-package ace-jump-mode
   :config
   (setq ace-jump-mode-case-fold nil
