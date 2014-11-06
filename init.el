@@ -269,12 +269,13 @@
   (use-package flx-ido
     :init (flx-ido-mode))
   (use-package ido-vertical-mode
-    :init (ido-vertical-mode))
+    :init (ido-vertical-mode)
+    :config
+    (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
   :config
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
-        ido-use-filename-at-point 'guess
         ido-create-new-buffer 'always))
 
 (use-package smex
