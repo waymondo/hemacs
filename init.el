@@ -122,6 +122,8 @@
     (turn-on-comint-history (getenv "HISTFILE"))))
 
 (use-package sh-script
+  :config (setq-default sh-indentation 2
+                        sh-basic-offset 2)
   :mode (("\\.*bashrc$" . sh-mode)
          ("\\.*bash_profile" . sh-mode)))
 
