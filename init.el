@@ -444,6 +444,7 @@
     (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
     (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
   (use-package rhtml-mode)
+  (use-package ruby-tools)
   (use-package chruby
     :init
     (add-hook 'projectile-switch-project-hook 'chruby-use-corresponding))
