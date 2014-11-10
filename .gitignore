@@ -20,3 +20,4 @@ var
 /elpa/
 /.emacs.desktop
 /url/
+/async-bytecomp.log

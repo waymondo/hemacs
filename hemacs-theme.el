@@ -54,6 +54,7 @@
    `(success ((t (:foreground ,green :weight bold))))
    `(ace-jump-face-background ((t (:foreground ,base01 :weight bold))))
    `(ace-jump-face-foreground ((t (:foreground ,yellow :weight bold))))
+   `(ajb-face ((t :background ,base00-1)))
 
    `(font-lock-builtin-face ((t (:foreground ,aqua))))
    `(font-lock-comment-face ((t (:foreground ,base02))))
@@ -90,6 +91,7 @@
    `(alert-trivial-face ((t (:inherit nil :foreground nil :background nil))))
    `(anzu-mode-line ((t (:foreground ,yellow))))
    `(persp-selected-face ((t (:foreground ,base03))))
+   `(mm-command-output ((t (:foreground unspecified :background unspecified))))
 
    `(match ((t (:foreground ,blue :background ,base00+1 :inverse-video t :weight bold))))
    `(isearch ((t (:inherit match :foreground ,purple))))
@@ -100,6 +102,7 @@
    `(isearch-fail ((t (:inherit font-lock-warning-face))))
    `(regex-tool-matched-face ((t (:foreground nil :background nil :inherit match))))
    `(ag-match-face ((t (:inherit isearch-lazy-highlight-face))))
+   `(custom-state ((t (:foreground ,green))))
 
    `(wgrep-face ((t (:background ,base00+2))))
 
