@@ -241,8 +241,8 @@
   :bind* ("C-," . er/expand-region))
 
 (use-package change-inner
-  :bind* (("M-i" . change-inner)
-          ("M-o" . change-outer)))
+  :bind (("M-i" . change-inner)
+         ("M-o" . change-outer)))
 
 (use-package ace-jump-mode
   :config
@@ -351,8 +351,7 @@
       (not (derived-mode-p 'magit-mode)))))
 
 (use-package projectile
-  :bind (("s-t" . projectile-find-file)
-         ("s-p" . projectile-commander))
+  :bind (("s-p" . projectile-commander))
   :config
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
@@ -361,14 +360,26 @@
   (use-package projectile-rails
     :init (add-hook 'projectile-mode-hook 'projectile-rails-on)))
 
-(use-package swoop
+(use-package helm-config
+  :bind (("s-t" . helm-ls-git-ls))
   :config
-  (setq swoop-font-size-change: nil
-        swoop-window-split-direction: 'split-window-horizontally)
-  (bind-key "C-o" 'swoop-from-isearch isearch-mode-map)
-  (bind-key "C-o" 'swoop-multi-from-swoop swoop-map)
-  (bind-key "C-s" 'swoop-action-goto-line-next swoop-map)
-  (bind-key "C-r" 'swoop-action-goto-line-prev swoop-map))
+  (setq helm-buffer-max-length nil
+        helm-quick-update t
+        helm-split-window-in-side-p t
+        helm-buffers-fuzzy-matching t)
+  :init
+  (use-package helm-css-scss)
+  (use-package helm-open-github)
+  (use-package helm-ls-git
+    :bind ("s-t" . helm-ls-git-ls))
+  (use-package helm-swoop
+    :bind ("s-f" . helm-swoop)
+    :config
+    (bind-key "s-f" 'helm-swoop-from-isearch isearch-mode-map)
+    (bind-key "s-f" 'helm-multi-swoop-all-from-helm-swoop helm-swoop-map)
+    (setq helm-multi-swoop-edit-save t
+          helm-swoop-use-line-number-face t
+          helm-swoop-pre-input-function (lambda ()))))
 
 ;;;;; External Utilities
 
@@ -561,16 +572,16 @@
   (key-chord-define-global "qq" 'log-statement)
   (key-chord-define-global ";a" 'ace-jump-buffer)
   (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
-  (key-chord-define-global ";s" 'ido-switch-buffer)
-  (key-chord-define-global ":S" 'ido-switch-buffer-other-window)
+  (key-chord-define-global ";s" 'helm-buffers-list)
   (key-chord-define-global ";w" 'toggle-split-window)
   (key-chord-define-global ":W" 'delete-other-windows)
   (key-chord-define-global ";f" 'ido-find-file)
-  (key-chord-define-global ":F" 'ido-find-file-other-window)
+  (key-chord-define-global ":F" 'helm-find-files)
   (key-chord-define-global ";t" 'projectile-find-file)
-  (key-chord-define-global ":T" 'projectile-find-file-other-window)
+  (key-chord-define-global ":T" 'helm-ls-git-ls)
   (key-chord-define-global ";g" 'projectile-ag)
   (key-chord-define-global ":G" 'ag)
+  (key-chord-define-global ";r" 'imenu-anywhere)
   (key-chord-define-global "jb" 'ace-jump-buffer-with-configuration)
   (key-chord-define-global "jc" 'ace-jump-char-mode)
   (key-chord-define-global "jk" 'ace-jump-word-mode)
