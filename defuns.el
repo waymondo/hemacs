@@ -1,4 +1,4 @@
-;;; hemacs --- an emacs configuration -*- flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
+;;; hemacs --- an emacs configuration -*- lexical-binding: t; flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
 
 (defmacro defn (name &rest body)
   (declare (indent 1) (debug t))
