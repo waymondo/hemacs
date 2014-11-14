@@ -541,6 +541,7 @@
 ;;;;; Bindings & Chords
 
 (use-package evil
+  :disabled t
   :init
   (use-package evil-surround
     :init (global-evil-surround-mode))
@@ -588,7 +589,8 @@
   (key-chord-define-global "jl" 'ace-jump-line-mode)
   (key-chord-define-global "jz" 'ace-jump-zap-up-to-char)
   (key-chord-define-global "zz" 'zap-up-to-char)
-  (setq key-chord-two-keys-delay 0.07))
+  (setq key-chord-one-key-delay 0.05)
+  (setq key-chord-two-keys-delay 0.05))
 
 (bind-keys
  ("TAB"        . tab-dwim)
