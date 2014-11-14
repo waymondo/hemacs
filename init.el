@@ -478,8 +478,10 @@
 (use-package magit
   :bind ("s-m" . magit-status)
   :config
-  (bind-key "C-c C-a" 'magit-just-amend magit-mode-map)
-  (bind-key "C-c C-p" 'magit-pull-request-for-issue-number magit-mode-map)
+  (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
+  (bind-key "C-c C-p" #'magit-pull-request-for-issue-number magit-mode-map)
+  (defadvice magit-toggle-section (after magit-toggle-scroll-to-top activate compile)
+    (recenter-top-bottom 0))
   (setq magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
         magit-set-upstream-on-push t
