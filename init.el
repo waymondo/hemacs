@@ -447,8 +447,10 @@
   (bind-key "<C-return>" #'ruby-smarter-newline ruby-mode-map)
   (use-package rspec-mode)
   (use-package inf-ruby
-    :init (add-λ 'inf-ruby-mode-hook
-            (turn-on-comint-history "~/.irb_history")))
+    :init
+    (add-hook 'after-init-hook #'inf-ruby-switch-setup)
+    (add-λ 'inf-ruby-mode-hook
+      (turn-on-comint-history "~/.irb_history")))
   (use-package slim-mode
     :config
     (setq slim-backspace-backdents-nesting nil)
