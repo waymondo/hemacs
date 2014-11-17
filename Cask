@@ -65,6 +65,7 @@
 (depends-on "rainbow-mode")
 (depends-on "rainbow-delimiters")
 (depends-on "readline-complete")
+(depends-on "restclient")
 (depends-on "rhtml-mode")
 (depends-on "rspec-mode")
 (depends-on "ruby-hash-syntax")
