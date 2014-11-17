@@ -56,7 +56,7 @@
 
 ;;;;; Unprovided Internal Packages
 
-(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p #'y-or-n-p)
 (setq inhibit-startup-screen t
       initial-scratch-message nil
       inhibit-startup-echo-area-message ""
@@ -145,7 +145,7 @@
 ;;;;; Files & History
 
 (use-package image-mode
-  :init (add-hook 'image-mode-hook 'show-image-dimensions-in-mode-line))
+  :init (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
 
 (use-package files
   :mode ("Cask" . emacs-lisp-mode)
@@ -157,7 +157,7 @@
         confirm-nonexistent-file-or-buffer nil
         backup-directory-alist `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-  (add-hook 'before-save-hook 'hemacs-save-hook))
+  (add-hook 'before-save-hook #'hemacs-save-hook))
 
 (use-package autorevert
   :init (global-auto-revert-mode)
@@ -183,7 +183,7 @@
 
 (use-package dired
   :init
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
         dired-recursive-deletes 'always
         dired-recursive-copies 'always
@@ -292,8 +292,8 @@
       ad-do-it))
   (defalias 'he-dabbrev-beg 'hemacs-dabbrev-beg)
   (bind-key [remap dabbrev-expand] #'hippie-expand)
-  (bind-key "TAB" 'hippie-expand read-expression-map)
-  (bind-key "TAB" 'hippie-expand minibuffer-local-map)
+  (bind-key "TAB" #'hippie-expand read-expression-map)
+  (bind-key "TAB" #'hippie-expand minibuffer-local-map)
   (bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
   (setq hippie-expand-verbose nil
         hippie-expand-try-functions-list '(try-expand-dabbrev-visible
@@ -322,7 +322,7 @@
         company-require-match nil
         company-minimum-prefix-length 2
         company-occurrence-weight-function 'company-occurrence-prefer-any-closest)
-  (bind-key "TAB" 'company-complete shell-mode-map))
+  (bind-key "TAB" #'company-complete shell-mode-map))
 
 ;;;;; Navigation & Search
 
@@ -338,7 +338,7 @@
 
 (use-package imenu
   :init
-  (add-hook 'emacs-lisp-mode-hook 'hemacs-imenu-elisp-expressions)
+  (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
 (use-package ace-jump-buffer
@@ -358,7 +358,7 @@
   :init
   (projectile-global-mode)
   (use-package projectile-rails
-    :init (add-hook 'projectile-mode-hook 'projectile-rails-on)))
+    :init (add-hook 'projectile-mode-hook #'projectile-rails-on)))
 
 (use-package helm-config
   :bind (("s-t" . helm-ls-git-ls))
@@ -375,8 +375,8 @@
   (use-package helm-swoop
     :bind ("s-f" . helm-swoop)
     :config
-    (bind-key "s-f" 'helm-swoop-from-isearch isearch-mode-map)
-    (bind-key "s-f" 'helm-multi-swoop-all-from-helm-swoop helm-swoop-map)
+    (bind-key "s-f" #'helm-swoop-from-isearch isearch-mode-map)
+    (bind-key "s-f" #'helm-multi-swoop-all-from-helm-swoop helm-swoop-map)
     (setq helm-multi-swoop-edit-save t
           helm-swoop-use-line-number-face t
           helm-swoop-pre-input-function (lambda ()))))
@@ -406,16 +406,16 @@
   (add-to-list 'auto-mode-alist '("\\.handlebars$" . html-mode))
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
-  (bind-key "<C-return>" 'html-smarter-newline html-mode-map)
+  (bind-key "<C-return>" #'html-smarter-newline html-mode-map)
   (make-beautify-defun "html"))
 
 (use-package fountain-mode
   :mode ("\\.fountain$" . fountain-mode)
-  :config (add-hook 'fountain-mode-hook 'hemacs-writing-hook))
+  :config (add-hook 'fountain-mode-hook #'hemacs-writing-hook))
 
 (use-package markdown-mode
   :config
-  (add-hook 'markdown-mode-hook 'hemacs-writing-hook)
+  (add-hook 'markdown-mode-hook #'hemacs-writing-hook)
   (setq markdown-command "marked"))
 
 (use-package css-mode
@@ -439,12 +439,12 @@
   :config
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header")
-  (bind-key "<C-return>" 'coffee-smarter-newline coffee-mode-map)
-  (bind-key "C-c C-c" 'coffee-compile-region coffee-mode-map))
+  (bind-key "<C-return>" #'coffee-smarter-newline coffee-mode-map)
+  (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
 
 (use-package ruby-mode
   :init
-  (bind-key "<C-return>" 'ruby-smarter-newline ruby-mode-map)
+  (bind-key "<C-return>" #'ruby-smarter-newline ruby-mode-map)
   (use-package rspec-mode)
   (use-package inf-ruby
     :init (add-λ 'inf-ruby-mode-hook
@@ -452,17 +452,17 @@
   (use-package slim-mode
     :config
     (setq slim-backspace-backdents-nesting nil)
-    (bind-key "C-j" 'electric-indent-just-newline slim-mode-map)
+    (bind-key "C-j" #'electric-indent-just-newline slim-mode-map)
     (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
   (use-package rhtml-mode)
   (use-package ruby-tools)
   (use-package chruby
     :init
-    (add-hook 'projectile-switch-project-hook 'chruby-use-corresponding))
+    (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding))
   (use-package ruby-hash-syntax
     :init
     (--each ruby-modes
-      (bind-key "C-:" 'ruby-toggle-hash-syntax
+      (bind-key "C-:" #'ruby-toggle-hash-syntax
                 (symbol-value (intern (format "%s-map" it))))))
   :mode (("Procfile$" . ruby-mode)
          ("\\.rabl$" . ruby-mode)))
@@ -491,7 +491,7 @@
         magit-stage-all-confirm nil
         magit-unstage-all-confirm nil
         magit-commit-ask-to-stage nil)
-  (add-hook 'magit-process-mode-hook 'hemacs-shellish-hook))
+  (add-hook 'magit-process-mode-hook #'hemacs-shellish-hook))
 
 (use-package git-messenger
   :config (setq git-messenger:show-detail t))
@@ -499,7 +499,7 @@
 (use-package diff-hl
   :init
   (global-diff-hl-mode)
-  (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
+  (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
 
 ;;;;; Help & Docs
 
@@ -550,8 +550,8 @@
   (--each '(dired git-commit-mode comint-mode shell-mode org-mode help-mode)
     (evil-set-initial-state it 'emacs))
   (bind-key "Y" "y$" evil-normal-state-map)
-  (bind-key "SPC" 'ace-jump-word-mode evil-normal-state-map)
-  (bind-key "SPC" 'ace-jump-word-mode evil-visual-state-map)
+  (bind-key "SPC" #'ace-jump-word-mode evil-normal-state-map)
+  (bind-key "SPC" #'ace-jump-word-mode evil-visual-state-map)
   (evil-mode)
   :config
   (setq evil-shift-width 2
@@ -566,32 +566,31 @@
     (set (make-local-variable 'input-method-function) nil))
   (key-chord-define-global ",." "<>\C-b")
   (key-chord-define-global "}|" "||\C-b")
-  (key-chord-define-global "<>" 'sgml-close-tag)
-  (key-chord-define-global "{}" 'open-brackets-newline-and-indent)
-  (key-chord-define-global "[]" 'pad-brackets)
-  (key-chord-define-global "_+" 'insert-fat-arrow)
-  (key-chord-define-global "-=" 'insert-arrow)
+  (key-chord-define-global "<>" #'sgml-close-tag)
+  (key-chord-define-global "{}" #'open-brackets-newline-and-indent)
+  (key-chord-define-global "[]" #'pad-brackets)
+  (key-chord-define-global "_+" #'insert-fat-arrow)
+  (key-chord-define-global "-=" #'insert-arrow)
   (key-chord-define-global "^^" (λ (insert "λ")))
-  (key-chord-define-global "qq" 'log-statement)
-  (key-chord-define-global ";a" 'ace-jump-buffer)
-  (key-chord-define-global ":A" 'ace-jump-buffer-other-window)
-  (key-chord-define-global ";s" 'helm-buffers-list)
-  (key-chord-define-global ";w" 'toggle-split-window)
-  (key-chord-define-global ":W" 'delete-other-windows)
-  (key-chord-define-global ";f" 'ido-find-file)
-  (key-chord-define-global ":F" 'helm-find-files)
-  (key-chord-define-global ";t" 'projectile-find-file)
-  (key-chord-define-global ":T" 'helm-ls-git-ls)
-  (key-chord-define-global ";g" 'projectile-ag)
-  (key-chord-define-global ":G" 'ag)
-  (key-chord-define-global ";r" 'imenu-anywhere)
-  (key-chord-define-global "jb" 'ace-jump-buffer-with-configuration)
-  (key-chord-define-global "jc" 'ace-jump-char-mode)
-  (key-chord-define-global "jk" 'ace-jump-word-mode)
-  (key-chord-define-global "jl" 'ace-jump-line-mode)
-  (key-chord-define-global "jz" 'ace-jump-zap-up-to-char)
-  (key-chord-define-global "zz" 'zap-up-to-char)
-  (setq key-chord-one-key-delay 0.05)
+  (key-chord-define-global "qq" #'log-statement)
+  (key-chord-define-global ";a" #'ace-jump-buffer)
+  (key-chord-define-global ":A" #'ace-jump-buffer-other-window)
+  (key-chord-define-global ";s" #'helm-buffers-list)
+  (key-chord-define-global ";w" #'toggle-split-window)
+  (key-chord-define-global ":W" #'delete-other-windows)
+  (key-chord-define-global ";f" #'ido-find-file)
+  (key-chord-define-global ":F" #'helm-find-files)
+  (key-chord-define-global ";t" #'projectile-find-file)
+  (key-chord-define-global ":T" #'helm-ls-git-ls)
+  (key-chord-define-global ";g" #'projectile-ag)
+  (key-chord-define-global ":G" #'ag)
+  (key-chord-define-global ";r" #'imenu-anywhere)
+  (key-chord-define-global "jb" #'ace-jump-buffer-with-configuration)
+  (key-chord-define-global "jc" #'ace-jump-char-mode)
+  (key-chord-define-global "jk" #'ace-jump-word-mode)
+  (key-chord-define-global "jl" #'ace-jump-line-mode)
+  (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
+  (key-chord-define-global "zz" #'zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
 
 (bind-keys
@@ -660,15 +659,15 @@
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
 
-(bind-key "<escape>" 'abort-recursive-edit minibuffer-local-map)
-(bind-key "M-TAB" 'previous-complete-history-element minibuffer-local-map)
-(bind-key "<M-S-tab>" 'next-complete-history-element minibuffer-local-map)
-(bind-key "M-TAB" 'comint-previous-matching-input-from-input comint-mode-map)
-(bind-key "<M-S-tab>" 'comint-next-matching-input-from-input comint-mode-map)
-(bind-key "M-TAB" 'comint-previous-matching-input-from-input inf-ruby-mode-map)
-(bind-key "<M-S-tab>" 'comint-next-matching-input-from-input inf-ruby-mode-map)
-(bind-key "M-TAB" 'previous-history-element ido-completion-map)
-(bind-key "<M-S-tab>" 'next-history-element ido-completion-map)
+(bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
+(bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
+(bind-key "<M-S-tab>" #'next-complete-history-element minibuffer-local-map)
+(bind-key "M-TAB" #'comint-previous-matching-input-from-input comint-mode-map)
+(bind-key "<M-S-tab>" #'comint-next-matching-input-from-input comint-mode-map)
+(bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
+(bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map)
+(bind-key "M-TAB" #'previous-history-element ido-completion-map)
+(bind-key "<M-S-tab>" #'next-history-element ido-completion-map)
 
 ;;;;; Appearance
 
@@ -716,7 +715,7 @@
 (use-package rainbow-mode
   :init
   (--each '(css-mode-hook emacs-lisp-mode-hook)
-    (add-hook it 'rainbow-mode)))
+    (add-hook it #'rainbow-mode)))
 
 (use-package rainbow-delimiters
   :init
