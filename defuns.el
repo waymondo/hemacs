@@ -383,3 +383,8 @@
       (alert (concat "Compilation " result)
              :buffer buf
              :category 'compilation))))
+
+(defn toggle-transparency
+  (if (member (frame-parameter nil 'alpha) '(nil 100))
+      (set-frame-parameter nil 'alpha 67)
+    (set-frame-parameter nil 'alpha 100)))

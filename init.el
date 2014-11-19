@@ -618,7 +618,8 @@
  ("C-x C-r"    . rename-file-and-buffer)
  ("C->"        . mc/mark-next-like-this)
  ("C-<"        . mc/mark-previous-like-this)
- ("C-x C-<"    . mc/mark-all-like-this))
+ ("C-x C-<"    . mc/mark-all-like-this)
+ ("<f5>"       . toggle-transparency))
 
 (bind-keys
  :prefix-map hemacs-help-map
