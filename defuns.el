@@ -306,6 +306,13 @@
     (switch-to-buffer buf)
     (funcall current-major-mode)))
 
+(defn find-or-create-projectile-restclient-buffer
+  (let ((buffer-name (concat "*" (projectile-project-name) " restclient*")))
+    (switch-to-buffer
+     (or (get-buffer buffer-name)
+         (generate-new-buffer buffer-name)))
+    (restclient-mode)))
+
 (defn toggle-split-window
   (if (eq last-command 'toggle-split-window)
       (progn
