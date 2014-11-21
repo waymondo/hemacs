@@ -423,9 +423,6 @@
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
 
-(use-package less-css-mode
-  :mode ("\\.scss$" . less-css-mode))
-
 (use-package js
   :mode ("\\.json$" . js-mode)
   :interpreter ("node" . js-mode)
