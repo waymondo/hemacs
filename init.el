@@ -736,7 +736,9 @@
 
 (use-package paren
   :init (show-paren-mode)
-  :config (setq show-paren-style 'mixed))
+  :config
+  (setq show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t))
 
 (use-package alert
   :config (setq alert-default-style 'notifier))

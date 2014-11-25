@@ -191,7 +191,7 @@
    `(helm-ls-git-renamed-modified-face ((t (:foreground ,yellow))))
    `(helm-ls-git-untracked-face ((t (:foreground ,blue))))
 
-   `(show-paren-match ((t (:background ,base00+2))))
+   `(show-paren-match ((t (:underline (:style line :color ,purple)))))
    `(show-paren-mismatch ((t (:background ,red :foreground ,base00-2))))
 
    `(highlight-symbol-face ((t (:foreground unspecified :background unspecified :underline (:style line :color ,yellow)))))
