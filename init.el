@@ -256,6 +256,7 @@
       (smart-newline-mode))))
 
 (use-package paredit
+  :disabled t
   :init
   (hook-modes lispy-modes
     (enable-paredit-mode)))
@@ -529,7 +530,7 @@
   :init (guide-key-mode)
   :config
   (setq guide-key/guide-key-sequence
-        '("C-x r" "C-x v" "C-x" "C-c" "C-c p" "C-h" "s-h")
+        '("C-x r" "C-x v" "C-x" "C-c" "C-c p" "C-h" "s-h" "s-g")
         guide-key/popup-window-position 'bottom))
 
 (use-package flycheck
@@ -574,13 +575,14 @@
   (key-chord-define-global "qq" #'log-statement)
   (key-chord-define-global ";a" #'ace-jump-buffer)
   (key-chord-define-global ":A" #'ace-jump-buffer-other-window)
-  (key-chord-define-global ";s" #'helm-buffers-list)
+  (key-chord-define-global ";s" #'ido-switch-buffer)
+  (key-chord-define-global ":S" #'ido-switch-buffer-other-window)
   (key-chord-define-global ";w" #'toggle-split-window)
   (key-chord-define-global ":W" #'delete-other-windows)
   (key-chord-define-global ";f" #'ido-find-file)
   (key-chord-define-global ":F" #'helm-find-files)
   (key-chord-define-global ";t" #'projectile-find-file)
-  (key-chord-define-global ":T" #'helm-ls-git-ls)
+  (key-chord-define-global ":T" #'projectile-find-file-dwim)
   (key-chord-define-global ";g" #'projectile-ag)
   (key-chord-define-global ":G" #'ag)
   (key-chord-define-global ";r" #'imenu-anywhere)
@@ -652,9 +654,11 @@
 (bind-keys
  :prefix-map hemacs-git-map
  :prefix "s-g"
+ ("i" . helm-open-github-from-issues)
+ ("r" . helm-open-github-from-pull-requests)
  ("o" . github-browse-file)
  ("b" . github-browse-file-blame)
- ("i" . gist-region-or-buffer-private)
+ ("g" . gist-region-or-buffer-private)
  ("c" . github-clone)
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
