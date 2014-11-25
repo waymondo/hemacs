@@ -604,6 +604,7 @@
  ("s-["        . shift-left)
  ("s-]"        . shift-right)
  ("s-:"        . pad-colon)
+ ("s-{"        . hemacs-todo)
  ("s-u"        . duplicate-dwim)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)

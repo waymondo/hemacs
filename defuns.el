@@ -245,6 +245,9 @@
       (insert ": ;")
       (backward-char))))
 
+(defn hemacs-todo
+  (insert "- [ ] "))
+
 (defn log-statement
   (cond ((member major-mode '(js-mode coffee-mode))
          (insert "console.log()")
