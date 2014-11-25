@@ -386,7 +386,8 @@
 
 (use-package edit-server
   :init (edit-server-start)
-  :config (setq edit-server-new-frame nil))
+  :config (setq edit-server-new-frame nil
+                edit-server-default-major-mode 'markdown-mode))
 
 (use-package crab-mode
   :bind (("s-R" . crab-reload)
