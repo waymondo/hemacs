@@ -1,3 +1,5 @@
+;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
+
 (deftheme hemacs)
 
 (let* ((class '((class color) (min-colors 89)))
@@ -408,6 +410,11 @@
      [,base00 ,red ,green ,yellow ,blue ,purple ,blue ,base03])
    `(ansi-term-color-vector
      [unspecified ,base00 ,red ,green ,yellow ,blue ,purple ,blue ,base03])))
+
+;; Local Variables:
+;; eval: (rainbow-mode)
+;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; End:
 
 (provide-theme 'hemacs)
 ;;; hemacs-theme.el ends here

@@ -1,4 +1,4 @@
-;;; hemacs --- an emacs configuration -*- lexical-binding: t; flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
+;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
 
 (defmacro defn (name &rest body)
   (declare (indent 1) (debug t))
@@ -404,3 +404,7 @@
       (setq theme-variant 'dark)
     (setq theme-variant 'light))
   (load-theme 'hemacs :no-confirm))
+
+;; Local Variables:
+;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; End:

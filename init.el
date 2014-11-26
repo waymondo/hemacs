@@ -1,4 +1,4 @@
-;;; hemacs --- an emacs configuration -*- lexical-binding: t; flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
+;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
 
 ;;;;; Bootstrap
 
@@ -729,8 +729,7 @@
 
 (use-package rainbow-mode
   :init
-  (--each '(css-mode-hook emacs-lisp-mode-hook)
-    (add-hook it #'rainbow-mode)))
+  (add-hook 'css-mode-hook #'rainbow-mode))
 
 (use-package rainbow-delimiters
   :init
@@ -760,3 +759,7 @@
 
 (use-package custom
   :init (load-theme 'hemacs :no-confirm))
+
+;; Local Variables:
+;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; End:
