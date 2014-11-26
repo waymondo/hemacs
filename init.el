@@ -209,6 +209,11 @@
       ad-do-it))
   (defadvice kill-whole-line (after kill-whole-lines-back-to-indentation activate compile)
     (back-to-indentation))
+  (defadvice kill-line (around kill-or-join-line activate compile)
+    (if (not (eolp))
+        ad-do-it
+      (forward-line)
+      (join-line)))
   (defadvice move-beginning-of-line
       (around move-beginning-of-line-or-indentation activate compile)
     (let ((orig-point (point)))
