@@ -262,7 +262,6 @@
       (smart-newline-mode))))
 
 (use-package paredit
-  :disabled t
   :init
   (hook-modes lispy-modes
     (enable-paredit-mode)))
