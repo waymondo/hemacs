@@ -532,6 +532,9 @@
 (use-package popup
   :commands popup-tip)
 
+(use-package discover
+  :init (global-discover-mode))
+
 (use-package guide-key
   :init (guide-key-mode)
   :config
