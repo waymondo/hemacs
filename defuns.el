@@ -379,6 +379,7 @@
                :margin t)))
 
 (defun hemacs-kill-buffer-query ()
+  (when (fboundp 'comint-write-input-ring) (comint-write-input-ring))
   (if (not (member (buffer-name) '("*Messages*")))
       t
     (bury-buffer)
