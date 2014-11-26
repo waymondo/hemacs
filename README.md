@@ -5,11 +5,7 @@ An ever evolving Cocoa Emacs 24.4+ setup on OSX. I'm mainly writing Ruby and Cof
 Install [Homebrew](http://mxcl.github.com/homebrew), then:
 
 ```
-brew install emacs --cocoa --srgb --with-glib --with-imagemagick --with-rsvg --use-git-head --HEAD
-brew install cask
-git clone git://github.com/waymondo/hemacs ~/.emacs.d && cd ~/.emacs.d 
-cask
-open /Applications/Emacs.app
+curl -L https://raw.githubusercontent.com/waymondo/hemacs/master/installer.sh | sh
 ```
 
 Extra dependencies:
