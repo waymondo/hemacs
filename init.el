@@ -21,6 +21,7 @@
   '(ruby-mode rhtml-mode slim-mode inf-ruby-mode))
 (defvar shellish-modes
   '(comint-mode inf-ruby-mode ielm-mode))
+(defvar theme-variant 'dark)
 
 (load (locate-user-emacs-file "defuns.el"))
 
