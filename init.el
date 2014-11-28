@@ -101,7 +101,11 @@
   (setq comint-prompt-read-only t)
   (setq-default comint-process-echoes t)
   (add-to-list 'comint-output-filter-functions #'comint-truncate-buffer)
-  (add-hook 'comint-mode-hook #'hemacs-shellish-hook))
+  (add-hook 'comint-mode-hook #'hemacs-shellish-hook)
+  (add-hook 'kill-buffer-hook #'comint-write-input-ring)
+  (add-λ 'kill-emacs-hook
+    (--each (buffer-list)
+      (with-current-buffer it (comint-write-input-ring)))))
 
 (use-package compile
   :init
@@ -452,7 +456,6 @@
   (use-package rspec-mode)
   (use-package inf-ruby
     :init
-    (add-hook 'after-init-hook #'inf-ruby-switch-setup)
     (add-λ 'inf-ruby-mode-hook
       (turn-on-comint-history "~/.irb_history")))
   (use-package slim-mode
