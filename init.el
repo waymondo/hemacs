@@ -757,7 +757,7 @@
   :init (auto-dim-other-buffers-mode))
 
 (use-package faces
-  :init (set-face-attribute 'default nil :height 150 :font "Meslo LG M DZ for Powerline"))
+  :init (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
 
 (use-package custom
   :init (load-theme 'hemacs :no-confirm))
