@@ -550,22 +550,6 @@
 
 ;;;;; Bindings & Chords
 
-(use-package evil
-  :disabled t
-  :init
-  (use-package evil-surround
-    :init (global-evil-surround-mode))
-  (--each '(dired git-commit-mode comint-mode shell-mode org-mode help-mode)
-    (evil-set-initial-state it 'emacs))
-  (bind-key "Y" "y$" evil-normal-state-map)
-  (bind-key "SPC" #'ace-jump-word-mode evil-normal-state-map)
-  (bind-key "SPC" #'ace-jump-word-mode evil-visual-state-map)
-  (evil-mode)
-  :config
-  (setq evil-shift-width 2
-        evil-move-cursor-back nil
-        evil-symbol-word-search t))
-
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
