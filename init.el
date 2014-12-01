@@ -320,18 +320,19 @@
 
 (use-package company
   :init
-  (add-hook 'after-init-hook #'global-company-mode)
-  (add-hook 'inf-ruby-mode-hook #'company-mode)
+  (global-company-mode)
   (use-package readline-complete
-    :init (push 'company-readline company-backends)
-    :config (add-λ 'rlc-no-readline-hook (company-mode -1)))
+    :init (push 'company-readline company-backends))
   :config
-  (setq company-tooltip-flip-when-above t
-        company-show-numbers t
-        company-tooltip-align-annotations t
-        company-require-match nil
+  (setq company-tooltip-align-annotations t
+        company-tooltip-flip-when-above t
         company-minimum-prefix-length 2
-        company-occurrence-weight-function 'company-occurrence-prefer-any-closest)
+        company-idle-delay 0.25
+        company-show-numbers t
+        company-occurrence-weight-function #'company-occurrence-prefer-any-closest
+        company-dabbrev-minimum-length 2
+        company-dabbrev-code-modes t
+        company-dabbrev-code-everywhere t)
   (bind-key "TAB" #'company-complete shell-mode-map))
 
 ;;;;; Navigation & Search
