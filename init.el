@@ -572,6 +572,7 @@
   (use-package misc)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
+  (key-chord-define-global (kbd "SPC SPC") (λ (insert ". ")))
   (key-chord-define-global ",." "<>\C-b")
   (key-chord-define-global "}|" "||\C-b")
   (key-chord-define-global "<>" #'sgml-close-tag)
