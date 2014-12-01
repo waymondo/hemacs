@@ -363,25 +363,20 @@
 (use-package projectile
   :bind (("s-p" . projectile-commander))
   :config
-  (setq projectile-enable-caching t
-        projectile-tags-command "ripper-tags -R -f TAGS")
+  (setq projectile-enable-caching t)
   :init
   (projectile-global-mode)
   (use-package projectile-rails
     :init (add-hook 'projectile-mode-hook #'projectile-rails-on)))
 
 (use-package helm-config
-  :bind (("s-t" . helm-ls-git-ls))
   :config
   (setq helm-buffer-max-length nil
-        helm-quick-update t
         helm-split-window-in-side-p t
         helm-buffers-fuzzy-matching t)
   :init
   (use-package helm-css-scss)
   (use-package helm-open-github)
-  (use-package helm-ls-git
-    :bind ("s-t" . helm-ls-git-ls))
   (use-package helm-swoop
     :bind ("s-f" . helm-swoop)
     :config

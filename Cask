@@ -44,7 +44,6 @@
 (depends-on "guide-key")
 (depends-on "helm")
 (depends-on "helm-css-scss")
-(depends-on "helm-ls-git")
 (depends-on "helm-open-github")
 (depends-on "helm-swoop")
 (depends-on "highlight-symbol")
