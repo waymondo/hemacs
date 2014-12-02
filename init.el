@@ -536,8 +536,8 @@
 (use-package guide-key
   :init (guide-key-mode)
   :config
-  (setq guide-key/guide-key-sequence
-        '("C-x r" "C-x v" "C-x" "C-c" "C-c p" "C-h" "s-h" "s-g")
+  (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-c" "C-h" "s-h" "s-g")
+        guide-key/recursive-key-sequence-flag t
         guide-key/popup-window-position 'bottom))
 
 (use-package flycheck
