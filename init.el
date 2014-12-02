@@ -447,9 +447,10 @@
   (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
 
 (use-package ruby-mode
+  :mode (("Procfile$" . ruby-mode)
+         ("\\.rabl$" . ruby-mode))
   :init
   (bind-key "<C-return>" #'ruby-smarter-newline ruby-mode-map)
-  (use-package rspec-mode)
   (use-package inf-ruby
     :init
     (add-λ 'inf-ruby-mode-hook
@@ -457,20 +458,18 @@
   (use-package slim-mode
     :config
     (setq slim-backspace-backdents-nesting nil)
-    (bind-key "C-j" #'electric-indent-just-newline slim-mode-map)
     (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
-  (use-package rhtml-mode)
+  (use-package rhtml-mode
+    :mode ("\\.rhtml" . rhtml-mode))
   (use-package ruby-tools)
   (use-package chruby
     :init
     (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding))
   (use-package ruby-hash-syntax
     :init
-    (--each ruby-modes
-      (bind-key "C-:" #'ruby-toggle-hash-syntax
-                (symbol-value (intern (format "%s-map" it))))))
-  :mode (("Procfile$" . ruby-mode)
-         ("\\.rabl$" . ruby-mode)))
+    (require 'rhtml-mode)
+    (each-mode-map ruby-modes
+      (bind-key "C-c C-:" #'ruby-toggle-hash-syntax mode-map))))
 
 ;;;;; Version Control
 

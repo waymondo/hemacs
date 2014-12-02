@@ -23,6 +23,12 @@
      (add-λ (intern (format "%s-hook" it))
        ,@body)))
 
+(defmacro each-mode-map (modes &rest body)
+  (declare (indent 1) (debug t))
+  `(--each ,modes
+     (let ((mode-map (symbol-value (intern (format "%s-map" it)))))
+       ,@body)))
+
 (defmacro with-region-or-line (func &optional point-to-eol)
   (declare (indent 1) (debug t))
   `(progn
