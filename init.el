@@ -454,7 +454,7 @@
   (use-package inf-ruby
     :init
     (add-λ 'inf-ruby-mode-hook
-      (turn-on-comint-history "~/.irb_history")))
+      (turn-on-comint-history ".pry_history")))
   (use-package slim-mode
     :config
     (setq slim-backspace-backdents-nesting nil)
