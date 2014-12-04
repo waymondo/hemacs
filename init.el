@@ -38,7 +38,7 @@
       ns-use-native-fullscreen nil
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
-      ring-bell-function 'ignore
+      ring-bell-function #'ignore
       vc-follow-symlinks t
       gc-cons-threshold 50000000
       disabled-command-function nil
@@ -484,8 +484,6 @@
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (bind-key "C-c C-p" #'magit-pull-request-for-issue-number magit-mode-map)
-  (defadvice magit-toggle-section (after magit-toggle-scroll-to-top activate compile)
-    (recenter-top-bottom 0))
   (setq magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
         magit-set-upstream-on-push t
@@ -574,12 +572,12 @@
   (key-chord-define-global ";f" #'ido-find-file)
   (key-chord-define-global ":F" #'helm-find-files)
   (key-chord-define-global ";t" #'projectile-find-file)
-  (key-chord-define-global ":T" #'projectile-find-file-dwim)
+  (key-chord-define-global ":T" #'projectile-find-file-other-window)
   (key-chord-define-global ";g" #'projectile-ag)
   (key-chord-define-global ":G" #'ag)
   (key-chord-define-global ";r" #'imenu-anywhere)
   (key-chord-define-global "jb" #'ace-jump-buffer-with-configuration)
-  (key-chord-define-global "jc" #'ace-jump-char-mode)
+  (key-chord-define-global "jj" #'ace-jump-char-mode)
   (key-chord-define-global "jk" #'ace-jump-word-mode)
   (key-chord-define-global "jl" #'ace-jump-line-mode)
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
