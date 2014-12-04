@@ -405,12 +405,6 @@
       (set-frame-parameter nil 'alpha 67)
     (set-frame-parameter nil 'alpha 100)))
 
-(defn toggle-theme-variant
-  (if (eq theme-variant 'light)
-      (setq theme-variant 'dark)
-    (setq theme-variant 'light))
-  (load-theme 'hemacs :no-confirm))
-
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; End:
