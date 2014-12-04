@@ -7,7 +7,6 @@
 (depends-on "ag")
 (depends-on "alert")
 (depends-on "anzu")
-(depends-on "auto-compile")
 (depends-on "auto-dim-other-buffers")
 (depends-on "change-inner")
 (depends-on "chruby")

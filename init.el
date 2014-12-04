@@ -114,10 +114,6 @@
   (add-hook 'compilation-mode-hook #'hemacs-shellish-hook)
   (add-hook 'compilation-finish-functions #'alert-after-compilation-finish))
 
-(use-package auto-compile
-  :init (auto-compile-on-load-mode)
-  :config (setq auto-compile-display-buffer nil))
-
 (use-package shell
   :init
   (setq async-shell-command-buffer 'new-buffer
