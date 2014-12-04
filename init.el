@@ -128,6 +128,10 @@
   :mode (("\\.*bashrc$" . sh-mode)
          ("\\.*bash_profile" . sh-mode)))
 
+(use-package executable
+  :init
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p))
+
 (use-package projector
   :bind* (("C-x RET" . projector-run-shell-command-project-root)
           ("C-x m"   . projector-switch-to-or-create-project-shell))
