@@ -303,7 +303,7 @@
   (bind-key [remap dabbrev-expand] #'hippie-expand)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
-  (bind-key "M-?" (make-hippie-expand-function '(try-expand-line) t))
+  (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line) t))
   (setq hippie-expand-verbose nil
         hippie-expand-try-functions-list '(try-expand-dabbrev-visible
                                            try-expand-dabbrev
@@ -598,7 +598,7 @@
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
  ("s-`"        . ort/goto-todos)
- ("s-n"        . ort/capture-todo)
+ ("s-n"        . ort/capture-checkitem)
  ("s-N"        . create-scratch-buffer)
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
