@@ -328,10 +328,14 @@
         company-minimum-prefix-length 2
         company-idle-delay 0.25
         company-show-numbers t
-        company-occurrence-weight-function #'company-occurrence-prefer-any-closest
-        company-dabbrev-minimum-length 2
-        company-dabbrev-code-modes t
-        company-dabbrev-code-everywhere t)
+        company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
+  (use-package company-dabbrev
+    :config
+    (setq company-dabbrev-minimum-length 2))
+  (use-package company-dabbrev-code
+    :config
+    (setq company-dabbrev-code-modes t
+          company-dabbrev-code-everywhere t))
   (bind-key "TAB" #'company-complete shell-mode-map))
 
 ;;;;; Navigation & Search
