@@ -98,8 +98,12 @@
 (use-package comint
   :init
   (setq comint-prompt-read-only t)
-  (setq-default comint-process-echoes t)
-  (add-to-list 'comint-output-filter-functions #'comint-truncate-buffer)
+  (setq-default comint-process-echoes t
+                comint-scroll-show-maximum-output nil
+                comint-output-filter-functions
+                '(ansi-color-process-output
+                  comint-truncate-buffer
+                  comint-watch-for-password-prompt))
   (add-hook 'comint-mode-hook #'hemacs-shellish-hook)
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-λ 'kill-emacs-hook
