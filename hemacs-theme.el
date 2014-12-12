@@ -77,7 +77,7 @@
    `(warning ((t (:foreground ,orange :weight bold))))
    `(success ((t (:foreground ,green :weight bold))))
    `(ace-jump-face-background ((t (:foreground ,base01))))
-   `(ace-jump-face-foreground ((t (:foreground ,pink :weight bold))))
+   `(ace-jump-face-foreground ((t (:foreground ,red :weight bold))))
    `(ajb-face ((t :background ,base00+1)))
 
    `(font-lock-builtin-face ((t (:foreground ,aqua))))

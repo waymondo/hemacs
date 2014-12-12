@@ -18,7 +18,7 @@
 (defvar lispy-modes
   '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
 (defvar ruby-modes
-  '(ruby-mode rhtml-mode slim-mode inf-ruby-mode))
+  '(ruby-mode slim-mode inf-ruby-mode))
 (defvar shellish-modes
   '(comint-mode inf-ruby-mode ielm-mode))
 
@@ -416,12 +416,15 @@
 
 (use-package sgml-mode
   :init
-  (add-to-list 'auto-mode-alist '("\\.hbs$" . html-mode))
-  (add-to-list 'auto-mode-alist '("\\.handlebars$" . html-mode))
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
   (bind-key "<C-return>" #'html-smarter-newline html-mode-map)
   (make-beautify-defun "html"))
+
+(use-package web-mode
+  :mode (("\\.erb\\'" . web-mode)
+         ("\\.hbs\\'" . web-mode)
+         ("\\.handlebars\\'" . web-mode)))
 
 (use-package fountain-mode
   :mode ("\\.fountain$" . fountain-mode)
@@ -466,15 +469,12 @@
     :config
     (setq slim-backspace-backdents-nesting nil)
     (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
-  (use-package rhtml-mode
-    :mode ("\\.rhtml" . rhtml-mode))
   (use-package ruby-tools)
   (use-package chruby
     :init
     (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding))
   (use-package ruby-hash-syntax
     :init
-    (require 'rhtml-mode)
     (each-mode-map ruby-modes
       (bind-key "C-c C-:" #'ruby-toggle-hash-syntax mode-map))))
 
