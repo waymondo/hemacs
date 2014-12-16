@@ -89,6 +89,10 @@
 
 ;;;;; Processes, Shells, Compilation
 
+(use-package env
+  :init
+  (setenv "RIPPER_TAGS_EMACS" "1"))
+
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize)
@@ -371,7 +375,8 @@
 (use-package projectile
   :bind (("s-p" . projectile-commander))
   :config
-  (setq projectile-enable-caching t)
+  (setq projectile-enable-caching t
+        projectile-tags-command "ripper-tags -R -f TAGS")
   :init
   (projectile-global-mode)
   (use-package projectile-rails

@@ -12,8 +12,8 @@ Extra dependencies:
 
 ```
 brew install git hub terminal-notifier node the_silver_searcher bash-completion coreutils
-npm install -g js-beautifier marked less coffee-script
-gem install ripper-tags rubocop ruby-lint
+npm install -g js-beautifier marked less coffee-script js2coffee
+gem install gem-ripper-tags rubocop ruby-lint
 ```
 
 Uses [Meslo LG L DZ for Powerline](https://github.com/Lokaltog/powerline-fonts) as the default font.
