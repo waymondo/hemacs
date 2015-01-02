@@ -407,7 +407,7 @@
 (use-package edit-server
   :init (edit-server-start)
   :config (setq edit-server-new-frame nil
-                edit-server-default-major-mode 'markdown-mode))
+                edit-server-default-major-mode 'gfm-mode))
 
 (use-package crab-mode
   :bind (("s-R" . crab-reload)
@@ -439,6 +439,8 @@
   :config (add-hook 'fountain-mode-hook #'hemacs-writing-hook))
 
 (use-package markdown-mode
+  :mode (("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode))
   :config
   (add-hook 'markdown-mode-hook #'hemacs-writing-hook)
   (setq markdown-command "marked"))
