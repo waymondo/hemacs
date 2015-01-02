@@ -384,10 +384,13 @@
 
 (use-package helm-config
   :config
-  (setq helm-buffer-max-length nil
-        helm-split-window-in-side-p t
-        helm-buffers-fuzzy-matching t)
-  :init
+  (setq helm-split-window-in-side-p t
+        helm-buffers-fuzzy-matching t
+        helm-buffer-max-length nil)
+  (use-package helm-command
+    :config (setq helm-M-x-fuzzy-match t))
+  (use-package helm-files
+    :config (setq helm-recentf-fuzzy-match t))
   (use-package helm-css-scss)
   (use-package helm-open-github)
   (use-package helm-swoop
