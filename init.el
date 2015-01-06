@@ -497,6 +497,7 @@
   :config (setq git-commit-fill-column 90))
 
 (use-package magit
+  :commands magit-status-internal
   :bind ("s-m" . magit-status)
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
