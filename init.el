@@ -328,15 +328,16 @@
 (use-package company
   :init
   (global-company-mode)
-  (use-package readline-complete
-    :init (push 'company-readline company-backends))
   :config
   (setq company-tooltip-align-annotations t
         company-tooltip-flip-when-above t
         company-minimum-prefix-length 2
         company-idle-delay 0.25
         company-show-numbers t
-        company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
+        company-occurrence-weight-function #'company-occurrence-prefer-any-closest
+        company-continue-commands
+        (append company-continue-commands '(comint-previous-matching-input-from-input
+                                            comint-next-matching-input-from-input)))
   (use-package company-dabbrev
     :config
     (setq company-dabbrev-minimum-length 2))
@@ -344,7 +345,8 @@
     :config
     (setq company-dabbrev-code-modes t
           company-dabbrev-code-everywhere t))
-  (bind-key "TAB" #'company-complete shell-mode-map))
+  (use-package readline-complete
+    :init (push 'company-readline company-backends)))
 
 ;;;;; Navigation & Search
 
