@@ -273,7 +273,7 @@
   (flyspell-mode))
 
 (defun hemacs-save-hook ()
-  (unless (eq major-mode 'markdown-mode)
+  (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
     (delete-trailing-whitespace))
   (when (region-active-p)
     (deactivate-mark t)))
