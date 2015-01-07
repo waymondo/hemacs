@@ -212,6 +212,8 @@
   :bind (("C-`" . list-processes)
          ("s-k" . kill-whole-line))
   :init
+  (defadvice list-processes (after goto-process-list activate compile)
+    (pop-to-buffer "*Process List*"))
   (defadvice backward-kill-word (around backward-kill-subword activate compile)
     (noflet ((kill-region (beg end) (delete-region beg end)))
       ad-do-it))
