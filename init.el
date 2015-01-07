@@ -59,9 +59,7 @@
 (defalias 'yes-or-no-p #'y-or-n-p)
 (setq inhibit-startup-screen t
       initial-scratch-message nil
-      inhibit-startup-echo-area-message ""
-      split-height-threshold nil
-      pop-up-windows nil)
+      inhibit-startup-echo-area-message "")
 
 ;;;;; Apply Macros
 
