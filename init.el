@@ -193,15 +193,13 @@
 
 (use-package dired
   :init
+  (use-package dired-x
+    :bind ("s-\\" . dired-jump-other-window))
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
         dired-recursive-deletes 'always
         dired-recursive-copies 'always
         dired-auto-revert-buffer t))
-
-(use-package dired-toggle
-  :bind ("s-\\" . dired-toggle)
-  :config (setq dired-toggle-window-size 48))
 
 (use-package undo-tree
   :init (global-undo-tree-mode)
