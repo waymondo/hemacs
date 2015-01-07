@@ -494,7 +494,7 @@
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package git-commit-mode
-  :config (setq git-commit-fill-column 90))
+  :config (setq git-commit-summary-max-length 72))
 
 (use-package magit
   :commands magit-status-internal
