@@ -452,7 +452,10 @@
   (setq markdown-command "marked"))
 
 (use-package css-mode
+  :mode "\\.css\\.erb\\'"
   :config
+  (use-package less-css-mode
+    :mode "\\.less\\.erb\\'")
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
 
