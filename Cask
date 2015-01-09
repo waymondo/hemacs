@@ -55,6 +55,7 @@
 (depends-on "multiple-cursors")
 (depends-on "noflet")
 (depends-on "org-repo-todo")
+(depends-on "pallet")
 (depends-on "page-break-lines")
 (depends-on "paredit")
 (depends-on "powerline" :git "https://github.com/unic0rn/powerline.git")

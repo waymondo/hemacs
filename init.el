@@ -5,6 +5,7 @@
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
 (require 'use-package)
+(use-package pallet :init (pallet-mode))
 (use-package noflet)
 (use-package s)
 (use-package dash :config (dash-enable-font-lock))
