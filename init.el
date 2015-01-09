@@ -354,6 +354,8 @@
 
 (use-package imenu
   :init
+  (use-package imenu-anywhere
+    :defines helm-source-imenu-anywhere)
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
@@ -597,7 +599,7 @@
   (key-chord-define-global ":T" #'projectile-find-file-other-window)
   (key-chord-define-global ";g" #'projectile-ag)
   (key-chord-define-global ":G" #'ag)
-  (key-chord-define-global ";r" #'imenu-anywhere)
+  (key-chord-define-global ";r" #'helm-imenu-anywhere)
   (key-chord-define-global "jb" #'ace-jump-buffer-with-configuration)
   (key-chord-define-global "jj" #'ace-jump-char-mode)
   (key-chord-define-global "jk" #'ace-jump-word-mode)
@@ -625,7 +627,7 @@
  ("s-N"        . create-scratch-buffer)
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
- ("s-r"        . imenu-anywhere)
+ ("s-r"        . helm-imenu-anywhere)
  ("C-\\"       . align-regexp)
  ("C-x C-r"    . rename-file-and-buffer)
  ("C->"        . mc/mark-next-like-this)
