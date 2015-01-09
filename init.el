@@ -383,15 +383,25 @@
   (use-package projectile-rails
     :init (add-hook 'projectile-mode-hook #'projectile-rails-on)))
 
-(use-package helm-config
+(use-package helm
+  :defines helm-imenu-fuzzy-match
   :config
   (setq helm-split-window-in-side-p t
+        helm-quick-update t
+        helm-autoresize-max-height 33
+        helm-autoresize-min-height 33
+        helm-buffer-max-length nil
         helm-buffers-fuzzy-matching t
-        helm-buffer-max-length nil)
+        helm-recentf-fuzzy-match t
+        helm-file-cache-fuzzy-match t
+        helm-apropos-fuzzy-match t
+        helm-imenu-fuzzy-match t)
+  (helm-autoresize-mode 1)
   (use-package helm-command
-    :config (setq helm-M-x-fuzzy-match t))
-  (use-package helm-files
-    :config (setq helm-recentf-fuzzy-match t))
+    :bind ("s-P" . helm-M-x)
+    :config
+    (setq helm-M-x-fuzzy-match t))
+  (use-package helm-imenu)
   (use-package helm-css-scss)
   (use-package helm-open-github)
   (use-package helm-swoop
