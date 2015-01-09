@@ -294,13 +294,6 @@
         ido-auto-merge-delay-time 2
         ido-create-new-buffer 'always))
 
-(use-package smex
-  :bind ("s-P" . smex)
-  :init
-  (smex-initialize)
-  (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
-  (bind-key [remap execute-extended-command] #'smex))
-
 (use-package hippie-exp
   :init
   (defadvice hippie-expand (around hippie-expand-case-fold activate compile)

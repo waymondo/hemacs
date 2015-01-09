@@ -72,7 +72,6 @@
 (depends-on "s")
 (depends-on "slim-mode")
 (depends-on "smart-newline")
-(depends-on "smex")
 (depends-on "stylus-mode")
 (depends-on "use-package")
 (depends-on "volatile-highlights")
