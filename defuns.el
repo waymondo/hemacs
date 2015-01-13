@@ -79,10 +79,9 @@
          (interactive)
          (save-excursion
            (er/mark-symbol)
-           (let* ((beg (region-beginning))
-                  (end (region-end))
-                  (current-symbol (buffer-substring-no-properties beg end)))
-             (replace-string current-symbol (funcall ',func current-symbol) nil beg end)))))))
+           (let ((current-symbol (buffer-substring-no-properties (region-beginning) (region-end))))
+             (call-interactively 'delete-region)
+             (insert (funcall ',func current-symbol))))))))
 
 (defn open-finder
   (shell-command (concat "open " (shell-quote-argument default-directory))))
