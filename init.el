@@ -370,6 +370,7 @@
 
 (use-package projectile
   :bind (("s-p" . projectile-commander))
+  :idle (projectile-cleanup-known-projects)
   :config
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
