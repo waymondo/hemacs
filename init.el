@@ -7,6 +7,7 @@
 (require 'use-package)
 (use-package pallet :init (pallet-mode))
 (use-package noflet)
+(use-package names-dev)
 (use-package s)
 (use-package dash :config (dash-enable-font-lock))
 (use-package tool-bar :init (tool-bar-mode -1))
