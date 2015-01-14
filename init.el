@@ -477,6 +477,7 @@
   (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
 
 (use-package ruby-mode
+  :bind ("C-'" . ruby-toggle-string-quotes)
   :mode (("Procfile$" . ruby-mode)
          ("\\.rabl$" . ruby-mode))
   :init
