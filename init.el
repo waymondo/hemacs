@@ -383,7 +383,6 @@
   :defines helm-imenu-fuzzy-match
   :config
   (setq helm-split-window-in-side-p t
-        helm-quick-update t
         helm-autoresize-max-height 33
         helm-autoresize-min-height 33
         helm-buffer-max-length nil
