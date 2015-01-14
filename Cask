@@ -73,6 +73,7 @@
 (depends-on "slim-mode")
 (depends-on "smart-newline")
 (depends-on "stylus-mode")
+(depends-on "undo-tree")
 (depends-on "use-package")
 (depends-on "volatile-highlights")
 (depends-on "web-mode")
