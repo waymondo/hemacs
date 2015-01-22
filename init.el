@@ -358,7 +358,7 @@
 (use-package imenu
   :init
   (use-package imenu-anywhere
-    :defines helm-source-imenu-anywhere)
+    :bind (("s-r" . imenu-anywhere)))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
@@ -382,34 +382,21 @@
   (use-package projectile-rails
     :init (add-hook 'projectile-mode-hook #'projectile-rails-on)))
 
-(use-package helm
-  :defines helm-imenu-fuzzy-match
+(use-package helm-swoop
+  :bind ("s-f" . helm-swoop)
   :config
-  (setq helm-split-window-in-side-p t
-        helm-autoresize-max-height 33
-        helm-autoresize-min-height 33
-        helm-buffer-max-length nil
-        helm-buffers-fuzzy-matching t
-        helm-recentf-fuzzy-match t
-        helm-file-cache-fuzzy-match t
-        helm-apropos-fuzzy-match t
-        helm-imenu-fuzzy-match t)
-  (helm-autoresize-mode 1)
-  (use-package helm-command
-    :bind ("s-P" . helm-M-x)
-    :config
-    (setq helm-M-x-fuzzy-match t))
-  (use-package helm-imenu)
-  (use-package helm-css-scss)
-  (use-package helm-open-github)
-  (use-package helm-swoop
-    :bind ("s-f" . helm-swoop)
-    :config
-    (bind-key "s-f" #'helm-swoop-from-isearch isearch-mode-map)
-    (bind-key "s-f" #'helm-multi-swoop-all-from-helm-swoop helm-swoop-map)
-    (setq helm-multi-swoop-edit-save t
-          helm-swoop-use-line-number-face t
-          helm-swoop-pre-input-function (lambda ()))))
+  (bind-key "s-f" #'helm-swoop-from-isearch isearch-mode-map)
+  (bind-key "s-f" #'helm-multi-swoop-all-from-helm-swoop helm-swoop-map)
+  (setq helm-multi-swoop-edit-save t
+        helm-swoop-use-line-number-face t
+        helm-swoop-pre-input-function (lambda ())))
+
+(use-package smex
+  :bind (([remap execute-extended-command] . smex)
+         ("s-P" . smex))
+  :init
+  (smex-initialize)
+  (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory)))
 
 ;;;;; External Utilities
 
@@ -602,12 +589,12 @@
   (key-chord-define-global ";w" #'toggle-split-window)
   (key-chord-define-global ":W" #'delete-other-windows)
   (key-chord-define-global ";f" #'ido-find-file)
-  (key-chord-define-global ":F" #'helm-find-files)
+  (key-chord-define-global ":F" #'ido-find-file-other-window)
   (key-chord-define-global ";t" #'projectile-find-file)
   (key-chord-define-global ":T" #'projectile-find-file-other-window)
   (key-chord-define-global ";g" #'projectile-ag)
   (key-chord-define-global ":G" #'ag)
-  (key-chord-define-global ";r" #'helm-imenu-anywhere)
+  (key-chord-define-global ";r" #'imenu-anywhere)
   (key-chord-define-global "jb" #'ace-jump-buffer-with-configuration)
   (key-chord-define-global "jj" #'ace-jump-char-mode)
   (key-chord-define-global "jk" #'ace-jump-word-mode)
@@ -635,7 +622,6 @@
  ("s-N"        . create-scratch-buffer)
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
- ("s-r"        . helm-imenu-anywhere)
  ("C-\\"       . align-regexp)
  ("C-x C-r"    . rename-file-and-buffer)
  ("C->"        . mc/mark-next-like-this)
