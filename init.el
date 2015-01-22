@@ -450,14 +450,12 @@
   (make-beautify-defun "css"))
 
 (use-package js
-  :mode ("\\.json$" . js-mode)
-  :interpreter ("node" . js-mode)
   :config
   (make-beautify-defun "js")
   (setq-default js-indent-level 2))
 
 (use-package coffee-mode
-  :mode ("\\.coffee\\.*" . coffee-mode)
+  :mode "\\.coffee\\.*"
   :ensure coffee-mode
   :config
   (setq coffee-args-repl '("-i" "--nodejs"))
@@ -467,8 +465,10 @@
 
 (use-package ruby-mode
   :bind ("C-'" . ruby-toggle-string-quotes)
-  :mode (("Procfile$" . ruby-mode)
-         ("\\.rabl$" . ruby-mode))
+  :mode
+  (("Procfile$" . ruby-mode)
+   ("Appraisals$" . ruby-mode)
+   ("\\.rabl$" . ruby-mode))
   :init
   (bind-key "<C-return>" #'ruby-smarter-newline ruby-mode-map)
   (use-package inf-ruby
