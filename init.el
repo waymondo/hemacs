@@ -24,6 +24,8 @@
   '(ruby-mode slim-mode inf-ruby-mode))
 (defvar shellish-modes
   '(comint-mode inf-ruby-mode ielm-mode))
+(defvar writing-modes
+  '(org-mode markdown-mode fountain-mode))
 
 ;;;;; Source Variables
 
@@ -66,6 +68,8 @@
 (use-package hemacs
   :init
   (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
+  (hook-modes writing-modes
+    (hemacs-writing-hook))
 
   (with-region-or-line comment-or-uncomment-region)
   (with-region-or-line upcase-region)
@@ -432,14 +436,12 @@
          ("\\.handlebars\\'" . web-mode)))
 
 (use-package fountain-mode
-  :mode ("\\.fountain$" . fountain-mode)
-  :config (add-hook 'fountain-mode-hook #'hemacs-writing-hook))
+  :mode "\\.fountain$")
 
 (use-package markdown-mode
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
-  (add-hook 'markdown-mode-hook #'hemacs-writing-hook)
   (setq markdown-command "marked"))
 
 (use-package css-mode
@@ -573,7 +575,6 @@
   (use-package misc)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
-  (key-chord-define-global (kbd "SPC SPC") (λ (insert ". ")))
   (key-chord-define-global ",." "<>\C-b")
   (key-chord-define-global "}|" "||\C-b")
   (key-chord-define-global "<>" #'sgml-close-tag)

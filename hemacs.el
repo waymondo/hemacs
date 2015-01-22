@@ -269,7 +269,8 @@
 
 (defun hemacs-writing-hook ()
   (visual-line-mode)
-  (flyspell-mode))
+  (flyspell-mode)
+  (key-chord-define-local (kbd "SPC SPC") (λ (insert ". "))))
 
 (defun hemacs-save-hook ()
   (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
