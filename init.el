@@ -326,6 +326,7 @@
   :config
   (setq company-tooltip-align-annotations t
         company-tooltip-flip-when-above t
+        company-require-match nil
         company-minimum-prefix-length 2
         company-idle-delay 0.25
         company-show-numbers t
