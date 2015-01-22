@@ -4,6 +4,7 @@
 
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
+(load (locate-user-emacs-file "hemacs.el"))
 (require 'use-package)
 (use-package pallet :init (pallet-mode))
 (use-package noflet)
@@ -24,8 +25,6 @@
 (defvar shellish-modes
   '(comint-mode inf-ruby-mode ielm-mode))
 
-(load (locate-user-emacs-file "defuns.el"))
-
 ;;;;; Source Variables
 
 (setq load-prefer-newer t
@@ -45,8 +44,7 @@
       disabled-command-function nil
       ns-function-modifier 'hyper
       ns-right-option-modifier 'none
-      create-lockfiles nil
-      kill-buffer-query-functions '(hemacs-kill-buffer-query))
+      create-lockfiles nil)
 
 (setq-default indent-tabs-mode nil
               tab-width 2
@@ -63,29 +61,33 @@
       initial-scratch-message nil
       inhibit-startup-echo-area-message "")
 
-;;;;; Apply Macros
+;;;;; Load Personal Hemacs Library
 
-(with-region-or-line comment-or-uncomment-region)
-(with-region-or-line upcase-region)
-(with-region-or-line capitalize-region)
-(with-region-or-line downcase-region)
-(with-region-or-line yank-region)
-(with-region-or-line kill-region :point-to-eol)
-(with-region-or-line kill-ring-save :point-to-eol)
-(with-region-or-buffer indent-region)
-(with-region-or-buffer untabify)
+(use-package hemacs
+  :init
+  (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
 
-(make-projectile-switch-project-defun projectile-vc)
-(make-projectile-switch-project-defun projectile-find-file)
-(make-projectile-switch-project-defun projector-run-shell-command-project-root)
-(make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
-(make-projectile-switch-project-defun ort/capture-todo)
-(make-projectile-switch-project-defun ort/goto-todos)
+  (with-region-or-line comment-or-uncomment-region)
+  (with-region-or-line upcase-region)
+  (with-region-or-line capitalize-region)
+  (with-region-or-line downcase-region)
+  (with-region-or-line yank-region)
+  (with-region-or-line kill-region :point-to-eol)
+  (with-region-or-line kill-ring-save :point-to-eol)
+  (with-region-or-buffer indent-region)
+  (with-region-or-buffer untabify)
 
-(make-transform-symbol-at-point-defun s-lower-camel-case)
-(make-transform-symbol-at-point-defun s-upper-camel-case)
-(make-transform-symbol-at-point-defun s-snake-case)
-(make-transform-symbol-at-point-defun s-dashed-words)
+  (make-projectile-switch-project-defun projectile-vc)
+  (make-projectile-switch-project-defun projectile-find-file)
+  (make-projectile-switch-project-defun projector-run-shell-command-project-root)
+  (make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
+  (make-projectile-switch-project-defun ort/capture-todo)
+  (make-projectile-switch-project-defun ort/goto-todos)
+
+  (make-transform-symbol-at-point-defun s-lower-camel-case)
+  (make-transform-symbol-at-point-defun s-upper-camel-case)
+  (make-transform-symbol-at-point-defun s-snake-case)
+  (make-transform-symbol-at-point-defun s-dashed-words))
 
 ;;;;; Processes, Shells, Compilation
 

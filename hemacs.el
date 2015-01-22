@@ -409,6 +409,8 @@
       (set-frame-parameter nil 'alpha 67)
     (set-frame-parameter nil 'alpha 100)))
 
+(provide 'hemacs)
+
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
 ;; End:
