@@ -30,6 +30,7 @@
         hungry-delete-forward
         indent-for-tab-command
         insert-arrow
+        insert-fat-arrow
         jump-char-forward
         jump-char-process-char
         jump-char-repeat-backward
@@ -50,6 +51,8 @@
         ruby-end-space
         ruby-smart-newline-end-defun
         ruby-toggle-block
+        ruby-tools-interpolate
+        ruby-tools-to-single-quote-string
         sgml-close-tag
         shift-right
         slim-electric-backspace
@@ -71,6 +74,7 @@
         align-regexp
         beginning-of-buffer
         crab-reload
+        electric-pair-delete-pair
         end-of-buffer
         evil-search-next
         god-local-mode
@@ -81,6 +85,7 @@
         ido-recentf-find-file
         magit-status
         next-error
+        next-multiframe-window
         ort/capture-todo
         persp-switch
         projector-switch-to-or-create-project-shell

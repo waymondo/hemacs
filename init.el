@@ -602,7 +602,6 @@
   (key-chord-define-global "jk" #'ace-jump-word-mode)
   (key-chord-define-global "jl" #'ace-jump-line-mode)
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
-  (key-chord-define-global "zz" #'zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
 
 (bind-keys
@@ -625,10 +624,12 @@
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
  ("C-\\"       . align-regexp)
+ ("C-z"        . zap-up-to-char)
  ("C-x C-r"    . rename-file-and-buffer)
- ("C->"        . mc/mark-next-like-this)
- ("C-<"        . mc/mark-previous-like-this)
- ("C-x C-<"    . mc/mark-all-like-this)
+ ("C-x f"      . ffap)
+ ("s-d"        . mc/mark-next-like-this)
+ ("s-D"        . mc/mark-previous-like-this)
+ ("C-c s-d"    . mc/mark-all-like-this)
  ("<f5>"       . toggle-transparency))
 
 (bind-keys
