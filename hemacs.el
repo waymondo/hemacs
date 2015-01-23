@@ -83,6 +83,13 @@
              (call-interactively 'delete-region)
              (insert (funcall ',func current-symbol))))))))
 
+(defmacro funcall-after-commands (func commands)
+  (declare (indent 1) (debug t))
+  `(progn
+     (add-λ 'post-command-hook
+       (when (member this-command ,commands)
+         (funcall ,func)))))
+
 (defn open-finder
   (shell-command (concat "open " (shell-quote-argument default-directory))))
 

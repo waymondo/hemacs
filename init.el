@@ -704,13 +704,11 @@
   (setq pulse-command-advice-flag t
         pulse-delay 0.01
         pulse-iterations 4)
-  (add-λ 'post-command-hook
-    (when (member this-command
-                  '(scroll-down-command
-                    scroll-up-command
-                    next-multiframe-window
-                    find-tag))
-      (pulse-line-hook-function)))
+  (funcall-after-commands #'pulse-line-hook-function
+    '(scroll-down-command
+      scroll-up-command
+      next-multiframe-window
+      find-tag))
   (--each '(next-error-hook
             focus-in-hook
             find-function-after-hook
