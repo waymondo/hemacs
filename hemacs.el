@@ -345,11 +345,6 @@
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-(defun discard-undesired-html-tidy-error (err)
-  (and (eq (flycheck-error-checker err) 'html-tidy)
-       (s-match "missing\\|discarding\\|proprietary\\|recognized\\|trimming"
-                (flycheck-error-message err))))
-
 (defun set-clean-margins (&optional arg)
   (interactive "P")
   (let* ((width (if arg (prefix-numeric-value arg) 90))
