@@ -500,24 +500,16 @@
 (use-package ediff
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
-(use-package git-commit-mode
-  :config (setq git-commit-summary-max-length 72))
-
 (use-package magit
-  :commands magit-status-internal
   :bind ("s-m" . magit-status)
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (bind-key "C-c C-p" #'magit-pull-request-for-issue-number magit-mode-map)
-  (setq magit-completing-read-function 'magit-ido-completing-read
+  (setq git-commit-summary-max-length 72
+        magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
-        magit-set-upstream-on-push t
-        magit-restore-window-configuration t
-        magit-save-some-buffers nil
-        magit-revert-item-confirm nil
-        magit-stage-all-confirm nil
-        magit-unstage-all-confirm nil
-        magit-commit-ask-to-stage nil)
+        magit-repository-directories '("~/code")
+        magit-no-confirm t)
   (add-hook 'magit-process-mode-hook #'hemacs-shellish-hook))
 
 (use-package git-messenger

@@ -48,6 +48,7 @@
 (depends-on "inf-ruby")
 (depends-on "key-chord")
 (depends-on "less-css-mode")
+(depends-on "magit" :git "https://github.com/magit/magit.git" :branch "next")
 (depends-on "magit")
 (depends-on "markdown-mode")
 (depends-on "multiple-cursors")
