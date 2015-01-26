@@ -690,9 +690,6 @@
   :init (toggle-frame-fullscreen)
   :config (setq blink-cursor-blinks 0))
 
-(use-package prog-mode
-  :init (global-prettify-symbols-mode))
-
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
 
