@@ -433,7 +433,11 @@
 (use-package web-mode
   :mode (("\\.erb\\'" . web-mode)
          ("\\.hbs\\'" . web-mode)
-         ("\\.handlebars\\'" . web-mode)))
+         ("\\.handlebars\\'" . web-mode))
+  :config
+  (setq web-mode-markup-indent-offset 2
+        web-mode-style-padding 2
+        web-mode-script-padding 2))
 
 (use-package fountain-mode
   :mode "\\.fountain$")
