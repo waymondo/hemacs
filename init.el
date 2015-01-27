@@ -410,7 +410,7 @@
   :config (setq edit-server-new-frame nil
                 edit-server-default-major-mode 'gfm-mode))
 
-(use-package crab-mode
+(use-package crab
   :bind (("s-R" . crab-reload)
          ("<S-s-left>" . crab-prev-tab)
          ("<S-s-right>" . crab-next-tab))

@@ -12,7 +12,7 @@
 (depends-on "chruby")
 (depends-on "coffee-mode")
 (depends-on "company")
-(depends-on "crab" :git "https://github.com/waymondo/crab-emacs.git")
+(depends-on "crab")
 (depends-on "dash")
 (depends-on "dash-at-point")
 (depends-on "diff-hl")
