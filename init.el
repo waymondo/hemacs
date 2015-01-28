@@ -96,10 +96,6 @@
 
 ;;;;; Processes, Shells, Compilation
 
-(use-package env
-  :init
-  (setenv "RIPPER_TAGS_EMACS" "1"))
-
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize)
@@ -216,6 +212,9 @@
          ("s-Z" . undo-tree-redo)))
 
 ;;;;; Editing
+
+(use-package misc
+  :bind ("C-z" . zap-up-to-char))
 
 (use-package simple
   :bind (("C-`" . list-processes)
@@ -471,6 +470,11 @@
   (bind-key "<C-return>" #'coffee-smarter-newline coffee-mode-map)
   (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
 
+(use-package slim-mode
+  :config
+  (setq slim-backspace-backdents-nesting nil)
+  (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
+
 (use-package ruby-mode
   :bind ("C-'" . ruby-toggle-string-quotes)
   :mode
@@ -479,14 +483,15 @@
    ("\\.rabl$" . ruby-mode))
   :init
   (bind-key "<C-return>" #'ruby-smarter-newline ruby-mode-map)
+  (setenv "RIPPER_TAGS_EMACS" "1")
   (use-package inf-ruby
     :init
     (add-λ 'inf-ruby-mode-hook
       (turn-on-comint-history ".pry_history")))
-  (use-package slim-mode
-    :config
-    (setq slim-backspace-backdents-nesting nil)
-    (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
+  (use-package bundler
+    :init
+    (each-mode-map ruby-modes
+      (bind-key "s-b" #'bundle-open mode-map)))
   (use-package ruby-tools)
   (use-package chruby
     :init
@@ -569,7 +574,6 @@
 (use-package key-chord
   :init (key-chord-mode 1)
   :config
-  (use-package misc)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
   (key-chord-define-global ",." "<>\C-b")
@@ -621,7 +625,6 @@
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
  ("C-\\"       . align-regexp)
- ("C-z"        . zap-up-to-char)
  ("C-x C-r"    . rename-file-and-buffer)
  ("C-x f"      . ffap)
  ("s-d"        . mc/mark-next-like-this)
