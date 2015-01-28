@@ -457,6 +457,7 @@
   (make-beautify-defun "css"))
 
 (use-package js
+  :mode (("\\.bowerrc$" . js-mode))
   :config
   (make-beautify-defun "js")
   (setq-default js-indent-level 2))
