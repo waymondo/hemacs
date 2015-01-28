@@ -90,8 +90,10 @@
        (when (member this-command ,commands)
          (funcall ,func)))))
 
-(defn open-finder
-  (shell-command (concat "open " (shell-quote-argument default-directory))))
+(defn browse-file-directory
+  (if default-directory
+      (browse-url-of-file (expand-file-name default-directory))
+    (error "No `default-directory' to open")))
 
 (defn duplicate-dwim
   (let (beg end (origin (point)))
