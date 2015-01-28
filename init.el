@@ -13,6 +13,7 @@
 (use-package dash :config (dash-enable-font-lock))
 (use-package tool-bar :init (tool-bar-mode -1))
 (use-package scroll-bar :init (scroll-bar-mode -1))
+(use-package auto-compile :init (auto-compile-on-load-mode))
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
