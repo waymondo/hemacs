@@ -21,3 +21,4 @@ var
 /.emacs.desktop
 /url/
 /async-bytecomp.log
+flycheck_*.el
