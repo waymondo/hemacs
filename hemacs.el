@@ -142,10 +142,6 @@
   (cond
    ((eq major-mode 'dired-mode)
     (dired-do-delete))
-   ((eq major-mode 'magit-status-mode)
-    (magit-visit-item)
-    (delete-file-and-buffer)
-    (magit-refresh))
    ((or (derived-mode-p 'comint-mode)
         (eq major-mode 'inf-ruby-mode))
     (clear-shell))
@@ -408,6 +404,12 @@
       (alert (concat "Compilation " result)
              :buffer buf
              :category 'compilation))))
+
+(defn github-browse-new-issue
+  (let ((url (concat "https://github.com/"
+                     (github-browse-file--relative-url)
+                     "/issues/new")))
+    (browse-url url)))
 
 (defn toggle-transparency
   (if (member (frame-parameter nil 'alpha) '(nil 100))

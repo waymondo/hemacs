@@ -625,12 +625,13 @@
  ("s-N"        . create-scratch-buffer)
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
- ("C-\\"       . align-regexp)
- ("C-x C-r"    . rename-file-and-buffer)
+ ("s-\\"       . align-regexp)
+ ("s-S"        . rename-file-and-buffer)
  ("C-x f"      . ffap)
+ ("C-x o"      . browse-file-directory)
  ("s-d"        . mc/mark-next-like-this)
  ("s-D"        . mc/mark-previous-like-this)
- ("C-c s-d"    . mc/mark-all-like-this)
+ ("C-x s-d"    . mc/mark-all-like-this)
  ("<f5>"       . toggle-transparency))
 
 (bind-keys
@@ -667,10 +668,9 @@
 (bind-keys
  :prefix-map hemacs-git-map
  :prefix "s-g"
- ("i" . helm-open-github-from-issues)
- ("r" . helm-open-github-from-pull-requests)
  ("o" . github-browse-file)
  ("b" . github-browse-file-blame)
+ ("i" . github-browse-new-issue)
  ("g" . gist-region-or-buffer-private)
  ("c" . github-clone)
  ("t" . git-timemachine)
