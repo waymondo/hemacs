@@ -4,7 +4,6 @@
 
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
-(load (locate-user-emacs-file "hemacs.el"))
 (require 'use-package)
 (use-package pallet :init (pallet-mode))
 (use-package noflet)
@@ -14,6 +13,7 @@
 (use-package tool-bar :init (tool-bar-mode -1))
 (use-package scroll-bar :init (scroll-bar-mode -1))
 (use-package auto-compile :init (auto-compile-on-load-mode))
+(load (locate-user-emacs-file "hemacs.el"))
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
