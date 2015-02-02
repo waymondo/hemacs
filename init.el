@@ -53,9 +53,7 @@
               tab-width 2
               cursor-type 'bar
               cursor-in-non-selected-windows nil
-              indicate-empty-lines t
-              left-fringe-width 10
-              right-fringe-width 5)
+              indicate-empty-lines t)
 
 ;;;;; Unprovided Internal Packages
 
@@ -755,6 +753,13 @@
 
 (use-package faces
   :init (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
+
+(use-package fringe
+  :init (fringe-mode '(10 . 5)))
+
+(use-package highlight-tail
+  :idle (highlight-tail-mode)
+  :config (setq highlight-tail-timer 0.02))
 
 (use-package custom
   :init (load-theme 'hemacs :no-confirm))
