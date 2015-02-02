@@ -24,7 +24,7 @@
 (defvar ruby-modes
   '(ruby-mode slim-mode inf-ruby-mode))
 (defvar shellish-modes
-  '(comint-mode inf-ruby-mode ielm-mode))
+  '(comint-mode compilation-mode ielm-mode magit-process-mode))
 (defvar writing-modes
   '(org-mode markdown-mode fountain-mode))
 
@@ -72,6 +72,9 @@
   (hook-modes writing-modes
     (hemacs-writing-hook))
 
+  (hook-modes shellish-modes
+    (hemacs-shellish-hook))
+
   (with-region-or-line comment-or-uncomment-region)
   (with-region-or-line upcase-region)
   (with-region-or-line capitalize-region)
@@ -111,7 +114,6 @@
                 '(ansi-color-process-output
                   comint-truncate-buffer
                   comint-watch-for-password-prompt))
-  (add-hook 'comint-mode-hook #'hemacs-shellish-hook)
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-λ 'kill-emacs-hook
     (--each (buffer-list)
@@ -121,7 +123,6 @@
   :init
   (setq compilation-disable-input t
         compilation-always-kill t)
-  (add-hook 'compilation-mode-hook #'hemacs-shellish-hook)
   (add-hook 'compilation-finish-functions #'alert-after-compilation-finish))
 
 (use-package shell
@@ -518,8 +519,7 @@
         magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
         magit-repository-directories '("~/code")
-        magit-no-confirm t)
-  (add-hook 'magit-process-mode-hook #'hemacs-shellish-hook))
+        magit-no-confirm t))
 
 (use-package git-messenger
   :config (setq git-messenger:show-detail t))
