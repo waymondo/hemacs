@@ -214,10 +214,8 @@
       (read-string "Google Search: ")))))
 
 (defn clear-shell
-  (let ((old-max comint-buffer-maximum-size))
-    (setq comint-buffer-maximum-size 0)
+  (let ((comint-buffer-maximum-size 0))
     (comint-truncate-buffer)
-    (setq comint-buffer-maximum-size old-max)
     (goto-char (point-max))))
 
 (defn magit-just-amend
