@@ -453,6 +453,7 @@
   :config
   (use-package less-css-mode
     :mode "\\.less\\.erb\\'")
+  (bind-key "{" #'open-brackets-newline-and-indent css-mode-map)
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
 

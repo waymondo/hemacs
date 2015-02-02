@@ -170,7 +170,7 @@
 
 (defn coffee-smarter-newline
   (move-end-of-line nil)
-  (insert " ->")
+  (insert-arrow)
   (coffee-newline-and-indent))
 
 (defn move-line-up
@@ -231,14 +231,21 @@
     (shell-command (concat "hub pull-request -i " prompt))
     (magit-refresh)))
 
+(defun ensure-space ()
+  (when (not (looking-back " "))
+    (insert " ")))
+
 (defn insert-arrow
-  (insert " -> "))
+  (ensure-space)
+  (insert "-> "))
 
 (defn insert-fat-arrow
-  (insert " => "))
+  (ensure-space)
+  (insert "=> "))
 
 (defn open-brackets-newline-and-indent
-  (insert " {\n\n}")
+  (ensure-space)
+  (insert "{\n\n}")
   (indent-according-to-mode)
   (forward-line -1)
   (indent-according-to-mode))
