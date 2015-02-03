@@ -267,6 +267,7 @@
          ("M-o" . change-outer)))
 
 (use-package ace-jump-mode
+  :bind ("C-;" . ace-jump-mode)
   :config
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
@@ -571,6 +572,17 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;;;;; Bindings & Chords
+
+(use-package god-mode
+  :bind ("<escape>" . god-local-mode)
+  :config
+  (bind-key "." #'repeat god-local-mode-map)
+  (add-λ 'god-local-mode-hook
+    (when (region-active-p) (call-interactively 'kill-region)))
+  (add-λ 'god-mode-enabled-hook
+    (setq cursor-type 'box))
+  (add-λ 'god-mode-disabled-hook
+    (setq cursor-type 'bar)))
 
 (use-package key-chord
   :init (key-chord-mode 1)
