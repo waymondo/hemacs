@@ -421,6 +421,11 @@
       (set-frame-parameter nil 'alpha 67)
     (set-frame-parameter nil 'alpha 100)))
 
+(defn company-kill-ring
+  (company-begin-with
+   (mapcar #'substring-no-properties kill-ring))
+  (company-filter-candidates))
+
 (provide 'hemacs)
 
 ;; Local Variables:
