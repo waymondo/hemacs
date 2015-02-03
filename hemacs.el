@@ -286,7 +286,8 @@
   (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
     (delete-trailing-whitespace))
   (when (region-active-p)
-    (deactivate-mark t)))
+    (deactivate-mark t))
+  (mc/keyboard-quit))
 
 (defun hemacs-shellish-hook ()
   (setq truncate-lines nil)
