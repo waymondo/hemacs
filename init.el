@@ -100,8 +100,7 @@
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize)
-  (--each '("HISTFILE" "NODE_PATH")
-    (exec-path-from-shell-copy-env it)))
+  (exec-path-from-shell-copy-env "HISTFILE"))
 
 (use-package comint
   :init
@@ -371,10 +370,7 @@
   :init
   (make-ace-jump-buffer-function "shellish"
     (with-current-buffer buffer
-      (not (derived-mode-p 'comint-mode))))
-  (make-ace-jump-buffer-function "magit"
-    (with-current-buffer buffer
-      (not (derived-mode-p 'magit-mode)))))
+      (not (derived-mode-p 'comint-mode)))))
 
 (use-package projectile
   :bind (("s-p" . projectile-commander))
@@ -722,7 +718,6 @@
       next-multiframe-window
       find-tag))
   (--each '(next-error-hook
-            focus-in-hook
             find-function-after-hook
             imenu-after-jump-hook)
     (add-hook it #'pulse-line-hook-function)))
@@ -749,8 +744,7 @@
 (use-package powerline
   :init (powerline-default-theme)
   :config
-  (setq powerline-default-separator 'utf-8)
-  (defpowerline powerline-minor-modes nil))
+  (setq powerline-default-separator 'utf-8))
 
 (use-package paren
   :init (show-paren-mode)
