@@ -66,10 +66,9 @@
   (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
   (hook-modes writing-modes
     (hemacs-writing-hook))
-
   (hook-modes shellish-modes
     (hemacs-shellish-hook))
-
+  (add-hook 'before-save-hook #'hemacs-save-hook)
   (with-region-or-line comment-or-uncomment-region)
   (with-region-or-line upcase-region)
   (with-region-or-line capitalize-region)
@@ -79,14 +78,12 @@
   (with-region-or-line kill-ring-save :point-to-eol)
   (with-region-or-buffer indent-region)
   (with-region-or-buffer untabify)
-
   (make-projectile-switch-project-defun projectile-vc)
   (make-projectile-switch-project-defun projectile-find-file)
   (make-projectile-switch-project-defun projector-run-shell-command-project-root)
   (make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
   (make-projectile-switch-project-defun ort/capture-todo)
   (make-projectile-switch-project-defun ort/goto-todos)
-
   (make-transform-symbol-at-point-defun s-lower-camel-case)
   (make-transform-symbol-at-point-defun s-upper-camel-case)
   (make-transform-symbol-at-point-defun s-snake-case)
@@ -166,8 +163,7 @@
         confirm-kill-emacs nil
         confirm-nonexistent-file-or-buffer nil
         backup-directory-alist `((".*" . ,temporary-file-directory))
-        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-  (add-hook 'before-save-hook #'hemacs-save-hook))
+        auto-save-file-name-transforms `((".*" ,temporary-file-directory t))))
 
 (use-package autorevert
   :init (global-auto-revert-mode)

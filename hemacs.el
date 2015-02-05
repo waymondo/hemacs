@@ -287,7 +287,8 @@
     (delete-trailing-whitespace))
   (when (region-active-p)
     (deactivate-mark t))
-  (mc/keyboard-quit))
+  (when (fboundp 'mc/keyboard-quit)
+    (mc/keyboard-quit)))
 
 (defun hemacs-shellish-hook ()
   (setq truncate-lines nil)
