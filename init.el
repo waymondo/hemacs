@@ -399,6 +399,12 @@
   (smex-initialize)
   (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory)))
 
+(use-package iflipb
+  :bind (("s-{" . iflipb-previous-buffer)
+         ("s-}" . iflipb-next-buffer))
+  :config
+  (setq iflipb-wrap-around t))
+
 ;;;;; External Utilities
 
 (use-package edit-server

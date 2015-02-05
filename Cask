@@ -48,6 +48,7 @@
 (depends-on "hungry-delete")
 (depends-on "ido-ubiquitous")
 (depends-on "ido-vertical-mode")
+(depends-on "iflipb")
 (depends-on "imenu-anywhere")
 (depends-on "inf-ruby")
 (depends-on "key-chord")
