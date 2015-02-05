@@ -12,6 +12,7 @@
 (use-package dash :config (dash-enable-font-lock))
 (use-package tool-bar :init (tool-bar-mode -1))
 (use-package scroll-bar :init (scroll-bar-mode -1))
+(use-package novice :config (setq disabled-command-function nil))
 (use-package auto-compile :init (auto-compile-on-load-mode))
 (load (locate-user-emacs-file "hemacs.el"))
 
@@ -42,18 +43,14 @@
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
       ring-bell-function #'ignore
-      vc-follow-symlinks t
       gc-cons-threshold 50000000
-      disabled-command-function nil
       ns-function-modifier 'hyper
-      ns-right-option-modifier 'none
-      create-lockfiles nil)
+      ns-right-option-modifier 'none)
 
 (setq-default indent-tabs-mode nil
               tab-width 2
               cursor-type 'bar
-              cursor-in-non-selected-windows nil
-              indicate-empty-lines t)
+              cursor-in-non-selected-windows nil)
 
 ;;;;; Unprovided Internal Packages
 
@@ -510,6 +507,9 @@
 
 (use-package ediff
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
+(use-package vc-hooks
+  :config (setq vc-follow-symlinks t))
 
 (use-package magit
   :bind ("s-m" . magit-status)
