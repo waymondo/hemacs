@@ -401,15 +401,9 @@
     (bury-buffer)
     nil))
 
-(defun alert-after-compilation-finish (buf result)
-  (let ((buf-is-visible nil))
-    (walk-windows (lambda (w)
-                    (when (eq (window-buffer w) buf)
-                      (setq buf-is-visible t))))
-    (unless buf-is-visible
-      (alert (concat "Compilation " result)
-             :buffer buf
-             :category 'compilation))))
+(defun alert-after-finish-in-background (buf str)
+  (unless (get-buffer-window buf 'visible)
+    (alert str :buffer buf)))
 
 (defn github-browse-new-issue
   (let ((url (concat "https://github.com/"

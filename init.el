@@ -117,7 +117,7 @@
   :init
   (setq compilation-disable-input t
         compilation-always-kill t)
-  (add-hook 'compilation-finish-functions #'alert-after-compilation-finish))
+  (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package shell
   :init
@@ -517,6 +517,11 @@
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (bind-key "C-c C-p" #'magit-pull-request-for-issue-number magit-mode-map)
+  (defadvice magit-process-sentinel (around alert-process-message (process event) activate compile)
+    (let ((buf (process-get process 'command-buf)))
+      (when (and buf (s-match "magit" (buffer-name buf)) (s-match "finished" event))
+        (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
+      ad-do-it))
   (setq git-commit-summary-max-length 72
         magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
