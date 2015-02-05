@@ -286,7 +286,8 @@
   (use-package ido-ubiquitous
     :init (ido-ubiquitous-mode))
   (use-package flx-ido
-    :init (flx-ido-mode))
+    :init (flx-ido-mode)
+    :config (setq flx-ido-use-faces nil))
   (use-package ido-vertical-mode
     :init (ido-vertical-mode)
     :config
@@ -630,7 +631,6 @@
  ("s-["        . shift-left)
  ("s-]"        . shift-right)
  ("s-:"        . pad-colon)
- ("s-{"        . hemacs-todo)
  ("s-u"        . duplicate-dwim)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
@@ -768,11 +768,12 @@
   :init (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
 
 (use-package fringe
-  :init (fringe-mode '(10 . 5)))
+  :init (fringe-mode '(16 . 8)))
 
 (use-package highlight-tail
   :idle (highlight-tail-mode)
-  :config (setq highlight-tail-timer 0.02))
+  :config (setq highlight-tail-steps 8
+                highlight-tail-timer 0.02))
 
 (use-package custom
   :init (load-theme 'hemacs :no-confirm))

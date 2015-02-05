@@ -57,7 +57,7 @@
    `(border ((t (:background ,base02))))
    `(cursor ((t (:background ,pink :inverse-video t))))
    `(highlight ((t (:background ,base00+1))))
-   `(hl-line ((t (:background ,base00+1))))
+   `(hl-line ((t (:background ,base00-1))))
    `(link ((t (:foreground ,blue :underline t))))
    `(link-visited ((t (:inherit link :foreground ,purple))))
    `(minibuffer-prompt ((t (:foreground ,blue))))
@@ -268,10 +268,10 @@
    `(git-gutter:deleted ((t (:foreground ,base02))))
    `(git-gutter:modified ((t (:foreground ,base02))))
 
-   `(diff-hl-insert ((t (:foreground ,green-1 :background ,base00+1))))
-   `(diff-hl-unknown ((t (:foreground ,green-1 :background ,base00+1))))
-   `(diff-hl-delete ((t (:foreground ,red-1 :background ,base00+1))))
-   `(diff-hl-change ((t (:foreground ,blue-1 :background ,base00+1))))
+   `(diff-hl-insert ((t (:foreground ,green-1 :background ,base00+2))))
+   `(diff-hl-unknown ((t (:foreground ,green-1 :background ,base00+2))))
+   `(diff-hl-delete ((t (:foreground ,red-1 :background ,base00+2))))
+   `(diff-hl-change ((t (:foreground ,blue-1 :background ,base00+2))))
 
    `(eldoc-highlight-function-argument ((t (:foreground ,green :weight bold))))
 
@@ -425,6 +425,8 @@
    `(evil-insert-state-cursor '(,red hbar))
    `(evil-normal-state-cursor '(,yellow box))
    `(evil-visual-state-cursor '(,green box))
+   `(pos-tip-foreground-color ,base02)
+   `(pos-tip-background-color ,base00-1)
 
    `(highlight-symbol-foreground-color ,base03)
    `(highlight-symbol-colors '(,yellow
