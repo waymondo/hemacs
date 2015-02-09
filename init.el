@@ -45,7 +45,8 @@
       ring-bell-function #'ignore
       gc-cons-threshold 50000000
       ns-function-modifier 'hyper
-      ns-right-option-modifier 'none)
+      ns-right-option-modifier 'none
+      create-lockfiles nil)
 
 (setq-default indent-tabs-mode nil
               tab-width 2
