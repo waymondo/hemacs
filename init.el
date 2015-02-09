@@ -9,6 +9,7 @@
 (use-package noflet)
 (use-package names-dev)
 (use-package s)
+(use-package misc)
 (use-package dash :config (dash-enable-font-lock))
 (use-package tool-bar :init (tool-bar-mode -1))
 (use-package scroll-bar :init (scroll-bar-mode -1))
@@ -190,8 +191,7 @@
 
 (use-package dired
   :init
-  (use-package dired-x
-    :bind ("s-\\" . dired-jump-other-window))
+  (use-package dired-x)
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
         dired-recursive-deletes 'always
@@ -205,12 +205,7 @@
 
 ;;;;; Editing
 
-(use-package misc
-  :bind ("C-z" . zap-up-to-char))
-
 (use-package simple
-  :bind (("C-`" . list-processes)
-         ("s-k" . kill-whole-line))
   :init
   (defadvice list-processes (after goto-process-list activate compile)
     (pop-to-buffer "*Process List*"))
@@ -624,6 +619,8 @@
   (setq key-chord-two-keys-delay 0.05))
 
 (bind-keys
+ ("C-z"        . zap-up-to-char)
+ ("C-`"        . list-processes)
  ("TAB"        . tab-dwim)
  ("<M-up>"     . evil-numbers/inc-at-pt)
  ("<M-down>"   . evil-numbers/dec-at-pt)
@@ -634,6 +631,8 @@
  ("s-]"        . shift-right)
  ("s-:"        . pad-colon)
  ("s-u"        . duplicate-dwim)
+ ("s-k"        . kill-whole-line)
+ ("s-\\"       . dired-jump-other-window)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
  ("s-`"        . ort/goto-todos)
