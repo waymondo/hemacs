@@ -213,6 +213,9 @@
         (buffer-substring (region-beginning) (region-end))
       (read-string "Google Search: ")))))
 
+(defn insert-local-ip-address
+  (insert (s-chomp (shell-command-to-string "resolveip -s $HOSTNAME"))))
+
 (defn clear-shell
   (let ((comint-buffer-maximum-size 0))
     (comint-truncate-buffer)
