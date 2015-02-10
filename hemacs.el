@@ -223,6 +223,14 @@
     (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
     (magit-refresh)))
 
+(defn kill-symbol-at-point
+  (er/mark-symbol)
+  (kill-region (point) (mark)))
+
+(defn delete-symbol-at-point
+  (er/mark-symbol)
+  (call-interactively 'delete-region))
+
 (defun magit-pull-request-for-issue-number (prompt)
   (interactive "sIssue number for pull request: ")
   (save-window-excursion

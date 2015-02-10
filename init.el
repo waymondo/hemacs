@@ -248,11 +248,11 @@
   :init (global-hungry-delete-mode))
 
 (use-package expand-region
-  :bind* ("C-," . er/expand-region))
-
-(use-package change-inner
-  :bind (("M-i" . change-inner)
-         ("M-o" . change-outer)))
+  :bind* ("C-," . er/expand-region)
+  :init
+  (use-package change-inner
+    :bind (("M-i" . change-inner)
+           ("M-o" . change-outer))))
 
 (use-package ace-jump-mode
   :bind ("C-;" . ace-jump-mode)
@@ -675,8 +675,10 @@
  ("`" . projectile-switch-project-ort/goto-todos))
 
 (bind-keys
- :prefix-map hemacs-transform-map
+ :prefix-map hemacs-symbol-at-point-map
  :prefix "s-;"
+ ("w" . kill-symbol-at-point)
+ ("k" . delete-symbol-at-point)
  ("c" . s-lower-camel-case-symbol-at-point)
  ("C" . s-upper-camel-case-symbol-at-point)
  ("_" . s-snake-case-symbol-at-point)
