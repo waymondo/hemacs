@@ -510,8 +510,9 @@
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (bind-key "C-c C-p" #'magit-pull-request-for-issue-number magit-mode-map)
   (defadvice magit-process-sentinel (around alert-process-message (process event) activate compile)
-    (let ((buf (process-get process 'command-buf)))
-      (when (and buf (s-match "magit" (buffer-name buf)) (s-match "finished" event))
+    (let* ((buf (process-get process 'command-buf))
+           (buff-name (buffer-name buf)))
+      (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
         (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
       ad-do-it))
   (setq git-commit-summary-max-length 72
