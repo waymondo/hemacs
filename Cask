@@ -83,4 +83,5 @@
 (depends-on "volatile-highlights")
 (depends-on "web-mode")
 (depends-on "wgrep-ag")
+(depends-on "writeroom-mode")
 (depends-on "yaml-mode")

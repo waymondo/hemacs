@@ -361,12 +361,6 @@
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-(defun set-clean-margins (&optional arg)
-  (interactive "P")
-  (let* ((width (if arg (prefix-numeric-value arg) 90))
-         (margin (/ (- (window-total-width) width) 2)))
-    (set-window-margins (selected-window) margin margin)))
-
 (defun eval-after-init (form)
   (let ((func (list 'lambda nil form)))
     (add-hook 'after-init-hook func)

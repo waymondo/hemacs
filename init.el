@@ -772,6 +772,12 @@
 (use-package faces
   :init (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
 
+(use-package writeroom-mode
+  :init (global-writeroom-mode)
+  :config (setq writeroom-width 100
+                writeroom-global-effects '()
+                writeroom-major-modes (append writing-modes '(text-mode gfm-mode))))
+
 (use-package fringe
   :init (fringe-mode '(16 . 8)))
 
