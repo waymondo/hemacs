@@ -187,7 +187,7 @@
   :init (recentf-mode)
   :config
   (setq recentf-exclude '(".ido.last" "COMMIT_EDITMSG")
-        recentf-max-saved-items 500))
+        recentf-max-saved-items 1000))
 
 (use-package dired
   :init
