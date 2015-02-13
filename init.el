@@ -39,7 +39,7 @@
       scroll-conservatively 10000
       scroll-preserve-screen-position t
       auto-window-vscroll nil
-      echo-keystrokes 0.1
+      echo-keystrokes 0.02
       ns-use-native-fullscreen nil
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
@@ -52,7 +52,9 @@
 (setq-default indent-tabs-mode nil
               tab-width 2
               cursor-type 'bar
-              cursor-in-non-selected-windows nil)
+              cursor-in-non-selected-windows nil
+              bidi-display-reordering nil
+              truncate-lines t)
 
 ;;;;; Unprovided Internal Packages
 
