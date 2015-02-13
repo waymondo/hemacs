@@ -161,12 +161,15 @@
   (move-beginning-of-line nil)
   (smart-newline))
 
-(defn ruby-smarter-newline
-  (move-end-of-line nil)
-  (smart-newline)
-  (insert "end")
-  (move-beginning-of-line nil)
-  (smart-newline))
+(defn ruby-newline-dwim
+  (let ((add-newline (or (eolp) (looking-at "\|$"))))
+    (move-end-of-line nil)
+    (smart-newline)
+    (insert "end")
+    (move-beginning-of-line nil)
+    (if add-newline
+        (smart-newline)
+      (indent-according-to-mode))))
 
 (defn coffee-smarter-newline
   (move-end-of-line nil)

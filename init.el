@@ -477,7 +477,7 @@
    ("Appraisals$" . ruby-mode)
    ("\\.rabl$" . ruby-mode))
   :init
-  (bind-key "<C-return>" #'ruby-smarter-newline ruby-mode-map)
+  (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
   (use-package inf-ruby
     :init
