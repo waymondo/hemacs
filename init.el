@@ -161,6 +161,11 @@
 (use-package files
   :mode ("Cask" . emacs-lisp-mode)
   :config
+  (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
+    (unless (file-exists-p filename)
+      (let ((dir (file-name-directory filename)))
+        (unless (file-exists-p dir)
+          (make-directory dir)))))
   (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
     (noflet ((process-list ())) ad-do-it))
   (setq require-final-newline t
