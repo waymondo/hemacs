@@ -201,6 +201,7 @@
   (use-package dired-x)
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
+        dired-dwim-target t
         dired-recursive-deletes 'always
         dired-recursive-copies 'always
         dired-auto-revert-buffer t))
@@ -367,7 +368,9 @@
   :init
   (make-ace-jump-buffer-function "shellish"
     (with-current-buffer buffer
-      (not (derived-mode-p 'comint-mode)))))
+      (not (derived-mode-p 'comint-mode))))
+  :config
+  (setq ajb-home-row-keys t))
 
 (use-package projectile
   :bind (("s-p" . projectile-commander))
