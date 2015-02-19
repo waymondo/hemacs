@@ -299,12 +299,11 @@
         ido-create-new-buffer 'always))
 
 (use-package hippie-exp
+  :bind (([remap dabbrev-expand] . hippie-expand))
   :init
   (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
     (let ((case-fold-search nil))
       ad-do-it))
-  (defalias 'he-dabbrev-beg 'hemacs-dabbrev-beg)
-  (bind-key [remap dabbrev-expand] #'hippie-expand)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
   (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line) t))
@@ -353,8 +352,7 @@
         ag-highlight-search t))
 
 (use-package anzu
-  :bind (("s-q" . anzu-query-replace)
-         ("M-q" . anzu-query-replace-at-cursor))
+  :bind (("s-q" . anzu-query-replace))
   :init (global-anzu-mode))
 
 (use-package imenu
@@ -567,13 +565,6 @@
 (use-package discover
   :init (global-discover-mode))
 
-(use-package guide-key
-  :init (guide-key-mode)
-  :config
-  (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-c" "C-h" "s-h" "s-g")
-        guide-key/recursive-key-sequence-flag t
-        guide-key/popup-window-position 'bottom))
-
 (use-package flycheck
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
@@ -585,6 +576,7 @@
 ;;;;; Bindings & Chords
 
 (use-package god-mode
+  :disabled t
   :bind ("<escape>" . god-local-mode)
   :config
   (bind-key "." #'repeat god-local-mode-map)
@@ -612,8 +604,8 @@
   (key-chord-define-global "fp" #'ffap)
   (key-chord-define-global ";a" #'ace-jump-buffer)
   (key-chord-define-global ":A" #'ace-jump-buffer-other-window)
-  (key-chord-define-global ";s" #'projectile-recentf)
-  (key-chord-define-global ":S" #'ido-switch-buffer-other-window)
+  (key-chord-define-global ";s" #'ido-switch-buffer)
+  (key-chord-define-global ":S" #'projectile-recentf)
   (key-chord-define-global ";w" #'toggle-split-window)
   (key-chord-define-global ":W" #'delete-other-windows)
   (key-chord-define-global ";f" #'ido-find-file)
@@ -629,6 +621,13 @@
   (key-chord-define-global "jl" #'ace-jump-line-mode)
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
+
+(use-package guide-key
+  :init (guide-key-mode)
+  :config
+  (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-c" "C-h" "s-h" "s-g" "C-.")
+        guide-key/recursive-key-sequence-flag t
+        guide-key/popup-window-position 'bottom))
 
 (bind-keys
  ("C-z"        . zap-up-to-char)
@@ -653,22 +652,25 @@
  ("s-w"        . kill-this-buffer)
  ("s-/"        . comment-or-uncomment-region)
  ("s-S"        . rename-file-and-buffer)
- ("C-x y"      . company-kill-ring)
- ("C-x \\"     . align-regexp)
- ("C-x f"      . ffap)
- ("C-x o"      . browse-file-directory)
  ("s-d"        . mc/mark-next-like-this)
  ("s-D"        . mc/mark-previous-like-this)
- ("C-x s-d"    . mc/mark-all-like-this)
  ("<f5>"       . toggle-transparency))
+
+(bind-keys
+ :prefix-map hemacs-ctrl-map
+ :prefix "C-."
+ ("y" . company-kill-ring)
+ ("g" . google)
+ ("o" . browse-file-directory)
+ ("i" . insert-local-ip-address)
+ ("\\" . align-regexp))
 
 (bind-keys
  :prefix-map hemacs-help-map
  :prefix "s-h"
  ("k" . describe-personal-keybindings)
- ("f" . free-keys)
- ("F" . what-face)
- ("g" . google)
+ ("K" . free-keys)
+ ("f" . what-face)
  ("m" . discover-my-major)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
@@ -690,6 +692,8 @@
  :prefix "s-;"
  ("w" . kill-symbol-at-point)
  ("k" . delete-symbol-at-point)
+ ("d" . mc/mark-all-like-this)
+ ("q" . anzu-query-replace-at-cursor)
  ("c" . s-lower-camel-case-symbol-at-point)
  ("C" . s-upper-camel-case-symbol-at-point)
  ("_" . s-snake-case-symbol-at-point)
