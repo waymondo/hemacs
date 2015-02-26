@@ -91,7 +91,14 @@
   (make-transform-symbol-at-point-defun s-lower-camel-case)
   (make-transform-symbol-at-point-defun s-upper-camel-case)
   (make-transform-symbol-at-point-defun s-snake-case)
-  (make-transform-symbol-at-point-defun s-dashed-words))
+  (make-transform-symbol-at-point-defun s-dashed-words)
+  (advice-add 'list-processes :after #'pop-to-process-list-buffer)
+  (advice-add 'backward-kill-word :around #'backward-delete-subword)
+  (advice-add 'kill-whole-line :after #'back-to-indentation)
+  (advice-add 'kill-line :around #'kill-line-or-join-line)
+  (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
+  (advice-add 'find-file :before #'find-file-maybe-make-directories)
+  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
 
 ;;;;; Processes, Shells, Compilation
 
@@ -161,13 +168,6 @@
 (use-package files
   :mode ("Cask" . emacs-lisp-mode)
   :config
-  (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
-    (unless (file-exists-p filename)
-      (let ((dir (file-name-directory filename)))
-        (unless (file-exists-p dir)
-          (make-directory dir)))))
-  (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate compile)
-    (noflet ((process-list ())) ad-do-it))
   (setq require-final-newline t
         confirm-kill-emacs nil
         confirm-nonexistent-file-or-buffer nil
@@ -212,27 +212,6 @@
          ("s-Z" . undo-tree-redo)))
 
 ;;;;; Editing
-
-(use-package simple
-  :init
-  (defadvice list-processes (after goto-process-list activate compile)
-    (pop-to-buffer "*Process List*"))
-  (defadvice backward-kill-word (around backward-kill-subword activate compile)
-    (noflet ((kill-region (beg end) (delete-region beg end)))
-      ad-do-it))
-  (defadvice kill-whole-line (after kill-whole-lines-back-to-indentation activate compile)
-    (back-to-indentation))
-  (defadvice kill-line (around kill-or-join-line activate compile)
-    (if (not (eolp))
-        ad-do-it
-      (forward-line)
-      (join-line)))
-  (defadvice move-beginning-of-line
-      (around move-beginning-of-line-or-indentation activate compile)
-    (let ((orig-point (point)))
-      (back-to-indentation)
-      (when (= orig-point (point))
-        ad-do-it))))
 
 (use-package delsel
   :init (delete-selection-mode))
@@ -301,9 +280,7 @@
 (use-package hippie-exp
   :bind (([remap dabbrev-expand] . hippie-expand))
   :init
-  (defadvice hippie-expand (around hippie-expand-case-fold activate compile)
-    (let ((case-fold-search nil))
-      ad-do-it))
+  (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
   (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line) t))
@@ -517,12 +494,7 @@
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (bind-key "C-c C-p" #'magit-pull-request-for-issue-number magit-mode-map)
-  (defadvice magit-process-sentinel (around alert-process-message (process event) activate compile)
-    (let* ((buf (process-get process 'command-buf))
-           (buff-name (buffer-name buf)))
-      (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
-        (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
-      ad-do-it))
+  (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (setq git-commit-summary-max-length 72
         magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t

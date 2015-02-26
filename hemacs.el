@@ -424,6 +424,48 @@
    (mapcar #'substring-no-properties kill-ring))
   (company-filter-candidates))
 
+(defun pop-to-process-list-buffer ()
+  (pop-to-buffer "*Process List*"))
+
+(defun backward-delete-subword (orig-fun &rest args)
+  (noflet ((kill-region (beg end) (delete-region beg end)))
+    (apply orig-fun args)))
+
+(defun kill-line-or-join-line (orig-fun &rest args)
+  (if (not (eolp))
+      (apply orig-fun args)
+    (forward-line)
+    (join-line)))
+
+(defun move-beginning-of-line-or-indentation (orig-fun &rest args)
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (apply orig-fun args))))
+
+(defun find-file-maybe-make-directories (filename &optional wildcards)
+  (unless (file-exists-p filename)
+    (let ((dir (file-name-directory filename)))
+      (unless (file-exists-p dir)
+        (make-directory dir)))))
+
+(defun save-buffers-kill-emacs-no-process-query (orig-fun &rest args)
+  (noflet ((process-list ()))
+    (apply orig-fun args)))
+
+(defun hippie-expand-case-sensitive (orig-fun &rest args)
+  (let ((case-fold-search nil))
+    (apply orig-fun args)))
+
+(defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
+  (let* ((process (nth 0 args))
+         (event (nth 1 args))
+         (buf (process-get process 'command-buf))
+         (buff-name (buffer-name buf)))
+    (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
+      (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
+    (apply orig-fun (list process event))))
+
 (provide 'hemacs)
 
 ;; Local Variables:
