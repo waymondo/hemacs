@@ -9,7 +9,9 @@
   (if (eq hemacs-theme-variant 'light)
       (setq hemacs-theme-variant 'dark)
     (setq hemacs-theme-variant 'light))
-  (load-theme 'hemacs :no-confirm))
+  (load-theme 'hemacs :no-confirm)
+  (when (fboundp 'highlight-tail-reload)
+    (highlight-tail-reload)))
 
 (let* ((class '((class color) (min-colors 89)))
        (base00 (if (eq hemacs-theme-variant 'light) "#eee8d5" "#393939"))
@@ -54,6 +56,7 @@
    'hemacs
 
    `(default ((t (:background ,base00 :foreground ,base03))))
+   `(bold ((t (:weight bold))))
    `(border ((t (:background ,base02))))
    `(cursor ((t (:background ,pink :inverse-video t))))
    `(highlight ((t (:background ,base00+1))))
@@ -174,6 +177,10 @@
    `(swoop-face-line-buffer-name ((t (:inherit header-line :foreground ,base02))))
    `(swoop-face-header-format-line ((t (:inherit swoop-face-line-buffer-name :foreground ,purple))))
    `(swoop-face-line-number ((t (:foreground ,base02))))
+   `(helm-swoop-target-word-face ((t (:foreground ,yellow))))
+   `(helm-swoop-target-line-face ((t (:background ,base00+2))))
+   `(helm-swoop-target-line-block-face ((t (:background ,base00+1))))
+   `(helm-swoop-line-number-face ((t (:foreground ,base01))))
 
    `(helm-match ((t (:foreground ,yellow-1))))
    `(helm-source-header ((t (:family inherit :inherit header-line :foreground ,purple))))
@@ -202,10 +209,6 @@
    `(helm-grep-running ((t (:inherit compilation-mode-line-run))))
    `(helm-grep-finish ((t (:inherit success))))
    `(helm-visible-mark ((t (:inverse-video t))))
-   `(helm-swoop-target-word-face ((t (:foreground ,yellow))))
-   `(helm-swoop-target-line-face ((t (:background ,base00+2))))
-   `(helm-swoop-target-line-block-face ((t (:background ,base00+1))))
-   `(helm-swoop-line-number-face ((t (:foreground ,base01))))
    `(helm-ls-git-added-modified-face ((t (:foreground ,aqua))))
    `(helm-ls-git-conflict-face ((t (:foreground ,purple-1))))
    `(helm-ls-git-deleted-and-staged-face ((t (:foreground ,base02))))
@@ -436,11 +439,17 @@
                                ,purple
                                ,orange))
 
-   `(highlight-tail-colors '((,yellow-2 . 0)
-                             (,purple-2 . 10)
-                             (,base01 . 20)
-                             (,base00+1 . 45)
-                             (,base00 . 70)))
+   `(highlight-tail-colors (if (eq hemacs-theme-variant 'light)
+                               '((,red . 0)
+                                 (,yellow . 10)
+                                 (,base01 . 20)
+                                 (,base02 . 45)
+                                 (,base03 . 70))
+                             '((,yellow-2 . 0)
+                               (,purple-2 . 10)
+                               (,base01 . 20)
+                               (,base00+1 . 45)
+                               (,base00 . 70))))
 
    `(tabbar-background-color ,base00-2)
 

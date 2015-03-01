@@ -363,7 +363,8 @@
   :config
   (bind-key "s-f" #'helm-swoop-from-isearch isearch-mode-map)
   (bind-key "s-f" #'helm-multi-swoop-all-from-helm-swoop helm-swoop-map)
-  (setq helm-multi-swoop-edit-save t
+  (setq helm-swoop-speed-or-color t
+        helm-multi-swoop-edit-save t
         helm-swoop-use-line-number-face t
         helm-swoop-pre-input-function (lambda ())))
 
