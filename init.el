@@ -374,12 +374,6 @@
   (smex-initialize)
   (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory)))
 
-(use-package iflipb
-  :bind (("s-{" . iflipb-previous-buffer)
-         ("s-}" . iflipb-next-buffer))
-  :config
-  (setq iflipb-wrap-around t))
-
 ;;;;; External Utilities
 
 (use-package edit-server
@@ -540,8 +534,7 @@
 (use-package flycheck
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
-  (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)
-  (setq-default flycheck-disabled-checkers '(html-tidy))
+  (setq flycheck-display-errors-function nil)
   (setq-default flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
