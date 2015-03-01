@@ -571,7 +571,7 @@
   (key-chord-define-global ";a" #'ace-jump-buffer)
   (key-chord-define-global ":A" #'ace-jump-buffer-other-window)
   (key-chord-define-global ";s" #'ido-switch-buffer)
-  (key-chord-define-global ":S" #'projectile-recentf)
+  (key-chord-define-global ":S" #'recentf-ido-find-file-other-window)
   (key-chord-define-global ";w" #'toggle-split-window)
   (key-chord-define-global ":W" #'delete-other-windows)
   (key-chord-define-global ";f" #'ido-find-file)

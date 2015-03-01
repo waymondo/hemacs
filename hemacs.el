@@ -424,6 +424,13 @@
    (mapcar #'substring-no-properties kill-ring))
   (company-filter-candidates))
 
+(defn recentf-ido-find-file-other-window
+  (let ((file (ido-completing-read "Choose recent file: "
+                                   (-map 'abbreviate-file-name recentf-list)
+                                   nil t)))
+    (when file
+      (find-file-other-window file))))
+
 (defun pop-to-process-list-buffer ()
   (pop-to-buffer "*Process List*"))
 
