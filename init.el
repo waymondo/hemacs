@@ -453,8 +453,7 @@
 (use-package ruby-mode
   :bind ("C-'" . ruby-toggle-string-quotes)
   :mode
-  (("Procfile$" . ruby-mode)
-   ("Appraisals$" . ruby-mode)
+  (("Appraisals$" . ruby-mode)
    ("\\.rabl$" . ruby-mode))
   :init
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
