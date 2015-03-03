@@ -348,7 +348,7 @@
   (setq ajb-home-row-keys t))
 
 (use-package projectile
-  :bind (("s-p" . projectile-commander))
+  :bind-keymap (("s-O" . projectile-command-map))
   :idle (projectile-cleanup-known-projects)
   :config
   (setq projectile-enable-caching t
@@ -590,7 +590,8 @@
 (use-package guide-key
   :init (guide-key-mode)
   :config
-  (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-c" "C-h" "s-h" "s-g" "C-.")
+  (setq guide-key/guide-key-sequence
+        '("C-x" "C-c" "C-c" "C-h" "s-h" "s-g" "C-." "s-;" "s-p")
         guide-key/recursive-key-sequence-flag t
         guide-key/popup-window-position 'bottom))
 
