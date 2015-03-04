@@ -247,6 +247,11 @@
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
+(use-package ace-window
+  :bind (([remap next-multiframe-window] . ace-window))
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 (use-package smart-newline
   :init
   (hook-modes progish-modes
