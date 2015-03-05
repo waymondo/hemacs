@@ -42,6 +42,7 @@
 (depends-on "god-mode")
 (depends-on "guide-key")
 (depends-on "helm-css-scss")
+(depends-on "helm-descbinds")
 (depends-on "helm-swoop")
 (depends-on "highlight-symbol")
 (depends-on "highlight-tail")

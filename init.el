@@ -641,6 +641,7 @@
  :prefix "s-h"
  ("k" . describe-personal-keybindings)
  ("K" . free-keys)
+ ("b" . helm-descbinds)
  ("f" . what-face)
  ("m" . discover-my-major)
  ("d" . dash-at-point)
