@@ -7,9 +7,7 @@
 (require 'use-package)
 (use-package pallet :init (pallet-mode))
 (use-package noflet)
-(use-package names-dev)
 (use-package s)
-(use-package misc)
 (use-package dash :config (dash-enable-font-lock))
 (use-package tool-bar :init (tool-bar-mode -1))
 (use-package scroll-bar :init (scroll-bar-mode -1))
@@ -230,9 +228,6 @@
 
 (use-package subword
   :init (global-subword-mode))
-
-(use-package hungry-delete
-  :init (global-hungry-delete-mode))
 
 (use-package expand-region
   :bind* ("C-," . er/expand-region)
@@ -484,9 +479,6 @@
 
 (use-package ediff
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
-
-(use-package vc-hooks
-  :config (setq vc-follow-symlinks t))
 
 (use-package magit
   :bind ("s-m" . magit-status)
