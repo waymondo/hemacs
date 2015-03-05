@@ -537,18 +537,6 @@
 
 ;;;;; Bindings & Chords
 
-(use-package god-mode
-  :disabled t
-  :bind ("<escape>" . god-local-mode)
-  :config
-  (bind-key "." #'repeat god-local-mode-map)
-  (add-λ 'god-local-mode-hook
-    (when (region-active-p) (call-interactively 'kill-region)))
-  (add-λ 'god-mode-enabled-hook
-    (setq cursor-type 'box))
-  (add-λ 'god-mode-disabled-hook
-    (setq cursor-type 'bar)))
-
 (use-package key-chord
   :init (key-chord-mode 1)
   :config

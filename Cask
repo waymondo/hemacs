@@ -38,7 +38,6 @@
 (depends-on "gitconfig-mode")
 (depends-on "github-browse-file" :git "https://github.com/waymondo/github-browse-file.git")
 (depends-on "gitignore-mode")
-(depends-on "god-mode")
 (depends-on "guide-key")
 (depends-on "helm-css-scss")
 (depends-on "helm-descbinds")
