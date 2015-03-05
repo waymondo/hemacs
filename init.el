@@ -676,9 +676,12 @@
  :prefix "s-g"
  ("o" . github-browse-file)
  ("b" . github-browse-file-blame)
+ ("c" . github-browse-commit)
  ("i" . github-browse-new-issue)
+ ("C" . helm-open-github-from-commit)
+ ("I" . helm-open-github-from-issues)
+ ("R" . helm-open-github-from-pull-requests)
  ("g" . gist-region-or-buffer-private)
- ("c" . github-clone)
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
 
