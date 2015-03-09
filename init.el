@@ -405,6 +405,7 @@
 (use-package web-mode
   :mode (("\\.erb\\'" . web-mode)
          ("\\.hbs\\'" . web-mode)
+         ("\\.php\\'" . web-mode)
          ("\\.handlebars\\'" . web-mode))
   :config
   (setq web-mode-markup-indent-offset 2
@@ -454,7 +455,8 @@
   :bind ("C-'" . ruby-toggle-string-quotes)
   :mode
   (("Appraisals$" . ruby-mode)
-   ("\\.rabl$" . ruby-mode))
+   ("\\.rabl$" . ruby-mode)
+   ("\\.builder$" . ruby-mode))
   :init
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
