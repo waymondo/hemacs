@@ -176,27 +176,18 @@
   (insert-arrow)
   (coffee-newline-and-indent))
 
-(defn move-line-up
+(defn move-text-up
   (transpose-lines 1)
   (forward-line -2)
   (unless (member major-mode indent-sensitive-modes)
     (indent-according-to-mode)))
 
-(defn move-line-down
+(defn move-text-down
   (forward-line 1)
   (transpose-lines 1)
   (forward-line -1)
   (unless (member major-mode indent-sensitive-modes)
     (indent-according-to-mode)))
-
-(defn tab-dwim
-  (cond ((minibufferp)
-         (hippie-expand nil))
-        (mark-active
-         (indent-region (region-beginning) (region-end)))
-        ((looking-at "\\_>")
-         (hippie-expand nil))
-        ((indent-for-tab-command))))
 
 (defn shift-right
   (let ((deactivate-mark nil)
@@ -407,12 +398,6 @@
 (defun alert-after-finish-in-background (buf str)
   (unless (get-buffer-window buf 'visible)
     (alert str :buffer buf)))
-
-(defn github-browse-new-issue
-  (let ((url (concat "https://github.com/"
-                     (github-browse-file--relative-url)
-                     "/issues/new")))
-    (browse-url url)))
 
 (defn toggle-transparency
   (if (member (frame-parameter nil 'alpha) '(nil 100))

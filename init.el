@@ -280,6 +280,11 @@
 (use-package hippie-exp
   :bind (([remap dabbrev-expand] . hippie-expand))
   :init
+  (use-package smart-tab
+    :init
+    (global-smart-tab-mode)
+    :config
+    (setq smart-tab-using-hippie-expand t))
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
@@ -452,11 +457,10 @@
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-package ruby-mode
-  :bind ("C-'" . ruby-toggle-string-quotes)
   :mode
   (("Appraisals$" . ruby-mode)
-   ("\\.rabl$" . ruby-mode)
-   ("\\.builder$" . ruby-mode))
+   ("\\.rabl\\'" . ruby-mode)
+   ("\\.builder\\'" . ruby-mode))
   :init
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
@@ -583,13 +587,13 @@
         guide-key/popup-window-position 'bottom))
 
 (bind-keys
- ("C-z"        . zap-up-to-char)
+ ("C-z"        . ace-jump-zap-up-to-char)
+ ("C-'"        . toggle-quotes)
  ("C-`"        . list-processes)
- ("TAB"        . tab-dwim)
  ("<M-up>"     . evil-numbers/inc-at-pt)
  ("<M-down>"   . evil-numbers/dec-at-pt)
- ("<M-S-up>"   . move-line-up)
- ("<M-S-down>" . move-line-down)
+ ("<M-S-up>"   . move-text-up)
+ ("<M-S-down>" . move-text-down)
  ("s-K"        . hemacs-delete)
  ("s-["        . shift-left)
  ("s-]"        . shift-right)
