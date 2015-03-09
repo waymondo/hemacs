@@ -253,10 +253,10 @@
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))))
 
-(use-package paredit
+(use-package lispy
   :init
   (hook-modes lispy-modes
-    (enable-paredit-mode)))
+    (lispy-mode)))
 
 ;;;;; Completion
 
