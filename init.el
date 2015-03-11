@@ -475,7 +475,8 @@
   (use-package ruby-tools)
   (use-package chruby
     :init
-    (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding))
+    (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
+    (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding))
   (use-package ruby-hash-syntax
     :init
     (each-mode-map ruby-modes
