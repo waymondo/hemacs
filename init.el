@@ -363,15 +363,9 @@
   (use-package projectile-rails
     :init (add-hook 'projectile-mode-hook #'projectile-rails-on)))
 
-(use-package helm-swoop
-  :bind ("s-f" . helm-swoop)
-  :config
-  (bind-key "s-f" #'helm-swoop-from-isearch isearch-mode-map)
-  (bind-key "s-f" #'helm-multi-swoop-all-from-helm-swoop helm-swoop-map)
-  (setq helm-swoop-speed-or-color t
-        helm-multi-swoop-edit-save t
-        helm-swoop-use-line-number-face t
-        helm-swoop-pre-input-function (lambda ())))
+(use-package swiper
+  :bind ("s-f" . swiper)
+  :config (setq swiper-completion-method 'ivy))
 
 (use-package smex
   :bind (([remap execute-extended-command] . smex)
