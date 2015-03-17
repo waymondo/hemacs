@@ -1,6 +1,5 @@
 ;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
-
-(defmacro defn (name &rest body)
+(defmacro def (name &rest body)
   (declare (indent 1) (debug t))
   `(defun ,name (&optional arg)
      ,(if (stringp (car body)) (car body))
@@ -90,12 +89,12 @@
        (when (member this-command ,commands)
          (funcall ,func)))))
 
-(defn browse-file-directory
+(def browse-file-directory
   (if default-directory
       (browse-url-of-file (expand-file-name default-directory))
     (error "No `default-directory' to open")))
 
-(defn duplicate-dwim
+(def duplicate-dwim
   (let (beg end (origin (point)))
     (if (and (region-active-p) (> (point) (mark)))
         (exchange-point-and-mark))
@@ -111,7 +110,7 @@
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
 
-(defn rename-file-and-buffer
+(def rename-file-and-buffer
   (let* ((filename (buffer-file-name))
          (old-name (if filename
                        (file-name-nondirectory filename)
@@ -124,12 +123,12 @@
       (rename-file filename new-name :force-overwrite)
       (set-visited-file-name new-name :no-query :along-with-file)))))
 
-(defn open-package
+(def open-package
   (let* ((packages (mapcar 'symbol-name (mapcar 'car package-alist)))
          (package (completing-read "Open package: " packages nil t)))
     (find-library package)))
 
-(defn delete-file-and-buffer
+(def delete-file-and-buffer
   (let ((filename (buffer-file-name)))
     (cond
      ((not filename) (kill-buffer))
@@ -138,7 +137,7 @@
       (delete-file filename)
       (kill-buffer)))))
 
-(defn hemacs-delete
+(def hemacs-delete
   (cond
    ((eq major-mode 'dired-mode)
     (dired-do-delete))
@@ -148,21 +147,23 @@
    (:else
     (delete-file-and-buffer))))
 
-(defn eol-then-newline
+(def eol-then-newline
   (move-end-of-line nil)
   (cond ((eq major-mode 'coffee-mode)
          (coffee-newline-and-indent))
         (t (newline-and-indent))))
 
-(defn html-smarter-newline
+(def html-smarter-newline
   (move-end-of-line nil)
   (smart-newline)
   (sgml-close-tag)
   (move-beginning-of-line nil)
   (smart-newline))
 
-(defn ruby-newline-dwim
-  (let ((add-newline (or (eolp) (looking-at "\|$"))))
+(def ruby-newline-dwim
+  (let ((add-newline (or (eolp)
+                         (looking-at "\|$")
+                         (looking-at "\)$"))))
     (move-end-of-line nil)
     (smart-newline)
     (insert "end")
@@ -171,35 +172,40 @@
         (smart-newline)
       (indent-according-to-mode))))
 
-(defn coffee-smarter-newline
+(def slim-newline-dwim
+  (move-end-of-line nil)
+  (newline)
+  (indent-according-to-mode))
+
+(def coffee-smarter-newline
   (move-end-of-line nil)
   (insert-arrow)
   (coffee-newline-and-indent))
 
-(defn move-text-up
+(def move-text-up
   (transpose-lines 1)
   (forward-line -2)
   (unless (member major-mode indent-sensitive-modes)
     (indent-according-to-mode)))
 
-(defn move-text-down
+(def move-text-down
   (forward-line 1)
   (transpose-lines 1)
   (forward-line -1)
   (unless (member major-mode indent-sensitive-modes)
     (indent-according-to-mode)))
 
-(defn shift-right
+(def shift-right
   (let ((deactivate-mark nil)
         (beg (or (and mark-active (region-beginning))
                  (line-beginning-position)))
         (end (or (and mark-active (region-end)) (line-end-position))))
     (indent-rigidly beg end (* (or arg 1) tab-width))))
 
-(defn shift-left
+(def shift-left
   (shift-right (* -1 (or arg 1))))
 
-(defn google
+(def google
   (browse-url
    (concat
     "http://www.google.com/search?q="
@@ -207,24 +213,24 @@
         (buffer-substring (region-beginning) (region-end))
       (read-string "Google Search: ")))))
 
-(defn insert-local-ip-address
+(def insert-local-ip-address
   (insert (s-chomp (shell-command-to-string "resolveip -s $HOSTNAME"))))
 
-(defn clear-shell
+(def clear-shell
   (let ((comint-buffer-maximum-size 0))
     (comint-truncate-buffer)
     (goto-char (point-max))))
 
-(defn magit-just-amend
+(def magit-just-amend
   (save-window-excursion
     (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
     (magit-refresh)))
 
-(defn kill-symbol-at-point
+(def kill-symbol-at-point
   (er/mark-symbol)
   (kill-region (point) (mark)))
 
-(defn delete-symbol-at-point
+(def delete-symbol-at-point
   (er/mark-symbol)
   (call-interactively 'delete-region))
 
@@ -238,26 +244,26 @@
   (when (not (looking-back " "))
     (insert " ")))
 
-(defn insert-arrow
+(def insert-arrow
   (ensure-space)
   (insert "-> "))
 
-(defn insert-fat-arrow
+(def insert-fat-arrow
   (ensure-space)
   (insert "=> "))
 
-(defn open-brackets-newline-and-indent
+(def open-brackets-newline-and-indent
   (ensure-space)
   (insert "{\n\n}")
   (indent-according-to-mode)
   (forward-line -1)
   (indent-according-to-mode))
 
-(defn pad-brackets
+(def pad-brackets
   (insert "{  }")
   (backward-char 2))
 
-(defn pad-colon
+(def pad-colon
   (if (not (member major-mode '(css-mode less-css-mode)))
       (insert ": ")
     (if (looking-at "\;.*")
@@ -265,10 +271,10 @@
       (insert ": ;")
       (backward-char))))
 
-(defn hemacs-todo
+(def hemacs-todo
   (insert "- [ ] "))
 
-(defn log-statement
+(def log-statement
   (cond ((member major-mode '(js-mode coffee-mode))
          (insert "console.log()")
          (backward-char))
@@ -279,7 +285,7 @@
         (:else
          (insert "log"))))
 
-(defn find-user-init-file-other-window
+(def find-user-init-file-other-window
   (find-file-other-window user-init-file))
 
 (defun hemacs-writing-hook ()
@@ -320,20 +326,20 @@
     (noflet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
-(defn create-scratch-buffer
+(def create-scratch-buffer
   (let ((current-major-mode major-mode)
         (buf (generate-new-buffer "*scratch*")))
     (switch-to-buffer buf)
     (funcall current-major-mode)))
 
-(defn find-or-create-projectile-restclient-buffer
+(def find-or-create-projectile-restclient-buffer
   (let ((buffer-name (concat "*" (projectile-project-name) " restclient*")))
     (switch-to-buffer
      (or (get-buffer buffer-name)
          (generate-new-buffer buffer-name)))
     (restclient-mode)))
 
-(defn toggle-split-window
+(def toggle-split-window
   (if (eq last-command 'toggle-split-window)
       (progn
         (jump-to-register :toggle-split-window)
@@ -367,14 +373,12 @@
           (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
 
 (defun hemacs-imenu-elisp-expressions ()
-  (add-to-list
-   'imenu-generic-expression
-   '("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2))
-  (add-to-list
-   'imenu-generic-expression
-   '("sections" "^;;;;; \\(.+\\)$" 1) t))
+  (--each '(("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)
+            (nil "^(def \\(.+\\)$" 1)
+            ("sections" "^;;;;; \\(.+\\)$" 1))
+    (add-to-list 'imenu-generic-expression it)))
 
-(defn describe-thing-in-popup
+(def describe-thing-in-popup
   (let* ((thing (symbol-at-point))
          (help-xref-following t)
          (description (save-window-excursion
@@ -399,17 +403,17 @@
   (unless (get-buffer-window buf 'visible)
     (alert str :buffer buf)))
 
-(defn toggle-transparency
+(def toggle-transparency
   (if (member (frame-parameter nil 'alpha) '(nil 100))
       (set-frame-parameter nil 'alpha 67)
     (set-frame-parameter nil 'alpha 100)))
 
-(defn company-kill-ring
+(def company-kill-ring
   (company-begin-with
    (mapcar #'substring-no-properties kill-ring))
   (company-filter-candidates))
 
-(defn recentf-ido-find-file-other-window
+(def recentf-ido-find-file-other-window
   (let ((file (ido-completing-read "Choose recent file: "
                                    (-map 'abbreviate-file-name recentf-list)
                                    nil t)))
