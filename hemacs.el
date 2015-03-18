@@ -378,6 +378,9 @@
             ("sections" "^;;;;; \\(.+\\)$" 1))
     (add-to-list 'imenu-generic-expression it)))
 
+(defun css-imenu-generic-expression ()
+  (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
+
 (def describe-thing-in-popup
   (let* ((thing (symbol-at-point))
          (help-xref-following t)

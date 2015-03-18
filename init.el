@@ -4,15 +4,16 @@
 
 (require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
 (cask-initialize)
-(require 'use-package)
-(use-package pallet :init (pallet-mode))
+(eval-when-compile (require 'use-package))
+(require 'bind-key)
+(use-package pallet :config (pallet-mode))
 (use-package noflet)
 (use-package s)
 (use-package dash :config (dash-enable-font-lock))
-(use-package tool-bar :init (tool-bar-mode -1))
-(use-package scroll-bar :init (scroll-bar-mode -1))
+(use-package tool-bar :config (tool-bar-mode -1))
+(use-package scroll-bar :config (scroll-bar-mode -1))
 (use-package novice :config (setq disabled-command-function nil))
-(use-package auto-compile :init (auto-compile-on-load-mode))
+(use-package auto-compile :config (auto-compile-on-load-mode))
 (load (locate-user-emacs-file "hemacs.el"))
 
 (defvar indent-sensitive-modes
@@ -64,7 +65,7 @@
 ;;;;; Load Personal Hemacs Library
 
 (use-package hemacs
-  :init
+  :config
   (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
   (hook-modes writing-modes
     (hemacs-writing-hook))
@@ -101,12 +102,12 @@
 ;;;;; Processes, Shells, Compilation
 
 (use-package exec-path-from-shell
-  :init
+  :config
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "HISTFILE"))
 
 (use-package comint
-  :init
+  :config
   (setq comint-prompt-read-only t)
   (setq-default comint-process-echoes t
                 comint-scroll-show-maximum-output nil
@@ -120,13 +121,13 @@
       (with-current-buffer it (comint-write-input-ring)))))
 
 (use-package compile
-  :init
+  :config
   (setq compilation-disable-input t
         compilation-always-kill t)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package shell
-  :init
+  :config
   (setq async-shell-command-buffer 'new-buffer
         shell-command-switch "-ic"
         explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
@@ -134,13 +135,14 @@
     (turn-on-comint-history (getenv "HISTFILE"))))
 
 (use-package sh-script
-  :config (setq-default sh-indentation 2
-                        sh-basic-offset 2)
   :mode (("\\.*bashrc$" . sh-mode)
          ("\\.*bash_profile" . sh-mode)))
+  :config
+  (setq-default sh-indentation 2
+                sh-basic-offset 2)
 
 (use-package executable
-  :init
+  :config
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p))
 
 (use-package projector
@@ -161,10 +163,13 @@
 ;;;;; Files & History
 
 (use-package image-mode
-  :init (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
+  :config
+  (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
+
+(use-package elisp-lisp-mode
+  :mode ("Cask" . emacs-lisp-mode))
 
 (use-package files
-  :mode ("Cask" . emacs-lisp-mode)
   :config
   (setq require-final-newline t
         confirm-kill-emacs nil
@@ -173,30 +178,31 @@
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t))))
 
 (use-package autorevert
-  :init (global-auto-revert-mode)
   :config
+  (global-auto-revert-mode)
   (setq auto-revert-verbose nil
         global-auto-revert-non-file-buffers t))
 
 (use-package savehist
-  :init (savehist-mode)
   :config
+  (savehist-mode)
   (setq savehist-additional-variables
         '(search-ring regexp-search-ring comint-input-ring)
         savehist-autosave-interval 30))
 
 (use-package saveplace
-  :config (setq-default save-place t))
+  :config
+  (setq-default save-place t))
 
 (use-package recentf
-  :init (recentf-mode)
   :config
+  (recentf-mode)
   (setq recentf-exclude '(".ido.last")
         recentf-max-saved-items 1000))
 
 (use-package dired
-  :init
-  (use-package dired-x)
+  :init (use-package dired-x)
+  :config
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
         dired-dwim-target t
@@ -205,7 +211,7 @@
         dired-auto-revert-buffer t))
 
 (use-package undo-tree
-  :init (global-undo-tree-mode)
+  :config (global-undo-tree-mode)
   :bind (("s-z" . undo-tree-undo)
          ("s-Z" . undo-tree-redo)))
 
@@ -248,12 +254,13 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package smart-newline
-  :init
+  :config
   (hook-modes progish-modes
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))))
 
 (use-package lispy
+  :disabled t
   :init
   (hook-modes lispy-modes
     (lispy-mode)))
@@ -261,17 +268,18 @@
 ;;;;; Completion
 
 (use-package ido
-  :init (ido-mode)
-  (use-package ido-ubiquitous
-    :init (ido-ubiquitous-mode))
-  (use-package flx-ido
-    :init (flx-ido-mode)
-    :config (setq flx-ido-use-faces nil))
-  (use-package ido-vertical-mode
-    :init (ido-vertical-mode)
-    :config
-    (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
   :config
+  (use-package ido-ubiquitous
+    :config (ido-ubiquitous-mode))
+  (use-package flx-ido
+    :config
+    (flx-ido-mode)
+    (setq flx-ido-use-faces nil))
+  (use-package ido-vertical-mode
+    :config
+    (ido-vertical-mode)
+    (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
+  (ido-mode)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
@@ -279,12 +287,7 @@
 
 (use-package hippie-exp
   :bind (([remap dabbrev-expand] . hippie-expand))
-  :init
-  (use-package smart-tab
-    :init
-    (global-smart-tab-mode)
-    :config
-    (setq smart-tab-using-hippie-expand t))
+  :config
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
@@ -303,9 +306,8 @@
                         hippie-expand-try-functions-list))))
 
 (use-package company
-  :init
-  (global-company-mode)
   :config
+  (global-company-mode)
   (setq company-tooltip-align-annotations t
         company-tooltip-flip-when-above t
         company-require-match nil
@@ -324,7 +326,14 @@
     (setq company-dabbrev-code-modes t
           company-dabbrev-code-everywhere t))
   (use-package readline-complete
-    :init (push 'company-readline company-backends)))
+    :config (push 'company-readline company-backends)))
+
+(use-package smart-tab
+  :config
+  (global-smart-tab-mode)
+  (setq smart-tab-using-hippie-expand t)
+  (--each shellish-modes
+    (push it smart-tab-disabled-major-modes)))
 
 ;;;;; Navigation & Search
 
@@ -335,7 +344,8 @@
 
 (use-package anzu
   :bind (("s-q" . anzu-query-replace))
-  :init (global-anzu-mode))
+  :config
+  (global-anzu-mode))
 
 (use-package imenu
   :init
@@ -345,23 +355,23 @@
   (setq imenu-auto-rescan t))
 
 (use-package ace-jump-buffer
-  :init
+  :config
   (make-ace-jump-buffer-function "shellish"
     (with-current-buffer buffer
       (not (derived-mode-p 'comint-mode))))
-  :config
   (setq ajb-home-row-keys t))
 
 (use-package projectile
-  :bind-keymap (("s-O" . projectile-command-map))
-  :idle (projectile-cleanup-known-projects)
+  ;; :defines projectile-command-map
+  :bind-keymap (("s-p" . projectile-command-map))
+  :init
+  (use-package projectile-rails
+    :config (add-hook 'projectile-mode-hook #'projectile-rails-on))
   :config
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
-  :init
   (projectile-global-mode)
-  (use-package projectile-rails
-    :init (add-hook 'projectile-mode-hook #'projectile-rails-on)))
+  (projectile-cleanup-known-projects))
 
 (use-package swiper
   :bind ("s-f" . swiper)
@@ -370,22 +380,24 @@
 (use-package smex
   :bind (([remap execute-extended-command] . smex)
          ("s-P" . smex))
-  :init
+  :config
   (smex-initialize)
   (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory)))
 
 ;;;;; External Utilities
 
 (use-package edit-server
-  :init (edit-server-start)
-  :config (setq edit-server-new-frame nil
-                edit-server-default-major-mode 'gfm-mode))
+  :config
+  (edit-server-start)
+  (setq edit-server-new-frame nil
+        edit-server-default-major-mode 'gfm-mode))
 
 (use-package crab
   :bind (("s-R" . crab-reload)
          ("<S-s-left>" . crab-prev-tab)
          ("<S-s-right>" . crab-next-tab))
-  :idle (crab-server-start))
+  :config
+  (crab-server-start))
 
 ;;;;; Major Modes
 
@@ -395,7 +407,7 @@
         org-completion-use-ido t))
 
 (use-package sgml-mode
-  :init
+  :config
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
   (bind-key "<C-return>" #'html-smarter-newline html-mode-map)
@@ -422,9 +434,11 @@
 
 (use-package css-mode
   :mode "\\.css\\.erb\\'"
-  :config
+  :init
   (use-package less-css-mode
     :mode "\\.less\\.erb\\'")
+  :config
+  (add-hook 'css-mode-hook #'css-imenu-generic-expression)
   (bind-key "{" #'open-brackets-newline-and-indent css-mode-map)
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
@@ -448,6 +462,7 @@
 (use-package slim-mode
   :config
   (setq slim-backspace-backdents-nesting nil)
+  (bind-key "<C-return>" #'slim-newline-dwim slim-mode-map)
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-package ruby-mode
@@ -497,22 +512,22 @@
   :config (setq git-messenger:show-detail t))
 
 (use-package diff-hl
-  :init
+  :config
   (global-diff-hl-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
 
 ;;;;; Help & Docs
 
 (use-package find-func
-  :init (find-function-setup-keys))
+  :config (find-function-setup-keys))
 
 (use-package eldoc
-  :init
+  :config
   (hook-modes lispy-modes
     (eldoc-mode)))
 
 (use-package elisp-slime-nav
-  :init
+  :config
   (hook-modes lispy-modes
     (elisp-slime-nav-mode)))
 
@@ -527,10 +542,10 @@
   :commands popup-tip)
 
 (use-package discover
-  :init (global-discover-mode))
+  :config (global-discover-mode))
 
 (use-package flycheck
-  :init
+  :config
   (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
   (setq flycheck-display-errors-function nil)
   (setq-default flycheck-less-executable "/usr/local/bin/lessc")
@@ -539,8 +554,8 @@
 ;;;;; Bindings & Chords
 
 (use-package key-chord
-  :init (key-chord-mode 1)
   :config
+  (key-chord-mode 1)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
   (key-chord-define-global ",." "<>\C-b")
@@ -574,8 +589,8 @@
   (setq key-chord-two-keys-delay 0.05))
 
 (use-package guide-key
-  :init (guide-key-mode)
   :config
+  (guide-key-mode)
   (setq guide-key/guide-key-sequence
         '("C-x" "C-c" "C-c" "C-h" "s-h" "s-g" "C-." "s-;" "s-p")
         guide-key/recursive-key-sequence-flag t
@@ -704,32 +719,36 @@
     (add-hook it #'pulse-line-hook-function)))
 
 (use-package highlight-symbol
-  :init
+  :config
   (hook-modes progish-modes
     (highlight-symbol-mode)
     (highlight-symbol-nav-mode))
-  :config (setq highlight-symbol-idle-delay 0))
+  (setq highlight-symbol-idle-delay 0))
 
 (use-package volatile-highlights
-  :init (volatile-highlights-mode))
+  :config (volatile-highlights-mode))
 
 (use-package rainbow-mode
-  :init
+  :config
   (add-hook 'css-mode-hook #'rainbow-mode))
 
 (use-package rainbow-delimiters
-  :init
+  :disabled t
+  :config
   (hook-modes progish-modes
     (rainbow-delimiters-mode)))
 
+(use-package paren-face
+  :config (global-paren-face-mode))
+
 (use-package powerline
-  :init (powerline-default-theme)
   :config
+  (powerline-default-theme)
   (setq powerline-default-separator 'utf-8))
 
 (use-package paren
-  :init (show-paren-mode)
   :config
+  (show-paren-mode)
   (setq show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
 
@@ -737,27 +756,30 @@
   :config (setq alert-default-style 'notifier))
 
 (use-package auto-dim-other-buffers
-  :init (auto-dim-other-buffers-mode))
+  :config (auto-dim-other-buffers-mode))
 
 (use-package faces
-  :init (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
+  :config (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
 
 (use-package writeroom-mode
-  :init (global-writeroom-mode)
-  :config (setq writeroom-width 100
-                writeroom-global-effects '()
-                writeroom-major-modes (append writing-modes '(text-mode gfm-mode))))
+  :config
+  (global-writeroom-mode)
+  (setq writeroom-width 100
+        writeroom-global-effects '()
+        writeroom-major-modes (append writing-modes '(text-mode gfm-mode))))
 
 (use-package fringe
-  :init (fringe-mode '(16 . 8)))
+  :config (fringe-mode '(16 . 8)))
 
 (use-package highlight-tail
-  :idle (highlight-tail-mode)
-  :config (setq highlight-tail-steps 8
-                highlight-tail-timer 0.02))
+  :disabled t
+  :config
+  (setq highlight-tail-steps 8
+        highlight-tail-timer 0.02)
+  (highlight-tail-mode))
 
 (use-package custom
-  :init (load-theme 'hemacs :no-confirm))
+  :config (load-theme 'hemacs :no-confirm))
 
 ;; Local Variables:
 ;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
