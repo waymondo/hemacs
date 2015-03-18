@@ -446,7 +446,7 @@
   (unless (file-exists-p filename)
     (let ((dir (file-name-directory filename)))
       (unless (file-exists-p dir)
-        (make-directory dir)))))
+        (make-directory dir :make-parents)))))
 
 (defun save-buffers-kill-emacs-no-process-query (orig-fun &rest args)
   (noflet ((process-list ()))
