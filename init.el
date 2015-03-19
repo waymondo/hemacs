@@ -337,6 +337,10 @@
 
 ;;;;; Navigation & Search
 
+(use-package wgrep
+  :config
+  (setq wgrep-auto-save-buffer t))
+
 (use-package ag
   :config
   (setq ag-reuse-buffers t
