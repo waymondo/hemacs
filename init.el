@@ -526,11 +526,6 @@
 (use-package find-func
   :config (find-function-setup-keys))
 
-(use-package eldoc
-  :config
-  (hook-modes lispy-modes
-    (eldoc-mode)))
-
 (use-package elisp-slime-nav
   :config
   (hook-modes lispy-modes
