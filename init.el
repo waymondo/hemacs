@@ -443,7 +443,8 @@
     :mode "\\.less\\.erb\\'")
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
-  (bind-key "{" #'open-brackets-newline-and-indent css-mode-map)
+  (key-combo-define css-mode-map "{" '(" {\n`!!'\n}"))
+  (key-combo-define css-mode-map ":" '(": `!!';"))
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
 
@@ -591,6 +592,16 @@
   (key-chord-define-global "jl" #'ace-jump-line-mode)
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
+
+(use-package key-combo
+  :config
+  (global-key-combo-mode)
+  (key-combo-define-hook key-combo-common-mode-hooks
+                         'key-combo-common-load-default
+                         key-combo-common-default)
+  (key-combo-define-hook key-combo-lisp-mode-hooks
+                         'key-combo-lisp-load-default
+                         key-combo-lisp-default))
 
 (use-package guide-key
   :config

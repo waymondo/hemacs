@@ -49,6 +49,7 @@
 (depends-on "inf-ruby")
 (depends-on "ivy")
 (depends-on "key-chord")
+(depends-on "key-combo")
 (depends-on "less-css-mode")
 (depends-on "lispy")
 (depends-on "magit" :git "https://github.com/magit/magit.git" :branch "next")
