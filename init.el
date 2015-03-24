@@ -614,10 +614,10 @@
  ("<M-down>"   . evil-numbers/dec-at-pt)
  ("<M-S-up>"   . move-text-up)
  ("<M-S-down>" . move-text-down)
+ ("M-\\"       . align-regexp)
  ("s-K"        . hemacs-delete)
  ("s-["        . shift-left)
  ("s-]"        . shift-right)
- ("s-:"        . pad-colon)
  ("s-u"        . duplicate-dwim)
  ("s-k"        . kill-whole-line)
  ("s-\\"       . dired-jump-other-window)
@@ -634,24 +634,19 @@
  ("<f5>"       . toggle-transparency))
 
 (bind-keys
- :prefix-map hemacs-ctrl-map
- :prefix "C-."
- ("y" . company-kill-ring)
- ("g" . google)
- ("o" . browse-file-directory)
- ("i" . insert-local-ip-address)
- ("\\" . align-regexp))
-
-(bind-keys
  :prefix-map hemacs-help-map
  :prefix "s-h"
  ("k" . describe-personal-keybindings)
+ ("y" . company-kill-ring)
  ("K" . free-keys)
  ("b" . helm-descbinds)
  ("f" . what-face)
  ("m" . discover-my-major)
+ ("g" . google)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
+ ("F" . browse-file-directory)
+ ("i" . insert-local-ip-address)
  ("o" . open-package)
  ("p" . describe-thing-in-popup))
 

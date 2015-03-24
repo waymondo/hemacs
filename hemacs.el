@@ -263,14 +263,6 @@
   (insert "{  }")
   (backward-char 2))
 
-(def pad-colon
-  (if (not (member major-mode '(css-mode less-css-mode)))
-      (insert ": ")
-    (if (looking-at "\;.*")
-        (insert ": ")
-      (insert ": ;")
-      (backward-char))))
-
 (def hemacs-todo
   (insert "- [ ] "))
 
