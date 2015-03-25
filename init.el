@@ -215,6 +215,11 @@
   :bind (("s-z" . undo-tree-undo)
          ("s-Z" . undo-tree-redo)))
 
+(use-package midnight
+  :config
+  (add-hook 'midnight-hook #'recentf-save-list)
+  (setq midnight-period 10000))
+
 ;;;;; Editing
 
 (use-package delsel
