@@ -682,6 +682,7 @@
  ("b" . github-browse-file-blame)
  ("c" . github-browse-commit)
  ("i" . github-browse-new-issue)
+ ("r" . github-browse-pull-request)
  ("C" . helm-open-github-from-commit)
  ("I" . helm-open-github-from-issues)
  ("R" . helm-open-github-from-pull-requests)
