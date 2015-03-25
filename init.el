@@ -366,12 +366,10 @@
   (setq ajb-home-row-keys t))
 
 (use-package projectile
-  ;; :defines projectile-command-map
-  :bind-keymap (("s-p" . projectile-command-map))
-  :init
+  :bind (("s-p" .  projectile-command-map))
+  :config
   (use-package projectile-rails
     :config (add-hook 'projectile-mode-hook #'projectile-rails-on))
-  :config
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
   (projectile-global-mode)
