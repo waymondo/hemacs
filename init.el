@@ -13,8 +13,6 @@
 (use-package tool-bar :config (tool-bar-mode -1))
 (use-package scroll-bar :config (scroll-bar-mode -1))
 (use-package novice :config (setq disabled-command-function nil))
-(use-package auto-compile :config (auto-compile-on-load-mode))
-(load (locate-user-emacs-file "hemacs.el"))
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
@@ -65,6 +63,7 @@
 ;;;;; Load Personal Hemacs Library
 
 (use-package hemacs
+  :load-path "lib/"
   :config
   (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
   (hook-modes writing-modes
