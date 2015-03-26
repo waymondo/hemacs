@@ -97,7 +97,8 @@
   (advice-add 'kill-line :around #'kill-line-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'find-file :before #'find-file-maybe-make-directories)
-  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
+  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query)
+  (advice-add 'package-install :around #'package-install-never-select))
 
 ;;;;; Processes, Shells, Compilation
 
