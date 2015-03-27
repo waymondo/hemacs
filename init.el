@@ -353,14 +353,16 @@
         ag-highlight-search t))
 
 (use-package anzu
-  :bind (("s-q" . anzu-query-replace))
+  :bind (([remap query-replace] . anzu-query-replace)
+         ("s-q" . anzu-query-replace))
   :config
   (global-anzu-mode))
 
 (use-package imenu
+  :bind ("s-r" . imenu)
   :init
   (use-package imenu-anywhere
-    :bind (("s-r" . imenu-anywhere)))
+    :bind (("s-R" . imenu-anywhere)))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
@@ -372,7 +374,8 @@
   (setq ajb-home-row-keys t))
 
 (use-package projectile
-  :bind (("s-p" .  projectile-command-map))
+  :bind (("s-p" . projectile-command-map)
+         ("s-t" . projectile-find-file))
   :config
   (use-package projectile-rails
     :config (add-hook 'projectile-mode-hook #'projectile-rails-on))
@@ -382,8 +385,8 @@
   (projectile-cleanup-known-projects))
 
 (use-package swiper
-  :bind ("s-f" . swiper)
-  :config (setq swiper-completion-method 'ivy))
+  :bind (([remap isearch-forward] . swiper)
+         ("s-f" . swiper)))
 
 (use-package smex
   :bind (([remap execute-extended-command] . smex)
