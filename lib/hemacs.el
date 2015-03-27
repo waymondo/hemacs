@@ -1,4 +1,5 @@
 ;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
+
 (defmacro def (name &rest body)
   (declare (indent 1) (debug t))
   `(defun ,name (&optional arg)
@@ -461,7 +462,3 @@
   (apply orig-fun (list (nth 0 args) t)))
 
 (provide 'hemacs)
-
-;; Local Variables:
-;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
-;; End:

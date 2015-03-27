@@ -550,7 +550,8 @@
 (use-package flycheck
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
-  (setq flycheck-display-errors-function nil)
+  (setq flycheck-display-errors-function nil
+        flycheck-checkers (--remove (eq it 'emacs-lisp-checkdoc) flycheck-checkers))
   (setq-default flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
@@ -789,7 +790,3 @@
 
 (use-package custom
   :config (load-theme 'hemacs :no-confirm))
-
-;; Local Variables:
-;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
-;; End:
