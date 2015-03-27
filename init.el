@@ -523,6 +523,7 @@
 (use-package diff-hl
   :config
   (global-diff-hl-mode)
+  (diff-hl-margin-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
 
 ;;;;; Help & Docs
@@ -744,12 +745,12 @@
   (add-hook 'css-mode-hook #'rainbow-mode))
 
 (use-package rainbow-delimiters
-  :disabled t
   :config
   (hook-modes progish-modes
     (rainbow-delimiters-mode)))
 
 (use-package paren-face
+  :disabled t
   :config (global-paren-face-mode))
 
 (use-package powerline
@@ -780,7 +781,7 @@
         writeroom-major-modes (append writing-modes '(text-mode gfm-mode))))
 
 (use-package fringe
-  :config (fringe-mode '(16 . 8)))
+  :config (fringe-mode '(20 . 8)))
 
 (use-package highlight-tail
   :disabled t
