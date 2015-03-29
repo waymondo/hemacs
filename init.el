@@ -526,7 +526,6 @@
 (use-package diff-hl
   :config
   (global-diff-hl-mode)
-  (diff-hl-margin-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
 
 ;;;;; Help & Docs
@@ -793,5 +792,5 @@
         highlight-tail-timer 0.02)
   (highlight-tail-mode))
 
-(use-package custom
-  :config (load-theme 'hemacs :no-confirm))
+(use-package apropospriate
+  :config (load-theme 'apropospriate-dark :no-confirm))

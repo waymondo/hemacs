@@ -8,6 +8,7 @@
 (depends-on "ag")
 (depends-on "alert")
 (depends-on "anzu")
+(depends-on "apropospriate-theme")
 (depends-on "auto-dim-other-buffers")
 (depends-on "bundler")
 (depends-on "change-inner")
