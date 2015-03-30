@@ -241,6 +241,7 @@
   :init (global-subword-mode))
 
 (use-package expand-region
+  :commands (er/mark-symbol)
   :bind* ("C-," . er/expand-region)
   :init
   (use-package change-inner
