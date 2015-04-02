@@ -251,6 +251,7 @@
 (use-package ace-jump-mode
   :bind ("C-;" . ace-jump-mode)
   :config
+  (ace-jump-mode-enable-mark-sync)
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
