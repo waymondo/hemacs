@@ -753,10 +753,6 @@
   (hook-modes progish-modes
     (rainbow-delimiters-mode)))
 
-(use-package paren-face
-  :disabled t
-  :config (global-paren-face-mode))
-
 (use-package powerline
   :config
   (powerline-default-theme)
@@ -788,11 +784,18 @@
   :config (fringe-mode '(20 . 8)))
 
 (use-package highlight-tail
-  :disabled t
   :config
   (setq highlight-tail-steps 8
         highlight-tail-timer 0.02)
   (highlight-tail-mode))
 
-(use-package apropospriate
-  :config (load-theme 'apropospriate-dark :no-confirm))
+(use-package theme-changer
+  :init
+  (use-package apropospriate)
+  (use-package solar
+    :init
+    (setq calendar-location-name "New York, NY"
+          calendar-latitude 41.8
+          calendar-longitude -73.59))
+  :config
+  (change-theme 'apropospriate-light 'apropospriate-dark))

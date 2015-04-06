@@ -77,6 +77,7 @@
 (depends-on "smart-tab")
 (depends-on "smex")
 (depends-on "swiper")
+(depends-on "theme-changer")
 (depends-on "toggle-quotes")
 (depends-on "undo-tree")
 (depends-on "use-package")
