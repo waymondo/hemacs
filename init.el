@@ -406,6 +406,7 @@
         edit-server-default-major-mode 'gfm-mode))
 
 (use-package crab
+  :defer 2
   :bind (("s-R" . crab-reload)
          ("<S-s-left>" . crab-prev-tab)
          ("<S-s-right>" . crab-next-tab))
