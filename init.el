@@ -778,7 +778,7 @@
   (global-writeroom-mode)
   (setq writeroom-width 100
         writeroom-global-effects '()
-        writeroom-major-modes (append writing-modes '(text-mode gfm-mode))))
+        writeroom-major-modes (append writing-modes '(gfm-mode))))
 
 (use-package fringe
   :config (fringe-mode '(20 . 8)))
