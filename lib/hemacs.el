@@ -253,6 +253,22 @@
   (ensure-space)
   (insert "=> "))
 
+(def smart-css-comma
+  (insert ",")
+  (smart-newline)
+  (save-excursion
+    (insert " ")))
+
+(def smart-css-colon
+  (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+    (cond ((string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" current-line)
+           (insert ":"))
+          ((looking-at "\;.*")
+           (insert ": "))
+          (:else
+           (insert ": ;")
+           (backward-char)))))
+
 (def open-brackets-newline-and-indent
   (ensure-space)
   (insert "{\n\n}")

@@ -453,8 +453,9 @@
     :mode "\\.less\\.erb\\'")
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
-  (key-combo-define css-mode-map "{" '(" {\n`!!'\n}"))
-  (key-combo-define css-mode-map ":" '(": `!!';"))
+  (bind-key ":" #'smart-css-colon css-mode-map)
+  (bind-key "," #'smart-css-comma css-mode-map)
+  (bind-key "{" #'open-brackets-newline-and-indent css-mode-map)
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
 
