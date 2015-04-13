@@ -15,6 +15,7 @@
         dabbrev-expand
         duplicate-dwim
         electric-indent-just-newline
+        electric-newline-and-maybe-indent
         electric-pair-backward-delete-char
         electric-pair-backward-delete-char-untabify
         eol-then-newline
@@ -58,6 +59,7 @@
         slim-electric-backspace
         smart-tab
         sp--self-insert-command
+        special-lispy-flow
         subword-backward-delete
         subword-left
         subword-right
@@ -84,6 +86,7 @@
         ido-find-file
         ido-recentf-find-file
         magit-status
+        markdown-exdent-or-delete
         next-error
         next-multiframe-window
         ort/capture-todo
@@ -91,6 +94,7 @@
         projector-switch-to-or-create-project-shell
         query-replace
         smex
+        special-lispy-clone
         swoop-action-cancel
         toggle-split-window
         undefined
