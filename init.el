@@ -513,10 +513,10 @@
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package magit
+  :load-path "lib/magit/"
   :bind ("s-m" . magit-status)
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
-  (bind-key "C-c C-p" #'magit-pull-request-for-issue-number magit-mode-map)
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (setq git-commit-summary-max-length 72
         magit-completing-read-function 'magit-ido-completing-read
@@ -541,6 +541,9 @@
   :config
   (hook-modes lispy-modes
     (elisp-slime-nav-mode)))
+
+(use-package github-browse-file
+  :load-path "lib/github-browse-file/")
 
 (use-package dash-at-point
   :config
@@ -756,6 +759,7 @@
     (rainbow-delimiters-mode)))
 
 (use-package powerline
+  :load-path "lib/powerline/"
   :config
   (powerline-default-theme)
   (setq powerline-default-separator 'utf-8))

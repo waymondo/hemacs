@@ -235,12 +235,6 @@
   (er/mark-symbol)
   (call-interactively 'delete-region))
 
-(defun magit-pull-request-for-issue-number (prompt)
-  (interactive "sIssue number for pull request: ")
-  (save-window-excursion
-    (shell-command (concat "hub pull-request -i " prompt))
-    (magit-refresh)))
-
 (defun ensure-space ()
   (when (not (looking-back " "))
     (insert " ")))
