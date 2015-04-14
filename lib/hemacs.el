@@ -263,6 +263,14 @@
            (insert ": ;")
            (backward-char)))))
 
+(def pad-comma
+  (insert ", "))
+
+(def smart-ruby-colon
+  (if (looking-back "[[:word:]]")
+      (insert ": ")
+    (insert ":")))
+
 (def open-brackets-newline-and-indent
   (ensure-space)
   (insert "{\n\n}")

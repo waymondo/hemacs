@@ -486,7 +486,10 @@
   (("Appraisals$" . ruby-mode)
    ("\\.rabl\\'" . ruby-mode)
    ("\\.builder\\'" . ruby-mode))
-  :init
+  :config
+  (bind-key ":" #'smart-ruby-colon ruby-mode-map)
+  (bind-key "," #'pad-comma ruby-mode-map)
+  (bind-key "{" #'pad-brackets ruby-mode-map)
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
   (use-package inf-ruby
