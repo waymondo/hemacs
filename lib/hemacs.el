@@ -479,4 +479,10 @@
 (defun package-install-never-select (orig-fun &rest args)
   (apply orig-fun (list (nth 0 args) t)))
 
+(def update-packages
+  (save-window-excursion
+    (package-list-packages t)
+    (package-menu-mark-upgrades)
+    (package-menu-execute t)))
+
 (provide 'hemacs)

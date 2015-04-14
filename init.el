@@ -2,14 +2,18 @@
 
 ;;;;; Bootstrap
 
-(require 'cask "/usr/local/share/emacs/site-lisp/cask.el")
-(cask-initialize)
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 (eval-when-compile (require 'use-package))
-(require 'bind-key)
-(use-package pallet :config (pallet-mode))
-(use-package noflet)
-(use-package s)
-(use-package dash :config (dash-enable-font-lock))
+
+(use-package bind-key :ensure t)
+(use-package noflet :ensure t)
+(use-package s :ensure t)
+(use-package dash :ensure t :config (dash-enable-font-lock))
 (use-package tool-bar :config (tool-bar-mode -1))
 (use-package scroll-bar :config (scroll-bar-mode -1))
 (use-package novice :config (setq disabled-command-function nil))
@@ -102,6 +106,7 @@
 ;;;;; Processes, Shells, Compilation
 
 (use-package exec-path-from-shell
+  :ensure t
   :config
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "HISTFILE"))
@@ -146,6 +151,7 @@
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p))
 
 (use-package projector
+  :ensure t
   :bind* (("C-x RET" . projector-run-shell-command-project-root)
           ("C-x m"   . projector-switch-to-or-create-project-shell))
   :config
@@ -211,6 +217,7 @@
         dired-auto-revert-buffer t))
 
 (use-package undo-tree
+  :ensure t
   :config (global-undo-tree-mode)
   :bind (("s-z" . undo-tree-undo)
          ("s-Z" . undo-tree-redo)))
@@ -241,26 +248,32 @@
   :init (global-subword-mode))
 
 (use-package expand-region
+  :ensure t
   :commands (er/mark-symbol)
   :bind* ("C-," . er/expand-region)
   :init
   (use-package change-inner
+    :ensure t
     :bind (("M-i" . change-inner)
            ("M-o" . change-outer))))
 
 (use-package ace-jump-mode
+  :ensure t
   :bind ("C-;" . ace-jump-mode)
   :config
+  (use-package ace-jump-zap :ensure t)
   (ace-jump-mode-enable-mark-sync)
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
 (use-package ace-window
+  :ensure t
   :bind (([remap next-multiframe-window] . ace-window))
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package smart-newline
+  :ensure t
   :config
   (hook-modes progish-modes
     (when (not (member major-mode indent-sensitive-modes))
@@ -272,17 +285,25 @@
   (hook-modes lispy-modes
     (lispy-mode)))
 
+(use-package evil-numbers :ensure t)
+(use-package multiple-cursors :ensure t)
+(use-package toggle-quotes :ensure t)
+
 ;;;;; Completion
 
 (use-package ido
   :config
   (use-package ido-ubiquitous
-    :config (ido-ubiquitous-mode))
+    :ensure t
+    :config
+    (ido-ubiquitous-mode))
   (use-package flx-ido
+    :ensure t
     :config
     (flx-ido-mode)
     (setq flx-ido-use-faces nil))
   (use-package ido-vertical-mode
+    :ensure t
     :config
     (ido-vertical-mode)
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
@@ -313,6 +334,7 @@
                         hippie-expand-try-functions-list))))
 
 (use-package company
+  :ensure t
   :config
   (global-company-mode)
   (setq company-tooltip-align-annotations t
@@ -333,9 +355,11 @@
     (setq company-dabbrev-code-modes t
           company-dabbrev-code-everywhere t))
   (use-package readline-complete
+    :ensure t
     :config (push 'company-readline company-backends)))
 
 (use-package smart-tab
+  :ensure t
   :config
   (global-smart-tab-mode)
   (setq smart-tab-using-hippie-expand t
@@ -345,16 +369,19 @@
 
 ;;;;; Navigation & Search
 
-(use-package wgrep
+(use-package wgrep-ag
+  :ensure t
   :config
   (setq wgrep-auto-save-buffer t))
 
 (use-package ag
+  :ensure t
   :config
   (setq ag-reuse-buffers t
         ag-highlight-search t))
 
 (use-package anzu
+  :ensure t
   :bind (([remap query-replace] . anzu-query-replace)
          ("s-q" . anzu-query-replace))
   :config
@@ -364,11 +391,13 @@
   :bind ("s-r" . imenu)
   :init
   (use-package imenu-anywhere
-    :bind (("s-R" . imenu-anywhere)))
+    :ensure t
+    :bind ("s-R" . imenu-anywhere))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
 (use-package ace-jump-buffer
+  :ensure t
   :config
   (make-ace-jump-buffer-function "shellish"
     (with-current-buffer buffer
@@ -376,10 +405,12 @@
   (setq ajb-home-row-keys t))
 
 (use-package projectile
-  :bind (("s-p" . projectile-command-map)
-         ("s-t" . projectile-find-file))
+  :ensure t
+  :bind-keymap ("s-p" . projectile-command-map)
+  :bind ("s-t" . projectile-find-file)
   :config
   (use-package projectile-rails
+    :ensure t
     :config (add-hook 'projectile-mode-hook #'projectile-rails-on))
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
@@ -387,10 +418,12 @@
   (projectile-cleanup-known-projects))
 
 (use-package swiper
+  :ensure t
   :bind (([remap isearch-forward] . swiper)
          ("s-f" . swiper)))
 
 (use-package smex
+  :ensure t
   :bind (([remap execute-extended-command] . smex)
          ("s-P" . smex))
   :config
@@ -400,12 +433,14 @@
 ;;;;; External Utilities
 
 (use-package edit-server
+  :ensure t
   :config
   (edit-server-start)
   (setq edit-server-new-frame nil
         edit-server-default-major-mode 'gfm-mode))
 
 (use-package crab
+  :ensure t
   :defer 2
   :bind (("s-R" . crab-reload)
          ("<S-s-left>" . crab-prev-tab)
@@ -416,9 +451,10 @@
 ;;;;; Major Modes
 
 (use-package org
-  :config
+  :init
   (setq org-support-shift-select t
-        org-completion-use-ido t))
+        org-completion-use-ido t)
+  (use-package org-repo-todo :ensure t))
 
 (use-package sgml-mode
   :config
@@ -428,6 +464,7 @@
   (make-beautify-defun "html"))
 
 (use-package web-mode
+  :ensure t
   :mode (("\\.erb\\'" . web-mode)
          ("\\.hbs\\'" . web-mode)
          ("\\.php\\'" . web-mode)
@@ -438,9 +475,11 @@
         web-mode-script-padding 2))
 
 (use-package fountain-mode
+  :ensure t
   :mode "\\.fountain$")
 
 (use-package markdown-mode
+  :ensure t
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
@@ -450,6 +489,7 @@
   :mode "\\.css\\.erb\\'"
   :init
   (use-package less-css-mode
+    :ensure t
     :mode "\\.less\\.erb\\'")
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
@@ -476,6 +516,7 @@
   (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
 
 (use-package slim-mode
+  :ensure t
   :config
   (setq slim-backspace-backdents-nesting nil)
   (bind-key "<C-return>" #'slim-newline-dwim slim-mode-map)
@@ -492,23 +533,30 @@
   (bind-key "{" #'pad-brackets ruby-mode-map)
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
+  (use-package ruby-tools :ensure t)
+  (use-package rspec-mode :ensure t)
   (use-package inf-ruby
+    :ensure t
     :init
     (add-λ 'inf-ruby-mode-hook
       (turn-on-comint-history ".pry_history")))
   (use-package bundler
+    :ensure t
     :init
     (each-mode-map ruby-modes
       (bind-key "s-b" #'bundle-open mode-map)))
-  (use-package ruby-tools)
   (use-package chruby
+    :ensure t
     :init
     (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
     (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding))
   (use-package ruby-hash-syntax
+    :ensure t
     :init
     (each-mode-map ruby-modes
       (bind-key "C-c C-:" #'ruby-toggle-hash-syntax mode-map))))
+
+(use-package yaml-mode :ensure t)
 
 ;;;;; Version Control
 
@@ -528,9 +576,11 @@
         magit-no-confirm t))
 
 (use-package git-messenger
+  :ensure t
   :config (setq git-messenger:show-detail t))
 
 (use-package diff-hl
+  :ensure t
   :config
   (global-diff-hl-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
@@ -541,6 +591,7 @@
   :config (find-function-setup-keys))
 
 (use-package elisp-slime-nav
+  :ensure t
   :config
   (hook-modes lispy-modes
     (elisp-slime-nav-mode)))
@@ -548,7 +599,15 @@
 (use-package github-browse-file
   :load-path "lib/github-browse-file/")
 
+(use-package git-timemachine :ensure t)
+;; (use-package gist :ensure t)
+(use-package gitattributes-mode :ensure t)
+(use-package gitconfig-mode :ensure t)
+(use-package gitignore-mode :ensure t)
+;; (use-package helm-open-github :ensure t)
+
 (use-package dash-at-point
+  :ensure t
   :config
   (setq dash-at-point-docsets
         '("coffee" "lisp" "css" "less" "html" "javascript" "iphoneos" "ruby" "elisp"
@@ -556,14 +615,18 @@
           "angularjs" "psql" "emacs" "fa" "redis" "git" "bash" "moment")))
 
 (use-package popup
+  :ensure t
   :commands popup-tip)
 
 (use-package discover
-  :config (global-discover-mode))
+  :ensure t
+  :config
+  (global-discover-mode)
+  (use-package discover-my-major :ensure t))
 
 (use-package flycheck
+  :ensure t
   :config
-  (add-hook 'flycheck-mode-hook #'flycheck-cask-setup)
   (setq flycheck-display-errors-function nil
         flycheck-checkers (--remove (eq it 'emacs-lisp-checkdoc) flycheck-checkers))
   (setq-default flycheck-less-executable "/usr/local/bin/lessc")
@@ -571,7 +634,11 @@
 
 ;;;;; Bindings & Chords
 
+(use-package free-keys :ensure t)
+(use-package helm-descbinds :ensure t)
+
 (use-package key-chord
+  :ensure t
   :config
   (key-chord-mode 1)
   (add-λ 'minibuffer-setup-hook
@@ -606,17 +673,8 @@
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
 
-(use-package key-combo
-  :config
-  (global-key-combo-mode)
-  (key-combo-define-hook key-combo-common-mode-hooks
-                         'key-combo-common-load-default
-                         key-combo-common-default)
-  (key-combo-define-hook key-combo-lisp-mode-hooks
-                         'key-combo-lisp-load-default
-                         key-combo-lisp-default))
-
 (use-package guide-key
+  :ensure t
   :config
   (guide-key-mode)
   (setq guide-key/guide-key-sequence
@@ -649,6 +707,7 @@
  ("s-S"        . rename-file-and-buffer)
  ("s-d"        . mc/mark-next-like-this)
  ("s-D"        . mc/mark-previous-like-this)
+ ("C-c s-d"    . mc/mark-all-like-this-dwim)
  ("<f5>"       . toggle-transparency))
 
 (bind-keys
@@ -739,10 +798,12 @@
       find-tag))
   (--each '(next-error-hook
             find-function-after-hook
+            isearch-mode-end-hook
             imenu-after-jump-hook)
     (add-hook it #'pulse-line-hook-function)))
 
 (use-package highlight-symbol
+  :ensure t
   :config
   (hook-modes progish-modes
     (highlight-symbol-mode)
@@ -750,13 +811,16 @@
   (setq highlight-symbol-idle-delay 0))
 
 (use-package volatile-highlights
+  :ensure t
   :config (volatile-highlights-mode))
 
 (use-package rainbow-mode
+  :ensure t
   :config
   (add-hook 'css-mode-hook #'rainbow-mode))
 
 (use-package rainbow-delimiters
+  :ensure t
   :config
   (hook-modes progish-modes
     (rainbow-delimiters-mode)))
@@ -774,15 +838,18 @@
         show-paren-when-point-in-periphery t))
 
 (use-package alert
+  :ensure t
   :config (setq alert-default-style 'notifier))
 
 (use-package auto-dim-other-buffers
+  :ensure t
   :config (auto-dim-other-buffers-mode))
 
 (use-package faces
   :config (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
 
 (use-package writeroom-mode
+  :ensure t
   :config
   (global-writeroom-mode)
   (setq writeroom-width 100
@@ -793,18 +860,20 @@
   :config (fringe-mode '(20 . 8)))
 
 (use-package highlight-tail
+  :disabled t
   :config
   (setq highlight-tail-steps 8
         highlight-tail-timer 0.02)
   (highlight-tail-mode))
 
 (use-package theme-changer
+  :ensure t
   :init
-  (use-package apropospriate)
   (use-package solar
     :init
     (setq calendar-location-name "New York, NY"
           calendar-latitude 41.8
           calendar-longitude -73.59))
   :config
+  (use-package apropospriate-theme :ensure t)
   (change-theme 'apropospriate-light 'apropospriate-dark))
