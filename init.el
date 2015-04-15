@@ -786,6 +786,10 @@
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
 
+(use-package page-break-lines
+  :ensure t
+  :config (global-page-break-lines-mode))
+
 (use-package pulse
   :config
   (setq pulse-command-advice-flag t
