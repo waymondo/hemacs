@@ -501,4 +501,14 @@
     (package-menu-mark-upgrades)
     (package-menu-execute t)))
 
+(defun projectile-relevant-known-git-projects ()
+  (mapcar
+   (lambda (dir)
+     (substring dir 0 -1))
+   (cl-remove-if-not
+    (lambda (project)
+      (unless (file-remote-p project)
+        (file-directory-p (concat project "/.git/"))))
+    (projectile-relevant-known-projects))))
+
 (provide 'hemacs)

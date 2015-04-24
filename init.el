@@ -578,7 +578,7 @@
   (setq git-commit-summary-max-length 72
         magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
-        magit-repository-directories '("~/code")
+        magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
         magit-no-confirm t))
 
 (use-package git-messenger
