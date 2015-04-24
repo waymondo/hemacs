@@ -495,6 +495,7 @@
   (apply orig-fun (list (nth 0 args) t)))
 
 (def update-packages
+  (package-refresh-contents)
   (save-window-excursion
     (package-list-packages t)
     (package-menu-mark-upgrades)
