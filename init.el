@@ -461,6 +461,8 @@
   :config
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
+  (bind-key "," #'pad-comma html-mode-map)
+  (bind-key "=" #'pad-equals html-mode-map)
   (bind-key "<C-return>" #'html-smarter-newline html-mode-map)
   (make-beautify-defun "html"))
 
@@ -513,6 +515,8 @@
   :config
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header")
+  (bind-key "," #'pad-comma coffee-mode-map)
+  (bind-key "=" #'pad-equals coffee-mode-map)
   (bind-key "<C-return>" #'coffee-smarter-newline coffee-mode-map)
   (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
 
@@ -520,6 +524,7 @@
   :ensure t
   :config
   (setq slim-backspace-backdents-nesting nil)
+  (bind-key "," #'pad-comma slim-mode-map)
   (bind-key "<C-return>" #'slim-newline-dwim slim-mode-map)
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
@@ -529,9 +534,9 @@
    ("\\.rabl\\'" . ruby-mode)
    ("\\.builder\\'" . ruby-mode))
   :config
-  (bind-key ":" #'smart-ruby-colon ruby-mode-map)
   (bind-key "," #'pad-comma ruby-mode-map)
-  (bind-key "{" #'pad-brackets ruby-mode-map)
+  (bind-key "=" #'pad-equals ruby-mode-map)
+  (bind-key ":" #'smart-ruby-colon ruby-mode-map)
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
   (use-package ruby-tools :ensure t)
@@ -645,8 +650,8 @@
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
   (key-chord-define-global ",." "<>\C-b")
-  (key-chord-define-global "}|" "||\C-b")
   (key-chord-define-global "<>" #'sgml-close-tag)
+  (key-chord-define-global "}|" #'pad-pipes)
   (key-chord-define-global "{}" #'open-brackets-newline-and-indent)
   (key-chord-define-global "[]" #'pad-brackets)
   (key-chord-define-global "_+" #'insert-fat-arrow)
@@ -765,6 +770,8 @@
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
 
+(bind-key "=" #'pad-equals text-mode-map)
+(bind-key "," #'pad-comma text-mode-map)
 (bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
 (bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" #'next-complete-history-element minibuffer-local-map)

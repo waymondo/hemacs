@@ -267,6 +267,19 @@
 (def pad-comma
   (insert ", "))
 
+(def pad-equals
+  (if (looking-back "=[[:space:]]")
+      (progn
+        (delete-char -1)
+        (insert "= "))
+    (ensure-space)
+    (insert "= ")))
+
+(def pad-pipes
+  (ensure-space)
+  (insert "||")
+  (backward-char))
+
 (def smart-ruby-colon
   (if (looking-back "[[:word:]]")
       (insert ": ")
@@ -280,6 +293,7 @@
   (indent-according-to-mode))
 
 (def pad-brackets
+  (ensure-space)
   (insert "{  }")
   (backward-char 2))
 
