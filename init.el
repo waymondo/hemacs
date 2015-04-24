@@ -462,7 +462,6 @@
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
   (bind-key "," #'pad-comma html-mode-map)
-  (bind-key "=" #'pad-equals html-mode-map)
   (bind-key "<C-return>" #'html-smarter-newline html-mode-map)
   (make-beautify-defun "html"))
 
@@ -525,6 +524,7 @@
   :config
   (setq slim-backspace-backdents-nesting nil)
   (bind-key "," #'pad-comma slim-mode-map)
+  (bind-key ":" #'smart-ruby-colon slim-mode-map)
   (bind-key "<C-return>" #'slim-newline-dwim slim-mode-map)
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
