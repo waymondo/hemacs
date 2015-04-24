@@ -17,6 +17,7 @@
 (use-package tool-bar :config (tool-bar-mode -1))
 (use-package scroll-bar :config (scroll-bar-mode -1))
 (use-package novice :config (setq disabled-command-function nil))
+(use-package advice :config (setq ad-redefinition-action 'accept))
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
