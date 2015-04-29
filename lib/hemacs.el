@@ -268,12 +268,11 @@
   (insert ", "))
 
 (def pad-equals
-  (if (looking-back "=[[:space:]]")
-      (progn
-        (delete-char -1)
-        (insert "= "))
-    (ensure-space)
-    (insert "= ")))
+  (cond ((looking-back "=[[:space:]]")
+         (delete-char -1))
+        ((looking-back "[^#/]")
+         (ensure-space)))
+  (insert "= "))
 
 (def pad-pipes
   (ensure-space)
