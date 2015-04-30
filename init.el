@@ -770,7 +770,6 @@
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
 
-(bind-key "=" #'pad-equals text-mode-map)
 (bind-key "," #'pad-comma text-mode-map)
 (bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
 (bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
