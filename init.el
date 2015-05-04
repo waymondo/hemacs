@@ -657,6 +657,7 @@
   (key-chord-define-global "_+" #'insert-fat-arrow)
   (key-chord-define-global "-=" #'insert-arrow)
   (key-chord-define-global "^^" (λ (insert "λ")))
+  (key-chord-define-global "::" (λ (insert "::")))
   (key-chord-define-global "qq" #'log-statement)
   (key-chord-define-global "fp" #'ffap)
   (key-chord-define-global ";a" #'ace-jump-buffer)

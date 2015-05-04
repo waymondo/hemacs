@@ -280,8 +280,6 @@
   (backward-char))
 
 (def smart-ruby-colon
-  (when (looking-back ":[[:space:]]")
-    (delete-char -1))
   (if (looking-back "[[:word:]]")
       (insert ": ")
     (insert ":")))
