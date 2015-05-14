@@ -535,6 +535,7 @@
   (setenv "RIPPER_TAGS_EMACS" "1")
   (use-package ruby-tools :ensure t)
   (use-package rspec-mode :ensure t)
+  (use-package foreman-mode :ensure t)
   (use-package inf-ruby
     :ensure t
     :init
