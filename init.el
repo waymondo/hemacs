@@ -228,6 +228,11 @@
   (add-hook 'midnight-hook #'recentf-save-list)
   (setq midnight-period 10000))
 
+(use-package osx-trash
+  :if (eq system-type 'darwin)
+  :ensure t
+  :init (osx-trash-setup))
+
 ;;;;; Editing
 
 (use-package delsel
@@ -629,9 +634,9 @@
 (use-package flycheck
   :ensure t
   :config
-  (setq flycheck-display-errors-function nil
-        flycheck-checkers (--remove (eq it 'emacs-lisp-checkdoc) flycheck-checkers))
-  (setq-default flycheck-less-executable "/usr/local/bin/lessc")
+  (setq flycheck-checkers (--remove (eq it 'emacs-lisp-checkdoc) flycheck-checkers))
+  (setq-default flycheck-html-tidy-executable "tidy5"
+                flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;;;;; Bindings & Chords
