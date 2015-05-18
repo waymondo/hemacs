@@ -39,7 +39,7 @@
       history-delete-duplicates t
       scroll-margin 24
       scroll-conservatively 10000
-      scroll-preserve-screen-position t
+      scroll-preserve-screen-position 'always
       auto-window-vscroll nil
       echo-keystrokes 0.02
       ns-use-native-fullscreen nil
