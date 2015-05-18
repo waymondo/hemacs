@@ -645,8 +645,7 @@
   (key-chord-mode 1)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
-  (each-mode-map '(ruby-mode coffee-mode)
-    (key-chord-define mode-map "sj" #'splitjoin))
+  (key-chord-define-global "sj" #'splitjoin)
   (key-chord-define-global ",." "<>\C-b")
   (key-chord-define-global "<>" #'sgml-close-tag)
   (key-chord-define-global "}|" #'pad-pipes)
