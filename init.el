@@ -11,9 +11,9 @@
 (eval-when-compile (require 'use-package))
 
 (use-package bind-key :ensure t)
-(use-package noflet :ensure t)
 (use-package s :ensure t)
 (use-package dash :ensure t :config (dash-enable-font-lock))
+(use-package noflet :ensure t)
 (use-package tool-bar :config (tool-bar-mode -1))
 (use-package scroll-bar :config (scroll-bar-mode -1))
 (use-package novice :config (setq disabled-command-function nil))
