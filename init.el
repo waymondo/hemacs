@@ -258,10 +258,13 @@
   :commands (er/mark-symbol)
   :bind* ("C-," . er/expand-region))
 
-(use-package avy
+(use-package ace-jump-mode
   :ensure t
-  :bind* ("C-;" . avi-goto-word-1)
-  :config (setq avi-background t))
+  :bind ("C-;" . ace-jump-mode)
+  :config
+  (ace-jump-mode-enable-mark-sync)
+  (setq ace-jump-mode-case-fold nil
+        ace-jump-mode-scope 'visible))
 
 (use-package ace-jump-zap :ensure t)
 
@@ -676,9 +679,9 @@
   (key-chord-define-global ":G" #'ag)
   (key-chord-define-global ";r" #'imenu-anywhere)
   (key-chord-define-global "jb" #'ace-jump-buffer-with-configuration)
-  (key-chord-define-global "jj" #'avi-goto-char)
-  (key-chord-define-global "jk" #'avi-goto-word-1)
-  (key-chord-define-global "jl" #'avi-goto-line)
+  (key-chord-define-global "jj" #'ace-jump-char-mode)
+  (key-chord-define-global "jk" #'ace-jump-word-mode)
+  (key-chord-define-global "jl" #'ace-jump-line-mode)
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
 
