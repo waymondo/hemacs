@@ -859,20 +859,13 @@
   :config (fringe-mode '(20 . 8)))
 
 (use-package highlight-tail
-  :disabled t
+  :ensure t
   :config
   (setq highlight-tail-steps 8
-        highlight-tail-timer 0.02)
-  (highlight-tail-mode))
+        highlight-tail-timer 0.05))
 
-(use-package theme-changer
+(use-package apropospriate-theme
   :ensure t
   :init
-  (use-package solar
-    :init
-    (setq calendar-location-name "New York, NY"
-          calendar-latitude 41.8
-          calendar-longitude -73.59))
-  :config
-  (use-package apropospriate-theme :ensure t)
-  (change-theme 'apropospriate-light 'apropospriate-dark))
+  (load-theme 'apropospriate-dark t)
+  (highlight-tail-reload))
