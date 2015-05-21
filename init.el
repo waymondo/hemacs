@@ -9,13 +9,11 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
-
+(use-package better-defaults :ensure t)
 (use-package bind-key :ensure t)
 (use-package s :ensure t)
 (use-package dash :ensure t :config (dash-enable-font-lock))
 (use-package noflet :ensure t)
-(use-package tool-bar :config (tool-bar-mode -1))
-(use-package scroll-bar :config (scroll-bar-mode -1))
 (use-package novice :config (setq disabled-command-function nil))
 (use-package advice :config (setq ad-redefinition-action 'accept))
 
@@ -34,8 +32,7 @@
 
 ;;;;; Source Variables
 
-(setq load-prefer-newer t
-      history-length 256
+(setq history-length 256
       history-delete-duplicates t
       scroll-margin 24
       scroll-conservatively 10000
@@ -51,8 +48,7 @@
       ns-right-option-modifier 'none
       create-lockfiles nil)
 
-(setq-default indent-tabs-mode nil
-              tab-width 2
+(setq-default tab-width 2
               cursor-type 'bar
               cursor-in-non-selected-windows nil
               bidi-display-reordering nil
@@ -178,10 +174,8 @@
 
 (use-package files
   :config
-  (setq require-final-newline t
-        confirm-kill-emacs nil
+  (setq confirm-kill-emacs nil
         confirm-nonexistent-file-or-buffer nil
-        backup-directory-alist `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t))))
 
 (use-package autorevert
@@ -196,10 +190,6 @@
   (setq savehist-additional-variables
         '(search-ring regexp-search-ring comint-input-ring)
         savehist-autosave-interval 30))
-
-(use-package saveplace
-  :config
-  (setq-default save-place t))
 
 (use-package recentf
   :config
@@ -310,7 +300,6 @@
     :config
     (ido-vertical-mode)
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
-  (ido-mode)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
@@ -570,9 +559,6 @@
 
 ;;;;; Version Control
 
-(use-package ediff
-  :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
-
 (use-package magit
   :load-path "lib/magit/"
   :bind ("s-m" . magit-status)
@@ -796,9 +782,6 @@
   :init (toggle-frame-fullscreen)
   :config (setq blink-cursor-blinks 0))
 
-(use-package uniquify
-  :config (setq uniquify-buffer-name-style 'forward))
-
 (use-package page-break-lines
   :ensure t
   :config (global-page-break-lines-mode))
@@ -850,7 +833,6 @@
 
 (use-package paren
   :config
-  (show-paren-mode)
   (setq show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
 
