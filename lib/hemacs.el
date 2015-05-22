@@ -120,7 +120,6 @@
          (new-name (read-file-name "New name: " nil nil nil old-name)))
     (cond
      ((not (and filename (file-exists-p filename))) (rename-buffer new-name))
-     ((vc-backend filename) (vc-rename-file filename new-name))
      (:else
       (rename-file filename new-name :force-overwrite)
       (set-visited-file-name new-name :no-query :along-with-file)))))
