@@ -45,6 +45,7 @@
         nxml-electric-slash
         org-self-insert-command
         pad-colon
+        pad-equals
         paredit-backward-kill-word
         paredit-forward-delete
         paredit-kill

@@ -271,12 +271,6 @@
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))))
 
-(use-package lispy
-  :disabled t
-  :init
-  (hook-modes lispy-modes
-    (lispy-mode)))
-
 (use-package evil-numbers :ensure t)
 (use-package multiple-cursors :ensure t)
 (use-package toggle-quotes :ensure t)
@@ -411,8 +405,8 @@
 
 (use-package swiper
   :ensure t
-  :bind (([remap isearch-forward] . swiper)
-         ("s-f" . swiper)))
+  :disabled t
+  :bind (([remap isearch-forward-regexp] . swiper)))
 
 (use-package smex
   :ensure t
@@ -639,7 +633,8 @@
   (key-chord-mode 1)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
-  (key-chord-define-global "sj" #'splitjoin)
+  (each-mode-map '(ruby-mode coffee-mode)
+    (key-chord-define mode-map "sj" #'splitjoin))
   (key-chord-define-global ",." "<>\C-b")
   (key-chord-define-global "<>" #'sgml-close-tag)
   (key-chord-define-global "}|" #'pad-pipes)
