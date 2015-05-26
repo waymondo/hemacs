@@ -223,6 +223,9 @@
   :ensure t
   :init (osx-trash-setup))
 
+(use-package saveplace
+  :init (save-place-mode))
+
 ;;;;; Editing
 
 (use-package delsel
