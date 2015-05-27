@@ -237,7 +237,7 @@
   (call-interactively 'delete-region))
 
 (defun ensure-space ()
-  (when (not (looking-back " "))
+  (unless (looking-back " ")
     (insert " ")))
 
 (def insert-arrow
@@ -249,10 +249,13 @@
   (insert "=> "))
 
 (def smart-css-comma
-  (insert ",")
-  (smart-newline)
-  (save-excursion
-    (insert " ")))
+  (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+    (insert ",")
+    (if (not (string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" current-line))
+        (ensure-space)
+      (smart-newline)
+      (save-excursion
+        (ensure-space)))))
 
 (def smart-css-colon
   (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
