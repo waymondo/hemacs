@@ -840,14 +840,6 @@
 (use-package faces
   :config (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
 
-(use-package writeroom-mode
-  :ensure t
-  :config
-  (global-writeroom-mode)
-  (setq writeroom-width 100
-        writeroom-global-effects '()
-        writeroom-major-modes (append writing-modes '(gfm-mode))))
-
 (use-package fringe
   :config (fringe-mode '(20 . 8)))
 
