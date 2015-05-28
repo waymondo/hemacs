@@ -496,13 +496,6 @@
 (defun package-install-never-select (orig-fun &rest args)
   (apply orig-fun (list (nth 0 args) t)))
 
-(def update-packages
-  (package-refresh-contents)
-  (save-window-excursion
-    (package-list-packages t)
-    (package-menu-mark-upgrades)
-    (package-menu-execute t)))
-
 (defun projectile-relevant-known-git-projects ()
   (mapcar
    (lambda (dir)

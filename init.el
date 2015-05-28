@@ -16,6 +16,12 @@
 (use-package noflet :ensure t)
 (use-package novice :config (setq disabled-command-function nil))
 (use-package advice :config (setq ad-redefinition-action 'accept))
+(use-package auto-package-update
+  :ensure t
+  :defer 2
+  :config
+  (setq auto-package-update-interval 1)
+  (auto-package-update-maybe))
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))

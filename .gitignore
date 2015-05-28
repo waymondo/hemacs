@@ -22,3 +22,4 @@ var
 /url/
 /async-bytecomp.log
 flycheck_*.el
+/.last-package-update-day
