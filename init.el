@@ -32,7 +32,7 @@
 (defvar ruby-modes
   '(ruby-mode slim-mode inf-ruby-mode))
 (defvar shellish-modes
-  '(comint-mode compilation-mode ielm-mode magit-process-mode))
+  '(comint-mode compilation-mode magit-process-mode))
 (defvar writing-modes
   '(org-mode markdown-mode fountain-mode))
 
