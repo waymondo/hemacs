@@ -55,9 +55,11 @@
         ruby-toggle-block
         ruby-tools-interpolate
         ruby-tools-to-single-quote-string
+        s-lower-camel-case-symbol-at-point
         sgml-close-tag
         shift-right
         slim-electric-backspace
+        smart-ruby-colon
         smart-tab
         sp--self-insert-command
         special-lispy-flow
