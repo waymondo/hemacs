@@ -167,7 +167,9 @@
           "^git push\\.*"
           "\\.*cordova run\\.*"
           "^redis-server"
-          "^pkill\\.*")))
+          "^pkill\\.*")
+        projector-command-modes-alist
+        '(("^heroku run console" . inf-ruby-mode))))
 
 ;;;;; Files & History
 
@@ -545,6 +547,7 @@
     :ensure t
     :init
     (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
+    (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)
     (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding))
   (use-package ruby-hash-syntax
     :ensure t
