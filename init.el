@@ -501,7 +501,7 @@
 
 (use-package coffee-mode
   :mode "\\.coffee\\.*"
-  :ensure coffee-mode
+  :ensure t
   :config
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header")
@@ -782,6 +782,9 @@
 (use-package frame
   :init (toggle-frame-fullscreen)
   :config (setq blink-cursor-blinks 0))
+
+(use-package prog-mode
+  :config (global-prettify-symbols-mode))
 
 (use-package page-break-lines
   :ensure t
