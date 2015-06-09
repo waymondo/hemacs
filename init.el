@@ -421,8 +421,7 @@
 
 (use-package swiper
   :ensure t
-  :disabled t
-  :bind (([remap isearch-forward-regexp] . swiper)))
+  :bind (([remap isearch-forward] . swiper)))
 
 (use-package smex
   :ensure t
@@ -551,9 +550,8 @@
       (turn-on-comint-history ".pry_history")))
   (use-package bundler
     :ensure t
-    :init
-    (each-mode-map ruby-modes
-      (bind-key "s-b" #'bundle-open mode-map)))
+    :config
+    (bind-key "G" #'bundle-open projectile-rails-command-map))
   (use-package chruby
     :ensure t
     :init
@@ -653,8 +651,6 @@
   (key-chord-mode 1)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil))
-  (each-mode-map '(ruby-mode coffee-mode)
-    (key-chord-define mode-map "sj" #'splitjoin))
   (key-chord-define-global ",." "<>\C-b")
   (key-chord-define-global "<>" #'sgml-close-tag)
   (key-chord-define-global "}|" #'pad-pipes)
