@@ -249,11 +249,17 @@
 (use-package delsel
   :init (delete-selection-mode))
 
-(use-package smartparens
-  :ensure t
+(use-package elec-pair
+  :init (electric-pair-mode)
   :config
-  (smartparens-global-mode)
-  (show-smartparens-global-mode))
+  (setq electric-pair-pairs '
+        ((?\( . ?\))
+         (?\" . ?\")
+         (?\{ . ?\})
+         (?\[ . ?\]))
+        electric-pair-text-pairs '
+        ((?\" . ?\")
+         (?\` . ?\`))))
 
 (use-package subword
   :init (global-subword-mode))
@@ -847,6 +853,11 @@
   :config
   (powerline-default-theme)
   (setq powerline-default-separator 'utf-8))
+
+(use-package paren
+  :config
+  (setq show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t))
 
 (use-package alert
   :ensure t
