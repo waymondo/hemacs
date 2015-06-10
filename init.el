@@ -417,9 +417,6 @@
   :bind-keymap ("s-p" . projectile-command-map)
   :bind ("s-t" . projectile-find-file)
   :config
-  (use-package projectile-rails
-    :ensure t
-    :config (add-hook 'projectile-mode-hook #'projectile-rails-on))
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
   (projectile-global-mode)
@@ -546,9 +543,16 @@
   (bind-key ":" #'smart-ruby-colon ruby-mode-map)
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
+  (use-package projectile-rails
+    :ensure t
+    :config
+    (add-hook 'projectile-mode-hook #'projectile-rails-on))
   (use-package ruby-tools :ensure t)
   (use-package rspec-mode :ensure t)
-  (use-package foreman-mode :ensure t)
+  (use-package foreman-mode
+    :ensure t
+    :config
+    (bind-key "F" #'foreman projectile-rails-command-map))
   (use-package inf-ruby
     :ensure t
     :init
