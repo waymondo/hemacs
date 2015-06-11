@@ -506,4 +506,11 @@
         (file-directory-p (concat project "/.git/"))))
     (projectile-relevant-known-projects))))
 
+(defun hippie-expand-ruby-symbols (orig-fun &rest args)
+  (if (eq major-mode 'ruby-mode)
+      (let ((table (make-syntax-table ruby-mode-syntax-table)))
+        (modify-syntax-entry ?: "." table)
+        (with-syntax-table table (apply orig-fun args)))
+    (apply orig-fun args)))
+
 (provide 'hemacs)

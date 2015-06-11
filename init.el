@@ -325,6 +325,7 @@
   :bind (([remap dabbrev-expand] . hippie-expand))
   :config
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
+  (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
   (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line) t))
