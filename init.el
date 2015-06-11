@@ -417,15 +417,23 @@
   :ensure t
   :bind-keymap ("s-p" . projectile-command-map)
   :bind ("s-t" . projectile-find-file)
-  :config
+  :init
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
+  :config
+  (use-package projectile-rails
+    :ensure t
+    :config
+    (add-hook 'projectile-mode-hook #'projectile-rails-on))
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
 
 (use-package swiper
   :ensure t
-  :bind (([remap isearch-forward] . swiper)))
+  :bind (([remap isearch-forward] . swiper))
+  :config
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy))))
 
 (use-package smex
   :ensure t
@@ -544,10 +552,6 @@
   (bind-key ":" #'smart-ruby-colon ruby-mode-map)
   (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
   (setenv "RIPPER_TAGS_EMACS" "1")
-  (use-package projectile-rails
-    :ensure t
-    :config
-    (add-hook 'projectile-mode-hook #'projectile-rails-on))
   (use-package ruby-tools :ensure t)
   (use-package rspec-mode :ensure t)
   (use-package foreman-mode
