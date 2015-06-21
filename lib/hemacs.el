@@ -513,4 +513,14 @@
         (with-syntax-table table (apply orig-fun args)))
     (apply orig-fun args)))
 
+(def upgrade-packages
+  (package-refresh-contents)
+  (save-window-excursion
+    (package-list-packages t)
+    (package-menu-mark-upgrades)
+    (condition-case nil
+        (package-menu-execute t)
+      (error
+       (package-menu-execute)))))
+
 (provide 'hemacs)
