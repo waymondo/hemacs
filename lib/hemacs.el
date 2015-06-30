@@ -271,11 +271,13 @@
   (insert ", "))
 
 (def pad-equals
-  (cond ((looking-back "=[[:space:]]")
-         (delete-char -1))
-        ((looking-back "[^#/]")
-         (ensure-space)))
-  (insert "= "))
+  (if (nth 3 (syntax-ppss))
+      (insert "=")
+    (cond ((looking-back "=[[:space:]]")
+           (delete-char -1))
+          ((looking-back "[^#/]")
+           (ensure-space)))
+    (insert "= ")))
 
 (def pad-pipes
   (ensure-space)
