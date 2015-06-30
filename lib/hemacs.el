@@ -320,8 +320,7 @@
 
 (defun hemacs-writing-hook ()
   (visual-line-mode)
-  (flyspell-mode)
-  (key-chord-define-local (kbd "SPC SPC") (λ (insert ". "))))
+  (flyspell-mode))
 
 (defun hemacs-save-hook ()
   (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
@@ -384,12 +383,6 @@
                 (or (-any? 'derived-mode-p progish-modes))
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
-
-(defun eval-after-init (form)
-  (let ((func (list 'lambda nil form)))
-    (add-hook 'after-init-hook func)
-    (when after-init-time
-      (eval form))))
 
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)
