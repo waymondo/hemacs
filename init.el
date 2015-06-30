@@ -882,8 +882,11 @@
   (setq highlight-tail-steps 8
         highlight-tail-timer 0.05))
 
+(use-package custom
+  :init
+  (advice-add 'load-theme :after #'refresh-themed-packages-when-idle))
+
 (use-package apropospriate-theme
   :ensure t
   :init
-  (load-theme 'apropospriate-dark t)
-  (highlight-tail-reload))
+  (load-theme 'apropospriate-dark t))
