@@ -444,10 +444,10 @@
    (mapcar #'substring-no-properties kill-ring))
   (company-filter-candidates))
 
-(def recentf-ido-find-file-other-window
-  (let ((file (ido-completing-read "Choose recent file: "
-                                   (-map 'abbreviate-file-name recentf-list)
-                                   nil t)))
+(def recentf-find-file-other-window
+  (let ((file (completing-read "Choose recent file: "
+                               (-map 'abbreviate-file-name recentf-list)
+                               nil t)))
     (when file
       (find-file-other-window file))))
 
