@@ -581,7 +581,7 @@
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package magit
-  :load-path "lib/magit/"
+  :ensure t
   :bind ("s-m" . magit-status)
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)

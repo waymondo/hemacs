@@ -4,7 +4,3 @@
 [submodule "lib/powerline"]
 	path = lib/powerline
 	url = https://github.com/unic0rn/powerline.git
-[submodule "lib/magit"]
-	path = lib/magit
-	url = https://github.com/magit/magit.git
-	branch = next
