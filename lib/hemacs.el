@@ -131,12 +131,9 @@
 
 (def delete-file-and-buffer
   (let ((filename (buffer-file-name)))
-    (cond
-     ((not filename) (kill-buffer))
-     ((vc-backend filename) (vc-delete-file filename))
-     (:else
-      (delete-file filename)
-      (kill-buffer)))))
+    (when filename
+      (system-move-file-to-trash filename))
+    (kill-buffer)))
 
 (def hemacs-delete
   (cond
