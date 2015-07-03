@@ -58,6 +58,10 @@
               bidi-display-reordering nil
               truncate-lines t)
 
+(set-frame-font "Meslo LG L DZ for Powerline-15")
+(when (eq system-type 'darwin)
+  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+
 ;;;;; Unprovided Internal Packages
 
 (defalias 'yes-or-no-p #'y-or-n-p)
@@ -883,9 +887,6 @@
 (use-package auto-dim-other-buffers
   :ensure t
   :config (auto-dim-other-buffers-mode))
-
-(use-package faces
-  :config (set-face-attribute 'default nil :height 150 :font "Meslo LG L DZ for Powerline"))
 
 (use-package fringe
   :config (fringe-mode '(20 . 8)))
