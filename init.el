@@ -370,9 +370,7 @@
   :config
   (global-smart-tab-mode)
   (setq smart-tab-using-hippie-expand t
-        smart-tab-completion-functions-alist '())
-  (--each shellish-modes
-    (push it smart-tab-disabled-major-modes)))
+        smart-tab-completion-functions-alist '()))
 
 ;;;;; Navigation & Search
 
