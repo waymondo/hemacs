@@ -580,6 +580,7 @@
       (bind-key "C-c C-:" #'ruby-toggle-hash-syntax mode-map))))
 
 (use-package yaml-mode :ensure t)
+(use-package restclient :ensure t)
 
 ;;;;; Version Control
 
