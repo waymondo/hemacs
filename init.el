@@ -136,6 +136,10 @@
         compilation-always-kill t)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
+(use-package warnings
+  :config
+  (setq warning-suppress-types '((undo discard-info))))
+
 (use-package shell
   :config
   (setq async-shell-command-buffer 'new-buffer
