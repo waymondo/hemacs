@@ -873,6 +873,7 @@
 
 (use-package paren
   :config
+  (show-paren-mode)
   (setq show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
 
