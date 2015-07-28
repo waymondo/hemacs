@@ -656,9 +656,6 @@
 
 ;;;;; Bindings & Chords
 
-(use-package free-keys :ensure t)
-(use-package helm-descbinds :ensure t)
-
 (use-package key-chord
   :ensure t
   :config
@@ -696,14 +693,12 @@
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
 
-(use-package guide-key
+(use-package free-keys :ensure t)
+
+(use-package which-key
   :ensure t
   :config
-  (guide-key-mode)
-  (setq guide-key/guide-key-sequence
-        '("C-x" "C-c" "C-c" "C-h" "s-h" "s-g" "C-." "s-;" "s-p")
-        guide-key/recursive-key-sequence-flag t
-        guide-key/popup-window-position 'bottom))
+  (which-key-mode))
 
 (bind-keys
  ("C-z"        . ace-jump-zap-up-to-char)
@@ -739,7 +734,6 @@
  ("k" . describe-personal-keybindings)
  ("y" . company-kill-ring)
  ("K" . free-keys)
- ("b" . helm-descbinds)
  ("f" . what-face)
  ("m" . discover-my-major)
  ("g" . google)
