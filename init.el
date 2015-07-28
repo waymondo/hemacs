@@ -165,13 +165,11 @@
           ("C-x m"   . projector-switch-to-or-create-project-shell))
   :config
   (setq projector-always-background-regex
-        '("^mysql.server\\.*"
-          "^powder restart\\.*"
+        '("^powder restart\\.*"
           "^heroku restart\\.*"
           "^spring stop"
           "^gulp publish\\.*"
           "^git push\\.*"
-          "\\.*cordova run\\.*"
           "^redis-server"
           "^pkill\\.*")
         projector-command-modes-alist
