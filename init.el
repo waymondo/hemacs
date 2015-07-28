@@ -126,6 +126,7 @@
                   comint-truncate-buffer
                   comint-watch-for-password-prompt))
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
+  (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (add-λ 'kill-emacs-hook
     (--each (buffer-list)
       (with-current-buffer it (comint-write-input-ring)))))

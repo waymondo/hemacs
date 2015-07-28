@@ -385,6 +385,9 @@
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))
 
+(defun improve-npm-process-output (output)
+  (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
+
 (defun show-image-dimensions-in-mode-line ()
   (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
          (width (car image-dimensions))
