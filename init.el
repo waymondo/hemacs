@@ -594,6 +594,7 @@
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (setq git-commit-summary-max-length 72
         magit-completing-read-function 'magit-ido-completing-read
+        magit-push-always-verify nil
         magit-log-auto-more t
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
         magit-no-confirm t))
@@ -776,6 +777,7 @@
  ("c" . github-browse-commit)
  ("i" . github-browse-new-issue)
  ("r" . github-browse-pull-request)
+ ("l" . magit-clone)
  ("C" . helm-open-github-from-commit)
  ("I" . helm-open-github-from-issues)
  ("R" . helm-open-github-from-pull-requests)
