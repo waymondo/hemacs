@@ -861,13 +861,6 @@
   (hook-modes progish-modes
     (rainbow-delimiters-mode)))
 
-(use-package highlight-blocks
-  :ensure t
-  :config
-  (setq highlight-blocks-max-face-count 3)
-  (hook-modes progish-modes
-    (highlight-blocks-mode)))
-
 (use-package powerline
   :load-path "lib/powerline/"
   :config
