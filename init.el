@@ -396,13 +396,10 @@
   (global-anzu-mode))
 
 (use-package imenu
-  :bind ("s-r" . imenu)
   :init
-  (use-package imenu-anywhere
-    :ensure t
-    :bind ("s-R" . imenu-anywhere))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
-  (setq imenu-auto-rescan t))
+  (setq imenu-auto-rescan t)
+  (use-package imenu-anywhere :ensure t))
 
 (use-package ace-jump-buffer
   :ensure t
