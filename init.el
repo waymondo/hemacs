@@ -10,15 +10,6 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 
-(use-package bind-key :ensure t)
-(use-package s :ensure t)
-(use-package dash :ensure t :config (dash-enable-font-lock))
-(use-package noflet :ensure t)
-(use-package tool-bar :config (tool-bar-mode -1))
-(use-package scroll-bar :config (scroll-bar-mode -1))
-(use-package novice :config (setq disabled-command-function nil))
-(use-package advice :config (setq ad-redefinition-action 'accept))
-
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
 (defvar progish-modes
@@ -31,6 +22,24 @@
   '(comint-mode compilation-mode magit-process-mode))
 (defvar writing-modes
   '(org-mode markdown-mode fountain-mode))
+
+(use-package bind-key :ensure t)
+(use-package s :ensure t)
+(use-package noflet :ensure t)
+(use-package dash
+  :ensure t
+  :config (dash-enable-font-lock))
+(use-package tool-bar
+  :config (tool-bar-mode -1))
+(use-package scroll-bar
+  :config (scroll-bar-mode -1))
+(use-package novice
+  :config (setq disabled-command-function nil))
+(use-package advice
+  :config (setq ad-redefinition-action 'accept))
+(use-package cus-edit
+  :init (setq custom-file (locate-user-emacs-file "custom.el"))
+  :config (load custom-file 'no-error 'no-message))
 
 ;;;;; Source Variables
 
@@ -105,8 +114,7 @@
   (advice-add 'kill-line :around #'kill-line-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'find-file :before #'find-file-maybe-make-directories)
-  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query)
-  (advice-add 'package-install :around #'package-install-never-select))
+  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
 
 ;;;;; Processes, Shells, Compilation
 

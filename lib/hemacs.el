@@ -488,9 +488,6 @@
       (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
     (apply orig-fun (list process event))))
 
-(defun package-install-never-select (orig-fun &rest args)
-  (apply orig-fun (list (nth 0 args) t)))
-
 (defun projectile-relevant-known-git-projects ()
   (mapcar
    (lambda (dir)

@@ -9,9 +9,9 @@ history
 recentf
 saveplace
 bookmarks
+autobookmarks
 var
 *.smex-items
-/.cask
 /savehist
 /completions
 /projectile-bookmarks.eld
@@ -24,3 +24,4 @@ var
 flycheck_*.el
 /.last-package-update-day
 /emms
+custom.el
