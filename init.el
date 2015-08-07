@@ -21,7 +21,7 @@
 (defvar shellish-modes
   '(comint-mode compilation-mode magit-process-mode))
 (defvar writing-modes
-  '(org-mode markdown-mode fountain-mode))
+  '(org-mode markdown-mode fountain-mode git-commit-mode))
 
 (use-package bind-key :ensure t)
 (use-package s :ensure t)
@@ -368,6 +368,11 @@
   (use-package company-dabbrev
     :config
     (setq company-dabbrev-minimum-length 2))
+  (use-package company-emoji
+    :ensure t
+    :config
+    (hook-modes writing-modes
+      (company-emoji-init)))
   (use-package company-dabbrev-code
     :config
     (setq company-dabbrev-code-modes t
