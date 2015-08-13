@@ -19,6 +19,7 @@
         electric-pair-backward-delete-char
         electric-pair-backward-delete-char-untabify
         eol-then-newline
+        eval-expression
         evil-emacs-state
         evil-exit-emacs-state
         evil-force-normal-state
@@ -102,4 +103,5 @@
         toggle-split-window
         undefined
         wgrep-change-to-wgrep-mode
+        wgrep-finish-edit
         ))
