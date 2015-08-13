@@ -520,7 +520,8 @@
   :init
   (use-package less-css-mode
     :ensure t
-    :mode "\\.less\\.erb\\'")
+    :mode "\\.less\\.erb\\'"
+    :init (setq less-css-lessc-options '("--no-color" "-x")))
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
   (bind-key ":" #'smart-css-colon css-mode-map)
