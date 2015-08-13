@@ -245,15 +245,6 @@
   (ensure-space)
   (insert "=> "))
 
-(def smart-css-comma
-  (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-    (insert ",")
-    (if (not (string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" current-line))
-        (ensure-space)
-      (smart-newline)
-      (save-excursion
-        (ensure-space)))))
-
 (def smart-css-colon
   (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
     (cond ((string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" current-line)
@@ -265,7 +256,8 @@
            (backward-char)))))
 
 (def pad-comma
-  (insert ", "))
+  (insert ",")
+  (ensure-space))
 
 (def pad-equals
   (if (nth 3 (syntax-ppss))

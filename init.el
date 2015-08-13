@@ -524,7 +524,7 @@
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
   (bind-key ":" #'smart-css-colon css-mode-map)
-  (bind-key "," #'smart-css-comma css-mode-map)
+  (bind-key "," #'pad-comma css-mode-map)
   (bind-key "{" #'open-brackets-newline-and-indent css-mode-map)
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
@@ -535,7 +535,9 @@
          ("\\.es6$"         . js-mode))
   :config
   (make-beautify-defun "js")
-  (setq-default js-indent-level 2))
+  (setq-default js-indent-level 2)
+  (bind-key "," #'pad-comma js-mode-map)
+  (bind-key "=" #'pad-equals js-mode-map))
 
 (use-package coffee-mode
   :mode "\\.coffee\\.*"
