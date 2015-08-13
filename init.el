@@ -225,14 +225,21 @@
         recentf-max-saved-items 1000))
 
 (use-package dired
-  :init (use-package dired-x)
-  :config
+  :init
+  (use-package dired-x)
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
         dired-dwim-target t
         dired-recursive-deletes 'always
         dired-recursive-copies 'always
         dired-auto-revert-buffer t))
+
+(use-package ranger
+  :ensure t
+  :bind ("s-\\" . ranger)
+  :init
+  (setq ranger-cleanup-on-disable t
+        ranger-show-dotfiles t))
 
 (use-package undo-tree
   :ensure t
@@ -727,7 +734,6 @@
  ("s-]"        . shift-right)
  ("s-u"        . duplicate-dwim)
  ("s-k"        . kill-whole-line)
- ("s-\\"       . dired-jump-other-window)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
  ("s-`"        . ort/goto-todos)
