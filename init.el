@@ -662,9 +662,7 @@
 
 (use-package discover
   :ensure t
-  :config
-  (global-discover-mode)
-  (use-package discover-my-major :ensure t))
+  :config (global-discover-mode))
 
 (use-package flycheck
   :ensure t
