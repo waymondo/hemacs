@@ -264,9 +264,10 @@
       (insert "=")
     (cond ((looking-back "=[[:space:]]")
            (delete-char -1))
-          ((looking-back "[^#/]")
+          ((looking-back "[^#/|]")
            (ensure-space)))
-    (insert "= ")))
+    (insert "=")
+    (ensure-space)))
 
 (def pad-pipes
   (ensure-space)
