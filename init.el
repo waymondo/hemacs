@@ -539,15 +539,18 @@
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
 
-(use-package js
-  :mode (("\\.bowerrc$"     . js-mode)
-         ("\\.json_schema$" . js-mode)
-         ("\\.es6$"         . js-mode))
+(use-package js2-mode
+  :ensure t
+  :mode (("\\.js\\'"        . js2-mode)
+         ("\\.bowerrc$"     . js2-mode)
+         ("\\.json_schema$" . js2-mode)
+         ("\\.es6$"         . js2-mode))
+  :interpreter (("node" . js2-mode))
   :config
   (make-beautify-defun "js")
   (setq-default js-indent-level 2)
-  (bind-key "," #'pad-comma js-mode-map)
-  (bind-key "=" #'pad-equals js-mode-map))
+  (bind-key "," #'pad-comma js2-mode-map)
+  (bind-key "=" #'pad-equals js2-mode-map))
 
 (use-package coffee-mode
   :mode "\\.coffee\\.*"
