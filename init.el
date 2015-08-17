@@ -1,46 +1,5 @@
 ;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
 
-;;;;; Bootstrap
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile (require 'use-package))
-
-(defvar indent-sensitive-modes
-  '(coffee-mode slim-mode))
-(defvar progish-modes
-  '(prog-mode css-mode sgml-mode))
-(defvar lispy-modes
-  '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
-(defvar ruby-modes
-  '(ruby-mode slim-mode inf-ruby-mode))
-(defvar shellish-modes
-  '(comint-mode compilation-mode magit-process-mode))
-(defvar writing-modes
-  '(org-mode markdown-mode fountain-mode git-commit-mode))
-
-(use-package bind-key :ensure t)
-(use-package s :ensure t)
-(use-package noflet :ensure t)
-(use-package dash
-  :ensure t
-  :config (dash-enable-font-lock))
-(use-package tool-bar
-  :config (tool-bar-mode -1))
-(use-package scroll-bar
-  :config (scroll-bar-mode -1))
-(use-package novice
-  :config (setq disabled-command-function nil))
-(use-package advice
-  :config (setq ad-redefinition-action 'accept))
-(use-package cus-edit
-  :init (setq custom-file (locate-user-emacs-file "custom.el"))
-  :config (load custom-file 'no-error 'no-message))
-
 ;;;;; Source Variables
 
 (setq load-prefer-newer t
@@ -67,16 +26,65 @@
               bidi-display-reordering nil
               truncate-lines t)
 
-(set-frame-font "Meslo LG L DZ for Powerline-15")
-(when (eq system-type 'darwin)
-  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
-
-;;;;; Unprovided Internal Packages
-
 (defalias 'yes-or-no-p #'y-or-n-p)
-(setq inhibit-startup-screen t
-      initial-scratch-message nil
-      inhibit-startup-echo-area-message "")
+
+;;;;; Personal Variables
+
+(defvar indent-sensitive-modes
+  '(coffee-mode slim-mode))
+(defvar progish-modes
+  '(prog-mode css-mode sgml-mode))
+(defvar lispy-modes
+  '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
+(defvar ruby-modes
+  '(ruby-mode slim-mode inf-ruby-mode))
+(defvar shellish-modes
+  '(comint-mode compilation-mode magit-process-mode))
+(defvar writing-modes
+  '(org-mode markdown-mode fountain-mode git-commit-mode))
+
+;;;;; Bootstrap
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile (require 'use-package))
+
+(use-package bind-key :ensure t)
+(use-package s :ensure t)
+(use-package noflet :ensure t)
+
+(use-package dash
+  :ensure t
+  :config (dash-enable-font-lock))
+
+(use-package tool-bar
+  :config (tool-bar-mode -1))
+
+(use-package scroll-bar
+  :config (scroll-bar-mode -1))
+
+(use-package novice
+  :config (setq disabled-command-function nil))
+
+(use-package advice
+  :config (setq ad-redefinition-action 'accept))
+
+(use-package cus-edit
+  :init (setq custom-file (locate-user-emacs-file "custom.el"))
+  :config (load custom-file 'no-error 'no-message))
+
+(use-package "startup"
+  :config
+  (setq inhibit-startup-screen t
+        initial-scratch-message nil
+        inhibit-startup-echo-area-message ""))
+
+(use-package "frame"
+  :init (set-frame-font "Meslo LG L DZ for Powerline-15"))
 
 ;;;;; Load Personal Hemacs Library
 
