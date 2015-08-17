@@ -873,7 +873,8 @@
   (hook-modes progish-modes
     (highlight-symbol-mode)
     (highlight-symbol-nav-mode))
-  (setq highlight-symbol-idle-delay 0))
+  (setq highlight-symbol-idle-delay 0
+        highlight-symbol-highlight-single-occurrence nil))
 
 (use-package volatile-highlights
   :ensure t
