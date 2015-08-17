@@ -380,6 +380,7 @@
         company-continue-commands
         (append company-continue-commands '(comint-previous-matching-input-from-input
                                             comint-next-matching-input-from-input)))
+  (bind-key "<tab>" #'company-complete-common-or-cycle company-active-map)
   (use-package company-dabbrev
     :config
     (setq company-dabbrev-minimum-length 2))
