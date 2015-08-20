@@ -83,9 +83,6 @@
         initial-scratch-message nil
         inhibit-startup-echo-area-message ""))
 
-(use-package "frame"
-  :init (set-frame-font "Meslo LG L DZ for Powerline-15"))
-
 ;;;;; Load Personal Hemacs Library
 
 (use-package hemacs
@@ -839,8 +836,11 @@
   :config (setq ns-pop-up-frames nil))
 
 (use-package frame
-  :init (toggle-frame-fullscreen)
-  :config (setq blink-cursor-blinks 0))
+  :config
+  (toggle-frame-fullscreen)
+  (setq blink-cursor-blinks 0)
+  (when (member "Meslo LG L DZ for Powerline" (font-family-list))
+    (set-frame-font "Meslo LG L DZ for Powerline-15")))
 
 (use-package prog-mode
   :config (global-prettify-symbols-mode))
