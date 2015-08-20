@@ -539,6 +539,11 @@
   (setq css-indent-offset 2)
   (make-beautify-defun "css"))
 
+(use-package js
+  :config
+  (make-beautify-defun "js")
+  (setq-default js-indent-level 2))
+
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'"        . js2-mode)
@@ -547,8 +552,9 @@
          ("\\.es6$"         . js2-mode))
   :interpreter (("node" . js2-mode))
   :config
-  (make-beautify-defun "js")
-  (setq-default js-indent-level 2)
+  (setq js2-strict-missing-semi-warning nil)
+  (setq-default js2-global-externs
+                '("clearTimeout" "setTimeout" "module" "require" "angular" "Ember"))
   (bind-key "," #'pad-comma js2-mode-map)
   (bind-key "=" #'pad-equals js2-mode-map))
 
@@ -683,7 +689,9 @@
   :ensure t
   :config
   (setq flycheck-checkers (--remove (eq it 'emacs-lisp-checkdoc) flycheck-checkers))
-  (setq-default flycheck-html-tidy-executable "tidy5"
+  (setq-default flycheck-disabled-checkers
+                (append flycheck-disabled-checkers '(javascript-jshint emacs-lisp-checkdoc))
+                flycheck-html-tidy-executable "tidy5"
                 flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 

@@ -12,7 +12,7 @@ curl -L https://raw.githubusercontent.com/waymondo/hemacs/master/install.sh | sh
 
 ```
 brew install git terminal-notifier node the_silver_searcher bash-completion coreutils tidy-html5 trash
-npm install -g js-beautifier marked less coffee-script js2coffee
+npm install -g js-beautifier marked less coffee-script js2coffee eslint babel-eslint
 gem install gem-ripper-tags rubocop ruby-lint
 ```
 
