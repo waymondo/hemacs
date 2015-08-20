@@ -395,7 +395,7 @@
           company-dabbrev-code-everywhere t))
   (use-package readline-complete
     :ensure t
-    :config (push 'company-readline company-backends)))
+    :config (push #'company-readline company-backends)))
 
 (use-package smart-tab
   :ensure t
