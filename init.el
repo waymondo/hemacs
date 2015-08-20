@@ -552,7 +552,8 @@
          ("\\.es6$"         . js2-mode))
   :interpreter (("node" . js2-mode))
   :config
-  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-strict-trailing-comma-warning nil
+        js2-strict-missing-semi-warning nil)
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "angular" "Ember"))
   (bind-key "," #'pad-comma js2-mode-map)
@@ -688,7 +689,6 @@
 (use-package flycheck
   :ensure t
   :config
-  (setq flycheck-checkers (--remove (eq it 'emacs-lisp-checkdoc) flycheck-checkers))
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers '(javascript-jshint emacs-lisp-checkdoc))
                 flycheck-html-tidy-executable "tidy5"

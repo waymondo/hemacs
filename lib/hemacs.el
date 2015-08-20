@@ -295,15 +295,13 @@
   (insert "- [ ] "))
 
 (def log-statement
-  (cond ((member major-mode '(js-mode coffee-mode))
+  (cond ((member major-mode '(js-mode js2-mode))
          (insert "console.log()")
          (backward-char))
-        ((member major-mode lispy-modes)
-         (insert "alert "))
+        ((eq major-mode 'coffee-mode)
+         (insert "console.log "))
         ((eq major-mode 'ruby-mode)
-         (insert "Rails.logger.info "))
-        (:else
-         (insert "log"))))
+         (insert "ap "))))
 
 (def find-user-init-file-other-window
   (find-file-other-window user-init-file))
