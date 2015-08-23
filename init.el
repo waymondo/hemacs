@@ -567,6 +567,9 @@
   (bind-key "<C-return>" #'coffee-smarter-newline coffee-mode-map)
   (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
 
+(use-package ember-mode
+  :ensure t)
+
 (use-package slim-mode
   :ensure t
   :config
