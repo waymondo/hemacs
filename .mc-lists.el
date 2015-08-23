@@ -31,6 +31,7 @@
         hungry-delete-backward
         hungry-delete-forward
         indent-for-tab-command
+        indent-region
         insert-arrow
         insert-fat-arrow
         jump-char-forward
@@ -58,6 +59,7 @@
         ruby-tools-to-single-quote-string
         s-lower-camel-case-symbol-at-point
         sgml-close-tag
+        sh-assignment
         shift-right
         slim-electric-backspace
         smart-ruby-colon

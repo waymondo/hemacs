@@ -25,3 +25,4 @@ flycheck_*.el
 /.last-package-update-day
 /emms
 custom.el
+/abbrev_defs
