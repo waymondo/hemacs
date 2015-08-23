@@ -496,6 +496,20 @@
         (with-syntax-table table (apply orig-fun args)))
     (apply orig-fun args)))
 
+(defun js2-log-arguments ()
+  (interactive)
+  (save-excursion
+    (when (and (beginning-of-defun) (search-forward "function") (search-forward "("))
+      (let ((args (buffer-substring-no-properties
+                   (point)
+                   (progn (backward-char 1) (forward-sexp 1) (1- (point))))))
+        (search-forward "{")
+        (insert "\nconsole.log({"
+                (mapconcat (lambda (arg) (format "%s: %s" (s-trim arg) (s-trim arg)))
+                           (split-string args ", " t) ", ")
+                "});")
+        (call-interactively 'indent-for-tab-command)))))
+
 (def upgrade-packages
   (package-refresh-contents)
   (save-window-excursion

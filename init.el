@@ -551,10 +551,12 @@
   :config
   (setq js2-strict-trailing-comma-warning nil
         js2-strict-missing-semi-warning nil)
+  (bind-keys :map js2-mode-map
+             (","     . pad-comma)
+             ("="     . pad-equals)
+             ("C-c l" . js2-log-arguments))
   (setq-default js2-global-externs
-                '("clearTimeout" "setTimeout" "module" "require" "angular" "Ember"))
-  (bind-key "," #'pad-comma js2-mode-map)
-  (bind-key "=" #'pad-equals js2-mode-map))
+                '("clearTimeout" "setTimeout" "module" "require" "angular" "Ember")))
 
 (use-package coffee-mode
   :mode "\\.coffee\\.*"
