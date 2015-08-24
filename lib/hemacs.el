@@ -88,8 +88,8 @@
   (declare (indent 1) (debug t))
   `(progn
      (add-λ 'post-command-hook
-       (when (member this-command ,commands)
-         (funcall ,func)))))
+       (when (member this-original-command ,commands)
+         (run-at-time nil nil ,func)))))
 
 (def browse-file-directory
   (if default-directory
