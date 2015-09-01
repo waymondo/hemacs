@@ -837,8 +837,8 @@
 
 (use-package frame
   :config
-  (toggle-frame-fullscreen)
   (setq blink-cursor-blinks 0)
+  (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
   (when (member "Meslo LG L DZ for Powerline" (font-family-list))
     (set-frame-font "Meslo LG L DZ for Powerline-15")))
 
