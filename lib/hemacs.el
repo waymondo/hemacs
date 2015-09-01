@@ -9,9 +9,11 @@
 
 (defmacro λ (&rest body)
   (declare (indent 1) (debug t))
-  `(lambda ()
-     (interactive)
-     ,@body))
+  (let ((sym (make-symbol "λ-sym")))
+    `(progn (defvar ,sym nil)
+            (lambda ()
+              (interactive)
+              (when (and (boundp ',sym) (makunbound ',sym)) ,@body)))))
 
 (defmacro add-λ (hook &rest body)
   (declare (indent 1) (debug t))
