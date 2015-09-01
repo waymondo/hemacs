@@ -245,6 +245,11 @@
   (ensure-space)
   (insert "=> "))
 
+(def smart-ruby-colon
+  (if (looking-back "[[:word:]]")
+      (insert ": ")
+    (insert ":")))
+
 (def smart-css-colon
   (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
     (cond ((string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" current-line)
@@ -254,6 +259,12 @@
           (:else
            (insert ": ;")
            (backward-char)))))
+
+(def smart-js-colon
+  (insert ":")
+  (ensure-space)
+  (insert ",")
+  (backward-char))
 
 (def pad-comma
   (insert ",")
@@ -273,11 +284,6 @@
   (ensure-space)
   (insert "||")
   (backward-char))
-
-(def smart-ruby-colon
-  (if (looking-back "[[:word:]]")
-      (insert ": ")
-    (insert ":")))
 
 (def open-brackets-newline-and-indent
   (ensure-space)

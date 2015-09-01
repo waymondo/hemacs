@@ -495,9 +495,9 @@
   :config
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
-  (bind-key "," #'pad-comma html-mode-map)
-  (bind-key "<C-return>" #'html-smarter-newline html-mode-map)
-  (make-beautify-defun "html"))
+  (bind-keys :map html-mode-map
+             ("," . pad-comma)
+             ("<C-return>" html-smarter-newline)))
 
 (use-package web-mode
   :ensure t
@@ -530,11 +530,12 @@
     :init (setq less-css-lessc-options '("--no-color" "-x")))
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
-  (bind-key ":" #'smart-css-colon css-mode-map)
-  (bind-key "," #'pad-comma css-mode-map)
-  (bind-key "{" #'open-brackets-newline-and-indent css-mode-map)
   (setq css-indent-offset 2)
-  (make-beautify-defun "css"))
+  (make-beautify-defun "css")
+  (bind-keys :map css-mode-map
+             (":" . smart-css-colon)
+             ("," . pad-comma)
+             ("{" . open-brackets-newline-and-indent)))
 
 (use-package js
   :config
@@ -554,6 +555,7 @@
   (bind-keys :map js2-mode-map
              (","     . pad-comma)
              ("="     . pad-equals)
+             (":"     . smart-js-colon)
              ("C-c l" . js2-log-arguments))
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "angular" "Ember")))
@@ -564,10 +566,11 @@
   :config
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header")
-  (bind-key "," #'pad-comma coffee-mode-map)
-  (bind-key "=" #'pad-equals coffee-mode-map)
-  (bind-key "<C-return>" #'coffee-smarter-newline coffee-mode-map)
-  (bind-key "C-c C-c" #'coffee-compile-region coffee-mode-map))
+  (bind-keys :map coffee-mode-map
+             (","          . pad-comma)
+             ("="          . pad-equals)
+             ("<C-return>" . coffee-smarter-newline)
+             ("C-c C-c"    . coffee-compile-region)))
 
 (use-package ember-mode
   :ensure t)
@@ -576,21 +579,23 @@
   :ensure t
   :config
   (setq slim-backspace-backdents-nesting nil)
-  (bind-key "," #'pad-comma slim-mode-map)
-  (bind-key ":" #'smart-ruby-colon slim-mode-map)
-  (bind-key "<C-return>" #'slim-newline-dwim slim-mode-map)
-  (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
+  (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))
+  (bind-keys :map slim-mode-map
+             (","          . pad-comma)
+             (":"          . smart-ruby-colon)
+             ("<C-return>" . slim-newline-dwim)))
 
 (use-package ruby-mode
   :mode
-  (("Appraisals$" . ruby-mode)
-   ("\\.rabl\\'" . ruby-mode)
+  (("Appraisals$"   . ruby-mode)
+   ("\\.rabl\\'"    . ruby-mode)
    ("\\.builder\\'" . ruby-mode))
   :config
-  (bind-key "," #'pad-comma ruby-mode-map)
-  (bind-key "=" #'pad-equals ruby-mode-map)
-  (bind-key ":" #'smart-ruby-colon ruby-mode-map)
-  (bind-key "<C-return>" #'ruby-newline-dwim ruby-mode-map)
+  (bind-keys :map ruby-mode-map
+             (","          . pad-comma)
+             ("="          . pad-equals)
+             (":"          . smart-ruby-colon)
+             ("<C-return>" . ruby-newline-dwim))
   (setenv "RIPPER_TAGS_EMACS" "1")
   (use-package ruby-tools :ensure t)
   (use-package rspec-mode :ensure t)
@@ -670,7 +675,6 @@
 (use-package gitattributes-mode :ensure t)
 (use-package gitconfig-mode :ensure t)
 (use-package gitignore-mode :ensure t)
-;; (use-package helm-open-github :ensure t)
 
 (use-package dash-at-point
   :load-path "lib/dash-at-point/")
@@ -713,6 +717,7 @@
   (key-chord-define-global "fp" #'ffap)
   (key-chord-define-global ";a" #'ace-jump-buffer)
   (key-chord-define-global ":A" #'ace-jump-buffer-other-window)
+  (key-chord-define-global ";x" #'ace-jump-shellish-buffers)
   (key-chord-define-global ";s" #'switch-to-buffer)
   (key-chord-define-global ":S" #'recentf-find-file-other-window)
   (key-chord-define-global ";w" #'toggle-split-window)
@@ -724,7 +729,6 @@
   (key-chord-define-global ";g" #'ag-project)
   (key-chord-define-global ":G" #'ag)
   (key-chord-define-global ";r" #'imenu-anywhere)
-  (key-chord-define-global "jb" #'ace-jump-buffer-with-configuration)
   (key-chord-define-global "jj" #'ace-jump-char-mode)
   (key-chord-define-global "jk" #'ace-jump-word-mode)
   (key-chord-define-global "jl" #'ace-jump-line-mode)
@@ -812,9 +816,6 @@
  ("i" . github-browse-new-issue)
  ("r" . github-browse-pull-request)
  ("l" . magit-clone)
- ("C" . helm-open-github-from-commit)
- ("I" . helm-open-github-from-issues)
- ("R" . helm-open-github-from-pull-requests)
  ("g" . gist-region-or-buffer-private)
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
