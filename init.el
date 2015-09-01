@@ -531,7 +531,6 @@
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
   (setq css-indent-offset 2)
-  (make-beautify-defun "css")
   (bind-keys :map css-mode-map
              (":" . smart-css-colon)
              ("," . pad-comma)
@@ -539,7 +538,6 @@
 
 (use-package js
   :config
-  (make-beautify-defun "js")
   (setq-default js-indent-level 2))
 
 (use-package js2-mode
@@ -574,6 +572,16 @@
 
 (use-package ember-mode
   :ensure t)
+
+(use-package web-beautify
+  :ensure t
+  :config
+  (eval-after-load 'js2-mode
+    '(bind-key "s-b" #'web-beautify-js js2-mode-map))
+  (eval-after-load 'sgml-mode
+    '(bind-key "s-b" #'web-beautify-html html-mode-map))
+  (eval-after-load 'css-mode
+    '(bind-key "s-b" #'web-beautify-css css-mode-map)))
 
 (use-package slim-mode
   :ensure t

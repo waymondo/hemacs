@@ -54,16 +54,6 @@
           (list (region-beginning) (region-end))
         (list (point-min) (point-max))))))
 
-(defmacro make-beautify-defun (type)
-  (declare (indent 1) (debug t))
-  (let ((defun-name (intern (format "beautify-%s" type))))
-    `(progn
-       (defun ,defun-name (beg end)
-         (interactive "r")
-         (shell-command-on-region beg end ,(format "js-beautify --%s -f - -s 2 -m 1" type)
-                                  (current-buffer) 'replace))
-       (bind-key "s-b" ',defun-name ,(intern (format "%s-mode-map" type))))))
-
 (defmacro make-projectile-switch-project-defun (func)
   (declare (indent 1) (debug t))
   (let ((defun-name (intern (format "projectile-switch-project-%s" (symbol-name func)))))
