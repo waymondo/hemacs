@@ -666,19 +666,14 @@
   :load-path "lib/github-browse-file/")
 
 (use-package git-timemachine :ensure t)
-;; (use-package gist :ensure t)
+(use-package gist :ensure t)
 (use-package gitattributes-mode :ensure t)
 (use-package gitconfig-mode :ensure t)
 (use-package gitignore-mode :ensure t)
 ;; (use-package helm-open-github :ensure t)
 
 (use-package dash-at-point
-  :ensure t
-  :config
-  (setq dash-at-point-docsets
-        '("coffee" "lisp" "css" "less" "html" "javascript" "iphoneos" "ruby" "elisp"
-          "jquery" "rails" "underscore" "backbone" "bootstrap" "markdown" "zepto"
-          "angularjs" "psql" "emacs" "fa" "redis" "git" "bash" "moment")))
+  :load-path "lib/dash-at-point/")
 
 (use-package popup
   :ensure t

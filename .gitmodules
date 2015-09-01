@@ -4,3 +4,6 @@
 [submodule "lib/powerline"]
 	path = lib/powerline
 	url = https://github.com/unic0rn/powerline.git
+[submodule "lib/dash-at-point"]
+	path = lib/dash-at-point
+	url = https://github.com/waymondo/dash-at-point
