@@ -492,9 +492,14 @@
   (use-package org-repo-todo :ensure t))
 
 (use-package sgml-mode
+  :mode (("\\.hbs\\'"        . html-mode)
+         ("\\.handlebars\\'" . html-mode))
   :config
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
+  (use-package handlebars-sgml-mode
+    :ensure t
+    :config (handlebars-use-mode 'global))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
              ("<C-return>" html-smarter-newline)))
@@ -502,9 +507,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
-         ("\\.hbs\\'" . web-mode)
-         ("\\.php\\'" . web-mode)
-         ("\\.handlebars\\'" . web-mode))
+         ("\\.php\\'" . web-mode))
   :config
   (setq web-mode-markup-indent-offset 2
         web-mode-style-padding 2
