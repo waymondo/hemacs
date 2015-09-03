@@ -47,6 +47,7 @@
         nxml-electric-slash
         org-self-insert-command
         pad-colon
+        pad-comma
         pad-equals
         paredit-backward-kill-word
         paredit-forward-delete
@@ -62,6 +63,7 @@
         sh-assignment
         shift-right
         slim-electric-backspace
+        smart-js-colon
         smart-ruby-colon
         smart-tab
         sp--self-insert-command

@@ -320,10 +320,20 @@
   :bind (([remap kill-ring-save] . easy-kill)
          ([remap mark-sexp]      . easy-mark)))
 
-(use-package evil-numbers :ensure t)
-(use-package multiple-cursors :ensure t)
-(use-package toggle-quotes :ensure t)
-(use-package splitjoin :ensure t)
+(use-package evil-numbers
+  :ensure t
+  :bind (("<M-up>"   . evil-numbers/inc-at-pt)
+         ("<M-down>" . evil-numbers/dec-at-pt)))
+
+(use-package multiple-cursors
+  :ensure t
+  :bind (("s-d"     . mc/mark-next-like-this)
+         ("s-D"     . mc/mark-previous-like-this)
+         ("C-c s-d" . mc/mark-all-like-this-dwim)))
+
+(use-package toggle-quotes
+  :ensure t
+  :bind ("C-'" . toggle-quotes))
 
 ;;;;; Completion
 
@@ -492,6 +502,9 @@
   (crab-server-start))
 
 ;;;;; Major Modes
+
+(use-package "text-mode"
+  :config (bind-key "," #'pad-comma text-mode-map))
 
 (use-package org
   :init
@@ -761,11 +774,6 @@
   (which-key-mode))
 
 (bind-keys
- ("C-z"        . ace-jump-zap-up-to-char)
- ("C-'"        . toggle-quotes)
- ("C-`"        . list-processes)
- ("<M-up>"     . evil-numbers/inc-at-pt)
- ("<M-down>"   . evil-numbers/dec-at-pt)
  ("<M-S-up>"   . move-text-up)
  ("<M-S-down>" . move-text-down)
  ("M-\\"       . align-regexp)
@@ -780,18 +788,15 @@
  ("s-n"        . ort/capture-checkitem)
  ("s-N"        . create-scratch-buffer)
  ("s-w"        . kill-this-buffer)
+ ("s-y"        . company-kill-ring)
  ("s-/"        . comment-or-uncomment-region)
  ("s-S"        . rename-file-and-buffer)
- ("s-d"        . mc/mark-next-like-this)
- ("s-D"        . mc/mark-previous-like-this)
- ("C-c s-d"    . mc/mark-all-like-this-dwim)
  ("<f5>"       . toggle-transparency))
 
 (bind-keys
  :prefix-map hemacs-help-map
  :prefix "s-h"
  ("k" . describe-personal-keybindings)
- ("y" . company-kill-ring)
  ("K" . free-keys)
  ("f" . what-face)
  ("m" . discover-my-major)
@@ -838,7 +843,6 @@
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
 
-(bind-key "," #'pad-comma text-mode-map)
 (bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
 (bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" #'next-complete-history-element minibuffer-local-map)
