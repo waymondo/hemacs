@@ -337,6 +337,8 @@
     (ido-vertical-mode)
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
   (ido-mode)
+  (advice-add 'ido-read-internal :around #'ido-read-internal-determine-window-target)
+  (bind-key "<s-return>" #'ido-select-for-other-window ido-common-completion-map)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
@@ -730,13 +732,11 @@
   (key-chord-define-global ":A" #'ace-jump-buffer-other-window)
   (key-chord-define-global ";x" #'ace-jump-shellish-buffers)
   (key-chord-define-global ";s" #'switch-to-buffer)
-  (key-chord-define-global ":S" #'recentf-find-file-other-window)
+  (key-chord-define-global ":S" #'recentf-find-file)
   (key-chord-define-global ";w" #'toggle-split-window)
   (key-chord-define-global ":W" #'delete-other-windows)
   (key-chord-define-global ";f" #'find-file)
-  (key-chord-define-global ":F" #'find-file-other-window)
   (key-chord-define-global ";t" #'projectile-find-file)
-  (key-chord-define-global ":T" #'projectile-find-file-other-window)
   (key-chord-define-global ";g" #'ag-project)
   (key-chord-define-global ":G" #'ag)
   (key-chord-define-global ";r" #'imenu-anywhere)

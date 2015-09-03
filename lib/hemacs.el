@@ -1,4 +1,4 @@
-;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
+;;; hemacs --- an emacs configuration
 
 (defmacro def (name &rest body)
   (declare (indent 1) (debug t))
@@ -428,12 +428,12 @@
    (mapcar #'substring-no-properties kill-ring))
   (company-filter-candidates))
 
-(def recentf-find-file-other-window
+(def recentf-find-file
   (let ((file (completing-read "Choose recent file: "
                                (-map 'abbreviate-file-name recentf-list)
                                nil t)))
     (when file
-      (find-file-other-window file))))
+      (find-file file))))
 
 (defun pop-to-process-list-buffer ()
   (pop-to-buffer "*Process List*"))
@@ -493,6 +493,22 @@
         (modify-syntax-entry ?: "." table)
         (with-syntax-table table (apply orig-fun args)))
     (apply orig-fun args)))
+
+(eval-when-compile
+  (defvar ido-exit-minibuffer-target-window))
+
+(defun ido-select-for-other-window ()
+  (interactive)
+  (setq ido-exit-minibuffer-target-window 'other)
+  (exit-minibuffer))
+
+(defun ido-read-internal-determine-window-target (orig-fun &rest args)
+  (let* (ido-exit-minibuffer-target-window
+         (this-buffer (current-buffer))
+         (res (apply orig-fun args)))
+    (when (equal ido-exit-minibuffer-target-window 'other)
+      (toggle-split-window))
+    res))
 
 (defun js2-log-arguments ()
   (interactive)
