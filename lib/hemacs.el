@@ -304,10 +304,6 @@
 (def find-user-init-file-other-window
   (find-file-other-window user-init-file))
 
-(defun hemacs-writing-hook ()
-  (visual-line-mode)
-  (flyspell-mode))
-
 (defun hemacs-save-hook ()
   (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
     (delete-trailing-whitespace))
@@ -427,6 +423,11 @@
   (company-begin-with
    (mapcar #'substring-no-properties kill-ring))
   (company-filter-candidates))
+
+(def company-only-emoji
+  (insert ":")
+  (run-at-time nil nil
+               (lambda () (company-begin-backend 'company-emoji))))
 
 (def recentf-find-file
   (let ((file (completing-read "Choose recent file: "

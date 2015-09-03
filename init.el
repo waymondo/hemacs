@@ -90,7 +90,9 @@
   :config
   (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
   (hook-modes writing-modes
-    (hemacs-writing-hook))
+    (visual-line-mode)
+    (flyspell-mode)
+    (key-chord-define-local "::" #'company-only-emoji))
   (hook-modes shellish-modes
     (hemacs-shellish-hook))
   (add-hook 'before-save-hook #'hemacs-save-hook)
@@ -386,8 +388,7 @@
   (use-package company-emoji
     :ensure t
     :config
-    (hook-modes writing-modes
-      (company-emoji-init)))
+    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
   (use-package company-dabbrev-code
     :config
     (setq company-dabbrev-code-modes t
