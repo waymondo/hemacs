@@ -315,6 +315,11 @@
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))))
 
+(use-package easy-kill
+  :ensure t
+  :bind (([remap kill-ring-save] . easy-kill)
+         ([remap mark-sexp]      . easy-mark)))
+
 (use-package evil-numbers :ensure t)
 (use-package multiple-cursors :ensure t)
 (use-package toggle-quotes :ensure t)
