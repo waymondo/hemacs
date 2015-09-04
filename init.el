@@ -868,13 +868,6 @@
 (use-package prog-mode
   :config (global-prettify-symbols-mode))
 
-(use-package visible-mark
-  :ensure t
-  :config
-  (global-visible-mark-mode)
-  (setq visible-mark-max 2
-        visible-mark-faces '(visible-mark-face1 visible-mark-face2)))
-
 (use-package uniquify
   :config (setq uniquify-buffer-name-style 'forward))
 
