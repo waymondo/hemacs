@@ -495,22 +495,6 @@
         (with-syntax-table table (apply orig-fun args)))
     (apply orig-fun args)))
 
-(eval-when-compile
-  (defvar ido-exit-minibuffer-target-window))
-
-(defun ido-select-for-other-window ()
-  (interactive)
-  (setq ido-exit-minibuffer-target-window 'other)
-  (exit-minibuffer))
-
-(defun ido-read-internal-determine-window-target (orig-fun &rest args)
-  (let* (ido-exit-minibuffer-target-window
-         (this-buffer (current-buffer))
-         (res (apply orig-fun args)))
-    (when (equal ido-exit-minibuffer-target-window 'other)
-      (toggle-split-window))
-    res))
-
 (defun js2-log-arguments ()
   (interactive)
   (save-excursion

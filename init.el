@@ -353,9 +353,11 @@
     :config
     (ido-vertical-mode)
     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
+  (use-package ido-exit-target
+    :ensure t
+    :config
+    (bind-key "<s-return>" #'ido-exit-target-other-window ido-common-completion-map))
   (ido-mode)
-  (advice-add 'ido-read-internal :around #'ido-read-internal-determine-window-target)
-  (bind-key "<s-return>" #'ido-select-for-other-window ido-common-completion-map)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
