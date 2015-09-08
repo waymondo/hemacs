@@ -688,6 +688,7 @@
   :ensure t
   :config
   (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
   (diff-hl-margin-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
 
