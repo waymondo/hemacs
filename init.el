@@ -520,12 +520,13 @@
   :config
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
+  (add-hook 'sgml-mode #'sgml-electric-tag-pair-mode)
   (use-package handlebars-sgml-mode
     :ensure t
     :config (handlebars-use-mode 'global))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
-             ("<C-return>" html-smarter-newline)))
+             ("<C-return>" . html-smarter-newline)))
 
 (use-package web-mode
   :ensure t
