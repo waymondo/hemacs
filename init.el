@@ -472,10 +472,9 @@
 
 (use-package swiper
   :ensure t
-  :bind (([remap isearch-forward] . swiper))
-  :config
-  (setq ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy))))
+  :bind
+  (([remap isearch-forward]  . swiper)
+   ([remap isearch-backward] . swiper)))
 
 (use-package smex
   :ensure t
