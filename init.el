@@ -392,7 +392,7 @@
         company-tooltip-flip-when-above t
         company-require-match nil
         company-minimum-prefix-length 2
-        company-idle-delay 0.25
+        company-idle-delay 0.4
         company-show-numbers t
         company-occurrence-weight-function #'company-occurrence-prefer-any-closest
         company-continue-commands
@@ -688,9 +688,11 @@
 (use-package diff-hl
   :ensure t
   :config
+  (use-package diff-hl-flydiff
+    :init (setq diff-hl-flydiff-delay 3))
   (global-diff-hl-mode)
-  (diff-hl-flydiff-mode)
   (diff-hl-margin-mode)
+  (diff-hl-flydiff-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
 
 ;;;;; Help & Docs
@@ -730,6 +732,7 @@
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers '(javascript-jshint emacs-lisp-checkdoc))
                 flycheck-html-tidy-executable "tidy5"
+                flycheck-idle-change-delay 1
                 flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
