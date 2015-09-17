@@ -11,7 +11,7 @@ curl -L https://raw.githubusercontent.com/waymondo/hemacs/master/install.sh | sh
 ### Extra dependencies:
 
 ```
-brew install git terminal-notifier node the_silver_searcher bash-completion coreutils tidy-html5 trash
+brew install git terminal-notifier node the_silver_searcher bash-completion coreutils trash
 npm install -g js-beautifier marked less coffee-script js2coffee eslint babel-eslint
 gem install gem-ripper-tags rubocop ruby-lint
 ```

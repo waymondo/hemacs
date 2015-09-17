@@ -730,11 +730,14 @@
   :ensure t
   :config
   (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers '(javascript-jshint emacs-lisp-checkdoc))
-                flycheck-html-tidy-executable "tidy5"
+                '(html-tidy javascript-jshint emacs-lisp-checkdoc)
                 flycheck-idle-change-delay 1
                 flycheck-less-executable "/usr/local/bin/lessc")
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (use-package flycheck-pos-tip
+    :ensure t
+    :config
+    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
 ;;;;; Bindings & Chords
 
