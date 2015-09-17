@@ -510,7 +510,8 @@
 (use-package org
   :init
   (setq org-support-shift-select t
-        org-completion-use-ido t)
+        org-completion-use-ido t
+        org-startup-indented t)
   (use-package org-repo-todo :ensure t))
 
 (use-package sgml-mode
