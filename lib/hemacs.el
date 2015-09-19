@@ -21,15 +21,15 @@
 
 (defmacro hook-modes (modes &rest body)
   (declare (indent 1) (debug t))
-  `(--each ,modes
-     (add-λ (intern (format "%s-hook" it))
+  `(dolist (mode ,modes)
+     (add-λ (intern (format "%s-hook" mode))
        ,@body)))
 
 (defmacro each-mode-map (modes &rest body)
   (declare (indent 1) (debug t))
-  `(--each ,modes
-     (with-eval-after-load it
-       (let ((mode-map (symbol-value (intern (format "%s-map" it)))))
+  `(dolist (mode ,modes)
+     (with-eval-after-load mode
+       (let ((mode-map (symbol-value (intern (format "%s-map" mode)))))
          ,@body))))
 
 (defmacro with-region-or-line (func &optional point-to-eol)
