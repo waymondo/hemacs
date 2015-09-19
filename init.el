@@ -552,7 +552,8 @@
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
-  (setq markdown-command "marked"))
+  (setq markdown-command "marked"
+        markdown-indent-on-enter nil))
 
 (use-package css-mode
   :mode "\\.css\\.erb\\'"
