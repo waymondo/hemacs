@@ -726,7 +726,8 @@
 
 (use-package popup
   :ensure t
-  :commands popup-tip)
+  :commands popup-tip
+  :config (setq popup-use-optimized-column-computation nil))
 
 (use-package discover
   :ensure t
