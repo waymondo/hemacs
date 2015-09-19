@@ -32,19 +32,19 @@
        (let ((mode-map (symbol-value (intern (format "%s-map" mode)))))
          ,@body))))
 
-(defun with-region-or-point-to-eol (beg end)
+(defun with-region-or-point-to-eol (beg end &optional _)
   (interactive
    (if mark-active
-       (list (region-beginning) (region-end))
+       (list beg end)
      (list (point) (line-end-position)))))
 
-(defun with-region-or-line (beg end)
+(defun with-region-or-line (beg end &optional _)
   (interactive
    (if mark-active
-       (list (region-beginning) (region-end))
+       (list beg end)
      (list (line-beginning-position) (line-beginning-position 2)))))
 
-(defun with-region-or-buffer (beg end)
+(defun with-region-or-buffer (beg end &optional _)
   (interactive
    (if mark-active
        (list beg end)
@@ -359,13 +359,12 @@
     (window-configuration-to-register :toggle-split-window)
     (switch-to-buffer-other-window nil)))
 
-(--each '(yank yank-pop clipboard-yank)
-  (eval `(defadvice ,it (after indent-region activate compile)
-           (and (not current-prefix-arg)
-                (not (member major-mode indent-sensitive-modes))
-                (or (-any? 'derived-mode-p progish-modes))
-                (let ((mark-even-if-inactive transient-mark-mode))
-                  (indent-region (region-beginning) (region-end) nil))))))
+(defun maybe-indent-afterwards (&optional _)
+  (and (not current-prefix-arg)
+       (not (member major-mode indent-sensitive-modes))
+       (or (-any? 'derived-mode-p progish-modes))
+       (let ((mark-even-if-inactive transient-mark-mode))
+         (indent-region (region-beginning) (region-end) nil))))
 
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)
@@ -528,3 +527,5 @@
 
 (defun refresh-themed-packages-when-idle (&optional no-confirm no-enable)
   (run-with-idle-timer 1 nil #'refresh-themed-packages))
+
+(provide 'hemacs)

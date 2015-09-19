@@ -53,14 +53,21 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 
+(use-package hemacs
+  :load-path "lib/"
+  :config
+  (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
+  (hook-modes writing-modes
+    (hemacs-writing-modes-hook))
+  (hook-modes shellish-modes
+    (hemacs-shellish-hook)))
+
 (use-package bind-key :ensure t)
 (use-package noflet :ensure t)
 
 (use-package dash
   :ensure t
   :config (dash-enable-font-lock))
-
-(load (concat user-emacs-directory "lib/hemacs"))
 
 (use-package s
   :ensure t
@@ -92,33 +99,6 @@
   (setq inhibit-startup-screen t
         initial-scratch-message nil
         inhibit-startup-echo-area-message ""))
-
-;;;;; Load Personal Hemacs Library
-
-(setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
-(hook-modes writing-modes
-  (hemacs-writing-modes-hook))
-(hook-modes shellish-modes
-  (hemacs-shellish-hook))
-(add-hook 'before-save-hook #'hemacs-save-hook)
-(advice-add 'comment-or-uncomment-region :before #'with-region-or-line)
-
-(use-package "files"
-  :config
-  (advice-add 'find-file :before #'find-file-maybe-make-directories)
-  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
-
-(use-package simple
-  :config
-  (advice-add 'list-processes :after #'pop-to-process-list-buffer)
-  (advice-add 'backward-kill-word :around #'backward-delete-subword)
-  (advice-add 'kill-whole-line :after #'back-to-indentation)
-  (advice-add 'kill-line :around #'kill-line-or-join-line)
-  (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation))
-
-(use-package "indent"
-  :config
-  (advice-add 'indent-region :before #'with-region-or-buffer))
 
 ;;;;; Processes, Shells, Compilation
 
@@ -183,7 +163,6 @@
           "^spring stop"
           "^gulp publish\\.*"
           "^git push\\.*"
-          "^redis-server"
           "^pkill\\.*")
         projector-command-modes-alist
         '(("^heroku run console" . inf-ruby-mode))))
@@ -265,6 +244,30 @@
   :init (save-place-mode))
 
 ;;;;; Editing
+
+(use-package newcomment
+  :config
+  (advice-add 'comment-or-uncomment-region :before #'with-region-or-line))
+
+(use-package "files"
+  :config
+  (add-hook 'before-save-hook #'hemacs-save-hook)
+  (advice-add 'find-file :before #'find-file-maybe-make-directories)
+  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
+
+(use-package simple
+  :config
+  (advice-add 'yank :after #'maybe-indent-afterwards)
+  (advice-add 'yank-pop :after #'maybe-indent-afterwards)
+  (advice-add 'list-processes :after #'pop-to-process-list-buffer)
+  (advice-add 'backward-kill-word :around #'backward-delete-subword)
+  (advice-add 'kill-whole-line :after #'back-to-indentation)
+  (advice-add 'kill-line :around #'kill-line-or-join-line)
+  (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation))
+
+(use-package "indent"
+  :config
+  (advice-add 'indent-region :before #'with-region-or-buffer))
 
 (use-package delsel
   :init (delete-selection-mode))
