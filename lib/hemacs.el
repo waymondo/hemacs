@@ -32,29 +32,23 @@
        (let ((mode-map (symbol-value (intern (format "%s-map" mode)))))
          ,@body))))
 
-(defmacro with-region-or-line (func &optional point-to-eol)
-  (declare (indent 1) (debug t))
-  `(progn
-     (defadvice ,func (before with-region-or-line activate compile)
-       (interactive
-        (cond (mark-active
-               (list (region-beginning) (region-end)))
-              (,point-to-eol
-               (list (point) (line-end-position)))
-              ((list (line-beginning-position) (line-beginning-position 2))))))
-     (defadvice ,func (after pulse-line-or-region activate compile)
-       (unless mark-active
-         (if ,point-to-eol
-             (pulse-momentary-highlight-region (point) (line-end-position))
-           (pulse-line-hook-function))))))
+(defun with-region-or-point-to-eol (beg end)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (list (point) (line-end-position)))))
 
-(defmacro with-region-or-buffer (func)
-  (declare (indent 1) (debug t))
-  `(defadvice ,func (before with-region-or-buffer activate compile)
-     (interactive
-      (if mark-active
-          (list (region-beginning) (region-end))
-        (list (point-min) (point-max))))))
+(defun with-region-or-line (beg end)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (list (line-beginning-position) (line-beginning-position 2)))))
+
+(defun with-region-or-buffer (beg end)
+  (interactive
+   (if mark-active
+       (list beg end)
+     (list (point-min) (point-max)))))
 
 (defmacro make-projectile-switch-project-defun (func)
   (declare (indent 1) (debug t))
@@ -337,6 +331,13 @@
     (noflet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
+(defun hemacs-writing-modes-hook ()
+  (auto-fill-mode)
+  (visual-line-mode)
+  (flyspell-mode)
+  (key-chord-define-local "``" "``\C-b")
+  (key-chord-define-local "::" #'company-only-emoji))
+
 (def create-scratch-buffer
   (let ((current-major-mode major-mode)
         (buf (generate-new-buffer "*scratch*")))
@@ -527,5 +528,3 @@
 
 (defun refresh-themed-packages-when-idle (&optional no-confirm no-enable)
   (run-with-idle-timer 1 nil #'refresh-themed-packages))
-
-(provide 'hemacs)

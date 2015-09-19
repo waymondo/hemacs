@@ -54,12 +54,22 @@
 (eval-when-compile (require 'use-package))
 
 (use-package bind-key :ensure t)
-(use-package s :ensure t)
 (use-package noflet :ensure t)
 
 (use-package dash
   :ensure t
   :config (dash-enable-font-lock))
+
+(load (concat user-emacs-directory "lib/hemacs"))
+
+(use-package s
+  :ensure t
+  :commands (s-lower-camel-case s-upper-camel-case s-snake-case s-dashed-words)
+  :config
+  (make-transform-symbol-at-point-defun s-lower-camel-case)
+  (make-transform-symbol-at-point-defun s-upper-camel-case)
+  (make-transform-symbol-at-point-defun s-snake-case)
+  (make-transform-symbol-at-point-defun s-dashed-words))
 
 (use-package tool-bar
   :config (tool-bar-mode -1))
@@ -85,43 +95,30 @@
 
 ;;;;; Load Personal Hemacs Library
 
-(use-package hemacs
-  :load-path "lib/"
+(setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
+(hook-modes writing-modes
+  (hemacs-writing-modes-hook))
+(hook-modes shellish-modes
+  (hemacs-shellish-hook))
+(add-hook 'before-save-hook #'hemacs-save-hook)
+(advice-add 'comment-or-uncomment-region :before #'with-region-or-line)
+
+(use-package "files"
   :config
-  (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
-  (hook-modes writing-modes
-    (visual-line-mode)
-    (flyspell-mode)
-    (key-chord-define-local "::" #'company-only-emoji))
-  (hook-modes shellish-modes
-    (hemacs-shellish-hook))
-  (add-hook 'before-save-hook #'hemacs-save-hook)
-  (with-region-or-line comment-or-uncomment-region)
-  (with-region-or-line upcase-region)
-  (with-region-or-line capitalize-region)
-  (with-region-or-line downcase-region)
-  (with-region-or-line yank-region)
-  (with-region-or-line kill-region :point-to-eol)
-  (with-region-or-line kill-ring-save :point-to-eol)
-  (with-region-or-buffer indent-region)
-  (with-region-or-buffer untabify)
-  (make-projectile-switch-project-defun projectile-vc)
-  (make-projectile-switch-project-defun projectile-find-file)
-  (make-projectile-switch-project-defun projector-run-shell-command-project-root)
-  (make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
-  (make-projectile-switch-project-defun ort/capture-todo)
-  (make-projectile-switch-project-defun ort/goto-todos)
-  (make-transform-symbol-at-point-defun s-lower-camel-case)
-  (make-transform-symbol-at-point-defun s-upper-camel-case)
-  (make-transform-symbol-at-point-defun s-snake-case)
-  (make-transform-symbol-at-point-defun s-dashed-words)
+  (advice-add 'find-file :before #'find-file-maybe-make-directories)
+  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
+
+(use-package simple
+  :config
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
   (advice-add 'backward-kill-word :around #'backward-delete-subword)
   (advice-add 'kill-whole-line :after #'back-to-indentation)
   (advice-add 'kill-line :around #'kill-line-or-join-line)
-  (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
-  (advice-add 'find-file :before #'find-file-maybe-make-directories)
-  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
+  (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation))
+
+(use-package "indent"
+  :config
+  (advice-add 'indent-region :before #'with-region-or-buffer))
 
 ;;;;; Processes, Shells, Compilation
 
@@ -463,6 +460,10 @@
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
   :config
+  (make-projectile-switch-project-defun projectile-vc)
+  (make-projectile-switch-project-defun projectile-find-file)
+  (make-projectile-switch-project-defun projector-run-shell-command-project-root)
+  (make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
   (use-package projectile-rails
     :ensure t
     :config
@@ -508,11 +509,16 @@
   :config (bind-key "," #'pad-comma text-mode-map))
 
 (use-package org
-  :init
+  :config
   (setq org-support-shift-select t
         org-completion-use-ido t
-        org-startup-indented t)
-  (use-package org-repo-todo :ensure t))
+        org-startup-indented t))
+
+(use-package org-repo-todo
+    :ensure t
+    :config
+    (make-projectile-switch-project-defun ort/capture-todo)
+    (make-projectile-switch-project-defun ort/goto-todos))
 
 (use-package sgml-mode
   :mode (("\\.hbs\\'"        . html-mode)
