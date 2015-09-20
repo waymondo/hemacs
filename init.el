@@ -119,6 +119,10 @@
                   comint-watch-for-password-prompt))
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
+  (bind-keys :map comint-mode-map
+             ("s-K"       . comint-clear-buffer)
+             ("M-TAB"     . comint-previous-matching-input-from-input)
+             ("<M-S-tab>" . comint-next-matching-input-from-input))
   (add-λ 'kill-emacs-hook
     (--each (buffer-list)
       (with-current-buffer it (comint-write-input-ring)))))
@@ -867,8 +871,6 @@
 (bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
 (bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" #'next-complete-history-element minibuffer-local-map)
-(bind-key "M-TAB" #'comint-previous-matching-input-from-input comint-mode-map)
-(bind-key "<M-S-tab>" #'comint-next-matching-input-from-input comint-mode-map)
 (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
 (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map)
 (bind-key "M-TAB" #'previous-history-element ido-completion-map)

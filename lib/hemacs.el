@@ -127,7 +127,7 @@
     (dired-do-delete))
    ((or (derived-mode-p 'comint-mode)
         (eq major-mode 'inf-ruby-mode))
-    (clear-shell))
+    (comint-clear-buffer))
    (:else
     (delete-file-and-buffer))))
 
@@ -200,11 +200,6 @@
 
 (def insert-local-ip-address
   (insert (s-chomp (shell-command-to-string "resolveip -s $HOSTNAME"))))
-
-(def clear-shell
-  (let ((comint-buffer-maximum-size 0))
-    (comint-truncate-buffer)
-    (goto-char (point-max))))
 
 (def magit-just-amend
   (save-window-excursion
