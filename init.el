@@ -52,6 +52,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
+(require 'bind-key)
 
 (use-package hemacs
   :load-path "lib/"
@@ -61,9 +62,6 @@
     (hemacs-writing-modes-hook))
   (hook-modes shellish-modes
     (hemacs-shellish-hook)))
-
-(use-package bind-key :ensure t)
-(use-package noflet :ensure t)
 
 (use-package dash
   :ensure t

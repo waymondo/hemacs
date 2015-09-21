@@ -316,14 +316,14 @@
   (let ((matching-buffers (--filter
                            (eq major-mode (with-current-buffer it major-mode))
                            (buffer-list))))
-    (noflet ((buffer-list () matching-buffers))
+    (flet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
 (defun try-expand-dabbrev-other-buffers (old)
   (let ((matching-buffers (--reject
                            (eq major-mode (with-current-buffer it major-mode))
                            (buffer-list))))
-    (noflet ((buffer-list () matching-buffers))
+    (flet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
 (defun hemacs-writing-modes-hook ()
@@ -435,7 +435,7 @@
   (pop-to-buffer "*Process List*"))
 
 (defun backward-delete-subword (orig-fun &rest args)
-  (noflet ((kill-region (beg end) (delete-region beg end)))
+  (flet ((kill-region (beg end) (delete-region beg end)))
     (apply orig-fun args)))
 
 (defun kill-line-or-join-line (orig-fun &rest args)
@@ -457,7 +457,7 @@
         (make-directory dir :make-parents)))))
 
 (defun save-buffers-kill-emacs-no-process-query (orig-fun &rest args)
-  (noflet ((process-list ()))
+  (flet ((process-list ()))
     (apply orig-fun args)))
 
 (defun hippie-expand-case-sensitive (orig-fun &rest args)
