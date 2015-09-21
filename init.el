@@ -77,22 +77,28 @@
   (make-transform-symbol-at-point-defun s-dashed-words))
 
 (use-package tool-bar
+  :defer t
   :config (tool-bar-mode -1))
 
 (use-package scroll-bar
+  :defer t
   :config (scroll-bar-mode -1))
 
 (use-package novice
+  :defer t
   :config (setq disabled-command-function nil))
 
 (use-package advice
+  :defer t
   :config (setq ad-redefinition-action 'accept))
 
 (use-package cus-edit
+  :defer t
   :init (setq custom-file (locate-user-emacs-file "custom.el"))
   :config (load custom-file 'no-error 'no-message))
 
 (use-package "startup"
+  :defer t
   :config
   (setq inhibit-startup-screen t
         initial-scratch-message nil
@@ -107,6 +113,7 @@
   (exec-path-from-shell-copy-env "HISTFILE"))
 
 (use-package comint
+  :defer t
   :config
   (setq comint-prompt-read-only t)
   (setq-default comint-process-echoes t
@@ -126,16 +133,19 @@
       (with-current-buffer it (comint-write-input-ring)))))
 
 (use-package compile
+  :defer t
   :config
   (setq compilation-disable-input t
         compilation-always-kill t)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package warnings
+  :defer t
   :config
   (setq warning-suppress-types '((undo discard-info))))
 
 (use-package shell
+  :defer t
   :config
   (setq async-shell-command-buffer 'new-buffer
         shell-command-switch "-ic"
@@ -151,6 +161,7 @@
                 sh-basic-offset 2))
 
 (use-package executable
+  :defer t
   :config
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p))
 
@@ -173,13 +184,12 @@
 ;;;;; Files & History
 
 (use-package image-mode
+  :defer t
   :config
   (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
 
-(use-package elisp-lisp-mode
-  :mode ("Cask" . emacs-lisp-mode))
-
 (use-package files
+  :defer t
   :config
   (setq require-final-newline t
         confirm-kill-emacs nil
@@ -201,8 +211,7 @@
         savehist-autosave-interval 30))
 
 (use-package saveplace
-  :config
-  (setq-default save-place t))
+  :init (save-place-mode))
 
 (use-package recentf
   :config
@@ -211,6 +220,7 @@
         recentf-max-saved-items 1000))
 
 (use-package dired
+  :defer t
   :init
   (use-package dired-x)
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
@@ -243,22 +253,22 @@
   :ensure t
   :init (osx-trash-setup))
 
-(use-package saveplace
-  :init (save-place-mode))
-
 ;;;;; Editing
 
 (use-package newcomment
+  :defer t
   :config
   (advice-add 'comment-or-uncomment-region :before #'with-region-or-line))
 
 (use-package "files"
+  :defer t
   :config
   (add-hook 'before-save-hook #'hemacs-save-hook)
   (advice-add 'find-file :before #'find-file-maybe-make-directories)
   (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
 
 (use-package simple
+  :defer t
   :config
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
@@ -269,6 +279,7 @@
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation))
 
 (use-package "indent"
+  :defer t
   :config
   (advice-add 'indent-region :before #'with-region-or-buffer))
 
@@ -303,7 +314,8 @@
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
-(use-package ace-jump-zap :ensure t)
+(use-package ace-jump-zap
+  :ensure t)
 
 (use-package ace-window
   :ensure t
@@ -512,6 +524,7 @@
 ;;;;; Major Modes
 
 (use-package "text-mode"
+  :defer t
   :config (bind-key "," #'pad-comma text-mode-map))
 
 (use-package org
@@ -672,8 +685,11 @@
     (each-mode-map ruby-modes
       (bind-key "C-c C-:" #'ruby-toggle-hash-syntax mode-map))))
 
-(use-package yaml-mode :ensure t)
-(use-package restclient :ensure t)
+(use-package yaml-mode
+  :ensure t)
+
+(use-package restclient
+  :ensure t)
 
 ;;;;; Version Control
 
@@ -722,11 +738,21 @@
 (use-package github-browse-file
   :load-path "lib/github-browse-file/")
 
-(use-package git-timemachine :ensure t)
-(use-package gist :ensure t)
-(use-package gitattributes-mode :ensure t)
-(use-package gitconfig-mode :ensure t)
-(use-package gitignore-mode :ensure t)
+(use-package git-timemachine
+  :ensure t)
+
+(use-package gist
+  :ensure t
+  :defer t)
+
+(use-package gitattributes-mode
+  :ensure t)
+
+(use-package gitconfig-mode
+  :ensure t)
+
+(use-package gitignore-mode
+  :ensure t)
 
 (use-package dash-at-point
   :load-path "lib/dash-at-point/")
@@ -790,7 +816,8 @@
   (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
   (setq key-chord-two-keys-delay 0.05))
 
-(use-package free-keys :ensure t)
+(use-package free-keys
+  :ensure t)
 
 (use-package which-key
   :ensure t
@@ -878,9 +905,11 @@
 ;;;;; Appearance
 
 (use-package ns-win
+  :defer t
   :config (setq ns-pop-up-frames nil))
 
 (use-package frame
+  :defer t
   :config
   (setq blink-cursor-blinks 0)
   (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
@@ -888,6 +917,7 @@
     (set-frame-font "Meslo LG L DZ for Powerline-15")))
 
 (use-package prog-mode
+  :defer t
   :config (global-prettify-symbols-mode))
 
 (use-package uniquify
@@ -944,6 +974,7 @@
   (setq powerline-default-separator 'utf-8))
 
 (use-package paren
+  :defer t
   :config
   (show-paren-mode)
   (setq show-paren-when-point-inside-paren t
@@ -958,6 +989,7 @@
   :config (auto-dim-other-buffers-mode))
 
 (use-package fringe
+  :defer t
   :config (fringe-mode '(20 . 8)))
 
 (use-package highlight-tail
@@ -967,6 +999,7 @@
         highlight-tail-timer 0.05))
 
 (use-package custom
+  :defer t
   :init
   (advice-add 'load-theme :after #'refresh-themed-packages-when-idle))
 
