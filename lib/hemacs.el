@@ -32,24 +32,6 @@
        (let ((mode-map (symbol-value (intern (format "%s-map" mode)))))
          ,@body))))
 
-(defun with-region-or-point-to-eol (beg end &optional _)
-  (interactive
-   (if mark-active
-       (list beg end)
-     (list (point) (line-end-position)))))
-
-(defun with-region-or-line (beg end &optional _)
-  (interactive
-   (if mark-active
-       (list beg end)
-     (list (line-beginning-position) (line-beginning-position 2)))))
-
-(defun with-region-or-buffer (beg end &optional _)
-  (interactive
-   (if mark-active
-       (list beg end)
-     (list (point-min) (point-max)))))
-
 (defmacro make-projectile-switch-project-defun (func)
   (declare (indent 1) (debug t))
   (let ((defun-name (intern (format "projectile-switch-project-%s" (symbol-name func)))))
@@ -489,6 +471,24 @@
         (modify-syntax-entry ?: "." table)
         (with-syntax-table table (apply orig-fun args)))
     (apply orig-fun args)))
+
+(defun with-region-or-point-to-eol (beg end &optional _)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (list (point) (line-end-position)))))
+
+(defun with-region-or-line (beg end &optional _)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (list (line-beginning-position) (line-beginning-position 2)))))
+
+(defun with-region-or-buffer (beg end &optional _)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (list (point-min) (point-max)))))
 
 (defun js2-log-arguments ()
   (interactive)
