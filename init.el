@@ -522,10 +522,10 @@
         org-startup-indented t))
 
 (use-package org-repo-todo
-    :ensure t
-    :config
-    (make-projectile-switch-project-defun ort/capture-todo)
-    (make-projectile-switch-project-defun ort/goto-todos))
+  :ensure t
+  :config
+  (make-projectile-switch-project-defun ort/capture-todo)
+  (make-projectile-switch-project-defun ort/goto-todos))
 
 (use-package sgml-mode
   :mode (("\\.hbs\\'"        . html-mode)
