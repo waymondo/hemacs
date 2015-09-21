@@ -161,6 +161,7 @@
   :bind* (("C-x RET" . projector-run-shell-command-project-root)
           ("C-x m"   . projector-switch-to-or-create-project-shell))
   :config
+  (bind-key "s-R" #'projector-rerun-buffer-process comint-mode-map)
   (setq projector-always-background-regex
         '("^powder restart\\.*"
           "^heroku restart\\.*"
