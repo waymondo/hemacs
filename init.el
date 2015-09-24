@@ -141,7 +141,7 @@
 
 (use-package warnings
   :defer t
-  :config
+  :init
   (setq warning-suppress-types '((undo discard-info))))
 
 (use-package shell
