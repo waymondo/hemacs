@@ -1,37 +1,5 @@
 ;;; hemacs --- an emacs configuration
 
-(defmacro def (name &rest body)
-  (declare (indent 1) (debug t))
-  `(defun ,name (&optional arg)
-     ,(if (stringp (car body)) (car body))
-     (interactive "p")
-     ,@(if (stringp (car body)) (cdr `,body) body)))
-
-(defmacro λ (&rest body)
-  (declare (indent 1) (debug t))
-  (let ((sym (make-symbol "λ-sym")))
-    `(progn (defvar ,sym nil)
-            (lambda ()
-              (interactive)
-              (when (and (boundp ',sym) (makunbound ',sym)) ,@body)))))
-
-(defmacro add-λ (hook &rest body)
-  (declare (indent 1) (debug t))
-  `(add-hook ,hook (lambda () ,@body)))
-
-(defmacro hook-modes (modes &rest body)
-  (declare (indent 1) (debug t))
-  `(dolist (mode ,modes)
-     (add-λ (intern (format "%s-hook" mode))
-       ,@body)))
-
-(defmacro each-mode-map (modes &rest body)
-  (declare (indent 1) (debug t))
-  `(dolist (mode ,modes)
-     (with-eval-after-load mode
-       (let ((mode-map (symbol-value (intern (format "%s-map" mode)))))
-         ,@body))))
-
 (defmacro make-projectile-switch-project-defun (func)
   (declare (indent 1) (debug t))
   (let ((defun-name (intern (format "projectile-switch-project-%s" (symbol-name func)))))
