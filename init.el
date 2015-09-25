@@ -1009,7 +1009,6 @@
   (setq powerline-default-separator 'utf-8))
 
 (use-package paren
-  :defer t
   :config
   (show-paren-mode)
   (setq show-paren-when-point-inside-paren t
