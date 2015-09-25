@@ -737,7 +737,8 @@
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (magit-define-popup-action 'magit-dispatch-popup ?x "Reset" 'magit-reset ?!)
-  (setq git-commit-summary-max-length 72
+  (setq git-commit-summary-max-length git-commit-fill-column
+        magit-revert-buffers 2
         magit-completing-read-function 'magit-ido-completing-read
         magit-push-always-verify nil
         magit-log-auto-more t
