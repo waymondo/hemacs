@@ -276,13 +276,6 @@
     (flet ((buffer-list () matching-buffers))
       (try-expand-dabbrev-all-buffers old))))
 
-(defun hemacs-writing-modes-hook ()
-  (auto-fill-mode)
-  (visual-line-mode)
-  (flyspell-mode)
-  (key-chord-define-local "``" "``\C-b")
-  (key-chord-define-local "::" #'company-only-emoji))
-
 (def create-scratch-buffer
   (let ((current-major-mode major-mode)
         (buf (generate-new-buffer "*scratch*")))

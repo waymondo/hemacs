@@ -41,7 +41,7 @@
 (defvar shellish-modes
   '(comint-mode compilation-mode magit-process-mode))
 (defvar writing-modes
-  '(org-mode markdown-mode fountain-mode git-commit-mode))
+  '(org-mode markdown-mode fountain-mode git-commit-mode text-mode))
 
 ;;;;; Config Macros
 
@@ -67,8 +67,9 @@
 (defmacro hook-modes (modes &rest body)
   (declare (indent 1) (debug t))
   `(dolist (mode ,modes)
-     (add-λ (intern (format "%s-hook" mode))
-       ,@body)))
+     (with-eval-after-load mode
+       (add-λ (intern (format "%s-hook" mode))
+         ,@body))))
 
 (defmacro each-mode-map (modes &rest body)
   (declare (indent 1) (debug t))
@@ -92,8 +93,6 @@
   :load-path "lib/"
   :config
   (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
-  (hook-modes writing-modes
-    (hemacs-writing-modes-hook))
   (hook-modes shellish-modes
     (hemacs-shellish-hook)))
 
@@ -300,6 +299,9 @@
 (use-package simple
   :defer t
   :config
+  (hook-modes writing-modes
+    (auto-fill-mode)
+    (visual-line-mode))
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
@@ -379,6 +381,11 @@
 (use-package toggle-quotes
   :ensure t
   :bind ("C-'" . toggle-quotes))
+
+(use-package flyspell
+  :config
+  (hook-modes writing-modes
+    (flyspell-mode)))
 
 ;;;;; Completion
 
@@ -920,6 +927,9 @@
  ("g" . gist-region-or-buffer-private)
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
+
+(each-mode-map writing-modes
+  (bind-key "," #'pad-comma mode-map))
 
 (bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
 (bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
