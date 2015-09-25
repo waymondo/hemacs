@@ -131,9 +131,9 @@
   :init (setq custom-file (locate-user-emacs-file "custom.el"))
   :config (load custom-file 'no-error 'no-message))
 
-(use-package "startup"
+(use-package startup
   :defer t
-  :config
+  :init
   (setq inhibit-startup-screen t
         initial-scratch-message nil
         inhibit-startup-echo-area-message ""))
@@ -225,6 +225,9 @@
 (use-package files
   :defer t
   :config
+  (add-hook 'before-save-hook #'hemacs-save-hook)
+  (advice-add 'find-file :before #'find-file-maybe-make-directories)
+  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query)
   (setq require-final-newline t
         confirm-kill-emacs nil
         confirm-nonexistent-file-or-buffer nil
@@ -294,13 +297,6 @@
   :config
   (advice-add 'comment-or-uncomment-region :before #'with-region-or-line))
 
-(use-package "files"
-  :defer t
-  :config
-  (add-hook 'before-save-hook #'hemacs-save-hook)
-  (advice-add 'find-file :before #'find-file-maybe-make-directories)
-  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query))
-
 (use-package simple
   :defer t
   :config
@@ -312,7 +308,7 @@
   (advice-add 'kill-line :around #'kill-line-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation))
 
-(use-package "indent"
+(use-package indent
   :defer t
   :config
   (advice-add 'indent-region :before #'with-region-or-buffer))
@@ -556,10 +552,6 @@
   (crab-server-start))
 
 ;;;;; Major Modes
-
-(use-package "text-mode"
-  :defer t
-  :config (bind-key "," #'pad-comma text-mode-map))
 
 (use-package org
   :config
