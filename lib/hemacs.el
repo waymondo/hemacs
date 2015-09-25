@@ -251,10 +251,9 @@
   (when (fboundp 'mc/keyboard-quit)
     (mc/keyboard-quit)))
 
-(defun hemacs-shellish-hook ()
+(defun process-output-scrolling ()
   (setq truncate-lines nil)
-  (set (make-local-variable 'scroll-margin) 0)
-  (text-scale-decrease 1))
+  (set (make-local-variable 'scroll-margin) 0))
 
 (defun what-face (pos)
   (interactive "d")

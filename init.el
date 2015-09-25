@@ -92,9 +92,7 @@
 (use-package hemacs
   :load-path "lib/"
   :config
-  (setq kill-buffer-query-functions '(hemacs-kill-buffer-query))
-  (hook-modes shellish-modes
-    (hemacs-shellish-hook)))
+  (setq kill-buffer-query-functions '(hemacs-kill-buffer-query)))
 
 (use-package dash
   :ensure t
@@ -156,6 +154,7 @@
                   comint-truncate-buffer
                   comint-watch-for-password-prompt))
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
+  (add-hook 'comint-mode-hook #'process-output-scrolling)
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (bind-keys :map comint-mode-map
              ("s-K"       . comint-clear-buffer)
@@ -170,6 +169,7 @@
   :config
   (setq compilation-disable-input t
         compilation-always-kill t)
+  (add-hook 'compilation-mode-hook #'process-output-scrolling)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package warnings
@@ -196,7 +196,7 @@
 (use-package executable
   :defer t
   :config
-  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p))
+  (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p))
 
 (use-package projector
   :ensure t
@@ -735,6 +735,7 @@
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
+  (add-hook 'magit-process-mode-hook #'process-output-scrolling)
   (magit-define-popup-action 'magit-dispatch-popup ?x "Reset" 'magit-reset ?!)
   (setq git-commit-summary-max-length git-commit-fill-column
         magit-revert-buffers 2
@@ -1038,6 +1039,11 @@
   :defer t
   :init
   (advice-add 'load-theme :after #'refresh-themed-packages-when-idle))
+
+(use-package face-remap
+  :init
+  (hook-modes shellish-modes
+    (text-scale-decrease 1)))
 
 (use-package apropospriate-theme
   :ensure t
