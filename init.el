@@ -281,7 +281,7 @@
 
 (use-package indent
   :defer t
-  :config
+  :init
   (advice-add 'indent-region :before #'with-region-or-buffer))
 
 (use-package delsel
@@ -634,7 +634,7 @@
              (":"     . smart-js-colon)
              ("C-c l" . js2-log-arguments))
   (setq-default js2-global-externs
-                '("clearTimeout" "setTimeout" "module" "require" "angular" "Ember")))
+                '("clearTimeout" "setTimeout" "module" "require" "_")))
 
 (use-package coffee-mode
   :mode "\\.coffee\\.*"
