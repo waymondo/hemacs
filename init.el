@@ -383,6 +383,8 @@
     :config
     (bind-key "<s-return>" #'ido-exit-target-other-window ido-common-completion-map))
   (ido-mode)
+  (bind-key "M-TAB" #'previous-history-element ido-completion-map)
+  (bind-key "<M-S-tab>" #'next-history-element ido-completion-map)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
@@ -693,7 +695,9 @@
     :ensure t
     :init
     (add-λ 'inf-ruby-mode-hook
-      (turn-on-comint-history ".pry_history")))
+      (turn-on-comint-history ".pry_history"))
+    (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
+    (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
   (use-package bundler
     :ensure t
     :config
@@ -912,10 +916,6 @@
 (bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
 (bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
 (bind-key "<M-S-tab>" #'next-complete-history-element minibuffer-local-map)
-(bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
-(bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map)
-(bind-key "M-TAB" #'previous-history-element ido-completion-map)
-(bind-key "<M-S-tab>" #'next-history-element ido-completion-map)
 
 ;;;;; Appearance
 
