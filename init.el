@@ -51,8 +51,11 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(eval-when-compile (require 'use-package))
-(require 'bind-key)
+(eval-when-compile
+  (require 'use-package))
+
+(use-package use-package-chords
+  :ensure t)
 
 (use-package hemacs
   :load-path "lib/"
@@ -188,6 +191,7 @@
 
 (use-package files
   :defer t
+  :chords (";f" . find-file)
   :config
   (add-hook 'before-save-hook #'hemacs-save-hook)
   (advice-add 'find-file :before #'find-file-maybe-make-directories)
@@ -306,13 +310,17 @@
 (use-package ace-jump-mode
   :ensure t
   :bind ("C-;" . ace-jump-mode)
+  :chords (("jj" . ace-jump-char-mode)
+           ("jk" . ace-jump-word-mode)
+           ("jl" . ace-jump-line-mode))
   :config
   (ace-jump-mode-enable-mark-sync)
   (setq ace-jump-mode-case-fold nil
         ace-jump-mode-scope 'visible))
 
 (use-package ace-jump-zap
-  :ensure t)
+  :ensure t
+  :chords ("jz" . ace-jump-zap-up-to-char))
 
 (use-package ace-window
   :ensure t
@@ -440,6 +448,15 @@
 
 ;;;;; Navigation & Search
 
+(use-package ffap
+  :defer t
+  :chords ("fp" . ffap))
+
+(use-package "window"
+  :defer t
+  :chords ((";s" . switch-to-buffer)
+           (":W" . delete-other-windows)))
+
 (use-package wgrep-ag
   :ensure t
   :config
@@ -447,6 +464,8 @@
 
 (use-package ag
   :ensure t
+  :chords ((";g" . ag-project)
+           (":G" . ag))
   :config
   (setq ag-reuse-buffers t
         ag-highlight-search t))
@@ -461,11 +480,17 @@
 (use-package imenu
   :init
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
-  (setq imenu-auto-rescan t)
-  (use-package imenu-anywhere :ensure t))
+  (setq imenu-auto-rescan t))
+
+(use-package imenu-anywhere
+  :ensure t
+  :chords (";r" . imenu-anywhere))
 
 (use-package ace-jump-buffer
   :ensure t
+  :chords ((";a" . ace-jump-buffer)
+           (":A" . ace-jump-buffer-other-window)
+           (";x" . ace-jump-shellish-buffers))
   :config
   (make-ace-jump-buffer-function "shellish"
     (with-current-buffer buffer
@@ -476,6 +501,7 @@
   :ensure t
   :bind-keymap ("s-p" . projectile-command-map)
   :bind ("s-t" . projectile-find-file)
+  :chords (";t" . projectile-find-file)
   :init
   (setq projectile-enable-caching t
         projectile-tags-command "ripper-tags -R -f TAGS")
@@ -540,6 +566,7 @@
 (use-package sgml-mode
   :mode (("\\.hbs\\'"        . html-mode)
          ("\\.handlebars\\'" . html-mode))
+  :chords ("<>" . sgml-close-tag)
   :config
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
@@ -782,39 +809,12 @@
 ;;;;; Bindings & Chords
 
 (use-package key-chord
-  :ensure t
+  :defer t
   :config
   (key-chord-mode 1)
+  (setq key-chord-two-keys-delay 0.05)
   (add-λ 'minibuffer-setup-hook
-    (set (make-local-variable 'input-method-function) nil))
-  (key-chord-define-global ",." "<>\C-b")
-  (key-chord-define-global "<>" #'sgml-close-tag)
-  (key-chord-define-global "}|" #'pad-pipes)
-  (key-chord-define-global "{}" #'open-brackets-newline-and-indent)
-  (key-chord-define-global "[]" #'pad-brackets)
-  (key-chord-define-global "_+" #'insert-fat-arrow)
-  (key-chord-define-global "-=" #'insert-arrow)
-  (key-chord-define-global "^^" (λ (insert "λ")))
-  (key-chord-define-global "::" (λ (insert "::")))
-  (key-chord-define-global "qq" #'log-statement)
-  (key-chord-define-global "fp" #'ffap)
-  (key-chord-define-global ";a" #'ace-jump-buffer)
-  (key-chord-define-global ":A" #'ace-jump-buffer-other-window)
-  (key-chord-define-global ";x" #'ace-jump-shellish-buffers)
-  (key-chord-define-global ";s" #'switch-to-buffer)
-  (key-chord-define-global ":S" #'recentf-find-file)
-  (key-chord-define-global ";w" #'toggle-split-window)
-  (key-chord-define-global ":W" #'delete-other-windows)
-  (key-chord-define-global ";f" #'find-file)
-  (key-chord-define-global ";t" #'projectile-find-file)
-  (key-chord-define-global ";g" #'ag-project)
-  (key-chord-define-global ":G" #'ag)
-  (key-chord-define-global ";r" #'imenu-anywhere)
-  (key-chord-define-global "jj" #'ace-jump-char-mode)
-  (key-chord-define-global "jk" #'ace-jump-word-mode)
-  (key-chord-define-global "jl" #'ace-jump-line-mode)
-  (key-chord-define-global "jz" #'ace-jump-zap-up-to-char)
-  (setq key-chord-two-keys-delay 0.05))
+    (set (make-local-variable 'input-method-function) nil)))
 
 (use-package free-keys
   :ensure t)
@@ -843,6 +843,18 @@
  ("s-/"        . comment-or-uncomment-region)
  ("s-S"        . rename-file-and-buffer)
  ("<f5>"       . toggle-transparency))
+
+(bind-chords
+ ("}|" . pad-pipes)
+ ("{}" . open-brackets-newline-and-indent)
+ ("[]" . pad-brackets)
+ ("_+" . insert-fat-arrow)
+ ("-=" . insert-arrow)
+ ("^^" . insert-λ)
+ ("::" . insert-two-colons)
+ ("qq" . log-statement)
+ (":S" . recentf-find-file)
+ (";w" . toggle-split-window))
 
 (bind-keys
  :prefix-map hemacs-help-map

@@ -211,6 +211,12 @@
   (ensure-space)
   (insert "=> "))
 
+(def insert-λ
+  (insert "λ"))
+
+(def insert-two-colons
+  (insert "::"))
+
 (def smart-ruby-colon
   (if (looking-back "[[:word:]]")
       (insert ": ")
