@@ -85,11 +85,7 @@
 
 (use-package novice
   :defer t
-  :config (setq disabled-command-function nil))
-
-(use-package advice
-  :defer t
-  :config (setq ad-redefinition-action 'accept))
+  :init (setq disabled-command-function nil))
 
 (use-package cus-edit
   :defer t
