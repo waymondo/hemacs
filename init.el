@@ -554,10 +554,15 @@
 ;;;;; Major Modes
 
 (use-package org
+  :defer t
   :config
   (setq org-support-shift-select t
         org-completion-use-ido t
         org-startup-indented t))
+
+(use-package org-autolist
+  :ensure t
+  :config (add-hook 'org-mode-hook #'org-autolist-mode))
 
 (use-package org-repo-todo
   :ensure t
