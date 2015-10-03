@@ -379,8 +379,9 @@
     :config
     (bind-key "<s-return>" #'ido-exit-target-other-window ido-common-completion-map))
   (ido-mode)
-  (bind-key "M-TAB" #'previous-history-element ido-completion-map)
-  (bind-key "<M-S-tab>" #'next-history-element ido-completion-map)
+  (bind-keys :map ido-completion-map
+             ("M-TAB"     . previous-history-element)
+             ("<M-S-tab>" . next-history-element))
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
@@ -421,7 +422,6 @@
         company-continue-commands
         (append company-continue-commands '(comint-previous-matching-input-from-input
                                             comint-next-matching-input-from-input)))
-  (bind-key "<tab>" #'company-complete-common-or-cycle company-active-map)
   (use-package company-dabbrev
     :config
     (setq company-dabbrev-minimum-length 2))
@@ -914,9 +914,10 @@
 (each-mode-map writing-modes
   (bind-key "," #'pad-comma mode-map))
 
-(bind-key "<escape>" #'abort-recursive-edit minibuffer-local-map)
-(bind-key "M-TAB" #'previous-complete-history-element minibuffer-local-map)
-(bind-key "<M-S-tab>" #'next-complete-history-element minibuffer-local-map)
+(bind-keys :map minibuffer-local-map
+           ("<escape>"  . abort-recursive-edit)
+           ("M-TAB"     . previous-complete-history-element)
+           ("<M-S-tab>" . next-complete-history-element))
 
 ;;;;; Appearance
 
