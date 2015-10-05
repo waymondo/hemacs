@@ -382,12 +382,6 @@
                :scroll-bar t
                :margin t)))
 
-(defun hemacs-kill-buffer-query ()
-  (if (not (member (buffer-name) '("*Messages*")))
-      t
-    (bury-buffer)
-    nil))
-
 (defun alert-after-finish-in-background (buf str)
   (unless (get-buffer-window buf 'visible)
     (alert str :buffer buf)))

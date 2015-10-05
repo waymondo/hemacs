@@ -58,9 +58,7 @@
   :ensure t)
 
 (use-package hemacs
-  :load-path "lib/"
-  :config
-  (setq kill-buffer-query-functions '(hemacs-kill-buffer-query)))
+  :load-path "lib/")
 
 (use-package dash
   :ensure t
@@ -253,6 +251,10 @@
   :if (eq system-type 'darwin)
   :ensure t
   :init (osx-trash-setup))
+
+(use-package kill-or-bury-alive
+  :ensure t
+  :bind ("s-w" . kill-or-bury-alive))
 
 ;;;;; Editing
 
@@ -843,7 +845,6 @@
  ("s-`"        . ort/goto-todos)
  ("s-n"        . ort/capture-checkitem)
  ("s-N"        . create-scratch-buffer)
- ("s-w"        . kill-this-buffer)
  ("s-y"        . company-kill-ring)
  ("s-/"        . comment-or-uncomment-region)
  ("s-S"        . rename-file-and-buffer)
