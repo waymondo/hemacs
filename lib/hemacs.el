@@ -294,7 +294,8 @@
 
 (defun process-output-scrolling ()
   (setq truncate-lines nil)
-  (set (make-local-variable 'scroll-margin) 0))
+  (set (make-local-variable 'scroll-margin) 0)
+  (text-scale-decrease 1))
 
 (defun what-face (pos)
   (interactive "d")

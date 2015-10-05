@@ -1020,11 +1020,6 @@
   :init
   (advice-add 'load-theme :after #'refresh-themed-packages-when-idle))
 
-(use-package face-remap
-  :init
-  (hook-modes shellish-modes
-    (text-scale-decrease 1)))
-
 (use-package apropospriate-theme
   :ensure t
   :init
