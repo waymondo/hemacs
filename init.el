@@ -26,8 +26,6 @@
               bidi-display-reordering nil
               truncate-lines t)
 
-(defalias 'yes-or-no-p #'y-or-n-p)
-
 ;;;;; Personal Variables
 
 (defvar indent-sensitive-modes
@@ -96,6 +94,9 @@
   (setq inhibit-startup-screen t
         initial-scratch-message nil
         inhibit-startup-echo-area-message ""))
+
+(use-package "subr"
+  :init (defalias 'yes-or-no-p #'y-or-n-p))
 
 ;;;;; Processes, Shells, Compilation
 
@@ -259,12 +260,12 @@
 ;;;;; Editing
 
 (use-package newcomment
-  :defer t
+  :bind ("s-/" . comment-or-uncomment-region)
   :config
   (advice-add 'comment-or-uncomment-region :before #'with-region-or-line))
 
 (use-package simple
-  :defer t
+  :bind ("s-k" . kill-whole-line)
   :config
   (hook-modes writing-modes
     (auto-fill-mode)
@@ -454,6 +455,15 @@
 
 (use-package "window"
   :defer t
+  :init
+  (setq display-buffer-alist
+        `(
+          (,(rx bos (or "*compilation" "*Warnings*" "COMMIT_EDITMSG"))
+           (display-buffer-reuse-window display-buffer-in-side-window)
+           (side            . bottom)
+           (reusable-frames . visible)
+           (window-height   . 0.33))
+          ("." nil (reusable-frames . visible))))
   :chords ((";s" . switch-to-buffer)
            (":W" . delete-other-windows)))
 
@@ -564,6 +574,8 @@
 
 (use-package org-repo-todo
   :ensure t
+  :bind (("s-`" . ort/goto-todos)
+         ("s-n" . ort/capture-checkitem))
   :config
   (make-projectile-switch-project-defun ort/capture-todo)
   (make-projectile-switch-project-defun ort/goto-todos))
@@ -842,14 +854,10 @@
  ("s-["        . shift-left)
  ("s-]"        . shift-right)
  ("s-u"        . duplicate-dwim)
- ("s-k"        . kill-whole-line)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
- ("s-`"        . ort/goto-todos)
- ("s-n"        . ort/capture-checkitem)
  ("s-N"        . create-scratch-buffer)
  ("s-y"        . company-kill-ring)
- ("s-/"        . comment-or-uncomment-region)
  ("s-S"        . rename-file-and-buffer)
  ("<f5>"       . toggle-transparency))
 
