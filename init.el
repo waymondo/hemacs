@@ -732,6 +732,9 @@
   :ensure t
   :bind ("s-m" . magit-status)
   :config
+  (use-package magit-gh-pulls
+    :ensure t
+    :config (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-output-scrolling)
