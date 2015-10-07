@@ -659,12 +659,12 @@
 (use-package web-beautify
   :ensure t
   :config
-  (eval-after-load 'js2-mode
-    '(bind-key "s-b" #'web-beautify-js js2-mode-map))
-  (eval-after-load 'sgml-mode
-    '(bind-key "s-b" #'web-beautify-html html-mode-map))
-  (eval-after-load 'css-mode
-    '(bind-key "s-b" #'web-beautify-css css-mode-map)))
+  (with-eval-after-load 'js2-mode
+    (bind-key "s-b" #'web-beautify-js js2-mode-map))
+  (with-eval-after-load 'sgml-mode
+    (bind-key "s-b" #'web-beautify-html html-mode-map))
+  (with-eval-after-load 'css-mode
+    (bind-key "s-b" #'web-beautify-css css-mode-map)))
 
 (use-package slim-mode
   :ensure t
