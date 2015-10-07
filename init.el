@@ -79,6 +79,9 @@
   :defer t
   :config (scroll-bar-mode -1))
 
+(use-package menu-bar
+  :bind ("s-w" . kill-this-buffer))
+
 (use-package novice
   :defer t
   :init (setq disabled-command-function nil))
@@ -252,10 +255,6 @@
   :if (eq system-type 'darwin)
   :ensure t
   :init (osx-trash-setup))
-
-(use-package kill-or-bury-alive
-  :ensure t
-  :bind ("s-w" . kill-or-bury-alive))
 
 ;;;;; Editing
 
@@ -450,20 +449,9 @@
 ;;;;; Navigation & Search
 
 (use-package ffap
-  :defer t
   :chords ("fp" . ffap))
 
 (use-package "window"
-  :defer t
-  :init
-  (setq display-buffer-alist
-        `(
-          (,(rx bos (or "*compilation" "*Warnings*" "COMMIT_EDITMSG"))
-           (display-buffer-reuse-window display-buffer-in-side-window)
-           (side            . bottom)
-           (reusable-frames . visible)
-           (window-height   . 0.33))
-          ("." nil (reusable-frames . visible))))
   :chords ((";s" . switch-to-buffer)
            (":W" . delete-other-windows)))
 
