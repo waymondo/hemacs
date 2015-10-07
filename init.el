@@ -916,8 +916,6 @@
  ("o" . github-browse-file)
  ("b" . github-browse-file-blame)
  ("c" . github-browse-commit)
- ("i" . github-browse-new-issue)
- ("r" . github-browse-pull-request)
  ("l" . magit-clone)
  ("g" . gist-region-or-buffer-private)
  ("t" . git-timemachine)
