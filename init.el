@@ -476,7 +476,7 @@
   (global-anzu-mode))
 
 (use-package imenu
-  :init
+  :config
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
