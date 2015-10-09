@@ -39,7 +39,8 @@
 (defvar shellish-modes
   '(comint-mode compilation-mode magit-process-mode))
 (defvar writing-modes
-  '(org-mode markdown-mode fountain-mode git-commit-mode text-mode))
+  '(org-mode markdown-mode fountain-mode text-mode))
+(defvar monospace-font "Fira Code")
 
 ;;;;; Bootstrap
 
@@ -928,8 +929,8 @@
   :config
   (setq blink-cursor-blinks 0)
   (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
-  (when (member "Meslo LG L DZ for Powerline" (font-family-list))
-    (set-frame-font "Meslo LG L DZ for Powerline-15")))
+  (when (member monospace-font (font-family-list))
+    (set-frame-font (concat monospace-font "-15"))))
 
 (use-package prog-mode
   :defer t

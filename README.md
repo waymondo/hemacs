@@ -16,7 +16,7 @@ npm install -g js-beautifier marked less coffee-script js2coffee eslint babel-es
 gem install gem-ripper-tags rubocop ruby-lint
 ```
 
-Uses [Meslo LG L DZ for Powerline](https://github.com/Lokaltog/powerline-fonts) as the default font.
+Uses [Fira Code](https://github.com/tonsky/FiraCode) as the default font.
 
 Control Google Chrome with the [Crab Chrome Extension](https://github.com/puffnfresh/crab-chrome).
 
