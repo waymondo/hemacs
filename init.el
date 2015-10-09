@@ -555,7 +555,8 @@
   :config
   (setq org-support-shift-select t
         org-completion-use-ido t
-        org-startup-indented t))
+        org-startup-indented t)
+  (bind-key "," #'pad-comma org-mode-map))
 
 (use-package org-autolist
   :ensure t
@@ -602,6 +603,7 @@
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
+  (bind-key "," #'pad-comma markdown-mode-map)
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
 
@@ -715,14 +717,17 @@
   (use-package ruby-hash-syntax
     :ensure t
     :init
-    (each-mode-map ruby-modes
-      (bind-key "C-c C-:" #'ruby-toggle-hash-syntax mode-map))))
+    (bind-key "C-c C-:" #'ruby-toggle-hash-syntax ruby-mode-map)))
 
 (use-package yaml-mode
   :ensure t)
 
 (use-package restclient
   :ensure t)
+
+(use-package "text-mode"
+  :init
+  (bind-key "," #'pad-comma text-mode-map))
 
 ;;;;; Version Control
 
@@ -909,9 +914,6 @@
  ("g" . gist-region-or-buffer-private)
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
-
-(each-mode-map writing-modes
-  (bind-key "," #'pad-comma mode-map))
 
 (bind-keys :map minibuffer-local-map
            ("<escape>"  . abort-recursive-edit)
