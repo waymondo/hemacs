@@ -39,7 +39,7 @@
 (defvar shellish-modes
   '(comint-mode compilation-mode magit-process-mode))
 (defvar writing-modes
-  '(org-mode markdown-mode fountain-mode text-mode))
+  '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defvar monospace-font "Fira Code")
 
 ;;;;; Bootstrap
