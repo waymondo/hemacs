@@ -103,7 +103,8 @@
         initial-scratch-message nil
         inhibit-startup-echo-area-message ""))
 
-(use-package "subr"
+(use-package subr
+  :preface (provide 'subr)
   :init (defalias 'yes-or-no-p #'y-or-n-p))
 
 ;;;;; Processes, Shells, Compilation
@@ -456,7 +457,8 @@
 (use-package ffap
   :chords ("fp" . ffap))
 
-(use-package "window"
+(use-package window
+  :preface (provide 'window)
   :chords ((";s" . switch-to-buffer)
            (":W" . delete-other-windows)))
 
@@ -729,7 +731,8 @@
 (use-package restclient
   :ensure t)
 
-(use-package "text-mode"
+(use-package text-mode
+  :preface (provide 'text-mode)
   :init
   (bind-key "," #'pad-comma text-mode-map))
 
