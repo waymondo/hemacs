@@ -183,7 +183,7 @@
   (call-interactively 'delete-region))
 
 (defun ensure-space ()
-  (unless (looking-back " ")
+  (unless (looking-back " " nil)
     (insert " ")))
 
 (def insert-arrow
@@ -201,7 +201,7 @@
   (insert "::"))
 
 (def smart-ruby-colon
-  (if (looking-back "[[:word:]]")
+  (if (looking-back "[[:word:]]" nil)
       (insert ": ")
     (insert ":")))
 
@@ -228,9 +228,9 @@
 (def pad-equals
   (if (nth 3 (syntax-ppss))
       (insert "=")
-    (cond ((looking-back "=[[:space:]]")
+    (cond ((looking-back "=[[:space:]]" nil)
            (delete-char -1))
-          ((looking-back "[^#/|!]")
+          ((looking-back "[^#/|!<>]" nil)
            (ensure-space)))
     (insert "=")
     (ensure-space)))
