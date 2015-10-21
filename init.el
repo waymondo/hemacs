@@ -145,8 +145,7 @@
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package warnings
-  :defer t
-  :init
+  :config
   (setq warning-suppress-types '((undo discard-info))))
 
 (use-package shell
