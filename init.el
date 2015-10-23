@@ -178,6 +178,7 @@
   (setq projector-always-background-regex
         '("^powder restart\\.*"
           "^heroku restart\\.*"
+          "^heroku addons:open\\.*"
           "^spring stop"
           "^gulp publish\\.*"
           "^git push\\.*"
