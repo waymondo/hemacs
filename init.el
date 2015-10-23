@@ -36,8 +36,6 @@
   '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
 (defvar ruby-modes
   '(ruby-mode slim-mode inf-ruby-mode))
-(defvar shellish-modes
-  '(comint-mode compilation-mode magit-process-mode))
 (defvar writing-modes
   '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defvar monospace-font "Fira Code")
@@ -436,14 +434,18 @@
   (use-package company-emoji
     :ensure t
     :config
-    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+    (hook-modes writing-modes
+      (setq-local company-backends (append '(company-emoji) company-backends))))
   (use-package company-dabbrev-code
     :config
     (setq company-dabbrev-code-modes t
           company-dabbrev-code-everywhere t))
   (use-package readline-complete
     :ensure t
-    :config (push #'company-readline company-backends)))
+    :config
+    (add-λ 'comint-mode-hook
+      (setq-local company-backends (append '(company-readline) company-backends)))))
 
 (use-package smart-tab
   :ensure t
