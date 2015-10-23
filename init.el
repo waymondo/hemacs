@@ -290,16 +290,7 @@
   :init (delete-selection-mode))
 
 (use-package elec-pair
-  :init (electric-pair-mode)
-  :config
-  (setq electric-pair-pairs '
-        ((?\( . ?\))
-         (?\" . ?\")
-         (?\{ . ?\})
-         (?\[ . ?\]))
-        electric-pair-text-pairs '
-        ((?\" . ?\")
-         (?\` . ?\`))))
+  :init (electric-pair-mode))
 
 (use-package subword
   :init (global-subword-mode))
