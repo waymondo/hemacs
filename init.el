@@ -624,8 +624,6 @@
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'"        . js2-mode)
-         ("\\.bowerrc$"     . js2-mode)
-         ("\\.json_schema$" . js2-mode)
          ("\\.es6$"         . js2-mode))
   :interpreter (("node" . js2-mode))
   :config
@@ -640,6 +638,11 @@
              ("C-c l" . js2-log-arguments))
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
+
+(use-package json-mode
+  :ensure t
+  :mode (("\\.bowerrc$"     . js2-mode)
+         ("\\.json_schema$" . js2-mode)))
 
 (use-package coffee-mode
   :mode "\\.coffee\\.*"
