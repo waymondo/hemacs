@@ -946,21 +946,12 @@
   :ensure t
   :config (global-page-break-lines-mode))
 
-(use-package pulse
+(use-package beacon
+  :ensure t
   :config
-  (setq pulse-command-advice-flag t
-        pulse-delay 0.01
-        pulse-iterations 4)
-  (funcall-after-commands #'pulse-line-hook-function
-    '(scroll-down-command
-      scroll-up-command
-      next-multiframe-window
-      find-tag))
-  (--each '(next-error-hook
-            find-function-after-hook
-            isearch-mode-end-hook
-            imenu-after-jump-hook)
-    (add-hook it #'pulse-line-hook-function)))
+  (beacon-mode)
+  (setq beacon-blink-when-focused t
+        beacon-dont-blink-commands '()))
 
 (use-package highlight-symbol
   :ensure t

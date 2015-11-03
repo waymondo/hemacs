@@ -38,13 +38,6 @@
              (call-interactively 'delete-region)
              (insert (funcall ',func current-symbol))))))))
 
-(defmacro funcall-after-commands (func commands)
-  (declare (indent 1) (debug t))
-  `(progn
-     (add-λ 'post-command-hook
-       (when (member this-original-command ,commands)
-         (run-at-time nil nil ,func)))))
-
 (def browse-file-directory
   (if default-directory
       (browse-url-of-file (expand-file-name default-directory))
