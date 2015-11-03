@@ -419,6 +419,10 @@
         company-continue-commands
         (append company-continue-commands '(comint-previous-matching-input-from-input
                                             comint-next-matching-input-from-input)))
+  (use-package company-flx
+    :ensure t
+    :config
+    (company-flx-mode))
   (use-package company-dabbrev
     :config
     (setq company-dabbrev-minimum-length 2))
@@ -645,8 +649,8 @@
          ("\\.json_schema$" . js2-mode)))
 
 (use-package coffee-mode
-  :mode "\\.coffee\\.*"
   :ensure t
+  :mode "\\.coffee\\.*"
   :config
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header")
@@ -693,10 +697,6 @@
   (setenv "RIPPER_TAGS_EMACS" "1")
   (use-package ruby-tools :ensure t)
   (use-package rspec-mode :ensure t)
-  (use-package foreman-mode
-    :ensure t
-    :config
-    (bind-key "F" #'foreman projectile-rails-command-map))
   (use-package inf-ruby
     :ensure t
     :init
