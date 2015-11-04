@@ -937,6 +937,7 @@
 
 (use-package prog-mode
   :defer t
+  :init (setq prettify-symbols-unprettify-at-point 'right-edge)
   :config (global-prettify-symbols-mode))
 
 (use-package uniquify
