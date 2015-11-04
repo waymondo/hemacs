@@ -967,7 +967,7 @@
   :config
   (beacon-mode)
   (setq beacon-blink-when-focused t
-        beacon-dont-blink-commands '()))
+        beacon-dont-blink-commands '(next-line previous-line)))
 
 (use-package highlight-symbol
   :ensure t
