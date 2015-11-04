@@ -252,6 +252,7 @@
 
 (use-package midnight
   :config
+  (midnight-mode)
   (add-hook 'midnight-hook #'recentf-save-list)
   (setq midnight-period 10000))
 
