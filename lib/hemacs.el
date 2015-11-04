@@ -279,32 +279,11 @@
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
-(defun try-expand-dabbrev-matching-buffers (old)
-  (let ((matching-buffers (--filter
-                           (eq major-mode (with-current-buffer it major-mode))
-                           (buffer-list))))
-    (flet ((buffer-list () matching-buffers))
-      (try-expand-dabbrev-all-buffers old))))
-
-(defun try-expand-dabbrev-other-buffers (old)
-  (let ((matching-buffers (--reject
-                           (eq major-mode (with-current-buffer it major-mode))
-                           (buffer-list))))
-    (flet ((buffer-list () matching-buffers))
-      (try-expand-dabbrev-all-buffers old))))
-
 (def create-scratch-buffer
   (let ((current-major-mode major-mode)
         (buf (generate-new-buffer "*scratch*")))
     (switch-to-buffer buf)
     (funcall current-major-mode)))
-
-(def find-or-create-projectile-restclient-buffer
-  (let ((buffer-name (concat "*" (projectile-project-name) " restclient*")))
-    (switch-to-buffer
-     (or (get-buffer buffer-name)
-         (generate-new-buffer buffer-name)))
-    (restclient-mode)))
 
 (def toggle-split-window
   (if (eq last-command 'toggle-split-window)
@@ -344,21 +323,6 @@
 (defun css-imenu-generic-expression ()
   (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
 
-(def describe-thing-in-popup
-  (let* ((thing (symbol-at-point))
-         (help-xref-following t)
-         (description (save-window-excursion
-                        (with-temp-buffer
-                          (help-mode)
-                          (describe-symbol thing)
-                          (buffer-string)))))
-    (popup-tip description
-               :point (point)
-               :around t
-               :height 20
-               :scroll-bar t
-               :margin t)))
-
 (defun alert-after-finish-in-background (buf str)
   (unless (get-buffer-window buf 'visible)
     (alert str :buffer buf)))
@@ -372,11 +336,6 @@
   (company-begin-with
    (mapcar #'substring-no-properties kill-ring))
   (company-filter-candidates))
-
-(def company-only-emoji
-  (insert ":")
-  (run-at-time nil nil
-               (lambda () (company-begin-backend 'company-emoji))))
 
 (def recentf-find-file
   (let ((file (completing-read "Choose recent file: "
@@ -450,20 +409,6 @@
    (if mark-active
        (list (region-beginning) (region-end))
      (list (point-min) (point-max)))))
-
-(defun js2-log-arguments ()
-  (interactive)
-  (save-excursion
-    (when (and (beginning-of-defun) (search-forward "function") (search-forward "("))
-      (let ((args (buffer-substring-no-properties
-                   (point)
-                   (progn (backward-char 1) (forward-sexp 1) (1- (point))))))
-        (search-forward "{")
-        (insert "\nconsole.log({"
-                (mapconcat (lambda (arg) (format "%s: %s" (s-trim arg) (s-trim arg)))
-                           (split-string args ", " t) ", ")
-                "});")
-        (call-interactively 'indent-for-tab-command)))))
 
 (def upgrade-packages
   (package-refresh-contents)

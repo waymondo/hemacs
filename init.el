@@ -388,6 +388,18 @@
 (use-package hippie-exp
   :bind (([remap dabbrev-expand] . hippie-expand))
   :config
+  (defun try-expand-dabbrev-matching-buffers (old)
+    (let ((matching-buffers (--filter
+                             (eq major-mode (with-current-buffer it major-mode))
+                             (buffer-list))))
+      (flet ((buffer-list () matching-buffers))
+        (try-expand-dabbrev-all-buffers old))))
+  (defun try-expand-dabbrev-other-buffers (old)
+    (let ((matching-buffers (--reject
+                             (eq major-mode (with-current-buffer it major-mode))
+                             (buffer-list))))
+      (flet ((buffer-list () matching-buffers))
+        (try-expand-dabbrev-all-buffers old))))
   (defun hippie-expand-case-sensitive (orig-fun &rest args)
     (let ((case-fold-search nil))
       (apply orig-fun args)))
@@ -641,8 +653,8 @@
 
 (use-package js2-mode
   :ensure t
-  :mode (("\\.js\\'"        . js2-mode)
-         ("\\.es6$"         . js2-mode))
+  :mode (("\\.js\\'" . js2-mode)
+         ("\\.es6$"  . js2-mode))
   :interpreter (("node" . js2-mode))
   :config
   (setq js2-strict-trailing-comma-warning nil
@@ -650,10 +662,9 @@
         js2-highlight-level 3
         js2-basic-offset 2)
   (bind-keys :map js2-mode-map
-             (","     . pad-comma)
-             ("="     . pad-equals)
-             (":"     . smart-js-colon)
-             ("C-c l" . js2-log-arguments))
+             ("," . pad-comma)
+             ("=" . pad-equals)
+             (":" . smart-js-colon))
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
@@ -815,11 +826,6 @@
 (use-package dash-at-point
   :load-path "lib/dash-at-point/")
 
-(use-package popup
-  :ensure t
-  :commands popup-tip
-  :config (setq popup-use-optimized-column-computation nil))
-
 (use-package discover
   :ensure t
   :config (global-discover-mode))
@@ -831,11 +837,7 @@
                 '(html-tidy javascript-jshint emacs-lisp-checkdoc)
                 flycheck-idle-change-delay 1
                 flycheck-less-executable "/usr/local/bin/lessc")
-  (add-hook 'after-init-hook #'global-flycheck-mode)
-  (use-package flycheck-pos-tip
-    :ensure t
-    :config
-    (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;;;;; Bindings & Chords
 
@@ -894,8 +896,7 @@
  ("D" . dash-at-point-with-docset)
  ("F" . browse-file-directory)
  ("i" . insert-local-ip-address)
- ("o" . open-package)
- ("p" . describe-thing-in-popup))
+ ("o" . open-package))
 
 (bind-keys
  :prefix-map hemacs-projectile-map
