@@ -414,10 +414,6 @@
   (flet ((process-list ()))
     (apply orig-fun args)))
 
-(defun hippie-expand-case-sensitive (orig-fun &rest args)
-  (let ((case-fold-search nil))
-    (apply orig-fun args)))
-
 (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
   (let* ((process (nth 0 args))
          (event (nth 1 args))
@@ -436,13 +432,6 @@
       (unless (file-remote-p project)
         (file-directory-p (concat project "/.git/"))))
     (projectile-relevant-known-projects))))
-
-(defun hippie-expand-ruby-symbols (orig-fun &rest args)
-  (if (eq major-mode 'ruby-mode)
-      (let ((table (make-syntax-table ruby-mode-syntax-table)))
-        (modify-syntax-entry ?: "." table)
-        (with-syntax-table table (apply orig-fun args)))
-    (apply orig-fun args)))
 
 (defun with-region-or-point-to-eol (beg end &optional _)
   (interactive
