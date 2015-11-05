@@ -399,31 +399,18 @@
   :bind (([remap dabbrev-expand] . hippie-expand))
   :config
   (defun try-expand-dabbrev-matching-buffers (old)
-    (let ((matching-buffers (--filter
-                             (eq major-mode (with-current-buffer it major-mode))
-                             (buffer-list))))
-      (flet ((buffer-list () matching-buffers))
-        (try-expand-dabbrev-all-buffers old))))
+    (let ((hippie-expand-only-buffers `(,major-mode)))
+      (try-expand-dabbrev-all-buffers old)))
   (defun try-expand-dabbrev-other-buffers (old)
-    (let ((matching-buffers (--reject
-                             (eq major-mode (with-current-buffer it major-mode))
-                             (buffer-list))))
-      (flet ((buffer-list () matching-buffers))
-        (try-expand-dabbrev-all-buffers old))))
+    (let ((hippie-expand-ignore-buffers `(,major-mode)))
+      (try-expand-dabbrev-all-buffers old)))
   (defun hippie-expand-case-sensitive (orig-fun &rest args)
     (let ((case-fold-search nil))
       (apply orig-fun args)))
-  (defun hippie-expand-ruby-symbols (orig-fun &rest args)
-    (if (eq major-mode 'ruby-mode)
-        (let ((table (make-syntax-table ruby-mode-syntax-table)))
-          (modify-syntax-entry ?: "." table)
-          (with-syntax-table table (apply orig-fun args)))
-      (apply orig-fun args)))
   (defun hippie-expand-inhibit-message-in-minibuffer (orig-fun &rest args)
-    (let (inhibit-message (minibufferp))
+    (let ((inhibit-message (minibufferp)))
       (apply orig-fun args)))
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
-  (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols)
   (advice-add 'hippie-expand :around #'hippie-expand-inhibit-message-in-minibuffer)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
@@ -432,6 +419,7 @@
         hippie-expand-try-functions-list '(try-expand-dabbrev-visible
                                            try-expand-dabbrev
                                            try-expand-dabbrev-matching-buffers
+                                           try-expand-dabbrev-from-kill
                                            try-complete-file-name-partially
                                            try-complete-file-name
                                            try-expand-dabbrev-other-buffers))
