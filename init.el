@@ -840,7 +840,7 @@
 
 (use-package diff-hl-flydiff
   :after diff-hl
-  :init (setq diff-hl-flydiff-delay 3))
+  :config (setq diff-hl-flydiff-delay 3))
 
 ;;;;; Help & Docs
 
