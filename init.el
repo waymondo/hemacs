@@ -228,14 +228,16 @@
 
 (use-package dired
   :defer t
-  :init
-  (use-package dired-x)
+  :config
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-use-ls-dired nil
         dired-dwim-target t
         dired-recursive-deletes 'always
         dired-recursive-copies 'always
         dired-auto-revert-buffer t))
+
+(use-package dired-x
+  :after dired)
 
 (use-package ranger
   :ensure t
@@ -358,32 +360,40 @@
 
 (use-package ido
   :config
-  (use-package ido-ubiquitous
-    :ensure t
-    :config
-    (ido-ubiquitous-mode))
-  (use-package flx-ido
-    :ensure t
-    :config
-    (flx-ido-mode)
-    (setq flx-ido-use-faces nil))
-  (use-package ido-vertical-mode
-    :ensure t
-    :config
-    (ido-vertical-mode)
-    (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
-  (use-package ido-exit-target
-    :ensure t
-    :config
-    (bind-key "<s-return>" #'ido-exit-target-other-window ido-common-completion-map))
   (ido-mode)
-  (bind-keys :map ido-completion-map
-             ("M-TAB"     . previous-history-element)
-             ("<M-S-tab>" . next-history-element))
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
-        ido-create-new-buffer 'always))
+        ido-create-new-buffer 'always)
+  (bind-keys :map ido-completion-map
+        ("M-TAB"     . previous-history-element)
+        ("<M-S-tab>" . next-history-element)))
+
+(use-package flx-ido
+  :ensure t
+  :after ido
+  :config
+  (flx-ido-mode)
+  (setq flx-ido-use-faces nil))
+
+(use-package ido-ubiquitous
+  :ensure t
+  :after ido
+  :config
+  (ido-ubiquitous-mode))
+
+(use-package ido-vertical-mode
+  :ensure t
+  :after ido
+  :config
+  (ido-vertical-mode)
+  (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
+
+(use-package ido-exit-target
+  :ensure t
+  :after ido
+  :config
+  (bind-key "<s-return>" #'ido-exit-target-other-window ido-common-completion-map))
 
 (use-package hippie-exp
   :bind (([remap dabbrev-expand] . hippie-expand))
@@ -444,29 +454,39 @@
         company-occurrence-weight-function #'company-occurrence-prefer-any-closest
         company-continue-commands
         (append company-continue-commands '(comint-previous-matching-input-from-input
-                                            comint-next-matching-input-from-input)))
-  (use-package company-flx
-    :ensure t
-    :config
-    (company-flx-mode))
-  (use-package company-dabbrev
-    :config
-    (setq company-dabbrev-minimum-length 2))
-  (use-package company-emoji
-    :ensure t
-    :config
-    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
-    (hook-modes writing-modes
-      (setq-local company-backends (append '(company-emoji) company-backends))))
-  (use-package company-dabbrev-code
-    :config
-    (setq company-dabbrev-code-modes t
-          company-dabbrev-code-everywhere t))
-  (use-package readline-complete
-    :ensure t
-    :config
-    (add-λ 'comint-mode-hook
-      (setq-local company-backends (append '(company-readline) company-backends)))))
+                                            comint-next-matching-input-from-input))))
+
+(use-package company-dabbrev
+  :after company
+  :config
+  (setq company-dabbrev-minimum-length 2))
+
+(use-package company-dabbrev-code
+  :after company
+  :config
+  (setq company-dabbrev-code-modes t
+        company-dabbrev-code-everywhere t))
+
+(use-package company-flx
+  :ensure t
+  :after company
+  :config
+  (company-flx-mode))
+
+(use-package company-emoji
+  :ensure t
+  :after company
+  :config
+  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+  (hook-modes writing-modes
+    (setq-local company-backends (append '(company-emoji) company-backends))))
+
+(use-package readline-complete
+  :ensure t
+  :after company
+  :config
+  (add-λ 'comint-mode-hook
+    (setq-local company-backends (append '(company-readline) company-backends))))
 
 (use-package smart-tab
   :ensure t
@@ -527,23 +547,26 @@
 
 (use-package projectile
   :ensure t
-  :bind-keymap ("s-p" . projectile-command-map)
-  :bind ("s-t" . projectile-find-file)
+  :bind (("s-p" . projectile-command-map)
+         ("s-t" . projectile-find-file))
   :chords (";t" . projectile-find-file)
   :init
-  (setq projectile-enable-caching t
-        projectile-tags-command "ripper-tags -R -f TAGS")
+  (setq projectile-enable-caching t)
   :config
   (make-projectile-switch-project-defun projectile-vc)
   (make-projectile-switch-project-defun projectile-find-file)
   (make-projectile-switch-project-defun projector-run-shell-command-project-root)
   (make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
-  (use-package projectile-rails
-    :ensure t
-    :config
-    (add-hook 'projectile-mode-hook #'projectile-rails-on))
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
+
+(use-package projectile-rails
+  :ensure t
+  :after (ruby-mode projectile)
+  :config
+  (add-λ 'ruby-mode-hook
+    (setq-local projectile-tags-command "ripper-tags -R -f TAGS"))
+  (add-hook 'projectile-mode-hook #'projectile-rails-on))
 
 (use-package swiper
   :ensure t
@@ -607,12 +630,14 @@
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
   (add-hook 'sgml-mode #'sgml-electric-tag-pair-mode)
-  (use-package handlebars-sgml-mode
-    :ensure t
-    :config (handlebars-use-mode 'global))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
              ("<C-return>" . html-smarter-newline)))
+
+(use-package handlebars-sgml-mode
+  :ensure t
+  :after sgml-mode
+  :config (handlebars-use-mode 'global))
 
 (use-package web-mode
   :ensure t
@@ -639,10 +664,6 @@
 (use-package css-mode
   :mode "\\.css\\.erb\\'"
   :init
-  (use-package less-css-mode
-    :ensure t
-    :mode "\\.less\\.erb\\'"
-    :init (setq less-css-lessc-options '("--no-color" "-x")))
   :config
   (add-hook 'css-mode-hook #'css-imenu-generic-expression)
   (setq css-indent-offset 2)
@@ -650,6 +671,11 @@
              (":" . smart-css-colon)
              ("," . pad-comma)
              ("{" . open-brackets-newline-and-indent)))
+
+(use-package less-css-mode
+  :ensure t
+  :mode "\\.less\\.erb\\'"
+  :init (setq less-css-lessc-options '("--no-color" "-x")))
 
 (use-package js2-mode
   :ensure t
@@ -720,29 +746,48 @@
              (":"          . smart-ruby-colon)
              ("<C-return>" . ruby-newline-dwim))
   (setenv "RIPPER_TAGS_EMACS" "1")
-  (use-package ruby-tools :ensure t)
-  (use-package rspec-mode :ensure t)
-  (use-package inf-ruby
-    :ensure t
-    :init
-    (add-λ 'inf-ruby-mode-hook
-      (turn-on-comint-history ".pry_history"))
-    (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
-    (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
-  (use-package bundler
-    :ensure t
-    :config
-    (bind-key "G" #'bundle-open projectile-rails-command-map))
-  (use-package chruby
-    :ensure t
-    :init
-    (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
-    (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)
-    (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding))
-  (use-package ruby-hash-syntax
-    :ensure t
-    :init
-    (bind-key "C-c C-:" #'ruby-toggle-hash-syntax ruby-mode-map)))
+  (defun hippie-expand-ruby-symbols (orig-fun &rest args)
+    (let ((table (make-syntax-table ruby-mode-syntax-table)))
+      (modify-syntax-entry ?: "." table)
+      (with-syntax-table table (apply orig-fun args))))
+  (add-λ 'ruby-mode-hook
+    (add-function :around (local 'hippie-expand) #'hippie-expand-ruby-symbols)))
+
+(use-package ruby-tools
+  :ensure t
+  :after ruby-mode)
+
+(use-package rspec-mode
+  :ensure t
+  :after ruby-mode)
+
+(use-package inf-ruby
+  :ensure t
+  :config
+  (add-λ 'inf-ruby-mode-hook
+    (turn-on-comint-history ".pry_history"))
+  (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
+  (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
+
+(use-package bundler
+  :ensure t
+  :after projectile-rails
+  :config
+  (bind-key "G" #'bundle-open projectile-rails-command-map))
+
+(use-package chruby
+  :ensure t
+  :after projectile-rails
+  :init
+  (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
+  (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)
+  (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding))
+
+(use-package ruby-hash-syntax
+  :ensure t
+  :after ruby-mode
+  :init
+  (bind-key "C-c C-:" #'ruby-toggle-hash-syntax ruby-mode-map))
 
 (use-package yaml-mode
   :ensure t)
@@ -764,9 +809,6 @@
   :ensure t
   :bind ("s-m" . magit-status)
   :config
-  (use-package magit-gh-pulls
-    :ensure t
-    :config (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-output-scrolling)
@@ -779,6 +821,11 @@
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
         magit-no-confirm t))
 
+(use-package magit-gh-pulls
+  :ensure t
+  :after magit
+  :config (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+
 (use-package git-messenger
   :ensure t
   :config (setq git-messenger:show-detail t))
@@ -786,12 +833,14 @@
 (use-package diff-hl
   :ensure t
   :config
-  (use-package diff-hl-flydiff
-    :init (setq diff-hl-flydiff-delay 3))
   (global-diff-hl-mode)
   (diff-hl-margin-mode)
   (diff-hl-flydiff-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
+
+(use-package diff-hl-flydiff
+  :after diff-hl
+  :init (setq diff-hl-flydiff-delay 3))
 
 ;;;;; Help & Docs
 
