@@ -455,12 +455,6 @@
   (setq company-dabbrev-code-modes t
         company-dabbrev-code-everywhere t))
 
-(use-package company-flx
-  :ensure t
-  :after company
-  :config
-  (company-flx-mode))
-
 (use-package company-emoji
   :ensure t
   :after company
