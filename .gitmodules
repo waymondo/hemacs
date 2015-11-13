@@ -1,6 +1,3 @@
-[submodule "lib/github-browse-file"]
-	path = lib/github-browse-file
-	url = https://github.com/waymondo/github-browse-file
 [submodule "lib/dash-at-point"]
 	path = lib/dash-at-point
 	url = https://github.com/waymondo/dash-at-point

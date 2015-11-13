@@ -842,7 +842,7 @@
     (elisp-slime-nav-mode)))
 
 (use-package github-browse-file
-  :load-path "lib/github-browse-file/")
+  :ensure t)
 
 (use-package git-timemachine
   :ensure t)
