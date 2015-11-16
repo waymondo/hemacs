@@ -276,6 +276,7 @@
   (hook-modes writing-modes
     (auto-fill-mode)
     (visual-line-mode))
+  (advice-add 'kill-ring-save :before #'with-region-or-point-to-eol)
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
