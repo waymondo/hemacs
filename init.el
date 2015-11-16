@@ -594,10 +594,12 @@
 
 (use-package org-autolist
   :ensure t
+  :after org
   :config (add-hook 'org-mode-hook #'org-autolist-mode))
 
 (use-package org-repo-todo
   :ensure t
+  :after org
   :bind (("s-`" . ort/goto-todos)
          ("s-n" . ort/capture-checkitem))
   :config
