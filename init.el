@@ -230,6 +230,7 @@
   :defer t
   :config
   (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+  (put 'dired-find-alternate-file 'disabled nil)
   (setq dired-use-ls-dired nil
         dired-dwim-target t
         dired-recursive-deletes 'always
