@@ -127,19 +127,6 @@
   (insert-arrow)
   (coffee-newline-and-indent))
 
-(def move-text-up
-  (transpose-lines 1)
-  (forward-line -2)
-  (unless (member major-mode indent-sensitive-modes)
-    (indent-according-to-mode)))
-
-(def move-text-down
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (unless (member major-mode indent-sensitive-modes)
-    (indent-according-to-mode)))
-
 (def shift-right
   (let ((deactivate-mark nil)
         (beg (or (and mark-active (region-beginning))

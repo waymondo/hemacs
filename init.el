@@ -358,6 +358,16 @@
   (hook-modes writing-modes
     (flyspell-mode)))
 
+(use-package move-text
+  :ensure t
+  :bind (("<M-S-up>"   . move-text-up)
+         ("<M-S-down>" . move-text-down))
+  :config
+  (defun indent-unless-sensitive (_arg)
+    (unless (member major-mode indent-sensitive-modes)
+      (indent-according-to-mode)))
+  (advice-add 'move-text-internal :after #'indent-unless-sensitive))
+
 ;;;;; Completion
 
 (use-package ido
@@ -893,8 +903,6 @@
   (which-key-mode))
 
 (bind-keys
- ("<M-S-up>"   . move-text-up)
- ("<M-S-down>" . move-text-down)
  ("M-\\"       . align-regexp)
  ("s-K"        . hemacs-delete)
  ("s-["        . shift-left)
