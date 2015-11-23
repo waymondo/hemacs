@@ -450,7 +450,6 @@
         company-tooltip-flip-when-above t
         company-require-match nil
         company-minimum-prefix-length 2
-        company-idle-delay 0.4
         company-show-numbers t
         company-occurrence-weight-function #'company-occurrence-prefer-any-closest
         company-continue-commands
