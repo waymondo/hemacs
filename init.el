@@ -289,6 +289,7 @@
 (use-package indent
   :defer t
   :init
+  (setq standard-indent 2)
   (advice-add 'indent-region :before #'with-region-or-buffer))
 
 (use-package delsel
@@ -638,11 +639,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
-         ("\\.php\\'" . web-mode))
-  :config
-  (setq web-mode-markup-indent-offset 2
-        web-mode-style-padding 2
-        web-mode-script-padding 2))
+         ("\\.php\\'" . web-mode)))
 
 (use-package fountain-mode
   :ensure t
