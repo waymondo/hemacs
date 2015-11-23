@@ -497,7 +497,29 @@
 (use-package window
   :preface (provide 'window)
   :chords ((";s" . switch-to-buffer)
-           (":W" . delete-other-windows)))
+           (":W" . delete-other-windows)
+           (":Q" . delete-side-windows))
+  :config
+  (defun delete-side-windows ()
+    (interactive)
+    (dolist (window (window-at-side-list))
+      (quit-window nil window)))
+  (setq display-buffer-alist
+        `((,(rx bos (or "*Flycheck errors*"
+                        "*Backtrace"
+                        "*Warnings"
+                        "*compilation"
+                        "*Help"
+                        "*less-css-compilation"
+                        "*Packages"
+                        "*SQL"
+                        "*ag"))
+           (display-buffer-reuse-window
+            display-buffer-in-side-window)
+           (side            . bottom)
+           (reusable-frames . visible)
+           (window-height   . 0.33))
+          ("." nil (reusable-frames . visible)))))
 
 (use-package wgrep-ag
   :ensure t
