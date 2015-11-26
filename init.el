@@ -849,12 +849,7 @@
   :config
   (global-diff-hl-mode)
   (diff-hl-margin-mode)
-  (diff-hl-flydiff-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
-
-(use-package diff-hl-flydiff
-  :after diff-hl
-  :config (setq diff-hl-flydiff-delay 3))
 
 ;;;;; Help & Docs
 
