@@ -5,8 +5,7 @@
 (setq load-prefer-newer t
       history-length 256
       history-delete-duplicates t
-      scroll-margin 24
-      scroll-conservatively 10000
+      scroll-conservatively most-positive-fixnum
       scroll-preserve-screen-position 'always
       auto-window-vscroll nil
       echo-keystrokes 0.02
@@ -14,7 +13,7 @@
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
       ring-bell-function #'ignore
-      gc-cons-threshold 50000000
+      gc-cons-threshold (* 1024 1024 32)
       ns-function-modifier 'hyper
       ns-right-option-modifier 'none
       create-lockfiles nil)
@@ -81,6 +80,10 @@
 (use-package menu-bar
   :bind ("s-w" . kill-this-buffer))
 
+(use-package mwheel
+  :defer t
+  :config (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))))
+
 (use-package novice
   :defer t
   :config (setq disabled-command-function nil))
@@ -124,7 +127,7 @@
                   comint-truncate-buffer
                   comint-watch-for-password-prompt))
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
-  (add-hook 'comint-mode-hook #'process-output-scrolling)
+  (add-hook 'comint-mode-hook #'process-shellish-output)
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (bind-keys :map comint-mode-map
              ("s-K"       . comint-clear-buffer)
@@ -139,7 +142,7 @@
   :config
   (setq compilation-disable-input t
         compilation-always-kill t)
-  (add-hook 'compilation-mode-hook #'process-output-scrolling)
+  (add-hook 'compilation-mode-hook #'process-shellish-output)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package warnings
@@ -825,7 +828,7 @@
   :config
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
-  (add-hook 'magit-process-mode-hook #'process-output-scrolling)
+  (add-hook 'magit-process-mode-hook #'process-shellish-output)
   (magit-define-popup-action 'magit-dispatch-popup ?x "Reset" 'magit-reset ?!)
   (setq git-commit-summary-max-length git-commit-fill-column
         magit-revert-buffers 2
@@ -1024,7 +1027,7 @@
   (beacon-mode)
   (setq beacon-blink-when-focused t
         beacon-blink-when-point-moves-vertically 4
-        beacon-dont-blink-commands '(next-line previous-line)))
+        beacon-dont-blink-commands '(next-line previous-line forward-line)))
 
 (use-package highlight-symbol
   :ensure t

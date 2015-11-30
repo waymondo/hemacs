@@ -255,9 +255,8 @@
   (when (fboundp 'mc/keyboard-quit)
     (mc/keyboard-quit)))
 
-(defun process-output-scrolling ()
+(defun process-shellish-output ()
   (setq truncate-lines nil)
-  (set (make-local-variable 'scroll-margin) 0)
   (text-scale-decrease 1))
 
 (defun what-face (pos)
