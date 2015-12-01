@@ -18,14 +18,6 @@
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
 
-(defmacro make-projectile-switch-project-defun (func)
-  (declare (indent 1) (debug t))
-  (let ((defun-name (intern (format "projectile-switch-project-%s" (symbol-name func)))))
-    `(defun ,defun-name ()
-       (interactive)
-       (let ((projectile-switch-project-action ',func))
-         (call-interactively 'projectile-switch-project)))))
-
 (defmacro make-transform-symbol-at-point-defun (func)
   (declare (indent 1) (debug t))
   (let ((defun-name (intern (format "%s-symbol-at-point" (symbol-name func)))))

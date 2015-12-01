@@ -169,23 +169,6 @@
   :config
   (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p))
 
-(use-package projector
-  :ensure t
-  :bind* (("C-x RET" . projector-run-shell-command-project-root)
-          ("C-x m"   . projector-switch-to-or-create-project-shell))
-  :config
-  (bind-key "s-R" #'projector-rerun-buffer-process comint-mode-map)
-  (setq projector-always-background-regex
-        '("^powder restart\\.*"
-          "^heroku restart\\.*"
-          "^heroku addons:open\\.*"
-          "^spring stop"
-          "^gulp publish\\.*"
-          "^git push\\.*"
-          "^pkill\\.*")
-        projector-command-modes-alist
-        '(("^heroku run console" . inf-ruby-mode))))
-
 ;;;;; Files & History
 
 (use-package image-mode
@@ -566,15 +549,15 @@
 (use-package projectile
   :ensure t
   :bind (("s-p" . projectile-command-map)
-         ("s-t" . projectile-find-file))
+         ("s-t" . projectile-find-file-in-known-projects))
   :chords (";t" . projectile-find-file)
-  :init
-  (setq projectile-enable-caching t)
   :config
-  (make-projectile-switch-project-defun projectile-vc)
-  (make-projectile-switch-project-defun projectile-find-file)
-  (make-projectile-switch-project-defun projector-run-shell-command-project-root)
-  (make-projectile-switch-project-defun projector-switch-to-or-create-project-shell)
+  (setq projectile-enable-caching t)
+  (defmacro make-projectile-switch-project-defun (func)
+    `(function (lambda ()
+                 (interactive)
+                 (let ((projectile-switch-project-action ,func))
+                   (projectile-switch-project)))))
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
 
@@ -585,6 +568,25 @@
   (add-λ 'ruby-mode-hook
     (setq-local projectile-tags-command "ripper-tags -R -f TAGS"))
   (add-hook 'projectile-mode-hook #'projectile-rails-on))
+
+(use-package projector
+  :ensure t
+  :after projectile
+  :bind* (("C-x RET"        . projector-run-shell-command-project-root)
+          ("C-x m"          . projector-switch-to-or-create-project-shell)
+          ("C-x <C-return>" . projector-run-default-shell-command))
+  :config
+  (bind-key "s-R" #'projector-rerun-buffer-process comint-mode-map)
+  (setq projector-always-background-regex
+        '("^powder restart\\.*"
+          "^heroku restart\\.*"
+          "^heroku addons:open\\.*"
+          "^spring stop"
+          "^gulp publish\\.*"
+          "^git push\\.*"
+          "^pkill\\.*")
+        projector-command-modes-alist
+        '(("^heroku run console" . inf-ruby-mode))))
 
 (use-package swiper
   :ensure t
@@ -637,10 +639,7 @@
   :ensure t
   :after org
   :bind (("s-`" . ort/goto-todos)
-         ("s-n" . ort/capture-checkitem))
-  :config
-  (make-projectile-switch-project-defun ort/capture-todo)
-  (make-projectile-switch-project-defun ort/goto-todos))
+         ("s-n" . ort/capture-checkitem)))
 
 (use-package sgml-mode
   :mode (("\\.hbs\\'"        . html-mode)
@@ -957,14 +956,16 @@
  ("o" . open-package))
 
 (bind-keys
- :prefix-map hemacs-projectile-map
+ :prefix-map switch-project-map
  :prefix "s-o"
- ("m" . projectile-switch-project-projectile-vc)
- ("f" . projectile-switch-project-projectile-find-file)
- ("c" . projectile-switch-project-projector-run-shell-command-project-root)
- ("x" . projectile-switch-project-projector-switch-to-or-create-project-shell)
- ("n" . projectile-switch-project-ort/capture-todo)
- ("`" . projectile-switch-project-ort/goto-todos))
+ ("t"          . projectile-switch-project)
+ ("M"          . projector-switch-project-run-shell-command)
+ ("m"          . projector-open-project-shell)
+ ("<C-return>" . projector-switch-project-run-default-shell-command))
+
+(bind-key "g" (make-projectile-switch-project-defun 'projectile-vc) switch-project-map)
+(bind-key "`" (make-projectile-switch-project-defun 'ort/goto-todos) switch-project-map)
+(bind-key "n" (make-projectile-switch-project-defun 'ort/capture-checkitem) switch-project-map)
 
 (bind-keys
  :prefix-map hemacs-symbol-at-point-map
