@@ -94,8 +94,7 @@
 
 (use-package cus-edit
   :defer t
-  :init (setq custom-file (locate-user-emacs-file "custom.el"))
-  :config (load custom-file 'no-error 'no-message))
+  :init (setq custom-file (make-temp-file "emacs-custom")))
 
 (use-package startup
   :defer t
