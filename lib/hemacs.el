@@ -119,16 +119,6 @@
   (insert-arrow)
   (coffee-newline-and-indent))
 
-(def shift-right
-  (let ((deactivate-mark nil)
-        (beg (or (and mark-active (region-beginning))
-                 (line-beginning-position)))
-        (end (or (and mark-active (region-end)) (line-end-position))))
-    (indent-rigidly beg end (* (or arg 1) tab-width))))
-
-(def shift-left
-  (shift-right (* -1 (or arg 1))))
-
 (def google
   (browse-url
    (concat

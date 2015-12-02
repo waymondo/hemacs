@@ -344,6 +344,13 @@
   (hook-modes writing-modes
     (flyspell-mode)))
 
+(use-package smart-shift
+  :ensure t
+  :bind (("s-[" . smart-shift-left)
+         ("s-]" . smart-shift-right))
+  :config
+  (advice-add 'smart-shift-override-local-map :override #'ignore))
+
 (use-package move-text
   :ensure t
   :bind (("<M-S-up>"   . move-text-up)
@@ -918,9 +925,7 @@
 
 (bind-keys
  ("M-\\"       . align-regexp)
- ("s-K"        . hemacs-delete)
- ("s-["        . shift-left)
- ("s-]"        . shift-right)
+ ("s-K"        . delete-file-and-buffer)
  ("s-u"        . duplicate-dwim)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
