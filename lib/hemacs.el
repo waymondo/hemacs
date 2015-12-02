@@ -1,23 +1,5 @@
 ;;; hemacs --- an emacs configuration
 
-;;;;; Config Macros
-
-(defmacro def (name &rest body)
-  (declare (indent 1) (debug t))
-  `(defun ,name (&optional arg)
-     ,(if (stringp (car body)) (car body))
-     (interactive "p")
-     ,@(if (stringp (car body)) (cdr `,body) body)))
-
-(defmacro add-λ (hook &rest body)
-  (declare (indent 1) (debug t))
-  `(add-hook ,hook (lambda () ,@body)))
-
-(defmacro hook-modes (modes &rest body)
-  (declare (indent 1) (debug t))
-  `(dolist (mode ,modes)
-     (add-λ (intern (format "%s-hook" mode)) ,@body)))
-
 (def browse-file-directory
   (if default-directory
       (browse-url-of-file (expand-file-name default-directory))
