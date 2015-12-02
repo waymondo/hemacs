@@ -61,13 +61,19 @@
   :config (dash-enable-font-lock))
 
 (use-package s
-  :ensure t
-  :commands (s-lower-camel-case s-upper-camel-case s-snake-case s-dashed-words)
+  :ensure t)
+
+(use-package thingatpt
   :config
-  (make-transform-symbol-at-point-defun s-lower-camel-case)
-  (make-transform-symbol-at-point-defun s-upper-camel-case)
-  (make-transform-symbol-at-point-defun s-snake-case)
-  (make-transform-symbol-at-point-defun s-dashed-words))
+  (defmacro make-transform-symbol-at-point-defun (func)
+    `(function
+      (lambda ()
+        (interactive)
+        (save-excursion
+          (let ((symbol (thing-at-point 'symbol t))
+                (bounds (bounds-of-thing-at-point 'symbol)))
+            (delete-region (car bounds) (cdr bounds))
+            (insert (funcall ,func symbol))))))))
 
 (use-package tool-bar
   :defer t
@@ -561,10 +567,11 @@
   :config
   (setq projectile-enable-caching t)
   (defmacro make-projectile-switch-project-defun (func)
-    `(function (lambda ()
-                 (interactive)
-                 (let ((projectile-switch-project-action ,func))
-                   (projectile-switch-project)))))
+    `(function
+      (lambda ()
+        (interactive)
+        (let ((projectile-switch-project-action ,func))
+          (projectile-switch-project)))))
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
 
@@ -973,16 +980,15 @@
 (bind-key "n" (make-projectile-switch-project-defun 'ort/capture-checkitem) switch-project-map)
 
 (bind-keys
- :prefix-map hemacs-symbol-at-point-map
+ :prefix-map symbol-at-point-map
  :prefix "s-;"
- ("w" . kill-symbol-at-point)
- ("k" . delete-symbol-at-point)
- ("d" . mc/mark-all-like-this)
- ("q" . anzu-query-replace-at-cursor)
- ("c" . s-lower-camel-case-symbol-at-point)
- ("C" . s-upper-camel-case-symbol-at-point)
- ("_" . s-snake-case-symbol-at-point)
- ("-" . s-dashed-words-symbol-at-point))
+ ("d" . mc/mark-all-symbols-like-this)
+ ("q" . anzu-query-replace-at-cursor))
+
+(bind-key "c" (make-transform-symbol-at-point-defun 's-lower-camel-case) symbol-at-point-map)
+(bind-key "C" (make-transform-symbol-at-point-defun 's-upper-camel-case) symbol-at-point-map)
+(bind-key "_" (make-transform-symbol-at-point-defun 's-snake-case) symbol-at-point-map)
+(bind-key "-" (make-transform-symbol-at-point-defun 's-dashed-words) symbol-at-point-map)
 
 (bind-keys
  :prefix-map hemacs-git-map

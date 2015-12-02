@@ -18,18 +18,6 @@
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
 
-(defmacro make-transform-symbol-at-point-defun (func)
-  (declare (indent 1) (debug t))
-  (let ((defun-name (intern (format "%s-symbol-at-point" (symbol-name func)))))
-    `(progn
-       (defun ,defun-name ()
-         (interactive)
-         (save-excursion
-           (er/mark-symbol)
-           (let ((current-symbol (buffer-substring-no-properties (region-beginning) (region-end))))
-             (call-interactively 'delete-region)
-             (insert (funcall ',func current-symbol))))))))
-
 (def browse-file-directory
   (if default-directory
       (browse-url-of-file (expand-file-name default-directory))
@@ -73,16 +61,6 @@
     (when filename
       (system-move-file-to-trash filename))
     (kill-buffer)))
-
-(def hemacs-delete
-  (cond
-   ((eq major-mode 'dired-mode)
-    (dired-do-delete))
-   ((or (derived-mode-p 'comint-mode)
-        (eq major-mode 'inf-ruby-mode))
-    (comint-clear-buffer))
-   (:else
-    (delete-file-and-buffer))))
 
 (def eol-then-newline
   (move-end-of-line nil)
@@ -135,14 +113,6 @@
   (save-window-excursion
     (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
     (magit-refresh)))
-
-(def kill-symbol-at-point
-  (er/mark-symbol)
-  (kill-region (point) (mark)))
-
-(def delete-symbol-at-point
-  (er/mark-symbol)
-  (call-interactively 'delete-region))
 
 (defun ensure-space ()
   (unless (looking-back " " nil)
