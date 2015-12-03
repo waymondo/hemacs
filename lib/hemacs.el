@@ -5,22 +5,6 @@
       (browse-url-of-file (expand-file-name default-directory))
     (error "No `default-directory' to open")))
 
-(def duplicate-dwim
-  (let (beg end (origin (point)))
-    (if (and (region-active-p) (> (point) (mark)))
-        (exchange-point-and-mark))
-    (setq beg (line-beginning-position))
-    (if (region-active-p)
-        (exchange-point-and-mark))
-    (setq end (line-end-position))
-    (let ((region (buffer-substring-no-properties beg end)))
-      (dotimes (i arg)
-        (goto-char end)
-        (newline)
-        (insert region)
-        (setq end (point)))
-      (goto-char (+ origin (* (length region) arg) arg)))))
-
 (def rename-file-and-buffer
   (let* ((filename (buffer-file-name))
          (old-name (if filename

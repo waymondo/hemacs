@@ -373,15 +373,16 @@
   :config
   (advice-add 'smart-shift-override-local-map :override #'ignore))
 
-(use-package move-text
+(use-package move-dup
   :ensure t
-  :bind (("<M-S-up>"   . move-text-up)
-         ("<M-S-down>" . move-text-down))
+  :bind (("<M-S-up>"   . md/move-lines-up)
+         ("<M-S-down>" . md/move-lines-down)
+         ("s-u"        . md/duplicate-down))
   :config
   (defun indent-unless-sensitive (_arg)
     (unless (member major-mode indent-sensitive-modes)
       (indent-according-to-mode)))
-  (advice-add 'move-text-internal :after #'indent-unless-sensitive))
+  (advice-add 'md/move-line-or-region :after #'indent-unless-sensitive))
 
 ;;;;; Completion
 
