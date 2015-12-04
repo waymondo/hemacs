@@ -75,11 +75,6 @@
 (def insert-local-ip-address
   (insert (s-chomp (shell-command-to-string "resolveip -s $HOSTNAME"))))
 
-(def magit-just-amend
-  (save-window-excursion
-    (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
-    (magit-refresh)))
-
 (defun ensure-space ()
   (unless (looking-back " " nil)
     (insert " ")))
@@ -165,14 +160,6 @@
 (def find-user-init-file-other-window
   (find-file-other-window user-init-file))
 
-(defun hemacs-save-hook ()
-  (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
-    (delete-trailing-whitespace))
-  (when (region-active-p)
-    (deactivate-mark t))
-  (when (fboundp 'mc/keyboard-quit)
-    (mc/keyboard-quit)))
-
 (defun process-shellish-output ()
   (setq truncate-lines nil)
   (text-scale-decrease 1))
@@ -197,32 +184,9 @@
     (window-configuration-to-register :toggle-split-window)
     (switch-to-buffer-other-window nil)))
 
-(defun maybe-indent-afterwards (&optional _)
-  (and (not current-prefix-arg)
-       (not (member major-mode indent-sensitive-modes))
-       (or (-any? 'derived-mode-p progish-modes))
-       (let ((mark-even-if-inactive transient-mark-mode))
-         (indent-region (region-beginning) (region-end) nil))))
-
 (defun turn-on-comint-history (history-file)
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))
-
-(defun improve-npm-process-output (output)
-  (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
-
-(defun show-image-dimensions-in-mode-line ()
-  (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
-         (width (car image-dimensions))
-         (height (cdr image-dimensions)))
-    (setq mode-line-buffer-identification
-          (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
-
-(defun hemacs-imenu-elisp-expressions ()
-  (--each '(("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)
-            (nil "^(def \\(.+\\)$" 1)
-            ("sections" "^;;;;; \\(.+\\)$" 1))
-    (add-to-list 'imenu-generic-expression it)))
 
 (defun css-imenu-generic-expression ()
   (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
@@ -248,35 +212,6 @@
     (when file
       (find-file file))))
 
-(defun pop-to-process-list-buffer ()
-  (pop-to-buffer "*Process List*"))
-
-(defun backward-delete-subword (orig-fun &rest args)
-  (flet ((kill-region (beg end) (delete-region beg end)))
-    (apply orig-fun args)))
-
-(defun kill-line-or-join-line (orig-fun &rest args)
-  (if (not (eolp))
-      (apply orig-fun args)
-    (forward-line)
-    (join-line)))
-
-(defun move-beginning-of-line-or-indentation (orig-fun &rest args)
-  (let ((orig-point (point)))
-    (back-to-indentation)
-    (when (= orig-point (point))
-      (apply orig-fun args))))
-
-(defun find-file-maybe-make-directories (filename &optional wildcards)
-  (unless (file-exists-p filename)
-    (let ((dir (file-name-directory filename)))
-      (unless (file-exists-p dir)
-        (make-directory dir :make-parents)))))
-
-(defun save-buffers-kill-emacs-no-process-query (orig-fun &rest args)
-  (flet ((process-list ()))
-    (apply orig-fun args)))
-
 (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
   (let* ((process (nth 0 args))
          (event (nth 1 args))
@@ -285,34 +220,6 @@
     (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
       (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
     (apply orig-fun (list process event))))
-
-(defun projectile-relevant-known-git-projects ()
-  (mapcar
-   (lambda (dir)
-     (substring dir 0 -1))
-   (cl-remove-if-not
-    (lambda (project)
-      (unless (file-remote-p project)
-        (file-directory-p (concat project "/.git/"))))
-    (projectile-relevant-known-projects))))
-
-(defun with-region-or-point-to-eol (beg end &optional _)
-  (interactive
-   (if mark-active
-       (list (region-beginning) (region-end))
-     (list (point) (line-end-position)))))
-
-(defun with-region-or-line (beg end &optional _)
-  (interactive
-   (if mark-active
-       (list (region-beginning) (region-end))
-     (list (line-beginning-position) (line-beginning-position 2)))))
-
-(defun with-region-or-buffer (beg end &optional _)
-  (interactive
-   (if mark-active
-       (list (region-beginning) (region-end))
-     (list (point-min) (point-max)))))
 
 (def upgrade-packages
   (package-refresh-contents)

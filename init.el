@@ -147,8 +147,11 @@
                 '(ansi-color-process-output
                   comint-truncate-buffer
                   comint-watch-for-password-prompt))
+
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-hook 'comint-mode-hook #'process-shellish-output)
+  (defun improve-npm-process-output (output)
+    (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (bind-keys :map comint-mode-map
              ("s-K"       . comint-clear-buffer)
@@ -196,12 +199,31 @@
 (use-package image-mode
   :defer t
   :config
+  (defun show-image-dimensions-in-mode-line ()
+    (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
+           (width (car image-dimensions))
+           (height (cdr image-dimensions)))
+      (setq mode-line-buffer-identification
+            (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
   (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
 
 (use-package files
   :defer t
   :chords (";f" . find-file)
   :config
+  (defun hemacs-save-hook ()
+    (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
+      (delete-trailing-whitespace))
+    (when (region-active-p)
+      (deactivate-mark t)))
+  (defun find-file-maybe-make-directories (filename &optional wildcards)
+    (unless (file-exists-p filename)
+      (let ((dir (file-name-directory filename)))
+        (unless (file-exists-p dir)
+          (make-directory dir :make-parents)))))
+  (defun save-buffers-kill-emacs-no-process-query (orig-fun &rest args)
+    (cl-letf (((symbol-function 'process-list) #'ignore))
+      (apply orig-fun args)))
   (add-hook 'before-save-hook #'hemacs-save-hook)
   (advice-add 'find-file :before #'find-file-maybe-make-directories)
   (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query)
@@ -276,6 +298,11 @@
 (use-package newcomment
   :bind ("s-/" . comment-or-uncomment-region)
   :config
+  (defun with-region-or-line (beg end &optional _)
+    (interactive
+     (if mark-active
+         (list (region-beginning) (region-end))
+       (list (line-beginning-position) (line-beginning-position 2)))))
   (advice-add 'comment-or-uncomment-region :before #'with-region-or-line))
 
 (use-package simple
@@ -284,6 +311,32 @@
   (hook-modes writing-modes
     (auto-fill-mode)
     (visual-line-mode))
+  (defun maybe-indent-afterwards (&optional _)
+    (and (not current-prefix-arg)
+         (not (member major-mode indent-sensitive-modes))
+         (or (-any? #'derived-mode-p progish-modes))
+         (let ((mark-even-if-inactive transient-mark-mode))
+           (indent-region (region-beginning) (region-end) nil))))
+  (defun pop-to-process-list-buffer ()
+    (pop-to-buffer "*Process List*"))
+  (defun kill-line-or-join-line (orig-fun &rest args)
+    (if (not (eolp))
+        (apply orig-fun args)
+      (forward-line)
+      (join-line)))
+  (defun move-beginning-of-line-or-indentation (orig-fun &rest args)
+    (let ((orig-point (point)))
+      (back-to-indentation)
+      (when (= orig-point (point))
+        (apply orig-fun args))))
+  (defun backward-delete-subword (orig-fun &rest args)
+    (cl-letf (((symbol-function 'kill-region) #'delete-region))
+      (apply orig-fun args)))
+  (defun with-region-or-point-to-eol (beg end &optional _)
+    (interactive
+     (if mark-active
+         (list (region-beginning) (region-end))
+       (list (point) (line-end-position)))))
   (advice-add 'kill-ring-save :before #'with-region-or-point-to-eol)
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
@@ -297,6 +350,11 @@
   :defer t
   :init
   (setq standard-indent 2)
+  (defun with-region-or-buffer (beg end &optional _)
+    (interactive
+     (if mark-active
+         (list (region-beginning) (region-end))
+       (list (point-min) (point-max)))))
   (advice-add 'indent-region :before #'with-region-or-buffer))
 
 (use-package delsel
@@ -355,7 +413,9 @@
   :ensure t
   :bind (("s-d"     . mc/mark-next-like-this)
          ("s-D"     . mc/mark-previous-like-this)
-         ("C-c s-d" . mc/mark-all-like-this-dwim)))
+         ("C-c s-d" . mc/mark-all-like-this-dwim))
+  :config
+  (add-hook 'before-save-hook #'mc/keyboard-quit))
 
 (use-package toggle-quotes
   :ensure t
@@ -558,6 +618,11 @@
 
 (use-package imenu
   :config
+  (defun hemacs-imenu-elisp-expressions ()
+    (--each '(("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)
+              (nil "^(def \\(.+\\)$" 1)
+              ("sections" "^;;;;; \\(.+\\)$" 1))
+      (add-to-list 'imenu-generic-expression it)))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
@@ -589,6 +654,15 @@
         (interactive)
         (let ((projectile-switch-project-action ,func))
           (projectile-switch-project)))))
+  (defun projectile-relevant-known-git-projects ()
+    (mapcar
+     (lambda (dir)
+       (substring dir 0 -1))
+     (cl-remove-if-not
+      (lambda (project)
+        (unless (file-remote-p project)
+          (file-directory-p (concat project "/.git/"))))
+      (projectile-relevant-known-projects))))
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
 
@@ -855,6 +929,10 @@
   :ensure t
   :bind ("s-m" . magit-status)
   :config
+  (def magit-just-amend
+    (save-window-excursion
+      (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
+      (magit-refresh)))
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-shellish-output)
@@ -950,7 +1028,6 @@
 (bind-keys
  ("M-\\"       . align-regexp)
  ("s-K"        . delete-file-and-buffer)
- ("s-u"        . duplicate-dwim)
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
  ("s-N"        . create-scratch-buffer)
