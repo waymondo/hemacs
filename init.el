@@ -899,9 +899,10 @@
   :ensure t
   :after projectile-rails
   :init
-  (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
   (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)
-  (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding))
+  (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
+  (advice-add 'projectile-rails-console :before #'chruby-use-corresponding)
+  (advice-add 'projectile-rails-server :before #'chruby-use-corresponding))
 
 (use-package ruby-hash-syntax
   :ensure t
