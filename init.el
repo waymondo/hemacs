@@ -643,11 +643,11 @@
 
 (use-package projectile
   :ensure t
-  :bind (("s-p" . projectile-command-map)
-         ("s-t" . projectile-find-file-in-known-projects))
+  :bind ("s-p" . projectile-command-map)
   :chords (";t" . projectile-find-file)
   :config
   (setq projectile-enable-caching t)
+  (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
   (defmacro make-projectile-switch-project-defun (func)
     `(function
       (lambda ()
