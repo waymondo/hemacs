@@ -1208,8 +1208,7 @@
 (use-package highlight-tail
   :ensure t
   :config
-  (setq highlight-tail-steps 8
-        highlight-tail-timer 0.05))
+  (setq highlight-tail-steps 16))
 
 (use-package custom
   :defer t
