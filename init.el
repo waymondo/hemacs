@@ -66,6 +66,16 @@
 (eval-when-compile
   (require 'use-package))
 
+(def upgrade-packages
+  (package-refresh-contents)
+  (save-window-excursion
+    (package-list-packages t)
+    (package-menu-mark-upgrades)
+    (condition-case nil
+        (package-menu-execute t)
+      (error
+       (package-menu-execute)))))
+
 (use-package use-package-chords
   :ensure t)
 
@@ -147,7 +157,12 @@
                 '(ansi-color-process-output
                   comint-truncate-buffer
                   comint-watch-for-password-prompt))
-
+  (defun turn-on-comint-history (history-file)
+    (setq comint-input-ring-file-name history-file)
+    (comint-read-input-ring 'silent))
+  (defun process-shellish-output ()
+    (setq truncate-lines nil)
+    (text-scale-decrease 1))
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-hook 'comint-mode-hook #'process-shellish-output)
   (defun improve-npm-process-output (output)
@@ -209,8 +224,11 @@
 
 (use-package files
   :defer t
+  :bind ("s-," . find-user-init-file-other-window)
   :chords (";f" . find-file)
   :config
+  (def find-user-init-file-other-window
+    (find-file-other-window user-init-file))
   (defun hemacs-save-hook ()
     (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
       (delete-trailing-whitespace))
@@ -466,8 +484,8 @@
         ido-auto-merge-delay-time 2
         ido-create-new-buffer 'always)
   (bind-keys :map ido-completion-map
-        ("M-TAB"     . previous-history-element)
-        ("<M-S-tab>" . next-history-element)))
+             ("M-TAB"     . previous-history-element)
+             ("<M-S-tab>" . next-history-element)))
 
 (use-package flx-ido
   :ensure t
@@ -589,9 +607,17 @@
 (use-package window
   :preface (provide 'window)
   :chords ((";s" . switch-to-buffer)
+           (";w" . toggle-split-window)
            (":W" . delete-other-windows)
            (":Q" . delete-side-windows))
   :config
+  (def toggle-split-window
+    (if (eq last-command 'toggle-split-window)
+        (progn
+          (jump-to-register :toggle-split-window)
+          (setq this-command 'toggle-unsplit-window))
+      (window-configuration-to-register :toggle-split-window)
+      (switch-to-buffer-other-window nil)))
   (defun delete-side-windows ()
     (interactive)
     (dolist (window (window-at-side-list))
@@ -952,12 +978,21 @@
 (use-package magit
   :ensure t
   :bind ("s-m" . magit-status)
+  :after alert
   :config
   (def magit-just-amend
     (save-window-excursion
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
       (magit-refresh)))
   (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
+  (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
+    (let* ((process (nth 0 args))
+           (event (nth 1 args))
+           (buf (process-get process 'command-buf))
+           (buff-name (buffer-name buf)))
+      (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
+        (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
+      (apply orig-fun (list process event))))
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-shellish-output)
   (magit-define-popup-action 'magit-dispatch-popup ?x "Reset" 'magit-reset ?!)
@@ -991,7 +1026,12 @@
   :ensure t)
 
 (use-package find-func
-  :config (find-function-setup-keys))
+  :config
+  (def open-package
+    (let* ((packages (mapcar 'symbol-name (mapcar 'car package-alist)))
+           (package (completing-read "Open package: " packages nil t)))
+      (find-library package)))
+  (find-function-setup-keys))
 
 (use-package elisp-slime-nav
   :ensure t
@@ -1058,7 +1098,6 @@
  ("M-\\"       . align-regexp)
  ("s-K"        . delete-file-and-buffer)
  ("<s-return>" . eol-then-newline)
- ("s-,"        . find-user-init-file-other-window)
  ("s-N"        . create-scratch-buffer)
  ("s-S"        . rename-file-and-buffer)
  ("<f5>"       . toggle-transparency))
@@ -1068,8 +1107,7 @@
  ("{}" . open-brackets-newline-and-indent)
  ("[]" . pad-brackets)
  ("_+" . insert-fat-arrow)
- ("-=" . insert-arrow)
- (";w" . toggle-split-window))
+ ("-=" . insert-arrow))
 
 (bind-keys
  :prefix-map hemacs-help-map
@@ -1093,6 +1131,7 @@
  ("<C-return>" . projector-switch-project-run-default-shell-command))
 
 (bind-key "g" (make-projectile-switch-project-defun 'projectile-vc) switch-project-map)
+(bind-key "u" (make-projectile-switch-project-defun 'projectile-run-project) switch-project-map)
 (bind-key "`" (make-projectile-switch-project-defun 'ort/goto-todos) switch-project-map)
 (bind-key "n" (make-projectile-switch-project-defun 'ort/capture-checkitem) switch-project-map)
 
@@ -1118,10 +1157,11 @@
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
 
-(bind-keys :map minibuffer-local-map
-           ("<escape>"  . abort-recursive-edit)
-           ("M-TAB"     . previous-complete-history-element)
-           ("<M-S-tab>" . next-complete-history-element))
+(bind-keys
+ :map minibuffer-local-map
+ ("<escape>"  . abort-recursive-edit)
+ ("M-TAB"     . previous-complete-history-element)
+ ("<M-S-tab>" . next-complete-history-element))
 
 ;;;;; Appearance
 
@@ -1195,7 +1235,11 @@
 
 (use-package alert
   :ensure t
-  :config (setq alert-default-style 'notifier))
+  :config
+  (defun alert-after-finish-in-background (buf str)
+    (unless (get-buffer-window buf 'visible)
+      (alert str :buffer buf)))
+  (setq alert-default-style 'notifier))
 
 (use-package auto-dim-other-buffers
   :ensure t

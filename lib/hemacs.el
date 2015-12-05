@@ -12,11 +12,6 @@
       (rename-file filename new-name :force-overwrite)
       (set-visited-file-name new-name :no-query :along-with-file)))))
 
-(def open-package
-  (let* ((packages (mapcar 'symbol-name (mapcar 'car package-alist)))
-         (package (completing-read "Open package: " packages nil t)))
-    (find-library package)))
-
 (def delete-file-and-buffer
   (let ((filename (buffer-file-name)))
     (when filename
@@ -57,9 +52,6 @@
   (move-end-of-line nil)
   (insert-arrow)
   (coffee-newline-and-indent))
-
-(def insert-local-ip-address
-  (insert (s-chomp (shell-command-to-string "resolveip -s $HOSTNAME"))))
 
 (defun ensure-space ()
   (unless (looking-back " " nil)
@@ -126,13 +118,6 @@
   (insert "{  }")
   (backward-char 2))
 
-(def find-user-init-file-other-window
-  (find-file-other-window user-init-file))
-
-(defun process-shellish-output ()
-  (setq truncate-lines nil)
-  (text-scale-decrease 1))
-
 (defun what-face (pos)
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)
@@ -145,45 +130,10 @@
     (switch-to-buffer buf)
     (funcall current-major-mode)))
 
-(def toggle-split-window
-  (if (eq last-command 'toggle-split-window)
-      (progn
-        (jump-to-register :toggle-split-window)
-        (setq this-command 'toggle-unsplit-window))
-    (window-configuration-to-register :toggle-split-window)
-    (switch-to-buffer-other-window nil)))
-
-(defun turn-on-comint-history (history-file)
-  (setq comint-input-ring-file-name history-file)
-  (comint-read-input-ring 'silent))
-
-(defun alert-after-finish-in-background (buf str)
-  (unless (get-buffer-window buf 'visible)
-    (alert str :buffer buf)))
-
 (def toggle-transparency
   (if (member (frame-parameter nil 'alpha) '(nil 100))
       (set-frame-parameter nil 'alpha 67)
     (set-frame-parameter nil 'alpha 100)))
-
-(defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
-  (let* ((process (nth 0 args))
-         (event (nth 1 args))
-         (buf (process-get process 'command-buf))
-         (buff-name (buffer-name buf)))
-    (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
-      (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
-    (apply orig-fun (list process event))))
-
-(def upgrade-packages
-  (package-refresh-contents)
-  (save-window-excursion
-    (package-list-packages t)
-    (package-menu-mark-upgrades)
-    (condition-case nil
-        (package-menu-execute t)
-      (error
-       (package-menu-execute)))))
 
 (defun refresh-themed-packages ()
   (when (fboundp 'powerline-reset)
