@@ -293,6 +293,11 @@
   :ensure t
   :init (osx-trash-setup))
 
+(use-package reveal-in-osx-finder
+  :if (eq system-type 'darwin)
+  :ensure t
+  :bind ("C-c f" . reveal-in-osx-finder))
+
 ;;;;; Editing
 
 (use-package newcomment
@@ -1058,7 +1063,6 @@
  ("g" . google)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
- ("F" . browse-file-directory)
  ("i" . insert-local-ip-address)
  ("o" . open-package))
 

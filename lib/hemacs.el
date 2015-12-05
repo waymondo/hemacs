@@ -1,10 +1,5 @@
 ;;; hemacs --- an emacs configuration
 
-(def browse-file-directory
-  (if default-directory
-      (browse-url-of-file (expand-file-name default-directory))
-    (error "No `default-directory' to open")))
-
 (def rename-file-and-buffer
   (let* ((filename (buffer-file-name))
          (old-name (if filename
