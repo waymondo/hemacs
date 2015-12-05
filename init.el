@@ -250,7 +250,14 @@
   :init (save-place-mode))
 
 (use-package recentf
+  :chords (":S" . recentf-find-file)
   :config
+  (def recentf-find-file
+    (let ((file (completing-read "Choose recent file: "
+                                 (-map 'abbreviate-file-name recentf-list)
+                                 nil t)))
+      (when file
+        (find-file file))))
   (recentf-mode)
   (setq recentf-exclude '(".ido.last")
         recentf-max-saved-items 1000))
@@ -524,7 +531,12 @@
 
 (use-package company
   :ensure t
+  :bind ("s-y" . company-kill-ring)
   :config
+  (def company-kill-ring
+    (company-begin-with
+     (mapcar #'substring-no-properties kill-ring))
+    (company-filter-candidates))
   (global-company-mode)
   (setq company-tooltip-align-annotations t
         company-tooltip-flip-when-above t
@@ -790,7 +802,9 @@
   :mode "\\.css\\.erb\\'"
   :init
   :config
-  (add-hook 'css-mode-hook #'css-imenu-generic-expression)
+  (defun set-css-imenu-generic-expression ()
+    (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
+  (add-hook 'css-mode-hook #'set-css-imenu-generic-expression)
   (setq css-indent-offset 2)
   (bind-keys :map css-mode-map
              (":" . smart-css-colon)
@@ -1046,7 +1060,6 @@
  ("<s-return>" . eol-then-newline)
  ("s-,"        . find-user-init-file-other-window)
  ("s-N"        . create-scratch-buffer)
- ("s-y"        . company-kill-ring)
  ("s-S"        . rename-file-and-buffer)
  ("<f5>"       . toggle-transparency))
 
@@ -1056,7 +1069,6 @@
  ("[]" . pad-brackets)
  ("_+" . insert-fat-arrow)
  ("-=" . insert-arrow)
- (":S" . recentf-find-file)
  (";w" . toggle-split-window))
 
 (bind-keys

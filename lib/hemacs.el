@@ -126,9 +126,6 @@
   (insert "{  }")
   (backward-char 2))
 
-(def hemacs-todo
-  (insert "- [ ] "))
-
 (def find-user-init-file-other-window
   (find-file-other-window user-init-file))
 
@@ -160,9 +157,6 @@
   (setq comint-input-ring-file-name history-file)
   (comint-read-input-ring 'silent))
 
-(defun css-imenu-generic-expression ()
-  (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
-
 (defun alert-after-finish-in-background (buf str)
   (unless (get-buffer-window buf 'visible)
     (alert str :buffer buf)))
@@ -171,18 +165,6 @@
   (if (member (frame-parameter nil 'alpha) '(nil 100))
       (set-frame-parameter nil 'alpha 67)
     (set-frame-parameter nil 'alpha 100)))
-
-(def company-kill-ring
-  (company-begin-with
-   (mapcar #'substring-no-properties kill-ring))
-  (company-filter-candidates))
-
-(def recentf-find-file
-  (let ((file (completing-read "Choose recent file: "
-                               (-map 'abbreviate-file-name recentf-list)
-                               nil t)))
-    (when file
-      (find-file file))))
 
 (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
   (let* ((process (nth 0 args))
