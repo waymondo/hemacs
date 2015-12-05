@@ -808,6 +808,9 @@
          ("\\.es6$"  . js2-mode))
   :interpreter (("node" . js2-mode))
   :config
+  (def js-insert-console-log
+    (insert "console.log()")
+    (backward-char))
   (setq js2-strict-trailing-comma-warning nil
         js2-strict-missing-semi-warning nil
         js2-highlight-level 3
@@ -816,6 +819,7 @@
              ("," . pad-comma)
              ("=" . pad-equals)
              (":" . smart-js-colon))
+  (bind-chord "qq" #'js-insert-console-log js2-mode-map)
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
@@ -1022,6 +1026,8 @@
   :defer t
   :config
   (key-chord-mode 1)
+  (key-chord-define-global "^^" "λ")
+  (key-chord-define-global "::" "::")
   (setq key-chord-two-keys-delay 0.05)
   (add-λ 'minibuffer-setup-hook
     (set (make-local-variable 'input-method-function) nil)))
@@ -1050,9 +1056,6 @@
  ("[]" . pad-brackets)
  ("_+" . insert-fat-arrow)
  ("-=" . insert-arrow)
- ("^^" . insert-λ)
- ("::" . insert-two-colons)
- ("qq" . log-statement)
  (":S" . recentf-find-file)
  (";w" . toggle-split-window))
 

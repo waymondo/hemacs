@@ -73,12 +73,6 @@
   (ensure-space)
   (insert "=> "))
 
-(def insert-λ
-  (insert "λ"))
-
-(def insert-two-colons
-  (insert "::"))
-
 (def smart-ruby-colon
   (if (looking-back "[[:word:]]" nil)
       (insert ": ")
@@ -127,21 +121,13 @@
   (indent-according-to-mode))
 
 (def pad-brackets
-  (ensure-space)
+  (unless (looking-back "(" nil)
+    (ensure-space))
   (insert "{  }")
   (backward-char 2))
 
 (def hemacs-todo
   (insert "- [ ] "))
-
-(def log-statement
-  (cond ((member major-mode '(js-mode js2-mode))
-         (insert "console.log()")
-         (backward-char))
-        ((eq major-mode 'coffee-mode)
-         (insert "console.log "))
-        ((eq major-mode 'ruby-mode)
-         (insert "ap "))))
 
 (def find-user-init-file-other-window
   (find-file-other-window user-init-file))
