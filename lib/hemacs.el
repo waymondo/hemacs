@@ -58,15 +58,6 @@
   (insert-arrow)
   (coffee-newline-and-indent))
 
-(def google
-  (browse-url
-   (concat
-    "http://www.google.com/search?q="
-    (if (region-active-p)
-        (buffer-substring (region-beginning) (region-end))
-      (read-string "Google Search: "
-                   (when (symbol-at-point) (symbol-name (symbol-at-point))))))))
-
 (def insert-local-ip-address
   (insert (s-chomp (shell-command-to-string "resolveip -s $HOSTNAME"))))
 

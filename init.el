@@ -969,6 +969,9 @@
 
 ;;;;; Help & Docs
 
+(use-package google-this
+  :ensure t)
+
 (use-package find-func
   :config (find-function-setup-keys))
 
@@ -1060,7 +1063,7 @@
  ("K" . free-keys)
  ("f" . what-face)
  ("m" . discover-my-major)
- ("g" . google)
+ ("g" . google-this)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
  ("i" . insert-local-ip-address)
