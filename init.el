@@ -1003,11 +1003,9 @@
       (apply orig-fun (list process event))))
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-shellish-output)
-  (magit-define-popup-action 'magit-dispatch-popup ?x "Reset" 'magit-reset ?!)
   (setq git-commit-summary-max-length git-commit-fill-column
         magit-revert-buffers 2
         magit-completing-read-function 'magit-ido-completing-read
-        magit-push-always-verify nil
         magit-log-auto-more t
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
         magit-no-confirm t))
@@ -1015,7 +1013,7 @@
 (use-package magit-gh-pulls
   :ensure t
   :after magit
-  :config (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+  :config (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
 (use-package git-messenger
   :ensure t
@@ -1136,10 +1134,10 @@
  ("m"          . projector-open-project-shell)
  ("<C-return>" . projector-switch-project-run-default-shell-command))
 
-(bind-key "g" (make-projectile-switch-project-defun 'projectile-vc) switch-project-map)
-(bind-key "u" (make-projectile-switch-project-defun 'projectile-run-project) switch-project-map)
-(bind-key "`" (make-projectile-switch-project-defun 'ort/goto-todos) switch-project-map)
-(bind-key "n" (make-projectile-switch-project-defun 'ort/capture-checkitem) switch-project-map)
+(bind-key "g" (make-projectile-switch-project-defun #'projectile-vc) switch-project-map)
+(bind-key "u" (make-projectile-switch-project-defun #'projectile-run-project) switch-project-map)
+(bind-key "`" (make-projectile-switch-project-defun #'ort/goto-todos) switch-project-map)
+(bind-key "n" (make-projectile-switch-project-defun #'ort/capture-checkitem) switch-project-map)
 
 (bind-keys
  :prefix-map symbol-at-point-map
@@ -1147,10 +1145,10 @@
  ("d" . mc/mark-all-symbols-like-this)
  ("q" . anzu-query-replace-at-cursor))
 
-(bind-key "c" (make-transform-symbol-at-point-defun 's-lower-camel-case) symbol-at-point-map)
-(bind-key "C" (make-transform-symbol-at-point-defun 's-upper-camel-case) symbol-at-point-map)
-(bind-key "_" (make-transform-symbol-at-point-defun 's-snake-case) symbol-at-point-map)
-(bind-key "-" (make-transform-symbol-at-point-defun 's-dashed-words) symbol-at-point-map)
+(bind-key "c" (make-transform-symbol-at-point-defun #'s-lower-camel-case) symbol-at-point-map)
+(bind-key "C" (make-transform-symbol-at-point-defun #'s-upper-camel-case) symbol-at-point-map)
+(bind-key "_" (make-transform-symbol-at-point-defun #'s-snake-case) symbol-at-point-map)
+(bind-key "-" (make-transform-symbol-at-point-defun #'s-dashed-words) symbol-at-point-map)
 
 (bind-keys
  :prefix-map hemacs-git-map
