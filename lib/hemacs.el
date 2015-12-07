@@ -129,13 +129,4 @@
       (set-frame-parameter nil 'alpha 67)
     (set-frame-parameter nil 'alpha 100)))
 
-(defun refresh-themed-packages ()
-  (when (fboundp 'powerline-reset)
-    (powerline-reset))
-  (when (fboundp 'highlight-tail-reload)
-    (highlight-tail-reload)))
-
-(defun refresh-themed-packages-when-idle (&optional no-confirm no-enable)
-  (run-with-idle-timer 1 nil #'refresh-themed-packages))
-
 (provide 'hemacs)

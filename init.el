@@ -1258,12 +1258,10 @@
 (use-package highlight-tail
   :ensure t
   :config
-  (setq highlight-tail-steps 16))
-
-(use-package custom
-  :defer t
-  :init
-  (advice-add 'load-theme :after #'refresh-themed-packages-when-idle))
+  (setq highlight-tail-steps 16)
+  (defun highlight-tail-reload-when-idle (&optional _no-confirm _no-enable)
+    (run-with-idle-timer 1 nil #'highlight-tail-reload))
+  (advice-add 'load-theme :after #'highlight-tail-reload-when-idle))
 
 (use-package apropospriate-theme
   :ensure t
