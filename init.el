@@ -224,9 +224,27 @@
 
 (use-package files
   :defer t
-  :bind ("s-," . find-user-init-file-other-window)
+  :bind (("s-," . find-user-init-file-other-window)
+         ("s-K" . delete-file-and-buffer)
+         ("s-S" . rename-file-and-buffer))
   :chords (";f" . find-file)
   :config
+  (def delete-file-and-buffer
+    (let ((filename (buffer-file-name)))
+      (when filename
+        (system-move-file-to-trash filename))
+      (kill-buffer)))
+  (def rename-file-and-buffer
+    (let* ((filename (buffer-file-name))
+           (old-name (if filename
+                         (file-name-nondirectory filename)
+                       (buffer-name)))
+           (new-name (read-file-name "New name: " nil nil nil old-name)))
+      (cond
+       ((not (and filename (file-exists-p filename))) (rename-buffer new-name))
+       (:else
+        (rename-file filename new-name :force-overwrite)
+        (set-visited-file-name new-name :no-query :along-with-file)))))
   (def find-user-init-file-other-window
     (find-file-other-window user-init-file))
   (defun hemacs-save-hook ()
@@ -458,6 +476,10 @@
 (use-package toggle-quotes
   :ensure t
   :bind ("C-'" . toggle-quotes))
+
+(use-package scratch
+  :ensure t
+  :bind ("s-N" . scratch))
 
 (use-package flyspell
   :config
@@ -1098,13 +1120,6 @@
   :ensure t
   :config
   (which-key-mode))
-
-(bind-keys
- ("M-\\"       . align-regexp)
- ("s-K"        . delete-file-and-buffer)
- ("s-N"        . create-scratch-buffer)
- ("s-S"        . rename-file-and-buffer)
- ("<f5>"       . toggle-transparency))
 
 (bind-chords
  ("}|" . pad-pipes)

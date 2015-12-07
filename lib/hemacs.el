@@ -1,23 +1,5 @@
 ;;; hemacs --- an emacs configuration
 
-(def rename-file-and-buffer
-  (let* ((filename (buffer-file-name))
-         (old-name (if filename
-                       (file-name-nondirectory filename)
-                     (buffer-name)))
-         (new-name (read-file-name "New name: " nil nil nil old-name)))
-    (cond
-     ((not (and filename (file-exists-p filename))) (rename-buffer new-name))
-     (:else
-      (rename-file filename new-name :force-overwrite)
-      (set-visited-file-name new-name :no-query :along-with-file)))))
-
-(def delete-file-and-buffer
-  (let ((filename (buffer-file-name)))
-    (when filename
-      (system-move-file-to-trash filename))
-    (kill-buffer)))
-
 (def html-smarter-newline
   (move-end-of-line nil)
   (smart-newline)
@@ -117,16 +99,5 @@
   (let ((face (or (get-char-property (point) 'read-face-name)
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
-
-(def create-scratch-buffer
-  (let ((current-major-mode major-mode)
-        (buf (generate-new-buffer "*scratch*")))
-    (switch-to-buffer buf)
-    (funcall current-major-mode)))
-
-(def toggle-transparency
-  (if (member (frame-parameter nil 'alpha) '(nil 100))
-      (set-frame-parameter nil 'alpha 67)
-    (set-frame-parameter nil 'alpha 100)))
 
 (provide 'hemacs)
