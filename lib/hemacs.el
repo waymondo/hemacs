@@ -18,12 +18,6 @@
       (system-move-file-to-trash filename))
     (kill-buffer)))
 
-(def eol-then-newline
-  (move-end-of-line nil)
-  (cond ((eq major-mode 'coffee-mode)
-         (coffee-newline-and-indent))
-        (t (newline-and-indent))))
-
 (def html-smarter-newline
   (move-end-of-line nil)
   (smart-newline)

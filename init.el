@@ -424,10 +424,18 @@
 
 (use-package smart-newline
   :ensure t
+  :bind ("<s-return>" . eol-then-smart-newline)
   :config
+  (defun smart-newline-no-reindent-first (orig-fun &rest args)
+    (cl-letf (((symbol-function 'reindent-then-newline-and-indent) #'newline-and-indent))
+      (apply orig-fun args)))
   (hook-modes progish-modes
     (when (not (member major-mode indent-sensitive-modes))
-      (smart-newline-mode))))
+      (smart-newline-mode))
+    (advice-add 'smart-newline :around #'smart-newline-no-reindent-first))
+  (def eol-then-smart-newline
+    (move-end-of-line nil)
+    (smart-newline)))
 
 (use-package easy-kill
   :ensure t
@@ -1096,7 +1104,6 @@
 (bind-keys
  ("M-\\"       . align-regexp)
  ("s-K"        . delete-file-and-buffer)
- ("<s-return>" . eol-then-newline)
  ("s-N"        . create-scratch-buffer)
  ("s-S"        . rename-file-and-buffer)
  ("<f5>"       . toggle-transparency))
