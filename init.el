@@ -1,4 +1,4 @@
-;;; hemacs --- an emacs configuration -*- lexical-binding: t; -*-
+;;; hemacs --- an emacs configuration -*- lexical-binding: t; flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
 
 ;;;;; Source Variables
 
@@ -1068,8 +1068,7 @@
 (use-package flycheck
   :ensure t
   :config
-  (setq-default flycheck-disabled-checkers
-                '(html-tidy javascript-jshint emacs-lisp-checkdoc)
+  (setq-default flycheck-disabled-checkers '(html-tidy javascript-jshint)
                 flycheck-idle-change-delay 1
                 flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
