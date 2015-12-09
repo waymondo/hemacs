@@ -25,7 +25,7 @@
               bidi-display-reordering nil
               truncate-lines t)
 
-;;;;; Personal Variables
+;;;;; Personal Variables & Helper Macros
 
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
@@ -39,11 +39,9 @@
   '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defvar monospace-font "Fira Code")
 
-;;;;; Bootstrap
-
 (defmacro def (name &rest body)
   (declare (indent 1) (debug t))
-  `(defun ,name (&optional arg)
+  `(defun ,name (&optional _arg)
      ,(if (stringp (car body)) (car body))
      (interactive "p")
      ,@(if (stringp (car body)) (cdr `,body) body)))
@@ -56,6 +54,8 @@
   (declare (indent 1) (debug t))
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
+
+;;;;; Package Management
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -79,8 +79,51 @@
 (use-package use-package-chords
   :ensure t)
 
-(use-package hemacs
-  :load-path "lib/")
+;;;;; Bootstrap
+
+(defun ensure-space ()
+  (unless (looking-back " " nil)
+    (insert " ")))
+
+(def insert-arrow
+  (ensure-space)
+  (insert "-> "))
+
+(def insert-fat-arrow
+  (ensure-space)
+  (insert "=> "))
+
+(def pad-comma
+  (insert ",")
+  (ensure-space))
+
+(def pad-equals
+  (if (nth 3 (syntax-ppss))
+      (insert "=")
+    (cond ((looking-back "=[[:space:]]" nil)
+           (delete-char -1))
+          ((looking-back "[^#/|!<>]" nil)
+           (ensure-space)))
+    (insert "=")
+    (ensure-space)))
+
+(def pad-pipes
+  (ensure-space)
+  (insert "||")
+  (backward-char))
+
+(def open-brackets-newline-and-indent
+  (ensure-space)
+  (insert "{\n\n}")
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(def pad-brackets
+  (unless (looking-back (rx (or "(" "[")) nil)
+    (ensure-space))
+  (insert "{  }")
+  (backward-char 2))
 
 (use-package dash
   :ensure t
@@ -665,6 +708,7 @@
                         "*Help"
                         "*less-css-compilation"
                         "*Packages"
+                        "*rspec-compilation"
                         "*SQL"
                         "*ag"))
            (display-buffer-reuse-window
@@ -832,9 +876,16 @@
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
   (add-hook 'sgml-mode #'sgml-electric-tag-pair-mode)
+  (def html-newline-dwim
+    (move-end-of-line nil)
+    (reindent-then-newline-and-indent)
+    (sgml-close-tag)
+    (move-beginning-of-line nil)
+    (open-line 1)
+    (indent-according-to-mode))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
-             ("<C-return>" . html-smarter-newline)))
+             ("<C-return>" . html-newline-dwim)))
 
 (use-package handlebars-sgml-mode
   :ensure t
@@ -863,6 +914,15 @@
   :mode "\\.css\\.erb\\'"
   :init
   :config
+  (def smart-css-colon
+    (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+      (cond ((string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" current-line)
+             (insert ":"))
+            ((looking-at "\;.*")
+             (insert ": "))
+            (:else
+             (insert ": ;")
+             (backward-char)))))
   (defun set-css-imenu-generic-expression ()
     (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
   (add-hook 'css-mode-hook #'set-css-imenu-generic-expression)
@@ -883,6 +943,11 @@
          ("\\.es6$"  . js2-mode))
   :interpreter (("node" . js2-mode))
   :config
+  (def smart-js-colon
+    (insert ":")
+    (ensure-space)
+    (insert ",")
+    (backward-char))
   (def js-insert-console-log
     (insert "console.log()")
     (backward-char))
@@ -907,12 +972,17 @@
   :ensure t
   :mode "\\.coffee\\.*"
   :config
+  (def coffee-newline-dwim
+    (move-end-of-line nil)
+    (ensure-space)
+    (insert "=> ")
+    (coffee-newline-and-indent))
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header")
   (bind-keys :map coffee-mode-map
              (","          . pad-comma)
              ("="          . pad-equals)
-             ("<C-return>" . coffee-smarter-newline)
+             ("<C-return>" . coffee-newline-dwim)
              ("C-c C-c"    . coffee-compile-region)))
 
 (use-package ember-mode
@@ -931,6 +1001,9 @@
 (use-package slim-mode
   :ensure t
   :config
+  (def slim-newline-dwim
+    (move-end-of-line nil)
+    (newline-and-indent))
   (setq slim-backspace-backdents-nesting nil)
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))
   (bind-keys :map slim-mode-map
@@ -944,12 +1017,14 @@
    ("\\.rabl\\'"    . ruby-mode)
    ("\\.builder\\'" . ruby-mode))
   :config
+  (def smart-ruby-colon
+    (if (looking-back "[[:word:]]" nil)
+        (insert ": ")
+      (insert ":")))
   (bind-keys :map ruby-mode-map
              (","          . pad-comma)
              ("="          . pad-equals)
-             (":"          . smart-ruby-colon)
-             ("<C-return>" . ruby-newline-dwim))
-  (setenv "RIPPER_TAGS_EMACS" "1")
+             (":"          . smart-ruby-colon))
   (defun hippie-expand-ruby-symbols (orig-fun &rest args)
     (let ((table (make-syntax-table ruby-mode-syntax-table)))
       (modify-syntax-entry ?: "." table)
