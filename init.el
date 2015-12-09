@@ -169,7 +169,7 @@
     (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (bind-keys :map comint-mode-map
-             ("s-K"       . comint-clear-buffer)
+             ("s-k"       . comint-clear-buffer)
              ("M-TAB"     . comint-previous-matching-input-from-input)
              ("<M-S-tab>" . comint-next-matching-input-from-input))
   (add-λ 'kill-emacs-hook
@@ -392,7 +392,12 @@
   (advice-add 'backward-kill-word :around #'backward-delete-subword)
   (advice-add 'kill-whole-line :after #'back-to-indentation)
   (advice-add 'kill-line :around #'kill-line-or-join-line)
-  (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation))
+  (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
+  (bind-keys
+   :map minibuffer-local-map
+   ("<escape>"  . abort-recursive-edit)
+   ("M-TAB"     . previous-complete-history-element)
+   ("<M-S-tab>" . next-complete-history-element)))
 
 (use-package indent
   :defer t
@@ -495,9 +500,9 @@
 
 (use-package move-dup
   :ensure t
-  :bind (("<M-S-up>"   . md/move-lines-up)
-         ("<M-S-down>" . md/move-lines-down)
-         ("s-u"        . md/duplicate-down))
+  :bind (("<C-s-down>" . md/move-lines-down)
+         ("<C-s-up>"   . md/move-lines-up)
+         ("s-D"        . md/duplicate-down))
   :config
   (defun indent-unless-sensitive (_arg)
     (unless (member major-mode indent-sensitive-modes)
@@ -1101,87 +1106,6 @@
                 flycheck-less-executable "/usr/local/bin/lessc")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-;;;;; Bindings & Chords
-
-(use-package key-chord
-  :defer t
-  :config
-  (key-chord-mode 1)
-  (key-chord-define-global "^^" "λ")
-  (key-chord-define-global "::" "::")
-  (setq key-chord-two-keys-delay 0.05)
-  (add-λ 'minibuffer-setup-hook
-    (set (make-local-variable 'input-method-function) nil)))
-
-(use-package free-keys
-  :ensure t)
-
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode))
-
-(bind-chords
- ("}|" . pad-pipes)
- ("{}" . open-brackets-newline-and-indent)
- ("[]" . pad-brackets)
- ("_+" . insert-fat-arrow)
- ("-=" . insert-arrow))
-
-(bind-keys
- :prefix-map hemacs-help-map
- :prefix "s-h"
- ("k" . describe-personal-keybindings)
- ("K" . free-keys)
- ("f" . what-face)
- ("m" . discover-my-major)
- ("g" . google-this)
- ("d" . dash-at-point)
- ("D" . dash-at-point-with-docset)
- ("i" . insert-local-ip-address)
- ("o" . open-package))
-
-(bind-keys
- :prefix-map switch-project-map
- :prefix "s-o"
- ("t"          . projectile-switch-project)
- ("M"          . projector-switch-project-run-shell-command)
- ("m"          . projector-open-project-shell)
- ("<C-return>" . projector-switch-project-run-default-shell-command))
-
-(bind-key "g" (make-projectile-switch-project-defun #'projectile-vc) switch-project-map)
-(bind-key "u" (make-projectile-switch-project-defun #'projectile-run-project) switch-project-map)
-(bind-key "`" (make-projectile-switch-project-defun #'ort/goto-todos) switch-project-map)
-(bind-key "n" (make-projectile-switch-project-defun #'ort/capture-checkitem) switch-project-map)
-
-(bind-keys
- :prefix-map symbol-at-point-map
- :prefix "s-;"
- ("d" . mc/mark-all-symbols-like-this)
- ("q" . anzu-query-replace-at-cursor))
-
-(bind-key "c" (make-transform-symbol-at-point-defun #'s-lower-camel-case) symbol-at-point-map)
-(bind-key "C" (make-transform-symbol-at-point-defun #'s-upper-camel-case) symbol-at-point-map)
-(bind-key "_" (make-transform-symbol-at-point-defun #'s-snake-case) symbol-at-point-map)
-(bind-key "-" (make-transform-symbol-at-point-defun #'s-dashed-words) symbol-at-point-map)
-
-(bind-keys
- :prefix-map hemacs-git-map
- :prefix "s-g"
- ("o" . github-browse-file)
- ("b" . github-browse-file-blame)
- ("c" . github-browse-commit)
- ("l" . magit-clone)
- ("g" . gist-region-or-buffer-private)
- ("t" . git-timemachine)
- ("p" . git-messenger:popup-message))
-
-(bind-keys
- :map minibuffer-local-map
- ("<escape>"  . abort-recursive-edit)
- ("M-TAB"     . previous-complete-history-element)
- ("<M-S-tab>" . next-complete-history-element))
-
 ;;;;; Appearance
 
 (use-package ns-win
@@ -1279,4 +1203,84 @@
 (use-package apropospriate-theme
   :ensure t
   :init
+  (defun what-face (pos)
+    (interactive "d")
+    (let ((face (or (get-char-property (point) 'read-face-name)
+                    (get-char-property (point) 'face))))
+      (if face (message "Face: %s" face) (message "No face at %d" pos))))
   (load-theme 'apropospriate-dark t))
+
+;;;;; Bindings & Chords
+
+(use-package key-chord
+  :defer t
+  :config
+  (key-chord-mode 1)
+  (key-chord-define-global "^^" "λ")
+  (key-chord-define-global "::" "::")
+  (setq key-chord-two-keys-delay 0.05)
+  (add-λ 'minibuffer-setup-hook
+    (set (make-local-variable 'input-method-function) nil)))
+
+(use-package free-keys
+  :ensure t)
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+(bind-chords
+ ("}|" . pad-pipes)
+ ("{}" . open-brackets-newline-and-indent)
+ ("[]" . pad-brackets)
+ ("_+" . insert-fat-arrow)
+ ("-=" . insert-arrow))
+
+(bind-keys
+ :prefix-map hemacs-help-map
+ :prefix "s-h"
+ ("k" . describe-personal-keybindings)
+ ("K" . free-keys)
+ ("f" . what-face)
+ ("m" . discover-my-major)
+ ("g" . google-this)
+ ("d" . dash-at-point)
+ ("D" . dash-at-point-with-docset)
+ ("i" . insert-local-ip-address)
+ ("o" . open-package))
+
+(bind-keys
+ :prefix-map switch-project-map
+ :prefix "s-o"
+ ("t"          . projectile-switch-project)
+ ("M"          . projector-switch-project-run-shell-command)
+ ("m"          . projector-open-project-shell)
+ ("<C-return>" . projector-switch-project-run-default-shell-command))
+
+(bind-key "g" (make-projectile-switch-project-defun #'projectile-vc) switch-project-map)
+(bind-key "u" (make-projectile-switch-project-defun #'projectile-run-project) switch-project-map)
+(bind-key "`" (make-projectile-switch-project-defun #'ort/goto-todos) switch-project-map)
+(bind-key "n" (make-projectile-switch-project-defun #'ort/capture-checkitem) switch-project-map)
+
+(bind-keys
+ :prefix-map symbol-at-point-map
+ :prefix "s-;"
+ ("d" . mc/mark-all-symbols-like-this)
+ ("q" . anzu-query-replace-at-cursor))
+
+(bind-key "c" (make-transform-symbol-at-point-defun #'s-lower-camel-case) symbol-at-point-map)
+(bind-key "C" (make-transform-symbol-at-point-defun #'s-upper-camel-case) symbol-at-point-map)
+(bind-key "_" (make-transform-symbol-at-point-defun #'s-snake-case) symbol-at-point-map)
+(bind-key "-" (make-transform-symbol-at-point-defun #'s-dashed-words) symbol-at-point-map)
+
+(bind-keys
+ :prefix-map hemacs-git-map
+ :prefix "s-g"
+ ("o" . github-browse-file)
+ ("b" . github-browse-file-blame)
+ ("c" . github-browse-commit)
+ ("l" . magit-clone)
+ ("g" . gist-region-or-buffer-private)
+ ("t" . git-timemachine)
+ ("p" . git-messenger:popup-message))
