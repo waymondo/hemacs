@@ -1141,6 +1141,9 @@
       (find-library package)))
   (find-function-setup-keys))
 
+(use-package etags
+  :init (setq tags-revert-without-query t))
+
 (use-package elisp-slime-nav
   :ensure t
   :config
