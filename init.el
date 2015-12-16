@@ -610,7 +610,7 @@
   (advice-add 'hippie-expand :around #'hippie-expand-inhibit-message-in-minibuffer)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
-  (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line)))
+  (bind-key* "M-?" (make-hippie-expand-function '(try-expand-line-all-buffers)))
   (setq hippie-expand-verbose nil
         hippie-expand-try-functions-list '(try-expand-dabbrev-visible
                                            try-expand-dabbrev
