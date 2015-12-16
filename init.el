@@ -491,7 +491,7 @@
 (use-package smart-newline
   :ensure t
   :bind ("<s-return>" . eol-then-smart-newline)
-  :config
+  :init
   (defun smart-newline-no-reindent-first (orig-fun &rest args)
     (cl-letf (((symbol-function 'reindent-then-newline-and-indent) #'newline-and-indent))
       (apply orig-fun args)))
@@ -1016,15 +1016,27 @@
   (("Appraisals$"   . ruby-mode)
    ("\\.rabl\\'"    . ruby-mode)
    ("\\.builder\\'" . ruby-mode))
-  :config
+  :init
   (def smart-ruby-colon
     (if (looking-back "[[:word:]]" nil)
         (insert ": ")
       (insert ":")))
+  (def ruby-newline-dwim
+    (let ((add-newline (or (eolp)
+                           (looking-at "\|$")
+                           (looking-at "\)$"))))
+      (move-end-of-line nil)
+      (smart-newline)
+      (insert "end")
+      (move-beginning-of-line nil)
+      (if add-newline
+          (smart-newline)
+        (indent-according-to-mode))))
   (bind-keys :map ruby-mode-map
              (","          . pad-comma)
              ("="          . pad-equals)
-             (":"          . smart-ruby-colon))
+             (":"          . smart-ruby-colon)
+             ("<C-return>" . ruby-newline-dwim))
   (defun hippie-expand-ruby-symbols (orig-fun &rest args)
     (let ((table (make-syntax-table ruby-mode-syntax-table)))
       (modify-syntax-entry ?: "." table)
