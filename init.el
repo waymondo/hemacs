@@ -1278,17 +1278,19 @@
   :ensure t
   :config (auto-dim-other-buffers-mode))
 
+(use-package centered-cursor-mode
+  :ensure t
+  :config
+  (hook-modes progish-modes
+    (centered-cursor-mode)))
+
 (use-package fringe
   :defer t
   :config (fringe-mode '(20 . 8)))
 
-(use-package highlight-tail
-  :ensure t
-  :config
-  (setq highlight-tail-steps 16)
-  (defun highlight-tail-reload-when-idle (&optional _no-confirm _no-enable)
-    (run-with-idle-timer 1 nil #'highlight-tail-reload))
-  (advice-add 'load-theme :after #'highlight-tail-reload-when-idle))
+(use-package custom
+  :defer t
+  :config (setq custom-safe-themes t))
 
 (use-package apropospriate-theme
   :ensure t
@@ -1297,8 +1299,22 @@
     (interactive "d")
     (let ((face (or (get-char-property (point) 'read-face-name)
                     (get-char-property (point) 'face))))
-      (if face (message "Face: %s" face) (message "No face at %d" pos))))
-  (load-theme 'apropospriate-dark t))
+      (if face (message "Face: %s" face) (message "No face at %d" pos)))))
+
+(use-package highlight-tail
+  :ensure t
+  :config
+  (setq highlight-tail-steps 16)
+  (defun highlight-tail-reload-when-idle (&optional _no-confirm _no-enable)
+    (run-with-idle-timer 1 nil #'highlight-tail-reload))
+  (highlight-tail-mode))
+
+(use-package cycle-themes
+  :ensure t
+  :config
+  (setq cycle-themes-theme-list '(apropospriate-dark apropospriate-light))
+  (add-hook 'cycle-themes-after-cycle-hook #'highlight-tail-reload-when-idle)
+  (cycle-themes-mode))
 
 ;;;;; Bindings & Chords
 
