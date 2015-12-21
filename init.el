@@ -630,6 +630,13 @@
                           try-complete-lisp-symbol)
                         hippie-expand-try-functions-list))))
 
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode)
+  (setq-default yas/prompt-functions '(yas/ido-prompt))
+  (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand))
+
 (use-package company
   :ensure t
   :bind ("s-y" . company-kill-ring)
