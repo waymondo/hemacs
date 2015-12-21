@@ -125,6 +125,11 @@
   (insert "{  }")
   (backward-char 2))
 
+(def apostrophe
+  (if (eq 0 (car (syntax-ppss)))
+      (insert "’")
+    (call-interactively #'self-insert-command)))
+
 (use-package dash
   :ensure t
   :config (dash-enable-font-lock))
@@ -855,7 +860,8 @@
   (setq org-support-shift-select t
         org-completion-use-ido t
         org-startup-indented t)
-  (bind-key "," #'pad-comma org-mode-map))
+  (bind-key "," #'pad-comma org-mode-map)
+  (bind-key "'" #'apostrophe org-mode-map))
 
 (use-package org-autolist
   :ensure t
@@ -885,6 +891,7 @@
     (indent-according-to-mode))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
+             ("'" . apostrophe)
              ("<C-return>" . html-newline-dwim)))
 
 (use-package handlebars-sgml-mode
@@ -906,6 +913,7 @@
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
+  (bind-key "'" #'apostrophe markdown-mode-map)
   (bind-key "," #'pad-comma markdown-mode-map)
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
