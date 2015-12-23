@@ -1304,17 +1304,16 @@
   :config (fringe-mode '(20 . 8)))
 
 (use-package custom
-  :defer t
-  :config (setq custom-safe-themes t))
-
-(use-package apropospriate-theme
-  :ensure t
   :init
+  (setq custom-safe-themes t)
   (defun what-face (pos)
     (interactive "d")
     (let ((face (or (get-char-property (point) 'read-face-name)
                     (get-char-property (point) 'face))))
       (if face (message "Face: %s" face) (message "No face at %d" pos)))))
+
+(use-package apropospriate-theme
+  :ensure t)
 
 (use-package highlight-tail
   :ensure t
