@@ -94,7 +94,7 @@
   (insert "=> "))
 
 (def pad-comma
-  (insert ",")
+  (call-interactively #'self-insert-command)
   (ensure-space))
 
 (def pad-equals
@@ -104,7 +104,7 @@
            (delete-char -1))
           ((looking-back "[^#/|!<>]" nil)
            (ensure-space)))
-    (insert "=")
+    (call-interactively #'self-insert-command)
     (ensure-space)))
 
 (def pad-pipes
