@@ -1094,7 +1094,7 @@
   :after projectile-rails
   :init
   (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)
-  (add-hook 'projectile-switch-project-hook #'chruby-use-corresponding)
+  (add-hook 'projectile-after-switch-project-hook #'chruby-use-corresponding)
   (advice-add 'projectile-rails-console :before #'chruby-use-corresponding)
   (advice-add 'projectile-rails-server :before #'chruby-use-corresponding))
 
