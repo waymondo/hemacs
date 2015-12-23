@@ -407,6 +407,11 @@
   (hook-modes writing-modes
     (auto-fill-mode)
     (visual-line-mode))
+  (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
+    (let ((p (point)))
+      (dotimes (i 10)
+        (when (= p (point))
+          (apply orig-fun args)))))
   (defun maybe-indent-afterwards (&optional _)
     (and (not current-prefix-arg)
          (not (member major-mode indent-sensitive-modes))
@@ -433,6 +438,7 @@
      (if mark-active
          (list (region-beginning) (region-end))
        (list (point) (line-end-position)))))
+  (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
   (advice-add 'kill-ring-save :before #'with-region-or-point-to-eol)
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
@@ -441,6 +447,8 @@
   (advice-add 'kill-whole-line :after #'back-to-indentation)
   (advice-add 'kill-line :around #'kill-line-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
+  (setq set-mark-command-repeat-pop t
+        next-error-recenter t)
   (bind-keys
    :map minibuffer-local-map
    ("<escape>"  . abort-recursive-edit)
