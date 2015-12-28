@@ -1015,6 +1015,9 @@
 (use-package ember-mode
   :ensure t)
 
+(use-package jade-mode
+  :ensure t)
+
 (use-package web-beautify
   :ensure t
   :config
