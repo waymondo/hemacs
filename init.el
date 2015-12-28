@@ -991,8 +991,9 @@
 
 (use-package json-mode
   :ensure t
-  :mode (("\\.bowerrc$"     . js2-mode)
-         ("\\.json_schema$" . js2-mode)))
+  :mode (("\\.bowerrc$"     . json-mode)
+         ("\\.jshintrc$"    . json-mode)
+         ("\\.json_schema$" . json-mode)))
 
 (use-package coffee-mode
   :ensure t
