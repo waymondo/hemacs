@@ -960,6 +960,10 @@
   :mode "\\.less\\.erb\\'"
   :init (setq less-css-lessc-options '("--no-color" "-x")))
 
+(use-package js-mode
+  :defer t
+  :config (setq js-indent-level 2))
+
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
@@ -976,8 +980,7 @@
     (backward-char))
   (setq js2-strict-trailing-comma-warning nil
         js2-strict-missing-semi-warning nil
-        js2-highlight-level 3
-        js2-basic-offset 2)
+        js2-highlight-level 3)
   (bind-keys :map js2-mode-map
              ("," . pad-comma)
              ("=" . pad-equals)
