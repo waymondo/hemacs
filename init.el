@@ -172,6 +172,10 @@
   :defer t
   :config (setq ad-redefinition-action 'accept))
 
+(use-package custom
+  :defer t
+  :init (setq custom-safe-themes t))
+
 (use-package cus-edit
   :defer t
   :init (setq custom-file (make-temp-file "emacs-custom")))
@@ -960,10 +964,6 @@
   :mode "\\.less\\.erb\\'"
   :init (setq less-css-lessc-options '("--no-color" "-x")))
 
-(use-package js-mode
-  :defer t
-  :config (setq js-indent-level 2))
-
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
@@ -980,7 +980,8 @@
     (backward-char))
   (setq js2-strict-trailing-comma-warning nil
         js2-strict-missing-semi-warning nil
-        js2-highlight-level 3)
+        js2-highlight-level 3
+        js2-basic-offset 2)
   (bind-keys :map js2-mode-map
              ("," . pad-comma)
              ("=" . pad-equals)
@@ -993,7 +994,8 @@
   :ensure t
   :mode (("\\.bowerrc$"     . json-mode)
          ("\\.jshintrc$"    . json-mode)
-         ("\\.json_schema$" . json-mode)))
+         ("\\.json_schema$" . json-mode))
+  :config (setq js-indent-level 2))
 
 (use-package coffee-mode
   :ensure t
@@ -1326,8 +1328,8 @@
     (let ((face (or (get-char-property (point) 'read-face-name)
                     (get-char-property (point) 'face))))
       (if face (message "Face: %s" face) (message "No face at %d" pos))))
-  (load-theme 'apropospriate-light t)
-  (load-theme 'apropospriate-dark t))
+  (load-theme 'apropospriate-light t t)
+  (load-theme 'apropospriate-dark t t))
 
 (use-package highlight-tail
   :ensure t
