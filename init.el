@@ -85,14 +85,6 @@
   (unless (looking-back " " nil)
     (insert " ")))
 
-(def insert-arrow
-  (ensure-space)
-  (insert "-> "))
-
-(def insert-fat-arrow
-  (ensure-space)
-  (insert "=> "))
-
 (def pad-comma
   (call-interactively #'self-insert-command)
   (ensure-space))
@@ -106,11 +98,6 @@
            (ensure-space)))
     (call-interactively #'self-insert-command)
     (ensure-space)))
-
-(def pad-pipes
-  (ensure-space)
-  (insert "||")
-  (backward-char))
 
 (def open-brackets-newline-and-indent
   (ensure-space)
@@ -1351,8 +1338,25 @@
 ;;;;; Bindings & Chords
 
 (use-package key-chord
-  :defer t
+  :chords
+  (("}|" . pad-pipes)
+   ("[]" . pad-brackets)
+   ("{}" . open-brackets-newline-and-indent)
+   ("-=" . insert-arrow)
+   ("_+" . insert-fat-arrow))
   :config
+  (def insert-arrow
+    (ensure-space)
+    (insert "->")
+    (ensure-space))
+  (def insert-fat-arrow
+    (ensure-space)
+    (insert "=>")
+    (ensure-space))
+  (def pad-pipes
+    (ensure-space)
+    (insert "||")
+    (backward-char))
   (key-chord-mode 1)
   (key-chord-define-global "^^" "λ")
   (key-chord-define-global "::" "::")
@@ -1367,13 +1371,6 @@
   :ensure t
   :config
   (which-key-mode))
-
-(bind-chords
- ("}|" . pad-pipes)
- ("{}" . open-brackets-newline-and-indent)
- ("[]" . pad-brackets)
- ("_+" . insert-fat-arrow)
- ("-=" . insert-arrow))
 
 (bind-keys
  :prefix-map hemacs-help-map
