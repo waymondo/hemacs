@@ -46,6 +46,12 @@
      (interactive "p")
      ,@(if (stringp (car body)) (cdr `,body) body)))
 
+(defmacro λ (&rest body)
+  (declare (indent 1) (debug t))
+  `(lambda ()
+     (interactive)
+     ,@body))
+
 (defmacro add-λ (hook &rest body)
   (declare (indent 1) (debug t))
   `(add-hook ,hook (lambda () ,@body)))
@@ -54,6 +60,16 @@
   (declare (indent 1) (debug t))
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
+
+(defmacro define-conditional-key (keymap key def &rest body)
+  (declare (indent 3) (debug (form form form &rest sexp)))
+  `(define-key ,keymap ,key
+     '(menu-item
+       ,(format "maybe-%s" (or (car (cdr-safe def)) def))
+       nil
+       :filter (lambda (&optional _)
+                 (when ,(macroexp-progn body)
+                   ,def)))))
 
 ;;;;; Package Management
 
@@ -111,11 +127,6 @@
     (ensure-space))
   (insert "{  }")
   (backward-char 2))
-
-(def apostrophe
-  (if (eq 0 (car (syntax-ppss)))
-      (insert "’")
-    (call-interactively #'self-insert-command)))
 
 (use-package dash
   :ensure t
@@ -868,7 +879,8 @@
         org-completion-use-ido t
         org-startup-indented t)
   (bind-key "," #'pad-comma org-mode-map)
-  (bind-key "'" #'apostrophe org-mode-map))
+  (define-conditional-key org-mode-map "'" (λ (insert "’"))
+    (not (org-in-src-block-p))))
 
 (use-package org-autolist
   :ensure t
@@ -896,9 +908,10 @@
     (move-beginning-of-line nil)
     (open-line 1)
     (indent-according-to-mode))
+  (define-conditional-key html-mode-map "'" (insert "’")
+    (not (eq 0 (car (syntax-ppss)))))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
-             ("'" . apostrophe)
              ("<C-return>" . html-newline-dwim)))
 
 (use-package handlebars-sgml-mode
@@ -920,7 +933,10 @@
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
-  (bind-key "'" #'apostrophe markdown-mode-map)
+  (define-conditional-key markdown-mode-map "'" (insert "’")
+    (not (or (markdown-code-at-point-p)
+             (memq 'markdown-pre-face
+                   (face-at-point nil 'mult)))))
   (bind-key "," #'pad-comma markdown-mode-map)
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
