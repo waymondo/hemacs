@@ -734,6 +734,7 @@
                         "*Packages"
                         "*rspec-compilation"
                         "*SQL"
+                        "*tldr"
                         "*ag"))
            (display-buffer-reuse-window
             display-buffer-in-side-window)
@@ -1216,6 +1217,9 @@
 (use-package dash-at-point
   :load-path "lib/dash-at-point/")
 
+(use-package tldr
+  :ensure t)
+
 (use-package discover
   :ensure t
   :config (global-discover-mode))
@@ -1382,6 +1386,7 @@
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
  ("i" . insert-local-ip-address)
+ ("t" . tldr)
  ("o" . open-package))
 
 (bind-keys
