@@ -873,8 +873,7 @@
         org-completion-use-ido t
         org-startup-indented t)
   (bind-key "," #'pad-comma org-mode-map)
-  (define-conditional-key org-mode-map "'" (λ (insert "’"))
-    (not (org-in-src-block-p))))
+  (bind-key "'" (λ (insert "’")) org-mode-map (not (org-in-src-block-p))))
 
 (use-package org-autolist
   :ensure t
@@ -902,8 +901,7 @@
     (move-beginning-of-line nil)
     (open-line 1)
     (indent-according-to-mode))
-  (define-conditional-key html-mode-map "'" (insert "’")
-    (not (eq 0 (car (syntax-ppss)))))
+  (bind-key "'" (insert "’") html-mode-map (not (eq 0 (car (syntax-ppss)))))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
              ("<C-return>" . html-newline-dwim)))
@@ -927,7 +925,7 @@
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode))
   :config
-  (define-conditional-key markdown-mode-map "'" (insert "’")
+  (bind-key "'" (insert "’") markdown-mode-map
     (not (or (markdown-code-at-point-p)
              (memq 'markdown-pre-face
                    (face-at-point nil 'mult)))))
