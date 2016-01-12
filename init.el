@@ -61,16 +61,6 @@
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
 
-(defmacro define-conditional-key (keymap key def &rest body)
-  (declare (indent 3) (debug (form form form &rest sexp)))
-  `(define-key ,keymap ,key
-     '(menu-item
-       ,(format "maybe-%s" (or (car (cdr-safe def)) def))
-       nil
-       :filter (lambda (&optional _)
-                 (when ,(macroexp-progn body)
-                   ,def)))))
-
 ;;;;; Package Management
 
 (require 'package)
@@ -241,9 +231,12 @@
 (use-package shell
   :defer t
   :config
-  (setq async-shell-command-buffer 'new-buffer
-        shell-command-switch "-ic"
-        explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
+  (setq explicit-bash-args '("-c" "export INSIDE_EMACS=; stty echo; bash"))
+  (defun make-shell-command-behave-interactively (orig-fun &rest args)
+    (let ((shell-command-switch "-ic"))
+      (apply orig-fun args)))
+  (advice-add 'shell-command :around #'make-shell-command-behave-interactively)
+  (advice-add 'start-process-shell-command :around #'make-shell-command-behave-interactively)
   (add-λ 'shell-mode-hook
     (turn-on-comint-history (getenv "HISTFILE"))))
 
@@ -450,7 +443,8 @@
   (advice-add 'kill-line :around #'kill-line-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (setq set-mark-command-repeat-pop t
-        next-error-recenter t)
+        next-error-recenter t
+        async-shell-command-buffer 'new-buffer)
   (bind-keys
    :map minibuffer-local-map
    ("<escape>"  . abort-recursive-edit)
