@@ -306,14 +306,8 @@
         dired-auto-revert-buffer t))
 
 (use-package dired-x
+  :bind ("s-\\" . dired-jump-other-window)
   :after dired)
-
-(use-package ranger
-  :ensure t
-  :bind ("s-\\" . ranger)
-  :init
-  (setq ranger-cleanup-on-disable t
-        ranger-show-dotfiles t))
 
 (use-package undo-tree
   :ensure t
@@ -746,14 +740,6 @@
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
 
-(use-package projectile-rails
-  :ensure t
-  :after (ruby-mode projectile)
-  :config
-  (add-λ 'ruby-mode-hook
-    (setq-local projectile-tags-command "ripper-tags -R -f TAGS"))
-  (add-hook 'projectile-mode-hook #'projectile-rails-on))
-
 (use-package projector
   :ensure t
   :after projectile
@@ -1011,6 +997,7 @@
       (modify-syntax-entry ?: "." table)
       (with-syntax-table table (apply orig-fun args))))
   (add-λ 'ruby-mode-hook
+    (setq-local projectile-tags-command "ripper-tags -R -f TAGS")
     (add-function :around (local 'hippie-expand) #'hippie-expand-ruby-symbols)))
 
 (use-package ruby-tools
@@ -1029,20 +1016,11 @@
   (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
   (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
 
-(use-package bundler
-  :ensure t
-  :after projectile-rails
-  :config
-  (bind-key "G" #'bundle-open projectile-rails-command-map))
-
 (use-package chruby
   :ensure t
-  :after projectile-rails
-  :init
-  (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)
-  (add-hook 'projectile-after-switch-project-hook #'chruby-use-corresponding)
-  (advice-add 'projectile-rails-console :before #'chruby-use-corresponding)
-  (advice-add 'projectile-rails-server :before #'chruby-use-corresponding))
+  :after projectile
+  :config
+  (add-hook 'projectile-after-switch-project-hook #'chruby-use-corresponding))
 
 (use-package ruby-hash-syntax
   :ensure t
