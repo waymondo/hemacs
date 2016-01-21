@@ -13,7 +13,6 @@
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
       ring-bell-function #'ignore
-      gc-cons-threshold (* 1024 1024 32)
       ns-function-modifier 'hyper
       ns-right-option-modifier 'none
       create-lockfiles nil)
@@ -117,6 +116,10 @@
     (ensure-space))
   (insert "{  }")
   (backward-char 2))
+
+(add-λ 'minibuffer-setup-hook
+  (setq-local input-method-function nil)
+  (setq-local gc-cons-threshold most-positive-fixnum))
 
 (use-package dash
   :ensure t
@@ -1319,6 +1322,9 @@
    ("-=" . insert-arrow)
    ("_+" . insert-fat-arrow))
   :config
+  (bind-chords
+   ("^^" . "λ")
+   ("::" . "::"))
   (def insert-arrow
     (ensure-space)
     (insert "->")
@@ -1332,11 +1338,7 @@
     (insert "||")
     (backward-char))
   (key-chord-mode 1)
-  (key-chord-define-global "^^" "λ")
-  (key-chord-define-global "::" "::")
-  (setq key-chord-two-keys-delay 0.05)
-  (add-λ 'minibuffer-setup-hook
-    (set (make-local-variable 'input-method-function) nil)))
+  (setq key-chord-two-keys-delay 0.05))
 
 (use-package free-keys
   :ensure t)
