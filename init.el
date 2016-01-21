@@ -15,7 +15,16 @@
       ring-bell-function #'ignore
       ns-function-modifier 'hyper
       ns-right-option-modifier 'none
-      create-lockfiles nil)
+      create-lockfiles nil
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      disabled-command-function nil
+      ad-redefinition-action 'accept
+      custom-safe-themes t
+      custom-file (make-temp-file "emacs-custom")
+      inhibit-startup-screen t
+      initial-scratch-message nil
+      inhibit-startup-echo-area-message ""
+      standard-indent 2)
 
 (setq-default indent-tabs-mode nil
               tab-width 2
@@ -23,6 +32,8 @@
               cursor-in-non-selected-windows nil
               bidi-display-reordering nil
               truncate-lines t)
+
+(defalias 'yes-or-no-p #'y-or-n-p)
 
 ;;;;; Personal Variables & Helper Macros
 
@@ -59,6 +70,16 @@
   (declare (indent 1) (debug t))
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
+
+(defmacro make-transform-symbol-at-point-defun (func)
+  `(function
+    (lambda ()
+      (interactive)
+      (save-excursion
+        (let ((symbol (thing-at-point 'symbol t))
+              (bounds (bounds-of-thing-at-point 'symbol)))
+          (delete-region (car bounds) (cdr bounds))
+          (insert (funcall ,func symbol)))))))
 
 ;;;;; Package Management
 
@@ -128,18 +149,6 @@
 (use-package s
   :ensure t)
 
-(use-package thingatpt
-  :config
-  (defmacro make-transform-symbol-at-point-defun (func)
-    `(function
-      (lambda ()
-        (interactive)
-        (save-excursion
-          (let ((symbol (thing-at-point 'symbol t))
-                (bounds (bounds-of-thing-at-point 'symbol)))
-            (delete-region (car bounds) (cdr bounds))
-            (insert (funcall ,func symbol))))))))
-
 (use-package tool-bar
   :defer t
   :config (tool-bar-mode -1))
@@ -150,37 +159,6 @@
 
 (use-package menu-bar
   :bind ("s-w" . kill-this-buffer))
-
-(use-package mwheel
-  :defer t
-  :config (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))))
-
-(use-package novice
-  :defer t
-  :config (setq disabled-command-function nil))
-
-(use-package advice
-  :defer t
-  :config (setq ad-redefinition-action 'accept))
-
-(use-package custom
-  :defer t
-  :init (setq custom-safe-themes t))
-
-(use-package cus-edit
-  :defer t
-  :init (setq custom-file (make-temp-file "emacs-custom")))
-
-(use-package startup
-  :defer t
-  :init
-  (setq inhibit-startup-screen t
-        initial-scratch-message nil
-        inhibit-startup-echo-area-message ""))
-
-(use-package subr
-  :preface (provide 'subr)
-  :init (defalias 'yes-or-no-p #'y-or-n-p))
 
 ;;;;; Processes, Shells, Compilation
 
@@ -363,7 +341,6 @@
 
 (use-package crux
   :load-path "lib/crux/"
-  :defer t
   :chords
   (":S" . crux-recentf-ido-find-file)
   :bind
@@ -376,7 +353,6 @@
   (crux-with-region-or-point-to-eol kill-ring-save))
 
 (use-package newcomment
-  :defer t
   :bind ("s-/" . comment-or-uncomment-region))
 
 (use-package simple
@@ -394,8 +370,7 @@
     (and (not current-prefix-arg)
          (not (member major-mode indent-sensitive-modes))
          (or (-any? #'derived-mode-p progish-modes))
-         (let ((mark-even-if-inactive transient-mark-mode))
-           (indent-region (region-beginning) (region-end) nil))))
+         (indent-region (region-beginning) (region-end) nil)))
   (defun pop-to-process-list-buffer ()
     (pop-to-buffer "*Process List*"))
   (defun kill-line-or-join-line (orig-fun &rest args)
@@ -427,9 +402,6 @@
    ("<escape>"  . abort-recursive-edit)
    ("M-TAB"     . previous-complete-history-element)
    ("<M-S-tab>" . next-complete-history-element)))
-
-(use-package indent
-  :init (setq standard-indent 2))
 
 (use-package delsel
   :init (delete-selection-mode))
