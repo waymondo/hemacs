@@ -165,8 +165,9 @@
 (use-package exec-path-from-shell
   :ensure t
   :config
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "HISTFILE"))
+  (push "HISTFILE" exec-path-from-shell-variables)
+  (setq exec-path-from-shell-check-startup-files nil)
+  (exec-path-from-shell-initialize))
 
 (use-package comint
   :defer t
