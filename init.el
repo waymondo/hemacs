@@ -412,16 +412,15 @@
   :commands (er/mark-symbol)
   :bind* ("C-," . er/expand-region))
 
-(use-package ace-jump-mode
+(use-package avy
   :ensure t
-  :bind ("C-;" . ace-jump-mode)
-  :chords (("jj" . ace-jump-char-mode)
-           ("jk" . ace-jump-word-mode)
-           ("jl" . ace-jump-line-mode))
+  :chords
+  (("jj" . avy-goto-char-timer)
+   ("jk" . avy-goto-word-or-subword-1)
+   ("jl" . avy-goto-line))
   :config
-  (ace-jump-mode-enable-mark-sync)
-  (setq ace-jump-mode-case-fold nil
-        ace-jump-mode-scope 'visible))
+  (avy-setup-default)
+  (setq avy-background t))
 
 (use-package ace-jump-zap
   :ensure t
