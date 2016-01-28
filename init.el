@@ -948,6 +948,8 @@
   :config
   (with-eval-after-load 'js2-mode
     (bind-key "s-b" #'web-beautify-js js2-mode-map))
+  (with-eval-after-load 'json-mode
+    (bind-key "s-b" #'web-beautify-json json-mode-map))
   (with-eval-after-load 'sgml-mode
     (bind-key "s-b" #'web-beautify-html html-mode-map))
   (with-eval-after-load 'css-mode
