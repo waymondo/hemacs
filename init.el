@@ -973,7 +973,7 @@
   (("Appraisals$"   . ruby-mode)
    ("\\.rabl\\'"    . ruby-mode)
    ("\\.builder\\'" . ruby-mode))
-  :init
+  :config
   (def smart-ruby-colon
     (if (looking-back "[[:word:]]" nil)
         (insert ": ")
@@ -1179,8 +1179,7 @@
   :config
   (beacon-mode)
   (setq beacon-blink-when-focused t
-        beacon-blink-when-point-moves-vertically 4
-        beacon-dont-blink-commands '(next-line previous-line forward-line)))
+        beacon-blink-when-point-moves-vertically 4))
 
 (use-package highlight-symbol
   :ensure t
