@@ -187,9 +187,6 @@
     (text-scale-decrease 1))
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-hook 'comint-mode-hook #'process-shellish-output)
-  (defun improve-npm-process-output (output)
-    (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
-  (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (bind-keys :map comint-mode-map
              ("s-k"       . comint-clear-buffer)
              ("M-TAB"     . comint-previous-matching-input-from-input)
@@ -932,6 +929,7 @@
          ("\\.es6$"  . js2-mode))
   :interpreter (("node" . js2-mode))
   :config
+  (setenv "NODE_NO_READLINE" "1")
   (def smart-js-colon
     (insert ":")
     (ensure-space)
