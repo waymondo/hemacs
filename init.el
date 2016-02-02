@@ -365,7 +365,7 @@
 (use-package newcomment
   :bind ("s-/" . comment-or-uncomment-region)
   :config
-  (defun with-region-or-line (beg end &optional _)
+  (defun with-region-or-line (_beg _end &optional _)
     (interactive
      (if mark-active
          (list (region-beginning) (region-end))
@@ -403,7 +403,7 @@
   (defun backward-delete-subword (orig-fun &rest args)
     (cl-letf (((symbol-function 'kill-region) #'delete-region))
       (apply orig-fun args)))
-  (defun with-region-or-point-to-eol (beg end &optional _)
+  (defun with-region-or-point-to-eol (_beg _end &optional _)
     (interactive
      (if mark-active
          (list (region-beginning) (region-end))
@@ -867,7 +867,7 @@
     (move-beginning-of-line nil)
     (open-line 1)
     (indent-according-to-mode))
-  (bind-key "'" "’" html-mode-map (not (eq 0 (car (syntax-ppss)))))
+  (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss))))
   (bind-keys :map html-mode-map
              ("," . pad-comma)
              ("<C-return>" . html-newline-dwim)))
@@ -1106,7 +1106,6 @@
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-shellish-output)
   (setq git-commit-summary-max-length git-commit-fill-column
-        magit-revert-buffers 2
         magit-completing-read-function 'magit-ido-completing-read
         magit-log-auto-more t
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
