@@ -1122,10 +1122,12 @@
 
 (use-package diff-hl
   :ensure t
+  :after magit
   :config
   (global-diff-hl-mode)
   (diff-hl-margin-mode)
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
+  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
 
 ;;;;; Help & Docs
 
