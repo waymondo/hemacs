@@ -423,16 +423,9 @@
    ("M-TAB"     . previous-complete-history-element)
    ("<M-S-tab>" . next-complete-history-element)))
 
-(use-package indent
-  :preface (provide 'indent)
-  :init
-  (setq standard-indent 2)
-  (defun with-region-or-buffer (_beg _end &optional _)
-    (interactive
-     (if mark-active
-         (list (region-beginning) (region-end))
-       (list (point-min) (point-max)))))
-  (advice-add 'indent-region :before #'with-region-or-buffer))
+(use-package aggressive-indent
+  :ensure t
+  :config (global-aggressive-indent-mode))
 
 (use-package delsel
   :init (delete-selection-mode))
