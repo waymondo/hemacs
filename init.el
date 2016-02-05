@@ -246,29 +246,8 @@
 
 (use-package files
   :defer t
-  :bind (("s-," . find-user-init-file-other-window)
-         ("s-K" . delete-file-and-buffer)
-         ("s-S" . rename-file-and-buffer))
   :chords (";f" . find-file)
   :config
-  (def delete-file-and-buffer
-    (let ((filename (buffer-file-name)))
-      (when filename
-        (system-move-file-to-trash filename))
-      (kill-buffer)))
-  (def rename-file-and-buffer
-    (let* ((filename (buffer-file-name))
-           (old-name (if filename
-                         (file-name-nondirectory filename)
-                       (buffer-name)))
-           (new-name (read-file-name "New name: " nil nil nil old-name)))
-      (cond
-       ((not (and filename (file-exists-p filename))) (rename-buffer new-name))
-       (:else
-        (rename-file filename new-name :force-overwrite)
-        (set-visited-file-name new-name :no-query :along-with-file)))))
-  (def find-user-init-file-other-window
-    (find-file-other-window user-init-file))
   (defun hemacs-save-hook ()
     (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
       (delete-trailing-whitespace))
@@ -308,14 +287,7 @@
   :init (save-place-mode))
 
 (use-package recentf
-  :chords (":S" . recentf-find-file)
   :config
-  (def recentf-find-file
-    (let ((file (completing-read "Choose recent file: "
-                                 (-map 'abbreviate-file-name recentf-list)
-                                 nil t)))
-      (when file
-        (find-file file))))
   (recentf-mode)
   (setq recentf-exclude '(".ido.last")
         recentf-max-saved-items 1000))
@@ -360,14 +332,7 @@
 ;;;;; Editing
 
 (use-package newcomment
-  :bind ("s-/" . comment-or-uncomment-region)
-  :config
-  (defun with-region-or-line (_beg _end &optional _)
-    (interactive
-     (if mark-active
-         (list (region-beginning) (region-end))
-       (list (line-beginning-position) (line-beginning-position 2)))))
-  (advice-add 'comment-or-uncomment-region :before #'with-region-or-line))
+  :bind ("s-/" . comment-or-uncomment-region))
 
 (use-package simple
   :bind ("s-k" . kill-whole-line)
@@ -400,13 +365,7 @@
   (defun backward-delete-subword (orig-fun &rest args)
     (cl-letf (((symbol-function 'kill-region) #'delete-region))
       (apply orig-fun args)))
-  (defun with-region-or-point-to-eol (_beg _end &optional _)
-    (interactive
-     (if mark-active
-         (list (region-beginning) (region-end))
-       (list (point) (line-end-position)))))
   (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
-  (advice-add 'kill-ring-save :before #'with-region-or-point-to-eol)
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
@@ -493,6 +452,25 @@
          ("C-c s-d" . mc/mark-all-like-this-dwim))
   :config
   (add-hook 'before-save-hook #'mc/keyboard-quit))
+
+(use-package crux
+  :load-path "lib/crux/"
+  :bind
+  (("s-," . crux-find-user-init-file)
+   ("s-K" . crux-delete-buffer-and-file)
+   ("s-S" . crux-rename-file-and-buffer)
+   ("C-;" . crux-ispell-word-then-abbrev))
+  :chords
+  (":S" . crux-recentf-ido-find-file)
+  :config
+  (crux-with-region-or-buffer indent-region)
+  (crux-with-region-or-line comment-or-uncomment-region)
+  (crux-with-region-or-point-to-eol kill-ring-save))
+
+(use-package abbrev
+  :config
+  (setq save-abbrevs 'silently)
+  (setq-default abbrev-mode t))
 
 (use-package toggle-quotes
   :ensure t
