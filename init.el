@@ -963,6 +963,9 @@
   (with-eval-after-load 'css-mode
     (bind-key "s-b" #'web-beautify-css css-mode-map)))
 
+(use-package elm-mode
+  :ensure t)
+
 (use-package slim-mode
   :ensure t
   :config
