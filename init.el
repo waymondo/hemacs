@@ -621,12 +621,12 @@
   (hook-modes writing-modes
     (setq-local company-backends (append '(company-emoji) company-backends))))
 
-(use-package readline-complete
+(use-package company-shell
   :ensure t
   :after company
   :config
-  (add-λ 'comint-mode-hook
-    (setq-local company-backends (append '(company-readline) company-backends))))
+  (add-to-list 'company-shell-modes 'shell-mode)
+  (add-to-list 'company-backends #'company-shell))
 
 (use-package smart-tab
   :ensure t
