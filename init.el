@@ -13,7 +13,7 @@
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
       ring-bell-function #'ignore
-      ns-function-modifier 'hyper
+      ns-function-modifier 'control
       ns-right-option-modifier 'none
       create-lockfiles nil
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
