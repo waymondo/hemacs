@@ -382,6 +382,13 @@
    ("M-TAB"     . previous-complete-history-element)
    ("<M-S-tab>" . next-complete-history-element)))
 
+(use-package back-button
+  :ensure t
+  :bind
+  (("s-{" . back-button-global-backward)
+   ("s-}" . back-button-global-forward))
+  :config (back-button-mode))
+
 (use-package aggressive-indent
   :ensure t
   :config (global-aggressive-indent-mode))
