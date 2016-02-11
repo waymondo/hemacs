@@ -185,6 +185,9 @@
   (defun process-shellish-output ()
     (setq truncate-lines nil)
     (text-scale-decrease 1))
+  (defun improve-npm-process-output (output)
+    (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
+  (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-hook 'comint-mode-hook #'process-shellish-output)
   (bind-keys :map comint-mode-map
