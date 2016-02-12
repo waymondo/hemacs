@@ -1039,11 +1039,17 @@
   (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
   (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
 
+(use-package projectile-rails
+  :ensure t
+  :config
+  (add-hook 'projectile-mode-hook #'projectile-rails-on))
+
 (use-package chruby
   :ensure t
-  :after projectile
+  :after projectile-rails
   :config
-  (add-hook 'projectile-after-switch-project-hook #'chruby-use-corresponding))
+  (add-hook 'projectile-after-switch-project-hook #'chruby-use-corresponding)
+  (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map))
 
 (use-package ruby-hash-syntax
   :ensure t
@@ -1228,10 +1234,15 @@
     (rainbow-delimiters-mode)))
 
 (use-package powerline
-  :load-path "lib/powerline/"
+  :defer t
+  :config (setq powerline-default-separator 'utf-8))
+
+(use-package spaceline
+  :ensure t
+  :preface (require 'spaceline-config)
   :config
-  (powerline-default-theme)
-  (setq powerline-default-separator 'utf-8))
+  (spaceline-emacs-theme)
+  (spaceline-toggle-minor-modes-off))
 
 (use-package paren
   :config
