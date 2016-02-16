@@ -126,11 +126,17 @@
     (ensure-space)))
 
 (def open-brackets-newline-and-indent
-  (ensure-space)
-  (insert "{\n\n}")
-  (indent-according-to-mode)
-  (forward-line -1)
-  (indent-according-to-mode))
+  (let ((inhibit-message t)
+        (text
+         (when (region-active-p)
+           (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (when (region-active-p)
+      (delete-region (region-beginning) (region-end)))
+    (ensure-space)
+    (insert (concat "{\n" text "\n}"))
+    (indent-according-to-mode)
+    (forward-line -1)
+    (indent-according-to-mode)))
 
 (def pad-brackets
   (unless (looking-back (rx (or "(" "[")) nil)
