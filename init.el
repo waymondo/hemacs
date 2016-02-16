@@ -256,7 +256,7 @@
       (delete-trailing-whitespace))
     (when (region-active-p)
       (deactivate-mark t)))
-  (defun find-file-maybe-make-directories (filename &optional wildcards)
+  (defun find-file-maybe-make-directories (filename &optional _wildcards)
     (unless (file-exists-p filename)
       (let ((dir (file-name-directory filename)))
         (unless (file-exists-p dir)
@@ -345,7 +345,7 @@
     (visual-line-mode))
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
     (let ((p (point)))
-      (dotimes (i 10)
+      (dotimes (_i 10)
         (when (= p (point))
           (apply orig-fun args)))))
   (defun maybe-indent-afterwards (&optional _)
@@ -407,7 +407,6 @@
 
 (use-package expand-region
   :ensure t
-  :commands (er/mark-symbol)
   :bind* ("C-," . er/expand-region))
 
 (use-package avy
