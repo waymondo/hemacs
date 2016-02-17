@@ -1021,12 +1021,14 @@
              (":"          . smart-ruby-colon)
              ("<C-return>" . ruby-newline-dwim))
   (defun hippie-expand-ruby-symbols (orig-fun &rest args)
-    (let ((table (make-syntax-table ruby-mode-syntax-table)))
-      (modify-syntax-entry ?: "." table)
-      (with-syntax-table table (apply orig-fun args))))
+    (if (eq major-mode 'ruby-mode)
+        (let ((table (make-syntax-table ruby-mode-syntax-table)))
+          (modify-syntax-entry ?: "." table)
+          (with-syntax-table table (apply orig-fun args)))
+      (apply orig-fun args)))
+  (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols)
   (add-λ 'ruby-mode-hook
-    (setq-local projectile-tags-command "ripper-tags -R -f TAGS")
-    (add-function :around (local 'hippie-expand) #'hippie-expand-ruby-symbols)))
+    (setq-local projectile-tags-command "ripper-tags -R -f TAGS")))
 
 (use-package ruby-tools
   :ensure t
