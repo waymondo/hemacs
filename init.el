@@ -201,8 +201,8 @@
              ("M-TAB"     . comint-previous-matching-input-from-input)
              ("<M-S-tab>" . comint-next-matching-input-from-input))
   (add-λ 'kill-emacs-hook
-    (--each (buffer-list)
-      (with-current-buffer it (comint-write-input-ring)))))
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer (comint-write-input-ring)))))
 
 (use-package compile
   :defer t
@@ -715,10 +715,10 @@
 (use-package imenu
   :config
   (defun hemacs-imenu-elisp-expressions ()
-    (--each '(("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)
-              (nil "^(def \\(.+\\)$" 1)
-              ("sections" "^;;;;; \\(.+\\)$" 1))
-      (add-to-list 'imenu-generic-expression it)))
+    (dolist (pattern '(("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)
+                       (nil "^(def \\(.+\\)$" 1)
+                       ("sections" "^;;;;; \\(.+\\)$" 1)))
+      (add-to-list 'imenu-generic-expression pattern)))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
   (setq imenu-auto-rescan t))
 
