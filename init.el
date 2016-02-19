@@ -27,6 +27,7 @@
       standard-indent 2)
 
 (setq-default indent-tabs-mode nil
+              line-spacing 1
               tab-width 2
               cursor-type 'bar
               cursor-in-non-selected-windows nil
