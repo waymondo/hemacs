@@ -632,7 +632,7 @@
 (use-package company
   :ensure t
   :bind ("s-y" . company-kill-ring)
-  :config
+  :init
   (def company-kill-ring
     (company-begin-with
      (mapcar #'substring-no-properties kill-ring))
@@ -673,6 +673,29 @@
   :config
   (add-to-list 'company-shell-modes 'shell-mode)
   (add-to-list 'company-backends #'company-shell))
+
+(use-package company-tern
+  :ensure t
+  :after company
+  :config
+  (add-to-list 'company-backends #'company-tern))
+
+(use-package company-web
+  :ensure t
+  :after company
+  :config
+  (with-eval-after-load 'web-mode
+    (add-λ 'web-mode-hook
+      (setq-local company-backends (append '(company-web-html) company-backends))))
+  (with-eval-after-load 'html-mode
+    (add-λ 'html-mode-hook
+      (setq-local company-backends (append '(company-web-html) company-backends))))
+  (with-eval-after-load 'slim-mode
+    (add-λ 'slim-mode-hook
+      (setq-local company-backends (append '(company-web-slim) company-backends))))
+  (with-eval-after-load 'jade-mode
+    (add-λ 'jade-mode-hook
+      (setq-local company-backends (append '(company-web-jade) company-backends)))))
 
 (use-package smart-tab
   :ensure t
