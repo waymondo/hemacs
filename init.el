@@ -542,13 +542,23 @@
 ;;;;; Completion
 
 (use-package ido
+  :defines ido-cur-list
   :config
   (ido-mode)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
         ido-create-new-buffer 'always)
+  (defun ido-remove-entry-from-history ()
+    (interactive)
+    (let ((ido-entry-to-remove (ido-name (car ido-matches)))
+          (history (symbol-value hist)))
+      (when (and ido-entry-to-remove history)
+        (set hist (delq ido-entry-to-remove history))
+        (setq ido-cur-list (delete ido-entry-to-remove ido-cur-list))
+        (setq ido-rescan t))))
   (bind-keys :map ido-completion-map
+             ("s-K"       . ido-remove-entry-from-history)
              ("M-TAB"     . previous-history-element)
              ("<M-S-tab>" . next-history-element)))
 
