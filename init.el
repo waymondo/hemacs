@@ -47,7 +47,6 @@
   '(ruby-mode slim-mode inf-ruby-mode))
 (defvar writing-modes
   '(org-mode markdown-mode fountain-mode git-commit-mode))
-(defvar monospace-font "Fira Code")
 
 (defmacro def (name &rest body)
   (declare (indent 1) (debug t))
@@ -144,6 +143,31 @@
   (insert "{  }")
   (backward-char 2))
 
+(add-λ 'after-init-hook
+  (when (member "Fira Code" (font-family-list))
+    (set-frame-font "Fira Code Retina-15")
+    (let ((alist '((33 . ".\\(?:\\(?:==\\)\\|[!=]\\)")
+                   (35 . ".\\(?:[(?[_{]\\)")
+                   (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+                   (42 . ".\\(?:\\(?:\\*\\*\\)\\|[*/]\\)")
+                   (43 . ".\\(?:\\(?:\\+\\+\\)\\|\\+\\)")
+                   (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+                   (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=]\\)")
+                   (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+                   (58 . ".\\(?:[:=]\\)")
+                   (59 . ".\\(?:;\\)")
+                   (60 . ".\\(?:\\(?:!--\\)\\|\\(?:\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[/<=>|-]\\)")
+                   (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+                   (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+                   (63 . ".\\(?:[:=?]\\)")
+                   (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+                   (94 . ".\\(?:=\\)")
+                   (123 . ".\\(?:-\\)")
+                   (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+                   (126 . ".\\(?:[=@~-]\\)"))))
+      (dolist (char-regexp alist)
+        (set-char-table-range composition-function-table (car char-regexp)
+                              `([,(cdr char-regexp) 0 font-shape-gstring]))))))
 (add-λ 'minibuffer-setup-hook
   (setq-local input-method-function nil)
   (setq-local gc-cons-threshold most-positive-fixnum))
@@ -1186,12 +1210,9 @@
   :config (setq ns-pop-up-frames nil))
 
 (use-package frame
-  :defer t
-  :config
+  :init
   (setq blink-cursor-blinks 0)
-  (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
-  (when (member monospace-font (font-family-list))
-    (set-frame-font (concat monospace-font "-15"))))
+  (add-to-list 'initial-frame-alist '(fullscreen . fullboth)))
 
 (use-package prog-mode
   :defer t
