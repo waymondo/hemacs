@@ -398,10 +398,6 @@
    ("s-}" . back-button-global-forward))
   :config (back-button-mode))
 
-(use-package aggressive-indent
-  :ensure t
-  :config (global-aggressive-indent-mode))
-
 (use-package delsel
   :init (delete-selection-mode))
 
