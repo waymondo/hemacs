@@ -24,7 +24,8 @@
       inhibit-startup-screen t
       initial-scratch-message nil
       inhibit-startup-echo-area-message ""
-      standard-indent 2)
+      standard-indent 2
+      enable-recursive-minibuffers t)
 
 (setq-default indent-tabs-mode nil
               line-spacing 1
@@ -190,6 +191,10 @@
 
 (use-package menu-bar
   :bind ("s-w" . kill-this-buffer))
+
+(use-package mb-depth
+  :defer t
+  :config (minibuffer-depth-indicate-mode))
 
 ;;;;; Processes, Shells, Compilation
 
