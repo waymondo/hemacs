@@ -212,7 +212,11 @@
   (exec-path-from-shell-initialize))
 
 (use-package comint
-  :defer t
+  :bind
+  (:map comint-mode-map
+        ("s-k"       . comint-clear-buffer)
+        ("M-TAB"     . comint-previous-matching-input-from-input)
+        ("<M-S-tab>" . comint-next-matching-input-from-input))
   :config
   (setq comint-prompt-read-only t)
   (setq-default comint-process-echoes t
@@ -232,10 +236,6 @@
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-hook 'comint-mode-hook #'process-shellish-output)
-  (bind-keys :map comint-mode-map
-             ("s-k"       . comint-clear-buffer)
-             ("M-TAB"     . comint-previous-matching-input-from-input)
-             ("<M-S-tab>" . comint-next-matching-input-from-input))
   (add-λ 'kill-emacs-hook
     (dolist (buffer (buffer-list))
       (with-current-buffer buffer (comint-write-input-ring)))))
@@ -554,24 +554,24 @@
 
 (use-package ido
   :defines ido-cur-list
+  :bind
+  (:map ido-completion-map
+        ("s-K"       . ido-remove-entry-from-history)
+        ("M-TAB"     . previous-history-element)
+        ("<M-S-tab>" . next-history-element))
   :config
   (ido-mode)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
         ido-auto-merge-delay-time 2
         ido-create-new-buffer 'always)
-  (defun ido-remove-entry-from-history ()
-    (interactive)
+  (def ido-remove-entry-from-history
     (let ((ido-entry-to-remove (ido-name (car ido-matches)))
           (history (symbol-value hist)))
       (when (and ido-entry-to-remove history)
         (set hist (delq ido-entry-to-remove history))
         (setq ido-cur-list (delete ido-entry-to-remove ido-cur-list))
-        (setq ido-rescan t))))
-  (bind-keys :map ido-completion-map
-             ("s-K"       . ido-remove-entry-from-history)
-             ("M-TAB"     . previous-history-element)
-             ("<M-S-tab>" . next-history-element)))
+        (setq ido-rescan t)))))
 
 (use-package flx-ido
   :ensure t
@@ -830,11 +830,12 @@
 (use-package projector
   :ensure t
   :after projectile
-  :bind* (("C-x RET"        . projector-run-shell-command-project-root)
-          ("C-x m"          . projector-switch-to-or-create-project-shell)
-          ("C-x <C-return>" . projector-run-default-shell-command))
+  :bind
+  (("C-x RET"        . projector-run-shell-command-project-root)
+   ("C-x m"          . projector-switch-to-or-create-project-shell)
+   ("C-x <C-return>" . projector-run-default-shell-command)
+   :map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   :config
-  (bind-key "s-R" #'projector-rerun-buffer-process comint-mode-map)
   (setq projector-always-background-regex
         '("^powder restart\\.*"
           "^heroku restart\\.*"
@@ -881,12 +882,11 @@
 ;;;;; Major Modes
 
 (use-package org
-  :defer t
+  :bind (:map org-mode-map ("," . pad-comma))
   :config
   (setq org-support-shift-select t
         org-completion-use-ido t
         org-startup-indented t)
-  (bind-key "," #'pad-comma org-mode-map)
   (bind-key "'" "’" org-mode-map (not (org-in-src-block-p))))
 
 (use-package org-autolist
@@ -901,9 +901,15 @@
          ("s-n" . ort/capture-checkitem)))
 
 (use-package sgml-mode
-  :mode (("\\.hbs\\'"        . html-mode)
-         ("\\.handlebars\\'" . html-mode))
-  :chords ("<>" . sgml-close-tag)
+  :mode
+  (("\\.hbs\\'"        . html-mode)
+   ("\\.handlebars\\'" . html-mode))
+  :bind
+  (:map html-mode-map
+        ("," . pad-comma)
+        ("<C-return>" . html-newline-dwim))
+  :chords
+  ("<>" . sgml-close-tag)
   :config
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
@@ -915,10 +921,7 @@
     (move-beginning-of-line nil)
     (open-line 1)
     (indent-according-to-mode))
-  (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss))))
-  (bind-keys :map html-mode-map
-             ("," . pad-comma)
-             ("<C-return>" . html-newline-dwim)))
+  (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss)))))
 
 (use-package handlebars-sgml-mode
   :ensure t
@@ -936,20 +939,26 @@
 
 (use-package markdown-mode
   :ensure t
-  :mode (("\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . gfm-mode))
+  :mode
+  (("\\.md\\'" . gfm-mode)
+   ("\\.markdown\\'" . gfm-mode))
+  :bind
+  (:map markdown-mode-map ("," . pad-comma))
   :config
   (bind-key "'" "’" markdown-mode-map
-    (not (or (markdown-code-at-point-p)
-             (memq 'markdown-pre-face
-                   (face-at-point nil 'mult)))))
-  (bind-key "," #'pad-comma markdown-mode-map)
+            (not (or (markdown-code-at-point-p)
+                     (memq 'markdown-pre-face
+                           (face-at-point nil 'mult)))))
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
 
 (use-package css-mode
   :mode "\\.css\\.erb\\'"
-  :init
+  :bind
+  (:map css-mode-map
+        (":" . smart-css-colon)
+        ("," . pad-comma)
+        ("{" . open-brackets-newline-and-indent))
   :config
   (def smart-css-colon
     (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
@@ -963,11 +972,7 @@
   (defun set-css-imenu-generic-expression ()
     (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
   (add-hook 'css-mode-hook #'set-css-imenu-generic-expression)
-  (setq css-indent-offset 2)
-  (bind-keys :map css-mode-map
-             (":" . smart-css-colon)
-             ("," . pad-comma)
-             ("{" . open-brackets-newline-and-indent)))
+  (setq css-indent-offset 2))
 
 (use-package less-css-mode
   :ensure t
@@ -1011,6 +1016,12 @@
 (use-package coffee-mode
   :ensure t
   :mode "\\.coffee\\.*"
+  :bind
+  (:map coffee-mode-map
+        (","          . pad-comma)
+        ("="          . pad-equals)
+        ("<C-return>" . coffee-newline-dwim)
+        ("C-c C-c"    . coffee-compile-region))
   :config
   (def coffee-newline-dwim
     (move-end-of-line nil)
@@ -1018,12 +1029,7 @@
     (insert "=> ")
     (coffee-newline-and-indent))
   (setq coffee-args-repl '("-i" "--nodejs"))
-  (add-to-list 'coffee-args-compile "--no-header")
-  (bind-keys :map coffee-mode-map
-             (","          . pad-comma)
-             ("="          . pad-equals)
-             ("<C-return>" . coffee-newline-dwim)
-             ("C-c C-c"    . coffee-compile-region)))
+  (add-to-list 'coffee-args-compile "--no-header"))
 
 (use-package ember-mode
   :ensure t)
@@ -1048,22 +1054,29 @@
 
 (use-package slim-mode
   :ensure t
+  :bind
+  (:map slim-mode-map
+        (","          . pad-comma)
+        (":"          . smart-ruby-colon)
+        ("<C-return>" . slim-newline-dwim))
   :config
   (def slim-newline-dwim
     (move-end-of-line nil)
     (newline-and-indent))
   (setq slim-backspace-backdents-nesting nil)
-  (add-λ 'slim-mode-hook (modify-syntax-entry ?\= "."))
-  (bind-keys :map slim-mode-map
-             (","          . pad-comma)
-             (":"          . smart-ruby-colon)
-             ("<C-return>" . slim-newline-dwim)))
+  (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-package ruby-mode
   :mode
   (("Appraisals$"   . ruby-mode)
    ("\\.rabl\\'"    . ruby-mode)
    ("\\.builder\\'" . ruby-mode))
+  :bind
+  (:map ruby-mode-map
+        (","          . pad-comma)
+        ("="          . pad-equals)
+        (":"          . smart-ruby-colon)
+        ("<C-return>" . ruby-newline-dwim))
   :config
   (def smart-ruby-colon
     (if (looking-back "[[:word:]]" nil)
@@ -1080,11 +1093,6 @@
       (if add-newline
           (smart-newline)
         (indent-according-to-mode))))
-  (bind-keys :map ruby-mode-map
-             (","          . pad-comma)
-             ("="          . pad-equals)
-             (":"          . smart-ruby-colon)
-             ("<C-return>" . ruby-newline-dwim))
   (defun hippie-expand-ruby-symbols (orig-fun &rest args)
     (if (eq major-mode 'ruby-mode)
         (let ((table (make-syntax-table ruby-mode-syntax-table)))
@@ -1137,8 +1145,7 @@
 
 (use-package text-mode
   :preface (provide 'text-mode)
-  :init
-  (bind-key "," #'pad-comma text-mode-map))
+  :bind (:map text-mode-map ("," . pad-comma)))
 
 ;;;;; Version Control
 
@@ -1147,14 +1154,15 @@
 
 (use-package magit
   :ensure t
-  :bind ("s-m" . magit-status)
+  :bind
+  (("s-m" . magit-status)
+   :map magit-mode-map ("C-c C-a" . magit-just-amend))
   :after alert
   :config
   (def magit-just-amend
     (save-window-excursion
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
       (magit-refresh)))
-  (bind-key "C-c C-a" #'magit-just-amend magit-mode-map)
   (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
     (let* ((process (nth 0 args))
            (event (nth 1 args))
@@ -1344,11 +1352,6 @@
 (use-package apropospriate-theme
   :ensure t
   :config
-  (defun what-face (pos)
-    (interactive "d")
-    (let ((face (or (get-char-property (point) 'read-face-name)
-                    (get-char-property (point) 'face))))
-      (if face (message "Face: %s" face) (message "No face at %d" pos))))
   (load-theme 'apropospriate-light t t)
   (load-theme 'apropospriate-dark t t))
 
