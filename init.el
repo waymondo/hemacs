@@ -795,12 +795,12 @@
   :ensure t
   :chords ((";a" . ace-jump-buffer)
            (":A" . ace-jump-buffer-other-window)
-           (";x" . ace-jump-shellish-buffers))
+           (";x" . ace-jump-special-buffers))
   :config
-  (make-ace-jump-buffer-function "shellish"
+  (make-ace-jump-buffer-function "special"
     (with-current-buffer buffer
-      (not (derived-mode-p 'comint-mode))))
-  (setq ajb-home-row-keys t))
+      (and (not (derived-mode-p 'comint-mode))
+           (not (derived-mode-p 'magit-mode))))))
 
 (use-package projectile
   :ensure t
