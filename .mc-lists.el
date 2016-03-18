@@ -7,6 +7,7 @@
         ace-jump-move
         ace-jump-word-mode
         back-to-indentation-or-beginning
+        backward-sentence
         clipboard-kill-region-or-line
         coffee-dedent-line-backspace
         coffee-newline-and-indent
@@ -83,6 +84,7 @@
         ace-jump-mode
         align-regexp
         beginning-of-buffer
+        ccm-mwheel-scroll
         crab-reload
         electric-pair-delete-pair
         end-of-buffer

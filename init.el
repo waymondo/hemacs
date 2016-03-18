@@ -299,7 +299,6 @@
   (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
 
 (use-package files
-  :defer t
   :chords (";f" . find-file)
   :config
   (defun hemacs-save-hook ()
