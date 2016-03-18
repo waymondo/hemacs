@@ -276,6 +276,15 @@
   :config
   (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p))
 
+(use-package repl-toggle
+  :ensure t
+  :config
+  (repl-toggle-mode)
+  (setq rtog/mode-repl-alist
+        '((emacs-lisp-mode . ielm)
+          (ruby-mode . inf-ruby)
+          (js2-mode . nodejs-repl))))
+
 ;;;;; Files & History
 
 (use-package image-mode
