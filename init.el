@@ -563,7 +563,7 @@
 (use-package ido
   :defines ido-cur-list
   :bind
-  (:map ido-completion-map
+  (:map ido-common-completion-map
         ("s-K"       . ido-remove-entry-from-history)
         ("M-TAB"     . previous-history-element)
         ("<M-S-tab>" . next-history-element))
@@ -1420,7 +1420,6 @@
  :prefix "s-h"
  ("k" . describe-personal-keybindings)
  ("K" . free-keys)
- ("f" . what-face)
  ("m" . discover-my-major)
  ("g" . google-this)
  ("d" . dash-at-point)
