@@ -989,8 +989,9 @@
 
 (use-package js2-mode
   :ensure t
-  :mode (("\\.js\\'" . js2-mode)
-         ("\\.es6$"  . js2-mode))
+  :mode (("\\.js\\'"  . js2-mode)
+         ("\\.es6$"   . js2-mode)
+         ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter (("node" . js2-mode))
   :config
   (setenv "NODE_NO_READLINE" "1")
