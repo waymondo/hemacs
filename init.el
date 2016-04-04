@@ -30,6 +30,7 @@
 (setq-default indent-tabs-mode nil
               line-spacing 1
               tab-width 2
+              c-basic-offset 2
               cursor-type 'bar
               cursor-in-non-selected-windows nil
               bidi-display-reordering nil
