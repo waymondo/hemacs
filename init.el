@@ -925,11 +925,10 @@
   (add-hook 'sgml-mode #'sgml-electric-tag-pair-mode)
   (def html-newline-dwim
     (move-end-of-line nil)
-    (reindent-then-newline-and-indent)
+    (smart-newline)
     (sgml-close-tag)
     (move-beginning-of-line nil)
-    (open-line 1)
-    (indent-according-to-mode))
+    (smart-newline))
   (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss)))))
 
 (use-package handlebars-sgml-mode
@@ -940,7 +939,11 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
-         ("\\.php\\'" . web-mode)))
+         ("\\.php\\'" . web-mode))
+  :bind
+  (:map web-mode-map
+        ("," . pad-comma)
+        ("<C-return>" . html-newline-dwim)))
 
 (use-package fountain-mode
   :ensure t
