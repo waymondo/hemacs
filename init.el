@@ -1334,6 +1334,12 @@
   (spaceline-emacs-theme)
   (spaceline-toggle-minor-modes-off))
 
+(use-package mode-icons
+  :ensure t
+  :config
+  (mode-icons-mode)
+  (setq mode-icons-desaturate-active t))
+
 (use-package paren
   :config
   (show-paren-mode)
