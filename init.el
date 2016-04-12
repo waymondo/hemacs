@@ -37,6 +37,7 @@
               truncate-lines t)
 
 (defalias 'yes-or-no-p #'y-or-n-p)
+(prefer-coding-system 'utf-8)
 
 ;;;;; Personal Variables & Helper Macros
 
