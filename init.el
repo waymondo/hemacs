@@ -744,10 +744,11 @@
           (setq this-command 'toggle-unsplit-window))
       (window-configuration-to-register :toggle-split-window)
       (switch-to-buffer-other-window nil)))
-  (defun delete-side-windows ()
-    (interactive)
-    (dolist (window (window-at-side-list))
-      (quit-window nil window)))
+  (def delete-side-windows
+    (dolist (window (window-at-side-list nil 'bottom))
+      (quit-window nil window)
+      (when (window-live-p window)
+        (delete-window window))))
   (setq display-buffer-alist
         `((,(rx bos (or "*Flycheck errors*"
                         "*Backtrace"
