@@ -446,13 +446,6 @@
    ("M-TAB"     . previous-complete-history-element)
    ("<M-S-tab>" . next-complete-history-element)))
 
-(use-package back-button
-  :ensure t
-  :bind
-  (("s-{" . back-button-global-backward)
-   ("s-}" . back-button-global-forward))
-  :config (back-button-mode))
-
 (use-package delsel
   :init (delete-selection-mode))
 
@@ -465,6 +458,11 @@
 (use-package expand-region
   :ensure t
   :bind* ("C-," . er/expand-region))
+
+(use-package change-inner
+  :ensure t
+  :bind (("M-i" . change-inner)
+         ("M-o" . change-outer)))
 
 (use-package avy
   :ensure t
@@ -525,7 +523,8 @@
   (("s-," . crux-find-user-init-file)
    ("s-K" . crux-delete-buffer-and-file)
    ("s-S" . crux-rename-file-and-buffer)
-   ("C-;" . crux-ispell-word-then-abbrev))
+   ("C-;" . crux-ispell-word-then-abbrev)
+   ("s-{" . crux-switch-to-previous-buffer))
   :chords
   (":S" . crux-recentf-ido-find-file)
   :config
