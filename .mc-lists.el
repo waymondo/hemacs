@@ -60,6 +60,7 @@
         ruby-tools-interpolate
         ruby-tools-to-single-quote-string
         s-lower-camel-case-symbol-at-point
+        self-with-space
         sgml-close-tag
         sh-assignment
         shift-right
@@ -82,6 +83,7 @@
       '(
         ace-jump-buffer
         ace-jump-mode
+        ag-project
         align-regexp
         beginning-of-buffer
         ccm-mwheel-scroll

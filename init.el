@@ -104,7 +104,7 @@
   (unless (looking-back " " nil)
     (insert " ")))
 
-(def pad-comma
+(def self-with-space
   (call-interactively #'self-insert-command)
   (ensure-space))
 
@@ -901,7 +901,7 @@
 ;;;;; Major Modes
 
 (use-package org
-  :bind (:map org-mode-map ("," . pad-comma))
+  :bind (:map org-mode-map ("," . self-with-space))
   :config
   (setq org-support-shift-select t
         org-completion-use-ido t
@@ -925,7 +925,7 @@
    ("\\.handlebars\\'" . html-mode))
   :bind
   (:map html-mode-map
-        ("," . pad-comma)
+        ("," . self-with-space)
         ("<C-return>" . html-newline-dwim))
   :chords
   ("<>" . sgml-close-tag)
@@ -952,7 +952,7 @@
          ("\\.php\\'" . web-mode))
   :bind
   (:map web-mode-map
-        ("," . pad-comma)
+        ("," . self-with-space)
         ("<C-return>" . html-newline-dwim)))
 
 (use-package fountain-mode
@@ -965,7 +965,7 @@
   (("\\.md\\'" . gfm-mode)
    ("\\.markdown\\'" . gfm-mode))
   :bind
-  (:map markdown-mode-map ("," . pad-comma))
+  (:map markdown-mode-map ("," . self-with-space))
   :config
   (bind-key "'" "’" markdown-mode-map
             (not (or (markdown-code-at-point-p)
@@ -979,7 +979,7 @@
   :bind
   (:map css-mode-map
         (":" . smart-css-colon)
-        ("," . pad-comma)
+        ("," . self-with-space)
         ("{" . open-brackets-newline-and-indent))
   :config
   (def smart-css-colon
@@ -1009,11 +1009,6 @@
   :interpreter (("node" . js2-mode))
   :config
   (setenv "NODE_NO_READLINE" "1")
-  (def smart-js-colon
-    (insert ":")
-    (ensure-space)
-    (insert ",")
-    (backward-char))
   (def js-insert-console-log
     (insert "console.log()")
     (backward-char))
@@ -1022,9 +1017,9 @@
         js2-highlight-level 3
         js2-basic-offset 2)
   (bind-keys :map js2-mode-map
-             ("," . pad-comma)
+             ("," . self-with-space)
              ("=" . pad-equals)
-             (":" . smart-js-colon))
+             (":" . self-with-space))
   (bind-chord "qq" #'js-insert-console-log js2-mode-map)
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
@@ -1041,7 +1036,7 @@
   :mode "\\.coffee\\.*"
   :bind
   (:map coffee-mode-map
-        (","          . pad-comma)
+        (","          . self-with-space)
         ("="          . pad-equals)
         ("<C-return>" . coffee-newline-dwim)
         ("C-c C-c"    . coffee-compile-region))
@@ -1079,7 +1074,7 @@
   :ensure t
   :bind
   (:map slim-mode-map
-        (","          . pad-comma)
+        (","          . self-with-space)
         (":"          . smart-ruby-colon)
         ("<C-return>" . slim-newline-dwim))
   :config
@@ -1096,7 +1091,7 @@
    ("\\.builder\\'" . ruby-mode))
   :bind
   (:map ruby-mode-map
-        (","          . pad-comma)
+        (","          . self-with-space)
         ("="          . pad-equals)
         (":"          . smart-ruby-colon)
         ("<C-return>" . ruby-newline-dwim))
@@ -1168,7 +1163,7 @@
 
 (use-package text-mode
   :preface (provide 'text-mode)
-  :bind (:map text-mode-map ("," . pad-comma)))
+  :bind (:map text-mode-map ("," . self-with-space)))
 
 ;;;;; Version Control
 
