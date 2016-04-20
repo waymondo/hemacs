@@ -1005,6 +1005,15 @@
   :mode (("\\.js\\'"  . js2-mode)
          ("\\.es6$"   . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
+  :bind
+  (:map js2-mode-map
+        ("," . self-with-space)
+        ("=" . pad-equals)
+        (":" . self-with-space))
+  :chords
+  (:map js2-mode-map
+        ("qq" . js-insert-console-log)
+        ("qw" . "debugger"))
   :interpreter (("node" . js2-mode))
   :config
   (setenv "NODE_NO_READLINE" "1")
@@ -1015,11 +1024,6 @@
         js2-strict-missing-semi-warning nil
         js2-highlight-level 3
         js2-basic-offset 2)
-  (bind-keys :map js2-mode-map
-             ("," . self-with-space)
-             ("=" . pad-equals)
-             (":" . self-with-space))
-  (bind-chord "qq" #'js-insert-console-log js2-mode-map)
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
