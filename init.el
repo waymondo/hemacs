@@ -471,8 +471,7 @@
    ("jk" . avy-goto-word-or-subword-1)
    ("jl" . avy-goto-line))
   :config
-  (avy-setup-default)
-  (setq avy-background t))
+  (avy-setup-default))
 
 (use-package ace-jump-zap
   :ensure t
