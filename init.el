@@ -503,10 +503,10 @@
   :bind (([remap kill-ring-save] . easy-kill)
          ([remap mark-sexp]      . easy-mark)))
 
-(use-package evil-numbers
+(use-package shift-number
   :ensure t
-  :bind (("<M-up>"   . evil-numbers/inc-at-pt)
-         ("<M-down>" . evil-numbers/dec-at-pt)))
+  :bind (("<M-up>"   . shift-number-up)
+         ("<M-down>" . shift-number-down)))
 
 (use-package multiple-cursors
   :ensure t
