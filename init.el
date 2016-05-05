@@ -225,6 +225,7 @@
 (use-package comint
   :bind
   (:map comint-mode-map
+        ("RET"       . comint-return-dwim)
         ("s-k"       . comint-clear-buffer)
         ("M-TAB"     . comint-previous-matching-input-from-input)
         ("<M-S-tab>" . comint-next-matching-input-from-input))
@@ -242,6 +243,14 @@
   (defun process-shellish-output ()
     (setq truncate-lines nil)
     (text-scale-decrease 1))
+  (def comint-return-dwim
+    (cond
+     ((ffap-guess-file-name-at-point)
+      (ffap))
+     ((comint-after-pmark-p)
+      (comint-send-input))
+     (t
+      (comint-next-prompt 1))))
   (defun improve-npm-process-output (output)
     (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
