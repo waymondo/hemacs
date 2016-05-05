@@ -708,7 +708,6 @@
   :ensure t
   :after company
   :config
-  (add-to-list 'company-shell-modes 'shell-mode)
   (add-to-list 'company-backends #'company-shell))
 
 (use-package company-tern
