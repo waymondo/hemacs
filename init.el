@@ -482,6 +482,24 @@
   :config
   (avy-setup-default))
 
+(use-package ace-link
+  :ensure t
+  :bind
+  ("M-g e" . avy-jump-error)
+  :config
+  (defun avy-jump-error-next-error-hook ()
+    (let ((compilation-buffer (compilation-find-buffer t)))
+      (quit-window nil (get-buffer-window compilation-buffer))
+      (recenter)))
+  (def avy-jump-error
+    (let ((compilation-buffer (compilation-find-buffer t))
+          (next-error-hook '(avy-jump-error-next-error-hook)))
+      (when compilation-buffer
+        (with-current-buffer compilation-buffer
+          (when (derived-mode-p 'compilation-mode)
+            (pop-to-buffer compilation-buffer)
+            (ace-link-compilation)))))))
+
 (use-package ace-jump-zap
   :ensure t
   :chords ("jz" . ace-jump-zap-up-to-char))
