@@ -245,10 +245,10 @@
     (text-scale-decrease 1))
   (def comint-return-dwim
     (cond
-     ((ffap-guess-file-name-at-point)
-      (ffap))
      ((comint-after-pmark-p)
       (comint-send-input))
+     ((ffap-guess-file-name-at-point)
+      (ffap))
      (t
       (comint-next-prompt 1))))
   (defun improve-npm-process-output (output)
