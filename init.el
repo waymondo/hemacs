@@ -487,6 +487,7 @@
   :bind
   ("M-g e" . avy-jump-error)
   :config
+  (ace-link-setup-default)
   (defun avy-jump-error-next-error-hook ()
     (let ((compilation-buffer (compilation-find-buffer t)))
       (quit-window nil (get-buffer-window compilation-buffer))
