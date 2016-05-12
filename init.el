@@ -1194,7 +1194,8 @@
   :ensure t)
 
 (use-package restclient
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package text-mode
   :preface (provide 'text-mode)
