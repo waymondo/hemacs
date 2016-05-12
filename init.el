@@ -173,6 +173,11 @@
   (setq-local input-method-function nil)
   (setq-local gc-cons-threshold most-positive-fixnum))
 
+(use-package server
+  :config
+  (unless (server-running-p)
+    (server-start)))
+
 (use-package dash
   :ensure t
   :config (dash-enable-font-lock))
