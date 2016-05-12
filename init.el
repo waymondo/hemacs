@@ -555,8 +555,7 @@
   (("s-," . crux-find-user-init-file)
    ("s-K" . crux-delete-buffer-and-file)
    ("s-S" . crux-rename-file-and-buffer)
-   ("C-;" . crux-ispell-word-then-abbrev)
-   ("s-{" . crux-switch-to-previous-buffer))
+   ("C-;" . crux-ispell-word-then-abbrev))
   :chords
   (":S" . crux-recentf-ido-find-file)
   :config
@@ -840,6 +839,11 @@
 (use-package imenu-anywhere
   :ensure t
   :chords (";r" . imenu-anywhere))
+
+(use-package bs
+  :bind
+  (("s-{" . bs-cycle-previous)
+   ("s-}" . bs-cycle-next)))
 
 (use-package ace-jump-buffer
   :ensure t
