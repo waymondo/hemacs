@@ -1278,7 +1278,16 @@
     (elisp-slime-nav-mode)))
 
 (use-package github-browse-file
-  :ensure t)
+  :ensure t
+  :config
+  (defun github-issues (&optional new)
+    (interactive)
+    (let ((url (concat "https://github.com/"
+                       (github-browse-file--relative-url)
+                       "/issues/" new)))
+      (browse-url url)))
+  (def github-new-issue
+    (github-issues "new")))
 
 (use-package git-timemachine
   :ensure t)
@@ -1504,6 +1513,8 @@
  ("b" . github-browse-file-blame)
  ("c" . github-browse-commit)
  ("l" . magit-clone)
+ ("i" . github-new-issue)
+ ("I" . github-issues)
  ("g" . gist-region-or-buffer-private)
  ("t" . git-timemachine)
  ("p" . git-messenger:popup-message))
