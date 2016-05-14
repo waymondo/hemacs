@@ -1186,6 +1186,10 @@
   :after projectile-rails
   :config
   (add-hook 'projectile-after-switch-project-hook #'chruby-use-corresponding)
+  (defun run-ruby-with-corresponding-chruby (orig-fun &rest args)
+    (call-interactively #'chruby-use-corresponding)
+    (apply orig-fun args))
+  (advice-add 'run-ruby :around #'run-ruby-with-corresponding-chruby)
   (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map))
 
 (use-package ruby-hash-syntax
