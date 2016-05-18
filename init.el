@@ -74,6 +74,8 @@
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
 
+(load (locate-user-emacs-file "private.el") t t)
+
 ;;;;; Package Management
 
 (require 'package)
