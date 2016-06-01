@@ -240,6 +240,7 @@
   :config
   (setq comint-prompt-read-only t)
   (setq-default comint-process-echoes t
+                comint-input-ignoredups t
                 comint-scroll-show-maximum-output nil
                 comint-output-filter-functions
                 '(ansi-color-process-output
