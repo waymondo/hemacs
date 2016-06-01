@@ -988,7 +988,8 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
-         ("\\.php\\'" . web-mode))
+         ("\\.php\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode))
   :bind
   (:map web-mode-map
         ("," . self-with-space)
@@ -1043,8 +1044,7 @@
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'"  . js2-mode)
-         ("\\.es6$"   . js2-mode)
-         ("\\.jsx\\'" . js2-jsx-mode))
+         ("\\.es6$"   . js2-mode))
   :bind
   (:map js2-mode-map
         ("," . self-with-space)
