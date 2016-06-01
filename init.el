@@ -937,6 +937,9 @@
   :config
   (crab-server-start))
 
+(use-package restart-emacs
+  :ensure t)
+
 ;;;;; Major Modes
 
 (use-package org
