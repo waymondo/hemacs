@@ -1254,6 +1254,9 @@
   :ensure t
   :config (setq git-messenger:show-detail t))
 
+(use-package vc-git
+  :config (setq vc-git-diff-switches '("--histogram")))
+
 (use-package diff-hl
   :ensure t
   :after magit
