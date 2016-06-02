@@ -554,9 +554,10 @@
   (add-hook 'before-save-hook #'mc/keyboard-quit))
 
 (use-package crux
-  :load-path "lib/crux/"
+  :ensure t
   :bind
   (("s-," . crux-find-user-init-file)
+   ("s-D" . crux-duplicate-current-line-or-region)
    ("s-K" . crux-delete-buffer-and-file)
    ("s-S" . crux-rename-file-and-buffer)
    ("C-;" . crux-ispell-word-then-abbrev))
@@ -592,16 +593,16 @@
   :config
   (advice-add 'smart-shift-override-local-map :override #'ignore))
 
-(use-package move-dup
+(use-package drag-stuff
   :ensure t
-  :bind (("<C-s-down>" . md/move-lines-down)
-         ("<C-s-up>"   . md/move-lines-up)
-         ("s-D"        . md/duplicate-down))
+  :bind (("<C-s-down>" . drag-stuff-down)
+         ("<C-s-up>"   . drag-stuff-up))
   :config
   (defun indent-unless-sensitive (_arg)
     (unless (member major-mode indent-sensitive-modes)
       (indent-according-to-mode)))
-  (advice-add 'md/move-line-or-region :after #'indent-unless-sensitive))
+  (advice-add 'drag-stuff-line-vertically :after #'indent-unless-sensitive)
+  (advice-add 'drag-stuff-lines-vertically :after #'indent-unless-sensitive))
 
 ;;;;; Completion
 
