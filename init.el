@@ -558,12 +558,17 @@
   :bind
   (("s-," . crux-find-user-init-file)
    ("s-D" . crux-duplicate-current-line-or-region)
-   ("s-K" . crux-delete-buffer-and-file)
+   ("s-K" . crux-delete-file-and-buffer)
    ("s-S" . crux-rename-file-and-buffer)
    ("C-;" . crux-ispell-word-then-abbrev))
   :chords
   (":S" . crux-recentf-ido-find-file)
   :config
+  (defun crux-ignore-vc-backend (orig-fun &rest args)
+    (cl-letf (((symbol-function 'vc-backend) #'ignore))
+      (apply orig-fun args)))
+  (advice-add 'crux-rename-file-and-buffer :around #'crux-ignore-vc-backend)
+  (advice-add 'crux-delete-file-and-buffer :around #'crux-ignore-vc-backend)
   (crux-with-region-or-buffer indent-region)
   (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-point-to-eol kill-ring-save))
