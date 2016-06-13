@@ -775,9 +775,6 @@
 
 ;;;;; Navigation & Search
 
-(use-package ffap
-  :chords ("fp" . ffap))
-
 (use-package window
   :preface (provide 'window)
   :chords ((";s" . switch-to-buffer)
