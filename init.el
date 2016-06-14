@@ -671,6 +671,15 @@
   :config
   (bind-key "<s-return>" #'ido-exit-target-other-window ido-common-completion-map))
 
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode)
+  (setq ivy-fixed-height-minibuffer t
+        ivy-re-builders-alist '((t . ivy--regex-fuzzy))
+        ivy-use-virtual-buffers t
+        ivy-virtual-abbreviate 'full))
+
 (use-package hippie-exp
   :bind (([remap dabbrev-expand] . hippie-expand))
   :config
@@ -927,13 +936,10 @@
   (([remap isearch-forward]  . swiper)
    ([remap isearch-backward] . swiper)))
 
-(use-package smex
+(use-package counsel
   :ensure t
-  :bind (([remap execute-extended-command] . smex)
-         ("s-P" . smex))
-  :config
-  (smex-initialize)
-  (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory)))
+  :bind (([remap execute-extended-command] . counsel-M-x)
+         ("s-P" . counsel-M-x)))
 
 ;;;;; External Utilities
 
@@ -1292,10 +1298,6 @@
 
 (use-package find-func
   :config
-  (def open-package
-    (let* ((packages (mapcar 'symbol-name (mapcar 'car package-alist)))
-           (package (completing-read "Open package: " packages nil t)))
-      (find-library package)))
   (find-function-setup-keys))
 
 (use-package etags
@@ -1521,7 +1523,7 @@
  ("D" . dash-at-point-with-docset)
  ("i" . insert-local-ip-address)
  ("t" . tldr)
- ("o" . open-package))
+ ("o" . counsel-load-library))
 
 (bind-keys
  :prefix-map switch-project-map
