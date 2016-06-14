@@ -271,9 +271,22 @@
 
 (use-package compile
   :defer t
+  :bind ("C-c i" . compile-send-input)
   :config
-  (setq compilation-disable-input t
-        compilation-always-kill t)
+  (defun compile-send-input (input &optional nl)
+    (interactive "MInput: \nd")
+    (let ((string (concat input (if nl "\n"))))
+      (let ((inhibit-read-only t))
+        (insert-before-markers string))
+      (process-send-string
+       (get-buffer-process (current-buffer))
+       string)))
+  (def compile-send-self
+    (compile-send-input
+     (apply #'string (append (this-command-keys-vector) nil))))
+  (dolist (key '("y" "n"))
+    (bind-key key #'compile-send-self compilation-mode-map))
+  (setq compilation-always-kill t)
   (add-hook 'compilation-mode-hook #'process-shellish-output)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
