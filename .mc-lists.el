@@ -8,12 +8,14 @@
         ace-jump-word-mode
         back-to-indentation-or-beginning
         backward-sentence
+        backward-sexp
         clipboard-kill-region-or-line
         coffee-dedent-line-backspace
         coffee-newline-and-indent
         completion-separator-self-insert-autofilling
         completion-separator-self-insert-command
         dabbrev-expand
+        delete-side-windows
         duplicate-dwim
         electric-indent-just-newline
         electric-newline-and-maybe-indent
@@ -28,6 +30,7 @@
         evil-normal-state
         evil-previous-line
         evil-visual-char
+        forward-sexp
         highlight-symbol-next
         hungry-delete-backward
         hungry-delete-forward
@@ -44,6 +47,7 @@
         kill-region-and-god-local-mode
         left-subword
         maybe-delete-selection-and-yank
+        md/duplicate-down
         ns-copy-including-secondary
         nxml-electric-slash
         org-self-insert-command
@@ -74,6 +78,7 @@
         subword-left
         subword-right
         tab-dwim
+        transform-symbol-at-point
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         zap-up-to-char
@@ -83,11 +88,13 @@
       '(
         ace-jump-buffer
         ace-jump-mode
+        ace-jump-zap-up-to-char
         ag-project
         align-regexp
         beginning-of-buffer
         ccm-mwheel-scroll
         crab-reload
+        crux-find-user-init-file
         electric-pair-delete-pair
         end-of-buffer
         evil-search-next
