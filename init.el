@@ -849,12 +849,12 @@
 (use-package imenu
   :config
   (defun hemacs-imenu-elisp-expressions ()
-    (dolist (pattern '(("packages" "^\\s-*(\\(use-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)
-                       (nil "^(def \\(.+\\)$" 1)
+    (dolist (pattern '((nil "^(def \\(.+\\)$" 1)
                        ("sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern)))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
-  (setq imenu-auto-rescan t))
+  (setq use-package-enable-imenu-support t
+        imenu-auto-rescan t))
 
 (use-package imenu-anywhere
   :ensure t
