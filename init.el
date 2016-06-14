@@ -1530,10 +1530,10 @@
  :prefix-map switch-project-map
  :prefix "s-o"
  ("t"          . projectile-switch-project)
- ("M"          . projector-switch-project-run-shell-command)
  ("m"          . projector-open-project-shell)
  ("<C-return>" . projector-switch-project-run-default-shell-command))
 
+(bind-key "M" (make-projectile-switch-project-defun #'projector-run-shell-command-project-root) switch-project-map)
 (bind-key "g" (make-projectile-switch-project-defun #'projectile-vc) switch-project-map)
 (bind-key "u" (make-projectile-switch-project-defun #'projectile-run-project) switch-project-map)
 (bind-key "`" (make-projectile-switch-project-defun #'ort/goto-todos) switch-project-map)
