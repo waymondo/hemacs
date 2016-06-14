@@ -716,9 +716,10 @@
 
 (use-package yasnippet
   :ensure t
+  :mode ("\\.yasnippet\\'" . snippet-mode)
   :config
+  (setq yas-snippet-dirs (list (concat user-emacs-directory "snippets")))
   (yas-global-mode)
-  (setq-default yas/prompt-functions '(yas/ido-prompt))
   (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand))
 
 (use-package company
@@ -1077,15 +1078,9 @@
         ("=" . pad-equals)
         (":" . self-with-space))
   :chords
-  (:map js2-mode-map
-        ("qq" . js-insert-console-log)
-        ("qw" . "debugger"))
   :interpreter (("node" . js2-mode))
   :config
   (setenv "NODE_NO_READLINE" "1")
-  (def js-insert-console-log
-    (insert "console.log()")
-    (backward-char))
   (setq js2-strict-trailing-comma-warning nil
         js2-strict-missing-semi-warning nil
         js2-highlight-level 3
