@@ -85,6 +85,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
+  (setq use-package-enable-imenu-support t)
   (require 'use-package))
 
 (def upgrade-packages
@@ -854,8 +855,7 @@
                        ("sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern)))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
-  (setq use-package-enable-imenu-support t
-        imenu-auto-rescan t))
+  (setq imenu-auto-rescan t))
 
 (use-package imenu-anywhere
   :ensure t
