@@ -652,12 +652,6 @@
   (flx-ido-mode)
   (setq flx-ido-use-faces nil))
 
-(use-package ido-ubiquitous
-  :ensure t
-  :after ido
-  :config
-  (ido-ubiquitous-mode))
-
 (use-package ido-vertical-mode
   :ensure t
   :after ido
@@ -665,14 +659,11 @@
   (ido-vertical-mode)
   (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
 
-(use-package ido-exit-target
-  :ensure t
-  :after ido
-  :config
-  (bind-key "<s-return>" #'ido-exit-target-other-window ido-common-completion-map))
-
 (use-package ivy
   :ensure t
+  :bind
+  (:map ivy-minibuffer-map
+        ("<escape>"  . abort-recursive-edit))
   :config
   (ivy-mode)
   (setq ivy-fixed-height-minibuffer t
@@ -921,7 +912,8 @@
    ("C-x <C-return>" . projector-run-default-shell-command)
    :map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   :config
-  (setq projector-always-background-regex
+  (setq projector-completion-system 'ivy
+        projector-always-background-regex
         '("^powder restart\\.*"
           "^heroku restart\\.*"
           "^heroku addons:open\\.*"
