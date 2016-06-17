@@ -1080,6 +1080,14 @@
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
+(use-package xref-js2
+  :ensure t
+  :after js2-mode
+  :bind (:map js2-mode-map ("M-." . nil))
+  :config
+  (add-λ 'js2-mode-hook
+    (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
 (use-package json-mode
   :ensure t
   :mode (("\\.bowerrc$"     . json-mode)
