@@ -633,9 +633,9 @@
         ("M-TAB"     . previous-history-element)
         ("<M-S-tab>" . next-history-element))
   :config
-  (ido-mode)
   (setq ido-cannot-complete-command 'exit-minibuffer
         ido-use-virtual-buffers t
+        ido-max-prospects 9
         ido-auto-merge-delay-time 2
         ido-create-new-buffer 'always)
   (def ido-remove-entry-from-history
@@ -665,7 +665,7 @@
   :bind
   (:map ivy-minibuffer-map
         ("<escape>"  . abort-recursive-edit))
-  :config
+  :init
   (ivy-mode)
   (setq ivy-fixed-height-minibuffer t
         ivy-re-builders-alist '((t . ivy--regex-fuzzy))
@@ -709,8 +709,8 @@
 (use-package yasnippet
   :ensure t
   :mode ("\\.yasnippet\\'" . snippet-mode)
-  :config
-  (setq yas-snippet-dirs (list (concat user-emacs-directory "snippets")))
+  :init
+  (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
   (yas-global-mode)
   (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand))
 
