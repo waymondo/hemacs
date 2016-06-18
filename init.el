@@ -409,12 +409,6 @@
   :bind (("s-z" . undo-tree-undo)
          ("s-Z" . undo-tree-redo)))
 
-(use-package midnight
-  :config
-  (midnight-mode)
-  (add-hook 'midnight-hook #'recentf-save-list)
-  (setq midnight-period 10000))
-
 (use-package osx-trash
   :if (eq system-type 'darwin)
   :ensure t
