@@ -274,22 +274,9 @@
 
 (use-package compile
   :defer t
-  :bind ("C-c i" . compile-send-input)
   :config
-  (defun compile-send-input (input &optional nl)
-    (interactive "MInput: \nd")
-    (let ((string (concat input (if nl "\n"))))
-      (let ((inhibit-read-only t))
-        (insert-before-markers string))
-      (process-send-string
-       (get-buffer-process (current-buffer))
-       string)))
-  (def compile-send-self
-    (compile-send-input
-     (apply #'string (append (this-command-keys-vector) nil))))
-  (dolist (key '("y" "n"))
-    (bind-key key #'compile-send-self compilation-mode-map))
-  (setq compilation-always-kill t)
+  (setq compilation-always-kill t
+        compilation-ask-about-save nil)
   (add-hook 'compilation-mode-hook #'process-shellish-output)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
@@ -1192,6 +1179,7 @@
 (use-package inf-ruby
   :ensure t
   :config
+  (add-hook 'after-init-hook #'inf-ruby-switch-setup)
   (add-λ 'inf-ruby-mode-hook
     (turn-on-comint-history ".pry_history"))
   (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
