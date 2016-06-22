@@ -827,7 +827,8 @@
 (use-package anzu
   :ensure t
   :bind (([remap query-replace] . anzu-query-replace)
-         ("s-q" . anzu-query-replace))
+         ("s-q" . anzu-query-replace)
+         ("C-q" . anzu-query-replace-at-cursor-thing))
   :config
   (global-anzu-mode))
 
