@@ -653,8 +653,7 @@
   (ivy-mode)
   (setq ivy-fixed-height-minibuffer t
         ivy-re-builders-alist '((t . ivy--regex-fuzzy))
-        ivy-use-virtual-buffers t
-        ivy-virtual-abbreviate 'full))
+        ivy-use-virtual-buffers t))
 
 (use-package hippie-exp
   :bind (([remap dabbrev-expand] . hippie-expand))
