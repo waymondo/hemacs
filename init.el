@@ -27,7 +27,8 @@
       initial-scratch-message nil
       inhibit-startup-echo-area-message ""
       standard-indent 2
-      enable-recursive-minibuffers t)
+      enable-recursive-minibuffers t
+      kill-buffer-query-functions nil)
 
 (setq-default indent-tabs-mode nil
               line-spacing 1
