@@ -45,6 +45,7 @@
         kill-rectangle
         kill-region
         kill-region-and-god-local-mode
+        kill-sexp
         left-subword
         maybe-delete-selection-and-yank
         md/duplicate-down
