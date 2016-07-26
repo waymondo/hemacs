@@ -842,7 +842,7 @@
 
 (use-package imenu-anywhere
   :ensure t
-  :chords (";r" . imenu-anywhere))
+  :chords (";r" . ivy-imenu-anywhere))
 
 (use-package bs
   :bind
