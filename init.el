@@ -823,11 +823,21 @@
   (setq ag-reuse-buffers t
         ag-highlight-search t))
 
+(use-package bm
+  :ensure t
+  :bind
+  (("s-1" . bm-toggle)
+   ("s-2" . bm-next)
+   ("s-@" . bm-previous))
+  :config
+  (setq bm-cycle-all-buffers t))
+
 (use-package anzu
   :ensure t
-  :bind (([remap query-replace] . anzu-query-replace)
-         ("s-q" . anzu-query-replace)
-         ("C-q" . anzu-query-replace-at-cursor-thing))
+  :bind
+  (([remap query-replace] . anzu-query-replace)
+   ("s-q" . anzu-query-replace)
+   ("C-q" . anzu-query-replace-at-cursor-thing))
   :config
   (global-anzu-mode))
 
