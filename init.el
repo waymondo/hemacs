@@ -802,8 +802,7 @@
                         "*Packages"
                         "*rspec-compilation"
                         "*SQL"
-                        "*tldr"
-                        "*ag"))
+                        "*tldr"))
            (display-buffer-reuse-window
             display-buffer-in-side-window)
            (side            . bottom)
