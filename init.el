@@ -996,8 +996,7 @@
     (move-end-of-line nil)
     (smart-newline)
     (sgml-close-tag)
-    (move-beginning-of-line nil)
-    (smart-newline))
+    (move-beginning-of-line nil))
   (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss)))))
 
 (use-package handlebars-sgml-mode
