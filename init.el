@@ -861,9 +861,11 @@
 
 (use-package ace-jump-buffer
   :ensure t
-  :chords ((";a" . ace-jump-buffer)
-           (":A" . ace-jump-buffer-other-window)
-           (";x" . ace-jump-special-buffers))
+  :bind ("s-\"" . ace-jump-buffer)
+  :chords
+  ((";a" . ace-jump-buffer)
+   (":A" . ace-jump-buffer-other-window)
+   (";x" . ace-jump-special-buffers))
   :config
   (make-ace-jump-buffer-function "special"
     (with-current-buffer buffer
