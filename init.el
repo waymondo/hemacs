@@ -872,7 +872,9 @@
 
 (use-package projectile
   :ensure t
-  :bind ("s-p" . projectile-command-map)
+  :bind
+  (("s-p" . projectile-command-map)
+   ("C-x m" . projectile-run-shell))
   :chords (";t" . projectile-find-file)
   :config
   (setq projectile-enable-caching t
@@ -901,7 +903,6 @@
   :after projectile
   :bind
   (("C-x RET"        . projector-run-shell-command-project-root)
-   ("C-x m"          . projector-switch-to-or-create-project-shell)
    ("C-x <C-return>" . projector-run-default-shell-command)
    :map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   :config
@@ -1523,12 +1524,13 @@
  :prefix-map switch-project-map
  :prefix "s-o"
  ("t"          . projectile-switch-project)
- ("m"          . projector-open-project-shell)
  ("<C-return>" . projector-switch-project-run-default-shell-command))
 
+(bind-key "m" (make-projectile-switch-project-defun #'projectile-run-shell) switch-project-map)
 (bind-key "M" (make-projectile-switch-project-defun #'projector-run-shell-command-project-root) switch-project-map)
 (bind-key "g" (make-projectile-switch-project-defun #'projectile-vc) switch-project-map)
 (bind-key "u" (make-projectile-switch-project-defun #'projectile-run-project) switch-project-map)
+(bind-key "f" (make-projectile-switch-project-defun #'projectile-find-file) switch-project-map)
 (bind-key "`" (make-projectile-switch-project-defun #'ort/goto-todos) switch-project-map)
 (bind-key "n" (make-projectile-switch-project-defun #'ort/capture-checkitem) switch-project-map)
 
