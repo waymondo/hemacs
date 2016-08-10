@@ -955,8 +955,13 @@
 ;;;;; Major Modes
 
 (use-package org
-  :bind (:map org-mode-map ("," . self-with-space))
+  :bind
+  (:map org-mode-map
+        ("," . self-with-space)
+        ("C-c t" . timestamp))
   :config
+  (def timestamp
+    (insert (format-time-string "%m/%d/%Y")))
   (setq org-support-shift-select t
         org-completion-use-ido t
         org-startup-indented t)
