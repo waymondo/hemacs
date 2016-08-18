@@ -950,7 +950,8 @@
   (crab-server-start))
 
 (use-package restart-emacs
-  :ensure t)
+  :ensure t
+  :bind ([remap save-buffers-kill-terminal] . restart-emacs))
 
 ;;;;; Major Modes
 
