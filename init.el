@@ -17,7 +17,6 @@
       ns-right-option-modifier 'none
       create-lockfiles nil
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
-      garbage-collection-messages t
       gc-cons-threshold (* 10 1024 1024)
       disabled-command-function nil
       ad-redefinition-action 'accept
