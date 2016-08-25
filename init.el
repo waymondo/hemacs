@@ -331,7 +331,6 @@
   (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
 
 (use-package files
-  :chords (";f" . find-file)
   :config
   (defun hemacs-save-hook ()
     (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
@@ -609,10 +608,8 @@
 ;;;;; Completion
 
 (use-package ido
-  :defines ido-cur-list
   :bind
   (:map ido-common-completion-map
-        ("s-K"       . ido-remove-entry-from-history)
         ("M-TAB"     . previous-history-element)
         ("<M-S-tab>" . next-history-element))
   :config
@@ -620,14 +617,7 @@
         ido-use-virtual-buffers t
         ido-max-prospects 9
         ido-auto-merge-delay-time 2
-        ido-create-new-buffer 'always)
-  (def ido-remove-entry-from-history
-    (let ((ido-entry-to-remove (ido-name (car ido-matches)))
-          (history (symbol-value hist)))
-      (when (and ido-entry-to-remove history)
-        (set hist (delq ido-entry-to-remove history))
-        (setq ido-cur-list (delete ido-entry-to-remove ido-cur-list))
-        (setq ido-rescan t)))))
+        ido-create-new-buffer 'always))
 
 (use-package flx-ido
   :ensure t
@@ -636,18 +626,13 @@
   (flx-ido-mode)
   (setq flx-ido-use-faces nil))
 
-(use-package ido-vertical-mode
-  :ensure t
-  :after ido
-  :config
-  (ido-vertical-mode)
-  (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
-
 (use-package ivy
   :ensure t
   :bind
   (:map ivy-minibuffer-map
         ("<escape>"  . abort-recursive-edit))
+  :chords
+  (";s" . ivy-switch-buffer)
   :init
   (ivy-mode)
   (setq ivy-fixed-height-minibuffer t
@@ -774,8 +759,7 @@
 
 (use-package window
   :preface (provide 'window)
-  :chords ((";s" . switch-to-buffer)
-           (";w" . toggle-split-window)
+  :chords ((";w" . toggle-split-window)
            (":W" . delete-other-windows)
            (":Q" . delete-side-windows))
   :config
@@ -928,8 +912,11 @@
 
 (use-package counsel
   :ensure t
-  :bind (([remap execute-extended-command] . counsel-M-x)
-         ("s-P" . counsel-M-x)))
+  :bind
+  (([remap execute-extended-command] . counsel-M-x)
+   ("s-P" . counsel-M-x))
+  :chords
+  (";f" . counsel-find-file))
 
 ;;;;; External Utilities
 
@@ -1267,7 +1254,7 @@
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-shellish-output)
   (setq git-commit-summary-max-length git-commit-fill-column
-        magit-completing-read-function 'magit-ido-completing-read
+        magit-completing-read-function 'ivy-completing-read
         magit-log-auto-more t
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
         magit-no-confirm t))
