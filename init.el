@@ -816,8 +816,7 @@
 
 (use-package ag
   :ensure t
-  :chords ((";g" . ag-project)
-           (":G" . ag))
+  :chords ((":G" . ag))
   :config
   (setq ag-reuse-buffers t
         ag-highlight-search t))
@@ -876,7 +875,9 @@
   :bind
   (("s-p" . projectile-command-map)
    ("C-x m" . projectile-run-shell))
-  :chords (";t" . projectile-find-file)
+  :chords
+  ((";t" . projectile-find-file)
+   (";g" . projectile-ag))
   :config
   (setq projectile-enable-caching t
         projectile-completion-system 'ivy)
