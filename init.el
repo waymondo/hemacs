@@ -679,6 +679,10 @@
   :init
   (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
   (yas-global-mode)
+  (defun yas-indent-unless-case-sensitive (orig-fun &rest args)
+    (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
+      (apply orig-fun args)))
+  (advice-add 'yas--indent :around #'yas-indent-unless-case-sensitive)
   (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand))
 
 (use-package company
