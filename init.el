@@ -1025,6 +1025,12 @@
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
 
+(use-package markdown-preview-mode
+  :ensure t
+  :after markdown-mode
+  :bind
+  (:map markdown-mode-map ("C-x p" . markdown-preview-mode)))
+
 (use-package css-mode
   :mode "\\.css\\.erb\\'"
   :bind

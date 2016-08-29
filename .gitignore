@@ -30,3 +30,4 @@ custom.el
 /tldr/
 /private.el
 /ac-comphist.dat
+*.html
