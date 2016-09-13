@@ -100,8 +100,14 @@
       (error
        (package-menu-execute)))))
 
-(use-package use-package-chords
-  :ensure t)
+(defmacro use-my-package (pkg &rest plist)
+  (let* ((checkout-dir (format "lib/%s" (symbol-name pkg)))
+         (ensure-or-load-path (if (file-directory-p checkout-dir)
+                                  `(:load-path ,checkout-dir)
+                                '(:ensure t))))
+    `(use-package ,pkg ,@ensure-or-load-path ,@plist)))
+
+(use-my-package use-package-chords)
 
 ;;;;; Bootstrap
 
@@ -506,8 +512,7 @@
             (pop-to-buffer compilation-buffer)
             (ace-link-compilation)))))))
 
-(use-package ace-jump-zap
-  :ensure t
+(use-my-package ace-jump-zap
   :chords ("jz" . ace-jump-zap-up-to-char))
 
 (use-package ace-window
@@ -845,8 +850,7 @@
   (("s-{" . bs-cycle-previous)
    ("s-}" . bs-cycle-next)))
 
-(use-package ace-jump-buffer
-  :ensure t
+(use-my-package ace-jump-buffer
   :bind ("s-\"" . ace-jump-buffer)
   :chords
   ((";a" . ace-jump-buffer)
@@ -888,8 +892,7 @@
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
 
-(use-package projector
-  :ensure t
+(use-my-package projector
   :after projectile
   :bind
   (("C-x RET"        . projector-run-shell-command-project-root)
@@ -964,8 +967,7 @@
   :after org
   :config (add-hook 'org-mode-hook #'org-autolist-mode))
 
-(use-package org-repo-todo
-  :ensure t
+(use-my-package org-repo-todo
   :after org
   :bind (("s-`" . ort/goto-todos)
          ("s-n" . ort/capture-checkitem)))
@@ -1336,8 +1338,7 @@
 (use-package gitignore-mode
   :ensure t)
 
-(use-package dash-at-point
-  :load-path "lib/dash-at-point/")
+(use-my-package dash-at-point)
 
 (use-package tldr
   :ensure t)
@@ -1453,14 +1454,14 @@
   :defer t
   :config (fringe-mode '(20 . 8)))
 
-(use-package apropospriate-theme
-  :ensure t
+(use-my-package apropospriate-theme
   :config
   (load-theme 'apropospriate-light t t)
   (load-theme 'apropospriate-dark t t))
 
 (use-package highlight-tail
   :ensure t
+  :disabled t
   :config
   (setq highlight-tail-steps 16)
   (highlight-tail-mode))
