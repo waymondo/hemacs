@@ -494,11 +494,11 @@
   :config
   (ace-link-setup-default)
   (defun avy-jump-error-next-error-hook ()
-    (let ((compilation-buffer (compilation-find-buffer t)))
+    (let ((compilation-buffer (compilation-find-buffer)))
       (quit-window nil (get-buffer-window compilation-buffer))
       (recenter)))
   (def avy-jump-error
-    (let ((compilation-buffer (compilation-find-buffer t))
+    (let ((compilation-buffer (compilation-find-buffer))
           (next-error-hook '(avy-jump-error-next-error-hook)))
       (when compilation-buffer
         (with-current-buffer compilation-buffer
