@@ -76,8 +76,6 @@
   `(dolist (mode ,modes)
      (add-λ (intern (format "%s-hook" mode)) ,@body)))
 
-(load (locate-user-emacs-file "private.el") t t)
-
 ;;;;; Package Management
 
 (require 'package)
@@ -108,6 +106,9 @@
     `(use-package ,pkg ,@ensure-or-load-path ,@plist)))
 
 (use-my-package use-package-chords)
+
+(use-package no-littering
+  :ensure t)
 
 ;;;;; Bootstrap
 
@@ -682,7 +683,6 @@
   :ensure t
   :mode ("\\.yasnippet\\'" . snippet-mode)
   :init
-  (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
   (yas-global-mode)
   (defun yas-indent-unless-case-sensitive (orig-fun &rest args)
     (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
