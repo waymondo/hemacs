@@ -872,6 +872,7 @@
    (";g" . projectile-ag))
   :config
   (setq projectile-enable-caching t
+        projectile-verbose nil
         projectile-completion-system 'ivy)
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
   (defmacro make-projectile-switch-project-defun (func)
@@ -889,6 +890,11 @@
         (unless (file-remote-p project)
           (file-directory-p (concat project "/.git/"))))
       (projectile-relevant-known-projects))))
+  (ivy-set-actions
+   'projectile-find-file
+   '(("j"
+      ivy--switch-buffer-other-window-action
+      "other window")))
   (projectile-global-mode)
   (projectile-cleanup-known-projects))
 
