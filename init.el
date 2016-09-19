@@ -845,11 +845,6 @@
   :ensure t
   :chords (";r" . ivy-imenu-anywhere))
 
-(use-package bs
-  :bind
-  (("s-{" . bs-cycle-previous)
-   ("s-}" . bs-cycle-next)))
-
 (use-my-package ace-jump-buffer
   :bind ("s-\"" . ace-jump-buffer)
   :chords
