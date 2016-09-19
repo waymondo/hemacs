@@ -1033,6 +1033,13 @@
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
 
+(use-package pandoc-mode
+  :ensure t
+  :after (markdown-mode org-mode)
+  :config
+  (add-hook 'markdown-mode-hook #'pandoc-mode)
+  (add-hook 'org-mode-hook #'pandoc-mode))
+
 (use-package markdown-preview-mode
   :ensure t
   :after markdown-mode
