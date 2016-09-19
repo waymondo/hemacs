@@ -1003,8 +1003,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.erb\\'" . web-mode)
-         ("\\.php\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode))
+         ("\\.php\\'" . web-mode))
   :bind
   (:map web-mode-map
         ("," . self-with-space)
@@ -1072,7 +1071,7 @@
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'"  . js2-mode)
-         ("\\.es6$"   . js2-mode))
+         ("\\.jsx\\'" . js2-mode))
   :bind
   (:map js2-mode-map
         ("," . self-with-space)
@@ -1249,6 +1248,21 @@
 (use-package text-mode
   :preface (provide 'text-mode)
   :bind (:map text-mode-map ("," . self-with-space)))
+
+(use-package mmm-mode
+  :ensure t
+  :config
+  (setq mmm-global-mode 'maybe
+        mmm-submode-decoration-level 2
+        mmm-parse-when-idle t)
+  (mmm-add-classes
+   '((jsx
+      :submode web-mode
+      :front "\\((\\)[[:space:]\n]*<"
+      :front-match 1
+      :back ">[[:space:]\n]*\\()\\)\n"
+      :back-match 1)))
+  (mmm-add-mode-ext-class 'js2-mode "\\.jsx\\'" 'jsx))
 
 ;;;;; Version Control
 
