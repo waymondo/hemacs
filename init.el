@@ -792,7 +792,7 @@
                         "*Help"
                         "*less-css-compilation"
                         "*Packages"
-                        "*rspec-compilation"
+                        "*magit-process"
                         "*SQL"
                         "*tldr"))
            (display-buffer-reuse-window
