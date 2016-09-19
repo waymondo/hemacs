@@ -99,6 +99,7 @@
        (package-menu-execute)))))
 
 (defmacro use-my-package (pkg &rest plist)
+  (declare (indent 1) (debug t))
   (let* ((checkout-dir (format "lib/%s" (symbol-name pkg)))
          (ensure-or-load-path (if (file-directory-p checkout-dir)
                                   `(:load-path ,checkout-dir)
