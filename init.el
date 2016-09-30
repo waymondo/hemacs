@@ -1506,13 +1506,9 @@
    ("{}" . open-brackets-newline-and-indent)
    ("-=" . insert-arrow)
    ("_+" . insert-fat-arrow)
-   ("^^" . insert-special-char)
+   ("^^" . "λ")
    ("::" . "::"))
   :config
-  (def insert-special-char
-    (let* ((special-chars '("λ" "’"))
-           (char (completing-read "Insert Special Characater: " special-chars nil t)))
-      (insert char)))
   (def insert-arrow
     (ensure-space)
     (insert "->")
