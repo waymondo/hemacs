@@ -474,6 +474,10 @@
 (use-package elec-pair
   :init (electric-pair-mode))
 
+(use-package electric
+  :init (electric-quote-mode)
+  :config (setq electric-quote-string t))
+
 (use-package subword
   :init (global-subword-mode))
 
@@ -961,8 +965,7 @@
     (insert (format-time-string "%m/%d/%Y")))
   (setq org-support-shift-select t
         org-completion-use-ido t
-        org-startup-indented t)
-  (bind-key "'" "’" org-mode-map (not (org-in-src-block-p))))
+        org-startup-indented t))
 
 (use-package org-autolist
   :ensure t
