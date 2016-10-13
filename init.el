@@ -492,6 +492,8 @@
 
 (use-package avy
   :ensure t
+  :bind
+  (:map dired-mode-map ("." . avy-goto-word-or-subword-1))
   :chords
   (("jj" . avy-goto-char-timer)
    ("jk" . avy-goto-word-or-subword-1)
