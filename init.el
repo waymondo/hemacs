@@ -695,6 +695,7 @@
   (defun yas-indent-unless-case-sensitive (orig-fun &rest args)
     (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
       (apply orig-fun args)))
+  (delete 'yas-installed-snippets-dir yas-snippet-dirs)
   (advice-add 'yas--indent :around #'yas-indent-unless-case-sensitive)
   (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand))
 
