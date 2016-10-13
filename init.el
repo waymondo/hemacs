@@ -649,6 +649,7 @@
   :init
   (ivy-mode)
   (setq ivy-fixed-height-minibuffer t
+        ivy-extra-directories nil
         ivy-re-builders-alist '((t . ivy--regex-fuzzy))
         ivy-use-virtual-buffers t))
 
