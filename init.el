@@ -1014,7 +1014,12 @@
   :bind
   (:map web-mode-map
         ("," . self-with-space)
-        ("<C-return>" . html-newline-dwim)))
+        ("<C-return>" . html-newline-dwim))
+  :config
+  (setq web-mode-enable-auto-quoting nil)
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (add-λ 'web-mode-hook
+    (yas-activate-extra-mode 'js-mode)))
 
 (use-package fountain-mode
   :ensure t
