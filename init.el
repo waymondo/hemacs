@@ -863,8 +863,9 @@
   :config
   (make-ace-jump-buffer-function "special"
     (with-current-buffer buffer
-      (and (not (derived-mode-p 'comint-mode))
-           (not (derived-mode-p 'magit-mode))))))
+      (--all?
+       (not (derived-mode-p it))
+       '(comint-mode magit-mode inf-ruby-mode ag-mode)))))
 
 (use-package projectile
   :ensure t
