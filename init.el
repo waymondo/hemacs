@@ -937,12 +937,11 @@
 
 ;;;;; External Utilities
 
-(use-package edit-server
+(use-package atomic-chrome
   :ensure t
   :config
-  (edit-server-start)
-  (setq edit-server-new-frame nil
-        edit-server-default-major-mode 'gfm-mode))
+  (atomic-chrome-start-server)
+  (setq atomic-chrome-default-major-mode 'gfm-mode))
 
 (use-package crab
   :ensure t
