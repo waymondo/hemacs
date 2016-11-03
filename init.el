@@ -1130,10 +1130,6 @@
 (use-package ember-mode
   :ensure t)
 
-(use-package npm-mode
-  :ensure t
-  :config (npm-global-mode))
-
 (use-package jade-mode
   :ensure t)
 
