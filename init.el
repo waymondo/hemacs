@@ -899,7 +899,7 @@
    '(("j"
       ivy--switch-buffer-other-window-action
       "other window")))
-  (projectile-global-mode)
+  (projectile-mode)
   (projectile-cleanup-known-projects))
 
 (use-my-package projector
@@ -1226,7 +1226,7 @@
 (use-package projectile-rails
   :ensure t
   :config
-  (add-hook 'projectile-mode-hook #'projectile-rails-on))
+  (projectile-rails-global-mode))
 
 (use-package chruby
   :ensure t
