@@ -1,4 +1,6 @@
-An ever evolving Cocoa Emacs 25+ setup on OSX. I'm mainly writing Ruby and CoffeeScript, interfacing with Git and Bash, writing compiled stylesheets and templates, and hacking on this Elisp dump.
+An ever evolving Cocoa Emacs 25+ setup on OSX. I'm mainly writing Ruby
+and JavaScript, interfacing with Git and Bash, writing compiled
+stylesheets and HTML templates, and hacking on this Elisp dump.
 
 ## Installation
 
@@ -8,17 +10,11 @@ Install [Homebrew](http://mxcl.github.com/homebrew), then:
 curl -L https://raw.githubusercontent.com/waymondo/hemacs/master/install.sh | sh
 ```
 
-### Extra dependencies:
-
-```
-brew install git terminal-notifier node the_silver_searcher bash-completion coreutils trash pandoc
-npm install -g js-beautifier marked less coffee-script js2coffee eslint babel-eslint tern
-gem install gem-ripper-tags rubocop ruby-lint
-```
-
 Uses [Fira Code](https://github.com/tonsky/FiraCode) as the default font.
 
 Control Google Chrome with the [Crab Chrome Extension](https://github.com/puffnfresh/crab-chrome).
+
+Edit Google Chrome textareas with [Atomic Chrome](https://chrome.google.com/webstore/detail/atomic-chrome/lhaoghhllmiaaagaffababmkdllgfcmc).
 
 Search API documents with [Dash](http://kapeli.com/dash).
 

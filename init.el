@@ -1379,7 +1379,14 @@
 (use-package gitignore-mode
   :ensure t)
 
-(use-my-package dash-at-point)
+(use-package dash-at-point
+  :ensure t
+  :config
+  (defun dash-at-point-installed-docsets ()
+    (let ((dash-defaults (shell-command-to-string "defaults read com.kapeli.dashdoc docsets"))
+          (keyword-regexp (rx (or "platform" "pluginKeyword") space "=" space (group (1+ word)) ";\n")))
+      (-distinct (cl-map 'list #'cdr (s-match-strings-all keyword-regexp dash-defaults)))))
+  (setq dash-at-point-docsets (or (dash-at-point-installed-docsets) dash-at-point-docsets)))
 
 (use-package tldr
   :ensure t)
