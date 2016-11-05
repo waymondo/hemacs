@@ -1383,9 +1383,9 @@
 (use-package flycheck
   :ensure t
   :config
-  (setq-default flycheck-disabled-checkers '(html-tidy javascript-jshint)
-                flycheck-idle-change-delay 1
-                flycheck-less-executable "/usr/local/bin/lessc")
+  (setq flycheck-check-syntax-automatically '(mode-enabled idle-change save)
+        flycheck-idle-change-delay 2)
+  (setq-default flycheck-disabled-checkers '(html-tidy))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;;;;; Appearance
