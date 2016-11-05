@@ -1082,8 +1082,7 @@
 
 (use-package js2-mode
   :ensure t
-  :mode (("\\.js\\'"  . js2-mode)
-         ("\\.jsx\\'" . js2-mode))
+  :mode ("\\.js\\'"  . js2-mode)
   :bind
   (:map js2-mode-map
         ("," . self-with-space)
@@ -1093,12 +1092,19 @@
   :interpreter (("node" . js2-mode))
   :config
   (setenv "NODE_NO_READLINE" "1")
-  (setq js2-strict-trailing-comma-warning nil
+  (setq js2-mode-show-parse-errors nil
+        js2-strict-trailing-comma-warning nil
         js2-strict-missing-semi-warning nil
         js2-highlight-level 3
         js2-basic-offset 2)
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
+
+(use-package rjsx-mode
+  :ensure t
+  :after js2-mode
+  :config
+  (flycheck-add-mode 'javascript-eslint 'rjsx-mode))
 
 (use-package xref-js2
   :ensure t
@@ -1260,6 +1266,7 @@
 
 (use-package mmm-mode
   :ensure t
+  :disabled t
   :config
   (setq mmm-global-mode 'maybe
         mmm-submode-decoration-level 2
