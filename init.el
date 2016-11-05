@@ -1505,7 +1505,6 @@
 
 (use-package highlight-tail
   :ensure t
-  :disabled t
   :config
   (setq highlight-tail-steps 16)
   (highlight-tail-mode))
