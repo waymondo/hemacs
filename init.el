@@ -1223,7 +1223,7 @@
 (use-package inf-ruby
   :ensure t
   :config
-  (add-hook 'compilation-filter-hook #'inf-ruby-auto-enter)
+  (add-hook 'compilation-filter-hook #'inf-ruby-auto-enter t)
   (add-hook 'after-init-hook #'inf-ruby-switch-setup)
   (add-λ 'inf-ruby-mode-hook
     (turn-on-comint-history ".pry_history"))
