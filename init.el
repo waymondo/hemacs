@@ -1307,8 +1307,7 @@
       (apply orig-fun (list process event))))
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'process-shellish-output)
-  (setq git-commit-summary-max-length git-commit-fill-column
-        magit-completing-read-function 'ivy-completing-read
+  (setq magit-completing-read-function 'ivy-completing-read
         magit-log-auto-more t
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
         magit-no-confirm t))
