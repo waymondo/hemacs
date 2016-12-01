@@ -651,7 +651,7 @@
   (ivy-mode)
   (setq ivy-fixed-height-minibuffer t
         ivy-extra-directories nil
-        ivy-re-builders-alist '((t . ivy--regex-fuzzy))
+        ivy-re-builders-alist '((swiper . ivy--regex-plus) (t . ivy--regex-fuzzy))
         ivy-use-virtual-buffers t))
 
 (use-package hippie-exp
@@ -927,7 +927,9 @@
   :ensure t
   :bind
   (([remap isearch-forward]  . swiper)
-   ([remap isearch-backward] . swiper)))
+   ([remap isearch-backward] . swiper))
+  :config
+  (setq swiper-action-recenter t))
 
 (use-package counsel
   :ensure t
