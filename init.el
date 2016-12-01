@@ -1017,10 +1017,8 @@
         ("," . self-with-space)
         ("<C-return>" . html-newline-dwim))
   :config
-  (setq web-mode-enable-auto-quoting nil)
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (add-λ 'web-mode-hook
-    (yas-activate-extra-mode 'js-mode)))
+  (setq web-mode-enable-auto-quoting nil
+        web-mode-enable-current-element-highlight t))
 
 (use-package fountain-mode
   :ensure t
@@ -1264,22 +1262,6 @@
 (use-package text-mode
   :preface (provide 'text-mode)
   :bind (:map text-mode-map ("," . self-with-space)))
-
-(use-package mmm-mode
-  :ensure t
-  :disabled t
-  :config
-  (setq mmm-global-mode 'maybe
-        mmm-submode-decoration-level 2
-        mmm-parse-when-idle t)
-  (mmm-add-classes
-   '((jsx
-      :submode web-mode
-      :front "\\((\\)[[:space:]\n]*<"
-      :front-match 1
-      :back ">[[:space:]\n]*\\()\\)\n"
-      :back-match 1)))
-  (mmm-add-mode-ext-class 'js2-mode "\\.jsx\\'" 'jsx))
 
 ;;;;; Version Control
 
