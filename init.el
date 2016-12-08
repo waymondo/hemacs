@@ -323,7 +323,12 @@
   (setq rtog/mode-repl-alist
         '((emacs-lisp-mode . ielm)
           (ruby-mode . inf-ruby)
-          (js2-mode . nodejs-repl))))
+          (js2-mode . nodejs-repl)
+          (rjsx-mode . nodejs-repl))))
+
+(use-package nodejs-repl
+  :defer t
+  :ensure t)
 
 ;;;;; Files & History
 
