@@ -1447,11 +1447,15 @@
   :config (setq powerline-default-separator 'utf-8))
 
 (use-package spaceline
-  :ensure t
-  :preface (require 'spaceline-config)
+  :ensure t)
+
+(use-package spaceline-config
+  :after spaceline
   :config
   (spaceline-emacs-theme)
-  (spaceline-toggle-minor-modes-off))
+  (spaceline-toggle-minor-modes-off)
+  (spaceline-toggle-buffer-size-off)
+  (spaceline-toggle-hud-off))
 
 (use-package mode-icons
   :ensure t
