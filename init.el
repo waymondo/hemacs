@@ -901,13 +901,13 @@
         (unless (file-remote-p project)
           (file-directory-p (concat project "/.git/"))))
       (projectile-relevant-known-projects))))
-  (ivy-set-actions
-   'projectile-find-file
-   '(("j"
-      ivy--switch-buffer-other-window-action
-      "other window")))
   (projectile-mode)
   (projectile-cleanup-known-projects))
+
+(use-package counsel-projectile
+  :ensure t
+  :after projectile
+  :config (counsel-projectile-on))
 
 (use-my-package projector
   :after projectile
