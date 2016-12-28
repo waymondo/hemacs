@@ -1301,11 +1301,6 @@
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
         magit-no-confirm t))
 
-(use-package magit-gh-pulls
-  :ensure t
-  :after magit
-  :config (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
-
 (use-package git-messenger
   :ensure t
   :config (setq git-messenger:show-detail t))
