@@ -363,6 +363,7 @@
   (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query)
   (setq require-final-newline t
         confirm-kill-emacs nil
+        enable-local-variables :safe
         confirm-nonexistent-file-or-buffer nil
         backup-directory-alist `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms `((".*" ,temporary-file-directory t))))
@@ -1094,7 +1095,6 @@
         ("," . self-with-space)
         ("=" . pad-equals)
         (":" . self-with-space))
-  :chords
   :interpreter (("node" . js2-mode))
   :config
   (setenv "NODE_NO_READLINE" "1")
