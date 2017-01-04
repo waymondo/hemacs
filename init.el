@@ -260,7 +260,7 @@
   (defun turn-on-comint-history (history-file)
     (setq comint-input-ring-file-name history-file)
     (comint-read-input-ring 'silent))
-  (defun process-shellish-output ()
+  (defun text-smaller-no-truncation ()
     (setq truncate-lines nil)
     (text-scale-decrease 1))
   (def comint-return-dwim
@@ -275,7 +275,7 @@
     (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
-  (add-hook 'comint-mode-hook #'process-shellish-output)
+  (add-hook 'comint-mode-hook #'text-smaller-no-truncation)
   (add-λ 'kill-emacs-hook
     (dolist (buffer (buffer-list))
       (with-current-buffer buffer (comint-write-input-ring)))))
@@ -285,7 +285,7 @@
   :config
   (setq compilation-always-kill t
         compilation-ask-about-save nil)
-  (add-hook 'compilation-mode-hook #'process-shellish-output)
+  (add-hook 'compilation-mode-hook #'text-smaller-no-truncation)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package warnings
@@ -1260,7 +1260,9 @@
   (bind-key "C-c C-:" #'ruby-toggle-hash-syntax ruby-mode-map))
 
 (use-package yaml-mode
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'yaml-mode-hook #'text-smaller-no-truncation))
 
 (use-package restclient
   :ensure t
@@ -1295,7 +1297,7 @@
         (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
       (apply orig-fun (list process event))))
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
-  (add-hook 'magit-process-mode-hook #'process-shellish-output)
+  (add-hook 'magit-process-mode-hook #'text-smaller-no-truncation)
   (setq magit-completing-read-function 'ivy-completing-read
         magit-log-auto-more t
         magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
