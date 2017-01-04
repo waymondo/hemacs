@@ -1108,9 +1108,7 @@
 
 (use-package rjsx-mode
   :ensure t
-  :after js2-mode
-  :config
-  (flycheck-add-mode 'javascript-eslint 'rjsx-mode))
+  :after js2-mode)
 
 (use-package xref-js2
   :ensure t
