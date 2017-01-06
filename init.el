@@ -897,15 +897,6 @@
         (interactive)
         (let ((projectile-switch-project-action ,func))
           (projectile-switch-project)))))
-  (defun projectile-relevant-known-git-projects ()
-    (mapcar
-     (lambda (dir)
-       (substring dir 0 -1))
-     (cl-remove-if-not
-      (lambda (project)
-        (unless (file-remote-p project)
-          (file-directory-p (concat project "/.git/"))))
-      (projectile-relevant-known-projects))))
   (projectile-mode)
   (projectile-cleanup-known-projects))
 
@@ -1302,7 +1293,7 @@
   (add-hook 'magit-process-mode-hook #'text-smaller-no-truncation)
   (setq magit-completing-read-function 'ivy-completing-read
         magit-log-auto-more t
-        magit-repository-directories (funcall #'projectile-relevant-known-git-projects)
+        magit-repository-directories projectile-known-projects
         magit-no-confirm t))
 
 (use-package git-messenger
