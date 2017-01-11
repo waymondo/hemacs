@@ -913,14 +913,6 @@
    :map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   :config
   (setq projector-completion-system 'ivy
-        projector-always-background-regex
-        '("^powder restart\\.*"
-          "^heroku restart\\.*"
-          "^heroku addons:open\\.*"
-          "^spring stop"
-          "^gulp publish\\.*"
-          "^git push\\.*"
-          "^pkill\\.*")
         projector-command-modes-alist
         '(("^heroku run console" . inf-ruby-mode))))
 
