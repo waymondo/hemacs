@@ -944,8 +944,8 @@
   :ensure t
   :defer 2
   :bind (("s-R" . crab-reload)
-         ("<S-s-left>" . crab-prev-tab)
-         ("<S-s-right>" . crab-next-tab))
+         ("s-{" . crab-prev-tab)
+         ("s-}" . crab-next-tab))
   :config
   (crab-server-start))
 
