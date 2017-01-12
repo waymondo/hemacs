@@ -1137,17 +1137,16 @@
 (use-package jade-mode
   :ensure t)
 
-(use-package web-beautify
+(use-package js-format
   :ensure t
+  :after js2-mode
   :config
-  (with-eval-after-load 'js2-mode
-    (bind-key "s-b" #'web-beautify-js js2-mode-map))
-  (with-eval-after-load 'json-mode
-    (bind-key "s-b" #'web-beautify-js json-mode-map))
-  (with-eval-after-load 'sgml-mode
-    (bind-key "s-b" #'web-beautify-html html-mode-map))
-  (with-eval-after-load 'css-mode
-    (bind-key "s-b" #'web-beautify-css css-mode-map)))
+  (bind-key "s-b" #'js-format-buffer js2-mode-map)
+  (bind-key "s-b" #'js-format-buffer css-mode-map)
+  (add-λ 'js2-mode-hook
+    (js-format-setup "standard"))
+  (add-λ 'css-mode-hook
+    (js-format-setup "jsb-css")))
 
 (use-package elm-mode
   :ensure t)
