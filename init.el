@@ -1167,9 +1167,9 @@
 
 (use-package ruby-mode
   :mode
-  (("Appraisals$"   . ruby-mode)
-   ("\\.rabl\\'"    . ruby-mode)
-   ("\\.builder\\'" . ruby-mode))
+  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Puppet\\)file\\'" . ruby-mode)
+   ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\)\\'" . ruby-mode)
+   ("Appraisals$" . ruby-mode))
   :bind
   (:map ruby-mode-map
         (","          . self-with-space)
