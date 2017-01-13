@@ -608,6 +608,11 @@
   (hook-modes writing-modes
     (flyspell-mode)))
 
+(use-package hungry-delete
+  :ensure t
+  :config
+  (hungry-delete-mode))
+
 (use-package smart-shift
   :ensure t
   :bind (("s-[" . smart-shift-left)
