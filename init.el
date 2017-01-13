@@ -5,7 +5,7 @@
 (setq load-prefer-newer t
       history-length 256
       history-delete-duplicates t
-      scroll-conservatively most-positive-fixnum
+      scroll-conservatively 101
       scroll-preserve-screen-position 'always
       auto-window-vscroll nil
       echo-keystrokes 0.02
@@ -1467,6 +1467,7 @@
 (use-package centered-cursor-mode
   :ensure t
   :config
+  (setq ccm-recenter-at-end-of-file t)
   (hook-modes progish-modes
     (centered-cursor-mode)))
 
