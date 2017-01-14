@@ -616,7 +616,7 @@
 (use-package hungry-delete
   :ensure t
   :config
-  (hungry-delete-mode))
+  (global-hungry-delete-mode))
 
 (use-package smart-shift
   :ensure t
