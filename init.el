@@ -431,8 +431,8 @@
   :bind ("s-k" . kill-whole-line)
   :config
   (hook-modes writing-modes
-    (auto-fill-mode)
-    (visual-line-mode))
+    (auto-fill-mode))
+  (global-visual-line-mode)
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
     (let ((p (point)))
       (dotimes (_i 10)
@@ -497,6 +497,11 @@
   :ensure t
   :bind (("M-i" . change-inner)
          ("M-o" . change-outer)))
+
+(use-package adaptive-wrap
+  :ensure t
+  :config
+  (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
 
 (use-package avy
   :ensure t
