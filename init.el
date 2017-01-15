@@ -903,11 +903,17 @@
         projectile-completion-system 'ivy)
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
   (defmacro make-projectile-switch-project-defun (func)
-    `(function
-      (lambda ()
-        (interactive)
-        (let ((projectile-switch-project-action ,func))
-          (projectile-switch-project)))))
+    `(let ((defun-name (format "projectile-switch-project-%s" (symbol-name ,func))))
+       (fset (intern defun-name)
+             (function
+              (lambda ()
+                (interactive)
+                (let ((projectile-switch-project-action ,func))
+                  (projectile-switch-project)))))))
+  (make-projectile-switch-project-defun #'projectile-run-shell)
+  (make-projectile-switch-project-defun #'projectile-run-project)
+  (make-projectile-switch-project-defun #'projectile-find-file)
+  (make-projectile-switch-project-defun #'projectile-vc)
   (projectile-mode)
   (projectile-cleanup-known-projects))
 
@@ -923,6 +929,7 @@
    ("C-x <C-return>" . projector-run-default-shell-command)
    :map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   :config
+  (make-projectile-switch-project-defun #'projector-run-shell-command-project-root)
   (setq projector-completion-system 'ivy
         projector-command-modes-alist
         '(("^heroku run console" . inf-ruby-mode))))
@@ -986,7 +993,10 @@
 (use-my-package org-repo-todo
   :after org
   :bind (("s-`" . ort/goto-todos)
-         ("s-n" . ort/capture-checkitem)))
+         ("s-n" . ort/capture-checkitem))
+  :config
+  (make-projectile-switch-project-defun #'ort/goto-todos)
+  (make-projectile-switch-project-defun #'ort/capture-checkitem))
 
 (use-package sgml-mode
   :mode
@@ -1536,7 +1546,11 @@
 (use-package which-key
   :ensure t
   :config
-  (which-key-mode))
+  (which-key-mode)
+  (dolist (prefix '("projectile-switch-project" "projectile-rails" "ember" "magit"))
+    (let ((pattern (concat "^" prefix "-\\(.+\\)")))
+      (push `((nil . ,pattern) . (nil . "\\1"))
+            which-key-replacement-alist))))
 
 (bind-keys
  :prefix-map hemacs-help-map
@@ -1555,15 +1569,14 @@
  :prefix-map switch-project-map
  :prefix "s-o"
  ("t"          . projectile-switch-project)
- ("<C-return>" . projector-switch-project-run-default-shell-command))
-
-(bind-key "m" (make-projectile-switch-project-defun #'projectile-run-shell) switch-project-map)
-(bind-key "M" (make-projectile-switch-project-defun #'projector-run-shell-command-project-root) switch-project-map)
-(bind-key "g" (make-projectile-switch-project-defun #'projectile-vc) switch-project-map)
-(bind-key "u" (make-projectile-switch-project-defun #'projectile-run-project) switch-project-map)
-(bind-key "f" (make-projectile-switch-project-defun #'projectile-find-file) switch-project-map)
-(bind-key "`" (make-projectile-switch-project-defun #'ort/goto-todos) switch-project-map)
-(bind-key "n" (make-projectile-switch-project-defun #'ort/capture-checkitem) switch-project-map)
+ ("<C-return>" . projector-switch-project-run-default-shell-command)
+ ("m"          . projectile-switch-project-projectile-run-shell)
+ ("M"          . projectile-switch-project-projector-run-shell-command-project-root)
+ ("g"          . projectile-switch-project-projectile-vc)
+ ("u"          . projectile-switch-project-projectile-run-project)
+ ("f"          . projectile-switch-project-projectile-find-file)
+ ("`"          . projectile-switch-project-ort/goto-todos)
+ ("n"          . projectile-switch-project-ort/capture-checkitem))
 
 (bind-keys
  :prefix-map hemacs-git-map
