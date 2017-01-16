@@ -466,6 +466,7 @@
   (advice-add 'kill-whole-line :after #'back-to-indentation)
   (advice-add 'kill-line :around #'kill-line-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
+  (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation)
   (setq set-mark-command-repeat-pop t
         save-interprogram-paste-before-kill t
         next-error-recenter t
