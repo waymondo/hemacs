@@ -126,7 +126,7 @@
       (insert "=")
     (cond ((looking-back "=[[:space:]]" nil)
            (delete-char -1))
-          ((looking-back "[^#/|!<>+]" nil)
+          ((looking-back "[^#/|!<>+~]" nil)
            (ensure-space)))
     (call-interactively #'self-insert-command)
     (ensure-space)))
