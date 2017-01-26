@@ -1165,14 +1165,15 @@
 
 (use-package js-format
   :ensure t
-  :after js2-mode
   :config
-  (bind-key "s-b" #'js-format-buffer js2-mode-map)
-  (bind-key "s-b" #'js-format-buffer css-mode-map)
-  (add-λ 'js2-mode-hook
-    (js-format-setup "standard"))
-  (add-λ 'css-mode-hook
-    (js-format-setup "jsb-css")))
+  (with-eval-after-load 'css-mode
+    (bind-key "s-b" #'js-format-buffer css-mode-map)
+    (add-λ 'css-mode-hook
+      (js-format-setup "jsb-css")))
+  (with-eval-after-load 'js2-mode
+    (bind-key "s-b" #'js-format-buffer js2-mode-map)
+    (add-λ 'js2-mode-hook
+      (js-format-setup "standard"))))
 
 (use-package elm-mode
   :ensure t)
