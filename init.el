@@ -687,12 +687,16 @@
   (defun hippie-expand-inhibit-message-in-minibuffer (orig-fun &rest args)
     (let ((inhibit-message (minibufferp)))
       (apply orig-fun args)))
+  (defun hippie-expand-maybe-kill-to-eol (orig-fun &rest args)
+    (unless (eolp)
+      (kill-line))
+    (apply orig-fun args))
   (fset 'hippie-expand-line (make-hippie-expand-function
                              '(try-expand-line
                                try-expand-line-all-buffers)))
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
   (advice-add 'hippie-expand :around #'hippie-expand-inhibit-message-in-minibuffer)
-  (advice-add 'hippie-expand-line :after #'kill-line)
+  (advice-add 'hippie-expand-line :around #'hippie-expand-maybe-kill-to-eol)
   (bind-key "TAB" #'hippie-expand read-expression-map)
   (bind-key "TAB" #'hippie-expand minibuffer-local-map)
   (bind-key* "M-?" #'hippie-expand-line)
