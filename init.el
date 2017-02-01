@@ -1146,14 +1146,14 @@
   (:map coffee-mode-map
         (","          . self-with-space)
         ("="          . pad-equals)
-        ("<C-return>" . coffee-newline-dwim)
         ("C-c C-c"    . coffee-compile-region))
   :config
-  (def coffee-newline-dwim
-    (move-end-of-line nil)
-    (ensure-space)
-    (insert "=> ")
-    (coffee-newline-and-indent))
+  (defun coffee-indent ()
+    (if (coffee-line-wants-indent)
+        (coffee-insert-spaces (+ (coffee-previous-indent) coffee-tab-width))
+      (coffee-insert-spaces (coffee-previous-indent))))
+  (add-λ 'coffee-mode-hook
+    (setq-local indent-line-function #'coffee-indent))
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header"))
 
