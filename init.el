@@ -48,7 +48,7 @@
 (defvar progish-modes
   '(prog-mode css-mode sgml-mode))
 (defvar lispy-modes
-  '(emacs-lisp-mode ielm-mode eval-expression-minibuffer-setup))
+  '(emacs-lisp-mode ielm-mode))
 (defvar ruby-modes
   '(ruby-mode slim-mode inf-ruby-mode))
 (defvar writing-modes
