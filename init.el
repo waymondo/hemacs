@@ -106,10 +106,11 @@
                                 '(:ensure t))))
     `(use-package ,pkg ,@ensure-or-load-path ,@plist)))
 
-(use-my-package use-package-chords)
-
 (use-package no-littering
   :ensure t)
+
+(use-my-package use-package-chords
+  :ensure key-chord)
 
 ;;;;; Bootstrap
 
@@ -150,6 +151,21 @@
     (ensure-space))
   (insert "{  }")
   (backward-char 2))
+
+(def insert-arrow
+  (ensure-space)
+  (insert "->")
+  (ensure-space))
+
+(def insert-fat-arrow
+  (ensure-space)
+  (insert "=>")
+  (ensure-space))
+
+(def pad-pipes
+  (ensure-space)
+  (insert "||")
+  (backward-char))
 
 (add-λ 'after-init-hook
   (when (member "Fira Code" (font-family-list))
@@ -240,6 +256,14 @@
   (push "HISTFILE" exec-path-from-shell-variables)
   (setq exec-path-from-shell-check-startup-files nil)
   (exec-path-from-shell-initialize))
+
+(use-package alert
+  :ensure t
+  :config
+  (defun alert-after-finish-in-background (buf str)
+    (unless (get-buffer-window buf 'visible)
+      (alert str :buffer buf)))
+  (setq alert-default-style 'notifier))
 
 (use-package comint
   :bind
@@ -535,6 +559,7 @@
             (ace-link-compilation)))))))
 
 (use-my-package ace-jump-zap
+  :ensure ace-jump-mode
   :chords ("jz" . ace-jump-zap-up-to-char))
 
 (use-package ace-window
@@ -1478,14 +1503,6 @@
   (setq show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
 
-(use-package alert
-  :ensure t
-  :config
-  (defun alert-after-finish-in-background (buf str)
-    (unless (get-buffer-window buf 'visible)
-      (alert str :buffer buf)))
-  (setq alert-default-style 'notifier))
-
 (use-package auto-dim-other-buffers
   :ensure t
   :config (auto-dim-other-buffers-mode))
@@ -1531,18 +1548,6 @@
    ("^^" . "λ")
    ("::" . "::"))
   :config
-  (def insert-arrow
-    (ensure-space)
-    (insert "->")
-    (ensure-space))
-  (def insert-fat-arrow
-    (ensure-space)
-    (insert "=>")
-    (ensure-space))
-  (def pad-pipes
-    (ensure-space)
-    (insert "||")
-    (backward-char))
   (key-chord-mode 1)
   (setq key-chord-two-keys-delay 0.05))
 
