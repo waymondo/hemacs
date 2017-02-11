@@ -380,13 +380,10 @@
       (let ((dir (file-name-directory filename)))
         (unless (file-exists-p dir)
           (make-directory dir :make-parents)))))
-  (defun save-buffers-kill-emacs-no-process-query (orig-fun &rest args)
-    (cl-letf (((symbol-function 'process-list) #'ignore))
-      (apply orig-fun args)))
   (add-hook 'before-save-hook #'hemacs-save-hook)
   (advice-add 'find-file :before #'find-file-maybe-make-directories)
-  (advice-add 'save-buffers-kill-emacs :around #'save-buffers-kill-emacs-no-process-query)
   (setq require-final-newline t
+        confirm-kill-processes nil
         confirm-kill-emacs nil
         enable-local-variables :safe
         confirm-nonexistent-file-or-buffer nil
