@@ -607,7 +607,7 @@
    ("s-S" . crux-rename-file-and-buffer)
    ("C-;" . crux-ispell-word-then-abbrev))
   :chords
-  (":S" . crux-recentf-ido-find-file)
+  (":S" . crux-recentf-find-file)
   :config
   (defun crux-ignore-vc-backend (orig-fun &rest args)
     (cl-letf (((symbol-function 'vc-backend) #'ignore))
@@ -660,25 +660,6 @@
   (advice-add 'drag-stuff-lines-vertically :after #'indent-unless-sensitive))
 
 ;;;;; Completion
-
-(use-package ido
-  :bind
-  (:map ido-common-completion-map
-        ("M-TAB"     . previous-history-element)
-        ("<M-S-tab>" . next-history-element))
-  :config
-  (setq ido-cannot-complete-command 'exit-minibuffer
-        ido-use-virtual-buffers t
-        ido-max-prospects 9
-        ido-auto-merge-delay-time 2
-        ido-create-new-buffer 'always))
-
-(use-package flx-ido
-  :ensure t
-  :after ido
-  :config
-  (flx-ido-mode)
-  (setq flx-ido-use-faces nil))
 
 (use-package ivy
   :ensure t
@@ -1009,7 +990,6 @@
   (def timestamp
     (insert (format-time-string "%m/%d/%Y")))
   (setq org-support-shift-select t
-        org-completion-use-ido t
         org-startup-indented t))
 
 (use-package org-autolist
