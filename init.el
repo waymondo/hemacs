@@ -46,7 +46,7 @@
 (defvar indent-sensitive-modes
   '(coffee-mode slim-mode))
 (defvar progish-modes
-  '(prog-mode css-mode sgml-mode))
+  '(prog-mode sgml-mode))
 (defvar lispy-modes
   '(emacs-lisp-mode ielm-mode))
 (defvar ruby-modes
