@@ -763,8 +763,16 @@
   :after company
   :config
   (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+  (setq company-emoji-insert-unicode nil)
   (hook-modes writing-modes
     (setq-local company-backends (append '(company-emoji) company-backends))))
+
+(use-package emoji-cheat-sheet-plus
+  :ensure t
+  :bind ("C-c e" . emoji-cheat-sheet-plus-insert)
+  :config
+  (hook-modes writing-modes
+    (emoji-cheat-sheet-plus-display-mode)))
 
 (use-package company-shell
   :ensure t
