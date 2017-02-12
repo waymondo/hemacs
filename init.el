@@ -1271,8 +1271,8 @@
 (use-package ruby-hash-syntax
   :ensure t
   :after ruby-mode
-  :init
-  (bind-key "C-c C-:" #'ruby-toggle-hash-syntax ruby-mode-map))
+  :bind
+  (:map ruby-mode-map ("C-c C-:" . ruby-toggle-hash-syntax)))
 
 (use-package yaml-mode
   :ensure t
@@ -1314,6 +1314,7 @@
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
   (add-hook 'magit-process-mode-hook #'text-smaller-no-truncation)
   (setq magit-completing-read-function 'ivy-completing-read
+        magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1
         magit-log-auto-more t
         magit-repository-directories projectile-known-projects
         magit-no-confirm t))
