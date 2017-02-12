@@ -85,7 +85,6 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
-  (setq use-package-enable-imenu-support t)
   (require 'use-package))
 
 (def upgrade-packages
@@ -874,7 +873,8 @@
 (use-package imenu
   :config
   (defun hemacs-imenu-elisp-expressions ()
-    (dolist (pattern '((nil "^(def \\(.+\\)$" 1)
+    (dolist (pattern '(("packages" "^\\s-*(\\(use-package\\|use-my-package\\)\\s-+\\(\\(\\sw\\|\\s_\\)+\\)" 2)
+                       (nil "^(def \\(.+\\)$" 1)
                        ("sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern)))
   (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions)
