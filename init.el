@@ -1119,6 +1119,7 @@
         js2-strict-missing-semi-warning nil
         js2-highlight-level 3
         js2-basic-offset 2)
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
