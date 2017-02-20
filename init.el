@@ -854,8 +854,7 @@
   (setq wgrep-auto-save-buffer t))
 
 (use-package ag
-  :ensure t
-  :chords ((":G" . ag))
+  :chords ((":G" . ag-project))
   :config
   (setq ag-reuse-buffers t
         ag-highlight-search t))
@@ -1007,8 +1006,7 @@
   :config (add-hook 'org-mode-hook #'org-autolist-mode))
 
 (use-package org-repo-todo
-  :ensure t
-  :after org
+  :after (org projectile)
   :bind (("s-`" . ort/goto-todos)
          ("s-n" . ort/capture-checkitem))
   :config
@@ -1247,8 +1245,7 @@
   :after ruby-mode)
 
 (use-package rspec-mode
-  :ensure t
-  :after yasnippet
+  :after (ruby-mode yasnippet)
   :config (rspec-install-snippets))
 
 (use-package inf-ruby
@@ -1267,8 +1264,7 @@
   (projectile-rails-global-mode))
 
 (use-package chruby
-  :ensure t
-  :after projectile-rails
+  :after (ruby-mode projectile-rails)
   :config
   (defun with-corresponding-chruby (orig-fun &rest args)
     (let ((inhibit-message t))
