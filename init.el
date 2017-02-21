@@ -1231,6 +1231,7 @@
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package magit
+  :ensure t
   :bind
   (("s-m" . magit-status)
    :map magit-mode-map ("C-c C-a" . magit-just-amend))
