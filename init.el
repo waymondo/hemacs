@@ -897,7 +897,9 @@
 
 (use-package counsel-projectile
   :after projectile
-  :config (counsel-projectile-on))
+  :config (counsel-projectile-on)
+  :bind
+  ("s-t" . counsel-projectile))
 
 (use-package projector
   :after projectile
