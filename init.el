@@ -1148,7 +1148,7 @@
 
 (use-package ruby-mode
   :mode
-  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Puppet\\)file\\'" . ruby-mode)
+  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Brew\\|Puppet\\)file\\'" . ruby-mode)
    ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\)\\'" . ruby-mode)
    ("Appraisals$" . ruby-mode))
   :bind
