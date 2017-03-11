@@ -401,8 +401,7 @@
   :config
   (savehist-mode)
   (setq savehist-additional-variables
-        '(search-ring regexp-search-ring comint-input-ring)
-        savehist-autosave-interval 30))
+        '(search-ring regexp-search-ring comint-input-ring)))
 
 (use-package saveplace
   :init (save-place-mode))
