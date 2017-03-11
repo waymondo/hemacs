@@ -1217,6 +1217,7 @@
   (:map ruby-mode-map ("C-c C-:" . ruby-toggle-hash-syntax)))
 
 (use-package yaml-mode
+  :mode ("\\.yml\\'" . yaml-mode)
   :config
   (add-hook 'yaml-mode-hook #'text-smaller-no-truncation))
 
