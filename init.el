@@ -340,6 +340,10 @@
   :config
   (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p))
 
+(use-package direnv
+  :config
+  (direnv-mode))
+
 (use-package repl-toggle
   :config
   (repl-toggle-mode)
