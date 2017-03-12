@@ -1182,6 +1182,7 @@
           (with-syntax-table table (apply orig-fun args)))
       (apply orig-fun args)))
   (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols)
+  (setq ruby-insert-encoding-magic-comment nil)
   (add-λ 'ruby-mode-hook
     (setq-local projectile-tags-command "ripper-tags -R -f TAGS")))
 
