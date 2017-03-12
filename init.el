@@ -909,6 +909,7 @@
    :map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   :config
   (make-projectile-switch-project-defun #'projector-run-shell-command-project-root)
+  (make-projectile-switch-project-defun #'projector-run-default-shell-command)
   (setq projector-completion-system 'ivy
         projector-command-modes-alist
         '(("^heroku run console" . inf-ruby-mode))))
@@ -1467,7 +1468,7 @@
  :prefix-map switch-project-map
  :prefix "s-o"
  ("t"          . projectile-switch-project)
- ("<C-return>" . projector-switch-project-run-default-shell-command)
+ ("<C-return>" . projectile-switch-project-projector-run-default-shell-command)
  ("m"          . projectile-switch-project-projectile-run-shell)
  ("M"          . projectile-switch-project-projector-run-shell-command-project-root)
  ("g"          . projectile-switch-project-projectile-vc)
