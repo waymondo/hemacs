@@ -1082,7 +1082,11 @@
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
 (use-package rjsx-mode
-  :after js2-mode)
+  :after js2-mode
+  :config
+  (bind-key "=" #'pad-equals rjsx-mode-map
+            (not (memq (js2-node-type (js2-node-at-point))
+                       (list rjsx-JSX rjsx-JSX-ATTR rjsx-JSX-IDENT rjsx-JSX-MEMBER)))))
 
 (use-package xref-js2
   :after js2-mode
