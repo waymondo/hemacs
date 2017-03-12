@@ -1460,7 +1460,6 @@
  ("g" . google-this)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
- ("i" . insert-local-ip-address)
  ("t" . tldr)
  ("o" . counsel-load-library))
 
