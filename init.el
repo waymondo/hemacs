@@ -340,6 +340,10 @@
   :config
   (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p))
 
+(use-package direnv
+  :config
+  (direnv-mode))
+
 (use-package repl-toggle
   :config
   (repl-toggle-mode)
@@ -397,8 +401,7 @@
   :config
   (savehist-mode)
   (setq savehist-additional-variables
-        '(search-ring regexp-search-ring comint-input-ring)
-        savehist-autosave-interval 30))
+        '(search-ring regexp-search-ring comint-input-ring)))
 
 (use-package saveplace
   :init (save-place-mode))
@@ -1150,7 +1153,7 @@
 
 (use-package ruby-mode
   :mode
-  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Puppet\\)file\\'" . ruby-mode)
+  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Brew\\|Puppet\\)file\\'" . ruby-mode)
    ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\)\\'" . ruby-mode)
    ("Appraisals$" . ruby-mode))
   :bind
@@ -1223,6 +1226,7 @@
   (:map ruby-mode-map ("C-c C-:" . ruby-toggle-hash-syntax)))
 
 (use-package yaml-mode
+  :mode ("\\.yml\\'" . yaml-mode)
   :config
   (add-hook 'yaml-mode-hook #'text-smaller-no-truncation))
 
