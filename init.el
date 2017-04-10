@@ -446,7 +446,9 @@
   :bind ("s-/" . comment-or-uncomment-region))
 
 (use-package simple
-  :bind ("s-k" . kill-whole-line)
+  :bind
+  (("s-k" . kill-whole-line)
+   ("C-`" . list-processes))
   :config
   (hook-modes writing-modes
     (auto-fill-mode))
@@ -1194,7 +1196,9 @@
 
 (use-package rspec-mode
   :after (ruby-mode yasnippet)
-  :config (rspec-install-snippets))
+  :config
+  (rspec-install-snippets)
+  (setq rspec-use-chruby t))
 
 (use-package inf-ruby
   :config
