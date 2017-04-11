@@ -1398,11 +1398,6 @@
   (spaceline-toggle-buffer-size-off)
   (spaceline-toggle-hud-off))
 
-(use-package mode-icons
-  :config
-  (mode-icons-mode)
-  (setq mode-icons-desaturate-active t))
-
 (use-package paren
   :config
   (show-paren-mode)
@@ -1427,15 +1422,9 @@
   (load-theme 'apropospriate-light t t)
   (load-theme 'apropospriate-dark t t))
 
-(use-package highlight-tail
-  :config
-  (setq highlight-tail-steps 16)
-  (highlight-tail-mode))
-
 (use-package cycle-themes
   :config
   (setq cycle-themes-theme-list '(apropospriate-dark apropospriate-light))
-  (add-hook 'cycle-themes-after-cycle-hook #'highlight-tail-reload)
   (cycle-themes-mode))
 
 ;;;;; Bindings & Chords
