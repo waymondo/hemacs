@@ -826,11 +826,8 @@
   :config
   (setq wgrep-auto-save-buffer t))
 
-(use-package ag
-  :chords ((":G" . ag-project))
-  :config
-  (setq ag-reuse-buffers t
-        ag-highlight-search t))
+(use-package rg
+  :chords (":G" . rg-dwim))
 
 (use-package bm
   :bind
@@ -878,8 +875,7 @@
   (("s-p" . projectile-command-map)
    ("C-x m" . projectile-run-shell))
   :chords
-  ((";t" . projectile-find-file)
-   (";g" . projectile-ag))
+  (";t" . projectile-find-file)
   :config
   (setq projectile-enable-caching t
         projectile-verbose nil
@@ -902,9 +898,12 @@
 
 (use-package counsel-projectile
   :after projectile
+  :disabled t
   :config (counsel-projectile-on)
   :bind
-  ("s-t" . counsel-projectile))
+  ("s-t" . counsel-projectile)
+  :chords
+  (";g" . counsel-projectile-rg))
 
 (use-package projector
   :after projectile
