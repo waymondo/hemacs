@@ -1332,8 +1332,6 @@
       (-distinct (cl-map 'list #'cdr (s-match-strings-all keyword-regexp dash-defaults)))))
   (setq dash-at-point-docsets (or (dash-at-point-installed-docsets) dash-at-point-docsets)))
 
-(use-package tldr)
-
 (use-package discover
   :config (global-discover-mode))
 
@@ -1457,12 +1455,10 @@
  :prefix "s-h"
  ("k" . describe-personal-keybindings)
  ("K" . free-keys)
- ("m" . discover-my-major)
  ("g" . google-this)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
- ("t" . tldr)
- ("o" . counsel-load-library))
+ ("o" . counsel-find-library))
 
 (bind-keys
  :prefix-map switch-project-map
