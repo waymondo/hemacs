@@ -5,6 +5,7 @@
 (setq load-prefer-newer t
       history-length 256
       history-delete-duplicates t
+      scroll-margin 10
       scroll-conservatively 101
       scroll-preserve-screen-position 'always
       auto-window-vscroll nil
@@ -286,6 +287,7 @@
     (comint-read-input-ring 'silent))
   (defun text-smaller-no-truncation ()
     (setq truncate-lines nil)
+    (set (make-local-variable 'scroll-margin) 0)
     (text-scale-decrease 1))
   (def comint-return-dwim
     (cond
@@ -1361,6 +1363,11 @@
 (use-package beacon
   :config
   (beacon-mode)
+  (defun maybe-recenter-current-window ()
+    (when (and (not (minibufferp (current-buffer)))
+               (equal (current-buffer) (window-buffer (selected-window))))
+      (recenter-top-bottom)))
+  (advice-add 'beacon-blink :after #'maybe-recenter-current-window)
   (setq beacon-blink-when-focused t
         beacon-blink-when-point-moves-vertically 4)
   (push 'comint-mode beacon-dont-blink-major-modes))
@@ -1407,12 +1414,6 @@
 
 (use-package auto-dim-other-buffers
   :config (auto-dim-other-buffers-mode))
-
-(use-package centered-cursor-mode
-  :config
-  (setq ccm-recenter-at-end-of-file t)
-  (hook-modes progish-modes
-    (centered-cursor-mode)))
 
 (use-package fringe
   :defer t
