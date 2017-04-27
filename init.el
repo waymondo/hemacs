@@ -1199,6 +1199,7 @@
   :after ruby-mode)
 
 (use-package rspec-mode
+  :bind ("s-R" . rspec-rerun)
   :after (ruby-mode yasnippet)
   :config
   (rspec-install-snippets)
@@ -1214,6 +1215,8 @@
   (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
 
 (use-package projectile-rails
+  :bind
+  (:map projectile-command-map ("r" . hydra-projectile-rails/body))
   :config
   (projectile-rails-global-mode))
 
@@ -1449,7 +1452,7 @@
 (use-package which-key
   :config
   (which-key-mode)
-  (dolist (prefix '("projectile-switch-project" "projectile-rails" "ember" "magit"))
+  (dolist (prefix '("projectile-switch-project" "ember" "magit"))
     (let ((pattern (concat "^" prefix "-\\(.+\\)")))
       (push `((nil . ,pattern) . (nil . "\\1"))
             which-key-replacement-alist))))
