@@ -832,7 +832,7 @@
   (setq wgrep-auto-save-buffer t))
 
 (use-package rg
-  :chords (":G" . rg-dwim))
+  :chords (":G" . rg-project))
 
 (use-package bm
   :bind
@@ -873,7 +873,7 @@
     (with-current-buffer buffer
       (--all?
        (not (derived-mode-p it))
-       '(comint-mode magit-mode inf-ruby-mode ag-mode)))))
+       '(comint-mode magit-mode inf-ruby-mode rg-mode)))))
 
 (use-package projectile
   :bind
