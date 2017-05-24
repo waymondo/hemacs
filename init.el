@@ -1224,8 +1224,8 @@
 
 (use-package projectile-rails
   :bind
-  (:map projectile-command-map ("r" . hydra-projectile-rails/body))
-  :config
+  (:map projectile-rails-mode-map ("C-c r" . hydra-projectile-rails/body))
+  :init
   (projectile-rails-global-mode))
 
 (use-package chruby
