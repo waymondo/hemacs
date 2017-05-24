@@ -887,11 +887,14 @@
    ("C-x m" . projectile-run-shell))
   :chords
   (";t" . projectile-find-file)
-  :config
+  :init
   (setq projectile-enable-caching t
         projectile-verbose nil
         projectile-completion-system 'ivy)
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
+  (defun projectile-do-invalidate-cache (&rest _args)
+    (projectile-invalidate-cache nil))
+  (advice-add 'rename-file :after #'projectile-do-invalidate-cache)
   (defmacro make-projectile-switch-project-defun (func)
     `(let ((defun-name (format "projectile-switch-project-%s" (symbol-name ,func))))
        (fset (intern defun-name)
@@ -909,7 +912,6 @@
 
 (use-package counsel-projectile
   :after projectile
-  :disabled t
   :config (counsel-projectile-on)
   :bind
   ("s-t" . counsel-projectile)
