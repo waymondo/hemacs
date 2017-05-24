@@ -555,7 +555,7 @@
   :chords ("jz" . ace-jump-zap-up-to-char))
 
 (use-package ace-window
-  :bind (([remap next-multiframe-window] . ace-window))
+  :bind ([remap next-multiframe-window] . ace-window)
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
@@ -874,11 +874,12 @@
    (":A" . ace-jump-buffer-other-window)
    (";x" . ace-jump-special-buffers))
   :config
-  (make-ace-jump-buffer-function "special"
+  (make-ace-jump-buffer-function
+      "special"
     (with-current-buffer buffer
       (--all?
        (not (derived-mode-p it))
-       '(comint-mode magit-mode inf-ruby-mode rg-mode)))))
+       '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
 
 (use-package projectile
   :bind
