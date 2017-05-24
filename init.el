@@ -607,6 +607,11 @@
   (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-point-to-eol kill-ring-save))
 
+(use-package super-save
+  :config
+  (super-save-mode)
+  (setq super-save-auto-save-when-idle t))
+
 (use-package abbrev
   :config
   (setq save-abbrevs 'silently)
