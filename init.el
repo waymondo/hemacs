@@ -989,9 +989,6 @@
   (make-projectile-switch-project-defun #'ort/capture-checkitem))
 
 (use-package sgml-mode
-  :mode
-  (("\\.hbs\\'"        . html-mode)
-   ("\\.handlebars\\'" . html-mode))
   :bind
   (:map html-mode-map
         ("," . self-with-space)
@@ -1009,13 +1006,11 @@
     (move-beginning-of-line nil))
   (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss)))))
 
-(use-package handlebars-sgml-mode
-  :after sgml-mode
-  :config (handlebars-use-mode 'global))
-
 (use-package web-mode
-  :mode (("\\.erb\\'" . web-mode)
-         ("\\.php\\'" . web-mode))
+  :mode (("\\.erb\\'"        . web-mode)
+         ("\\.php\\'"        . web-mode)
+         ("\\.hbs\\'"        . web-mode)
+         ("\\.handlebars\\'" . web-mode))
   :bind
   (:map web-mode-map
         ("," . self-with-space)
