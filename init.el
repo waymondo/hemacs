@@ -821,10 +821,9 @@
                         "*compilation"
                         "*Help"
                         "*less-css-compilation"
+                        "*rspec-compilation"
                         "*Packages"
-                        "*magit-process"
-                        "*SQL"
-                        "*tldr"))
+                        "*SQL"))
            (display-buffer-reuse-window
             display-buffer-in-side-window)
            (side            . bottom)
