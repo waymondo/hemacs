@@ -74,11 +74,6 @@
   (declare (indent 1) (debug t))
   `(add-hook ,hook (lambda () ,@body)))
 
-(defmacro hook-modes (modes &rest body)
-  (declare (indent 1) (debug t))
-  `(dolist (mode ,modes)
-     (add-λ (intern (format "%s-hook" mode)) ,@body)))
-
 ;;;;; Package Management
 
 (require 'package)
@@ -116,6 +111,8 @@
 (use-package no-littering)
 
 (use-package use-package-chords)
+
+(use-package add-hooks)
 
 ;;;;; Bootstrap
 
@@ -449,8 +446,7 @@
   (("s-k" . kill-whole-line)
    ("C-`" . list-processes))
   :config
-  (hook-modes writing-modes
-    (auto-fill-mode))
+  (add-hooks-pair writing-modes #'auto-fill-mode)
   (global-visual-line-mode)
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
     (let ((p (point)))
@@ -562,10 +558,11 @@
   (defun smart-newline-no-reindent-first (orig-fun &rest args)
     (cl-letf (((symbol-function 'reindent-then-newline-and-indent) #'newline-and-indent))
       (apply orig-fun args)))
-  (hook-modes progish-modes
+  (defun maybe-enable-smart-newline-mode ()
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))
     (advice-add 'smart-newline :around #'smart-newline-no-reindent-first))
+  (add-hooks-pair progish-modes #'maybe-enable-smart-newline-mode)
   (def eol-then-smart-newline
     (move-end-of-line nil)
     (smart-newline)))
@@ -622,8 +619,7 @@
 
 (use-package flyspell
   :config
-  (hook-modes writing-modes
-    (flyspell-mode)))
+  (add-hooks-pair writing-modes #'flyspell-mode))
 
 (use-package hungry-delete
   :config
@@ -699,11 +695,12 @@
                                            try-complete-file-name-partially
                                            try-complete-file-name
                                            try-expand-dabbrev-other-buffers))
-  (hook-modes lispy-modes
+  (defun hippie-expand-allow-lisp-symbols ()
     (setq-local hippie-expand-try-functions-list
                 (append '(try-complete-lisp-symbol-partially
                           try-complete-lisp-symbol)
-                        hippie-expand-try-functions-list))))
+                        hippie-expand-try-functions-list)))
+  (add-hooks-pair lispy-modes #'hippie-expand-allow-lisp-symbols))
 
 (use-package yasnippet
   :mode ("\\.yasnippet\\'" . snippet-mode)
@@ -750,14 +747,14 @@
   :config
   (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
   (setq company-emoji-insert-unicode nil)
-  (hook-modes writing-modes
-    (setq-local company-backends (append '(company-emoji) company-backends))))
+  (defun company-add-local-emoji-backend ()
+    (setq-local company-backends (append '(company-emoji) company-backends)))
+  (add-hooks-pair writing-modes #'company-add-local-emoji-backend))
 
 (use-package emoji-cheat-sheet-plus
   :bind ("C-c e" . emoji-cheat-sheet-plus-insert)
   :config
-  (hook-modes writing-modes
-    (emoji-cheat-sheet-plus-display-mode)))
+  (add-hooks-pair writing-modes #'emoji-cheat-sheet-plus-display-mode))
 
 (use-package company-shell
   :after company
@@ -1306,8 +1303,7 @@
 
 (use-package elisp-slime-nav
   :config
-  (hook-modes lispy-modes
-    (elisp-slime-nav-mode)))
+  (add-hooks-pair lispy-modes #'elisp-slime-nav-mode))
 
 (use-package github-browse-file
   :config
@@ -1376,23 +1372,17 @@
 
 (use-package highlight-symbol
   :config
-  (hook-modes progish-modes
-    (highlight-symbol-mode)
-    (highlight-symbol-nav-mode))
+  (add-hooks-pair progish-modes #'highlight-symbol-mode)
+  (add-hooks-pair progish-modes #'highlight-symbol-nav-mode)
   (setq highlight-symbol-idle-delay 0
         highlight-symbol-highlight-single-occurrence nil))
 
 (use-package volatile-highlights
   :config (volatile-highlights-mode))
 
-(use-package rainbow-mode
-  :config
-  (add-hook 'css-mode-hook #'rainbow-mode))
-
 (use-package rainbow-delimiters
   :config
-  (hook-modes progish-modes
-    (rainbow-delimiters-mode)))
+  (add-hooks-pair progish-modes #'rainbow-delimiters-mode))
 
 (use-package powerline
   :defer t
