@@ -5,7 +5,8 @@
 (setq load-prefer-newer t
       history-length 256
       history-delete-duplicates t
-      scroll-margin 10
+      maximum-scroll-margin 0.5
+      scroll-margin 50
       scroll-conservatively 101
       scroll-preserve-screen-position 'always
       auto-window-vscroll nil
