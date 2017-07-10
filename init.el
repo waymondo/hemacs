@@ -172,7 +172,7 @@
   (insert "||")
   (backward-char))
 
-(add-λ 'after-init-hook
+(add-λ 'emacs-startup-hook
   (when (member "Fira Code" (font-family-list))
     (set-frame-font "Fira Code Retina-15")
     (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
