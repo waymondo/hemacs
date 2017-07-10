@@ -2,6 +2,7 @@
 *.elc
 *.html
 *.org
+*.cache
 #*
 /var/
 /elpa/
