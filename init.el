@@ -247,10 +247,6 @@
 (use-package menu-bar
   :bind ("s-w" . kill-this-buffer))
 
-(use-package mb-depth
-  :defer t
-  :config (minibuffer-depth-indicate-mode))
-
 ;;;;; Processes, Shells, Compilation
 
 (use-package exec-path-from-shell
