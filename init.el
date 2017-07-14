@@ -1019,6 +1019,10 @@
   (setq web-mode-enable-auto-quoting nil
         web-mode-enable-current-element-highlight t))
 
+(use-package emmet-mode
+  :config
+  (add-hook 'sgml-mode-hook #'emmet-mode))
+
 (use-package fountain-mode
   :mode "\\.fountain$")
 
