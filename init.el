@@ -315,7 +315,6 @@
 (use-package shell
   :defer t
   :config
-  (setq explicit-bash-args '("-c" "export INSIDE_EMACS=; stty echo; bash"))
   (defun make-shell-command-behave-interactively (orig-fun &rest args)
     (let ((shell-command-switch "-ic"))
       (apply orig-fun args)))
