@@ -339,6 +339,8 @@
   :config
   (direnv-mode))
 
+(use-package system-packages)
+
 (use-package repl-toggle
   :config
   (repl-toggle-mode)
