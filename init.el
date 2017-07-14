@@ -1448,7 +1448,7 @@
 (use-package which-key
   :config
   (which-key-mode)
-  (dolist (prefix '("projectile-switch-project" "ember" "magit"))
+  (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile"))
     (let ((pattern (concat "^" prefix "-\\(.+\\)")))
       (push `((nil . ,pattern) . (nil . "\\1"))
             which-key-replacement-alist))))
