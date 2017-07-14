@@ -308,6 +308,12 @@
   (add-hook 'compilation-mode-hook #'text-smaller-no-truncation)
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
+(use-package profiler
+  :bind
+  (("C-x p r"  . profiler-report)
+   ("C-x p 1"  . profiler-start)
+   ("C-x p 0"  . profiler-stop)))
+
 (use-package warnings
   :config
   (setq warning-suppress-types '((undo discard-info))))
