@@ -506,8 +506,10 @@
   :init (electric-pair-mode))
 
 (use-package electric
-  :init (electric-quote-mode)
-  :config (setq electric-quote-string t))
+  :init
+  (add-hooks-pair writing-modes #'electric-quote-local-mode)
+  (setq electric-quote-string t
+        electric-quote-context-sensitive t))
 
 (use-package subword
   :init (global-subword-mode))
@@ -1033,10 +1035,6 @@
   :bind
   (:map markdown-mode-map ("," . self-with-space))
   :config
-  (bind-key "'" "’" markdown-mode-map
-            (not (or (markdown-code-at-point-p)
-                     (memq 'markdown-pre-face
-                           (face-at-point nil 'mult)))))
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
 
