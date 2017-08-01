@@ -947,6 +947,10 @@
   :chords
   (";f" . counsel-find-file))
 
+(use-package beginend
+  :config
+  (beginend-global-mode))
+
 ;;;;; External Utilities
 
 (use-package atomic-chrome
