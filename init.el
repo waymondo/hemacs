@@ -685,9 +685,9 @@
     (unless (eolp)
       (kill-line))
     (apply orig-fun args))
-  (fset 'hippie-expand-line (make-hippie-expand-function
-                             '(try-expand-line
-                               try-expand-line-all-buffers)))
+  (defalias 'hippie-expand-line (make-hippie-expand-function
+                                 '(try-expand-line
+                                   try-expand-line-all-buffers)))
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
   (advice-add 'hippie-expand :around #'hippie-expand-inhibit-message-in-minibuffer)
   (advice-add 'hippie-expand-line :around #'hippie-expand-maybe-kill-to-eol)
@@ -897,12 +897,12 @@
   (advice-add 'rename-file :after #'projectile-do-invalidate-cache)
   (defmacro make-projectile-switch-project-defun (func)
     `(let ((defun-name (format "projectile-switch-project-%s" (symbol-name ,func))))
-       (fset (intern defun-name)
-             (function
-              (lambda ()
-                (interactive)
-                (let ((projectile-switch-project-action ,func))
-                  (projectile-switch-project)))))))
+       (defalias (intern defun-name)
+         (function
+          (lambda ()
+            (interactive)
+            (let ((projectile-switch-project-action ,func))
+              (projectile-switch-project)))))))
   (make-projectile-switch-project-defun #'projectile-run-shell)
   (make-projectile-switch-project-defun #'projectile-run-project)
   (make-projectile-switch-project-defun #'projectile-find-file)
