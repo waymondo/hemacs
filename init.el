@@ -1369,15 +1369,14 @@
 
 (use-package beacon
   :config
-  (beacon-mode)
   (defun maybe-recenter-current-window ()
-    (when (and (not (minibufferp (current-buffer)))
-               (equal (current-buffer) (window-buffer (selected-window))))
+    (when (equal (current-buffer) (window-buffer (selected-window)))
       (recenter-top-bottom)))
   (advice-add 'beacon-blink :after #'maybe-recenter-current-window)
   (setq beacon-blink-when-focused t
         beacon-blink-when-point-moves-vertically 4)
-  (push 'comint-mode beacon-dont-blink-major-modes))
+  (push 'maybe-recenter-current-window beacon-dont-blink-commands)
+  (beacon-mode))
 
 (use-package highlight-symbol
   :config
