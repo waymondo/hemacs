@@ -1140,16 +1140,12 @@
 
 (use-package jade-mode)
 
-(use-package js-format
+(use-package prettier-js
+  :after js2-mode
+  :bind
+  (:map js2-mode-map ("s-b" . prettier))
   :config
-  (with-eval-after-load 'css-mode
-    (bind-key "s-b" #'js-format-buffer css-mode-map)
-    (add-λ 'css-mode-hook
-      (js-format-setup "jsb-css")))
-  (with-eval-after-load 'js2-mode
-    (bind-key "s-b" #'js-format-buffer js2-mode-map)
-    (add-λ 'js2-mode-hook
-      (js-format-setup "standard"))))
+  (setq prettier-args '("--no-semi" "--trailing-comma" "all")))
 
 (use-package elm-mode)
 
