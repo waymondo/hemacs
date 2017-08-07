@@ -1376,6 +1376,7 @@
   (setq beacon-blink-when-focused t
         beacon-blink-when-point-moves-vertically 4)
   (push 'maybe-recenter-current-window beacon-dont-blink-commands)
+  (push 'comint-mode beacon-dont-blink-major-modes)
   (beacon-mode))
 
 (use-package highlight-symbol
