@@ -329,6 +329,9 @@
   (add-λ 'shell-mode-hook
     (turn-on-comint-history (getenv "HISTFILE"))))
 
+(use-package terminal-here
+  :bind ("s-T" . terminal-here))
+
 (use-package sh-script
   :mode (("\\.*bashrc$" . sh-mode)
          ("\\.*bash_profile" . sh-mode))
