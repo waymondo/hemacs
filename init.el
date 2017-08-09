@@ -415,8 +415,8 @@
 (use-package recentf
   :config
   (recentf-mode)
-  (setq recentf-exclude '(".ido.last")
-        recentf-max-saved-items 1000))
+  (setq recentf-auto-cleanup 200
+        recentf-max-saved-items 200))
 
 (use-package dired
   :defer t
