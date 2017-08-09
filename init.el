@@ -672,8 +672,13 @@
   :after ivy)
 
 (use-package hippie-exp
-  :bind (([remap dabbrev-expand] . hippie-expand))
-  :config
+  :bind
+  (([remap dabbrev-expand] . hippie-expand)
+   (:map read-expression-map ("TAB" . hippie-expand))
+   (:map minibuffer-local-map ("TAB" . hippie-expand)))
+  :bind*
+  ("M-?" . hippie-expand-line)
+  :init
   (defun try-expand-dabbrev-matching-buffers (old)
     (let ((hippie-expand-only-buffers `(,major-mode)))
       (try-expand-dabbrev-all-buffers old)))
@@ -696,9 +701,6 @@
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
   (advice-add 'hippie-expand :around #'hippie-expand-inhibit-message-in-minibuffer)
   (advice-add 'hippie-expand-line :around #'hippie-expand-maybe-kill-to-eol)
-  (bind-key "TAB" #'hippie-expand read-expression-map)
-  (bind-key "TAB" #'hippie-expand minibuffer-local-map)
-  (bind-key* "M-?" #'hippie-expand-line)
   (setq hippie-expand-verbose nil
         hippie-expand-try-functions-list '(try-expand-dabbrev-visible
                                            try-expand-dabbrev
