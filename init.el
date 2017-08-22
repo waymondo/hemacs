@@ -329,9 +329,6 @@
   (add-λ 'shell-mode-hook
     (turn-on-comint-history (getenv "HISTFILE"))))
 
-(use-package terminal-here
-  :bind ("s-T" . terminal-here))
-
 (use-package sh-script
   :mode (("\\.*bashrc$" . sh-mode)
          ("\\.*bash_profile" . sh-mode))
@@ -438,13 +435,16 @@
   :bind (("s-z" . undo-tree-undo)
          ("s-Z" . undo-tree-redo)))
 
-(use-package osx-trash
-  :if (eq system-type 'darwin)
-  :init (osx-trash-setup))
-
-(use-package reveal-in-osx-finder
-  :if (eq system-type 'darwin)
-  :bind ("C-c f" . reveal-in-osx-finder))
+(when (eq system-type 'darwin)
+  (use-package osx-trash
+    :init (osx-trash-setup))
+  (use-package terminal-here)
+  (use-package reveal-in-osx-finder)
+  (bind-keys
+   :prefix-map hemacs-osx-map
+   :prefix "C-c o"
+   ("t" . terminal-here)
+   ("f" . reveal-in-osx-finder)))
 
 ;;;;; Editing
 
