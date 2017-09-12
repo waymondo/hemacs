@@ -828,6 +828,7 @@
                         "*Warnings"
                         "*compilation"
                         "*Help"
+                        "*helpful"
                         "*less-css-compilation"
                         "*rspec-compilation"
                         "*Packages"
@@ -836,7 +837,7 @@
             display-buffer-in-side-window)
            (side            . bottom)
            (reusable-frames . visible)
-           (window-height   . 0.33))
+           (window-height   . 0.5))
           ("." nil (reusable-frames . visible)))))
 
 (use-package wgrep-ag
@@ -1308,9 +1309,7 @@
 
 (use-package google-this)
 
-(use-package find-func
-  :config
-  (find-function-setup-keys))
+(use-package helpful)
 
 (use-package etags
   :init (setq tags-revert-without-query t))
@@ -1468,6 +1467,9 @@
  ("g" . google-this)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
+ ("v" . helpful-variable)
+ ("f" . helpful-function)
+ ("." . helpful-at-point)
  ("o" . counsel-find-library))
 
 (bind-keys
