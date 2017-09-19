@@ -845,7 +845,10 @@
   (setq wgrep-auto-save-buffer t))
 
 (use-package rg
-  :chords (":G" . rg-project))
+  :after wgrep-ag
+  :chords (":G" . rg-project)
+  :config
+  (add-hook 'rg-mode-hook #'wgrep-ag-setup))
 
 (use-package bm
   :bind
