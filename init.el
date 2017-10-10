@@ -427,8 +427,15 @@
         dired-auto-revert-buffer t))
 
 (use-package dired-x
-  :bind ("s-\\" . dired-jump-other-window)
-  :after dired)
+  :after dired
+  :bind ("s-\\" . dired-jump-other-window))
+
+(use-package dired-subtree
+  :after dired
+  :bind
+  (:map dired-mode-map
+   ("i" . dired-subtree-insert)
+   (";" . dired-subtree-remove)))
 
 (use-package undo-tree
   :config (global-undo-tree-mode)
