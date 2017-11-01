@@ -1119,6 +1119,11 @@
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
+(use-package tern
+  :after js2-mode
+  :config
+  (add-hook 'js2-mode-hook #'tern-mode))
+
 (use-package rjsx-mode
   :after js2-mode
   :config
