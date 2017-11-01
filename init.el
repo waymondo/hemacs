@@ -1281,6 +1281,7 @@
    :map magit-mode-map ("C-c C-a" . magit-just-amend))
   :after alert
   :config
+  (global-magit-file-mode)
   (def magit-just-amend
     (save-window-excursion
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
