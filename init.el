@@ -1317,6 +1317,16 @@
 (use-package vc-git
   :config (setq vc-git-diff-switches '("--histogram")))
 
+(use-package tls
+  :init
+  (setq tls-program '("gnutls-cli -p %p %h" "gnutls-cli -p %p %h --protocols ssl3")))
+
+(use-package magithub
+  :after magit
+  :config
+  (magithub-feature-autoinject t)
+  (setq magithub-debug-mode t))
+
 (use-package diff-hl
   :after magit
   :config
