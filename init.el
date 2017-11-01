@@ -10,7 +10,7 @@
       scroll-conservatively 101
       scroll-preserve-screen-position 'always
       auto-window-vscroll nil
-      echo-keystrokes 0.02
+      echo-keystrokes 1e-6
       ns-use-native-fullscreen nil
       ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
