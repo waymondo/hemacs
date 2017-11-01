@@ -735,7 +735,10 @@
   (yas-global-mode))
 
 (use-package company
-  :bind ("s-y" . company-kill-ring)
+  :bind
+  (("s-y" . company-kill-ring)
+   ([remap completion-at-point] . company-manual-begin)
+   ([remap complete-symbol] . company-manual-begin))
   :init
   (def company-kill-ring
     (company-begin-with
