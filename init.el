@@ -543,6 +543,7 @@
    ("jk" . avy-goto-word-or-subword-1)
    ("jl" . avy-goto-line))
   :config
+  (setq avy-style 'de-bruijn)
   (avy-setup-default))
 
 (use-package ace-link
