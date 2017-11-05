@@ -1067,8 +1067,9 @@
         web-mode-enable-current-element-highlight t))
 
 (use-package emmet-mode
+  :after web-mode
   :config
-  (add-hook 'sgml-mode-hook #'emmet-mode))
+  (add-hooks-pair '(sgml-mode-hook web-mode-hook) #'emmet-mode))
 
 (use-package fountain-mode
   :mode "\\.fountain$")
