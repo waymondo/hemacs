@@ -112,6 +112,8 @@
 
 (use-package use-package-chords)
 
+(use-package use-package-ensure-system-package)
+
 (use-package add-hooks)
 
 ;;;;; Font
@@ -278,7 +280,7 @@
   (defun alert-after-finish-in-background (buf str)
     (unless (get-buffer-window buf 'visible)
       (alert str :buffer buf)))
-  (setq alert-default-style 'notifier))
+  (setq alert-default-style 'osx-notifier))
 
 (use-package comint
   :bind
@@ -363,10 +365,9 @@
   (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p))
 
 (use-package direnv
+  :ensure-system-package direnv
   :config
   (direnv-mode))
-
-(use-package system-packages)
 
 (use-package repl-toggle
   :config
@@ -376,9 +377,6 @@
           (ruby-mode . inf-ruby)
           (js2-mode . nodejs-repl)
           (rjsx-mode . nodejs-repl))))
-
-(use-package nodejs-repl
-  :defer t)
 
 ;;;;; Files & History
 
@@ -465,6 +463,7 @@
 
 (when (eq system-type 'darwin)
   (use-package osx-trash
+    :ensure-system-package trash
     :init (osx-trash-setup))
   (use-package terminal-here)
   (use-package reveal-in-osx-finder)
@@ -879,6 +878,7 @@
 (use-package rg
   :after wgrep-ag
   :chords (":G" . rg-project)
+  :ensure-system-package rg
   :config
   (add-hook 'rg-mode-hook #'wgrep-ag-setup))
 
@@ -1080,6 +1080,7 @@
    ("\\.markdown\\'" . gfm-mode))
   :bind
   (:map markdown-mode-map ("," . self-with-space))
+  :ensure-system-package (marked . "npm i -g marked")
   :config
   (setq markdown-command "marked"
         markdown-indent-on-enter nil))
@@ -1087,10 +1088,12 @@
 (use-package vmd-mode
   :after markdown-mode
   :bind
-  (:map markdown-mode-map ("C-x p" . vmd-mode)))
+  (:map markdown-mode-map ("C-x p" . vmd-mode))
+  :ensure-system-package (vmd . "npm i -g vmd"))
 
 (use-package pandoc-mode
   :after (markdown-mode org-mode)
+  :ensure-system-package pandoc
   :config
   (add-hook 'markdown-mode-hook #'pandoc-mode)
   (add-hook 'org-mode-hook #'pandoc-mode)
@@ -1119,8 +1122,9 @@
   (setq css-indent-offset 2))
 
 (use-package less-css-mode
-  :mode "\\.less\\.erb\\'"
-  :init (setq less-css-lessc-options '("--no-color" "-x")))
+  :ensure-system-package (lessc . "npm i -g less")
+  :config
+  (setq less-css-lessc-options '("--no-color" "-x")))
 
 (use-package js2-mode
   :mode ("\\.js\\'"  . js2-mode)
@@ -1141,7 +1145,12 @@
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
+(use-package nodejs-repl
+  :ensure-system-package node
+  :defer t)
+
 (use-package tern
+  :ensure-system-package (tern . "npm i -g tern")
   :after js2-mode
   :config
   (add-hook 'js2-mode-hook #'tern-mode))
@@ -1167,6 +1176,7 @@
   :config (setq js-indent-level 2))
 
 (use-package coffee-mode
+  :ensure-system-package (coffee . "npm i -g coffeescript")
   :mode "\\.coffee\\.*"
   :bind
   (:map coffee-mode-map
@@ -1183,12 +1193,14 @@
   (setq coffee-args-repl '("-i" "--nodejs"))
   (add-to-list 'coffee-args-compile "--no-header"))
 
-(use-package ember-mode)
+(use-package ember-mode
+  :ensure-system-package (ember . "npm i -g ember-cli"))
 
 (use-package jade-mode)
 
 (use-package prettier-js
   :after js2-mode
+  :ensure-system-package (prettier . "npm i -g prettier")
   :bind
   (:map js2-mode-map ("s-b" . prettier))
   :config
@@ -1220,6 +1232,11 @@
         ("="          . pad-equals)
         (":"          . smart-ruby-colon)
         ("<C-return>" . ruby-newline-dwim))
+  :ensure-system-package
+  ((rubocop     . "gem install rubocop")
+   (ruby-lint   . "gem install ruby-lint")
+   (ripper-tags . "gem install ripper-tags")
+   (pry         . "gem install pry"))
   :config
   (def smart-ruby-colon
     (if (looking-back "[[:word:]]" nil)
@@ -1345,6 +1362,7 @@
 
 (use-package magithub
   :after magit
+  :ensure-system-package hub
   :config
   (magithub-feature-autoinject t)
   (setq magithub-debug-mode t))

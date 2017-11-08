@@ -4,10 +4,10 @@ stylesheets and HTML templates, and hacking on this Elisp dump.
 
 ## Installation
 
-Install [Homebrew](http://mxcl.github.com/homebrew), then:
+Install Emacs, then:
 
 ```
-curl -L https://raw.githubusercontent.com/waymondo/hemacs/master/install.sh | sh
+git clone https://github.com/waymondo/hemacs.git "$HOME/.emacs.d"
 ```
 
 Uses [Fira Code](https://github.com/tonsky/FiraCode) as the default font.
