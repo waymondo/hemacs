@@ -1513,6 +1513,7 @@
    ("{}" . open-brackets-newline-and-indent)
    ("-=" . insert-arrow)
    ("_+" . insert-fat-arrow)
+   ("''" . "’")
    ("^^" . "λ")
    ("::" . "::"))
   :config
