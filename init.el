@@ -315,8 +315,10 @@
     (cond
      ((comint-after-pmark-p)
       (comint-send-input))
-     ((ffap-guess-file-name-at-point)
-      (ffap))
+     ((ffap-url-at-point)
+      (browse-url (ffap-url-at-point)))
+     ((ffap-file-at-point)
+      (find-file (ffap-file-at-point)))
      (t
       (comint-next-prompt 1))))
   (defun improve-npm-process-output (output)
@@ -458,8 +460,8 @@
   :after dired
   :bind
   (:map dired-mode-map
-   ("i" . dired-subtree-insert)
-   (";" . dired-subtree-remove)))
+        ("i" . dired-subtree-insert)
+        (";" . dired-subtree-remove)))
 
 (use-package undo-tree
   :config (global-undo-tree-mode)
@@ -1544,6 +1546,7 @@
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
  ("v" . helpful-variable)
+ ("p" . ffap)
  ("f" . helpful-function)
  ("." . helpful-at-point)
  ("o" . counsel-find-library))
