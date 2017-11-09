@@ -1228,7 +1228,7 @@
 
 (use-package ruby-mode
   :mode
-  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Brew\\|Puppet\\)file\\'" . ruby-mode)
+  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Brew\\|Fast\\|Puppet\\)file\\'" . ruby-mode)
    ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\)\\'" . ruby-mode)
    ("Appraisals$" . ruby-mode))
   :bind
@@ -1244,7 +1244,8 @@
    (pry         . "gem install pry"))
   :config
   (def smart-ruby-colon
-    (if (looking-back "[[:word:]]" nil)
+    (if (and (looking-back "[[:word:]]" nil)
+             (not (memq font-lock-type-face (get-text-property (- (point) 1) 'face))))
         (insert ": ")
       (insert ":")))
   (def ruby-newline-dwim
@@ -1519,8 +1520,7 @@
    ("-=" . insert-arrow)
    ("_+" . insert-fat-arrow)
    ("''" . "’")
-   ("^^" . "λ")
-   ("::" . "::"))
+   ("^^" . "λ"))
   :config
   (key-chord-mode 1)
   (setq key-chord-two-keys-delay 0.05))
