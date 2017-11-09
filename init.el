@@ -171,13 +171,18 @@
 
 ;;;;; Bootstrap
 
-(defun ensure-space ()
-  (unless (looking-back " " nil)
-    (insert " ")))
+(defun ensure-space (direction)
+  (let ((char-fn (cond
+                  ((eq direction :before)
+                   #'char-before)
+                  ((eq direction :after)
+                   #'char-after))))
+    (unless (string-match-p " " (char-to-string (funcall char-fn)))
+      (insert " "))))
 
 (def self-with-space
   (call-interactively #'self-insert-command)
-  (ensure-space))
+  (ensure-space :after))
 
 (def pad-equals
   (if (nth 3 (syntax-ppss))
@@ -185,9 +190,9 @@
     (cond ((looking-back "=[[:space:]]" nil)
            (delete-char -1))
           ((looking-back "[^#/|!<>+~]" nil)
-           (ensure-space)))
+           (ensure-space :before)))
     (call-interactively #'self-insert-command)
-    (ensure-space)))
+    (ensure-space :after)))
 
 (def open-brackets-newline-and-indent
   (let ((inhibit-message t)
@@ -197,7 +202,7 @@
     (when (region-active-p)
       (delete-region (region-beginning) (region-end)))
     (unless (looking-back (rx (or "(" "[")) nil)
-      (ensure-space))
+      (ensure-space :before))
     (insert (concat "{\n" text "\n}"))
     (indent-according-to-mode)
     (forward-line -1)
@@ -205,22 +210,22 @@
 
 (def pad-brackets
   (unless (looking-back (rx (or "(" "[")) nil)
-    (ensure-space))
+    (ensure-space :before))
   (insert "{  }")
   (backward-char 2))
 
 (def insert-arrow
-  (ensure-space)
+  (ensure-space :before)
   (insert "->")
-  (ensure-space))
+  (ensure-space :after))
 
 (def insert-fat-arrow
-  (ensure-space)
+  (ensure-space :before)
   (insert "=>")
-  (ensure-space))
+  (ensure-space :after))
 
 (def pad-pipes
-  (ensure-space)
+  (ensure-space :before)
   (insert "||")
   (backward-char))
 
