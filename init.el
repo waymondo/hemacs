@@ -178,7 +178,9 @@
                   ((eq direction :after)
                    #'char-after))))
     (unless (string-match-p " " (char-to-string (funcall char-fn)))
-      (insert " "))))
+      (insert " "))
+    (when (looking-at " ")
+      (forward-char))))
 
 (def self-with-space
   (call-interactively #'self-insert-command)
