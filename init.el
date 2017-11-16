@@ -1324,7 +1324,6 @@
   :defer t)
 
 (use-package text-mode
-  :preface (provide 'text-mode)
   :bind (:map text-mode-map ("," . self-with-space)))
 
 ;;;;; Version Control
