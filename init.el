@@ -1136,7 +1136,7 @@
   (setq less-css-lessc-options '("--no-color" "-x")))
 
 (use-package js2-mode
-  :mode ("\\.js\\'"  . js2-mode)
+  :mode "\\.js\\'"
   :bind
   (:map js2-mode-map
         ("," . self-with-space)
@@ -1232,7 +1232,7 @@
 
 (use-package ruby-mode
   :mode
-  (("\\(Rake\\|Thor\\|Guard\\|Gem\\|Cap\\|Vagrant\\|Berks\\|Pod\\|Brew\\|Fast\\|Puppet\\)file\\'" . ruby-mode)
+  (((rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos) . ruby-mode)
    ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\)\\'" . ruby-mode)
    ("Appraisals$" . ruby-mode))
   :bind
@@ -1316,7 +1316,7 @@
   (:map ruby-mode-map ("C-c C-:" . ruby-toggle-hash-syntax)))
 
 (use-package yaml-mode
-  :mode ("\\.yml\\'" . yaml-mode)
+  :mode "\\.yml\\'"
   :config
   (add-hook 'yaml-mode-hook #'text-smaller-no-truncation))
 
