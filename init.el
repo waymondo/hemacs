@@ -56,6 +56,7 @@
   '(ruby-mode slim-mode inf-ruby-mode))
 (defvar writing-modes
   '(org-mode markdown-mode fountain-mode git-commit-mode))
+(defvar *is-mac* (eq system-type 'darwin))
 
 (defmacro def (name &rest body)
   (declare (indent 1) (debug t))
@@ -470,12 +471,18 @@
   :bind (("s-z" . undo-tree-undo)
          ("s-Z" . undo-tree-redo)))
 
-(when (eq system-type 'darwin)
-  (use-package osx-trash
-    :ensure-system-package trash
-    :init (osx-trash-setup))
-  (use-package terminal-here)
-  (use-package reveal-in-osx-finder)
+(use-package osx-trash
+  :if *is-mac*
+  :ensure-system-package trash
+  :init (osx-trash-setup))
+
+(use-package terminal-here
+  :if *is-mac*)
+
+(use-package reveal-in-osx-finder
+  :if *is-mac*)
+
+(when *is-mac*
   (bind-keys
    :prefix-map hemacs-osx-map
    :prefix "C-c o"
