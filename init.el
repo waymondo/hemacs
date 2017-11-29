@@ -50,10 +50,6 @@
   '(coffee-mode slim-mode))
 (defvar progish-modes
   '(prog-mode sgml-mode))
-(defvar lispy-modes
-  '(emacs-lisp-mode ielm-mode))
-(defvar ruby-modes
-  '(ruby-mode slim-mode inf-ruby-mode))
 (defvar writing-modes
   '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defvar *is-mac* (eq system-type 'darwin))
@@ -114,8 +110,6 @@
 (use-package use-package-chords)
 
 (use-package use-package-ensure-system-package)
-
-(use-package add-hooks)
 
 ;;;;; Font
 
@@ -232,6 +226,11 @@
   (insert "||")
   (backward-char))
 
+(def text-smaller-no-truncation
+  (setq truncate-lines nil)
+  (set (make-local-variable 'scroll-margin) 0)
+  (text-scale-decrease 1))
+
 (add-λ 'minibuffer-setup-hook
   (setq-local input-method-function nil)
   (setq-local gc-cons-threshold most-positive-fixnum))
@@ -302,6 +301,8 @@
         ("<M-S-tab>" . comint-next-matching-input-from-input))
   :custom
   (comint-prompt-read-only t)
+  :hook
+  (comint-mode . text-smaller-no-truncation)
   :config
   (setq-default comint-process-echoes t
                 comint-input-ignoredups t
@@ -313,10 +314,6 @@
   (defun turn-on-comint-history (history-file)
     (setq comint-input-ring-file-name history-file)
     (comint-read-input-ring 'silent))
-  (defun text-smaller-no-truncation ()
-    (setq truncate-lines nil)
-    (set (make-local-variable 'scroll-margin) 0)
-    (text-scale-decrease 1))
   (def comint-return-dwim
     (cond
      ((comint-after-pmark-p)
@@ -331,18 +328,17 @@
     (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
   (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
-  (add-hook 'comint-mode-hook #'text-smaller-no-truncation)
   (add-λ 'kill-emacs-hook
     (dolist (buffer (buffer-list))
       (with-current-buffer buffer (comint-write-input-ring)))))
 
 (use-package compile
-  :defer t
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
-  :config
-  (add-hook 'compilation-mode-hook #'text-smaller-no-truncation)
+  :hook
+  (compilation-mode . text-smaller-no-truncation)
+  :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
 (use-package profiler
@@ -397,14 +393,15 @@
 
 (use-package image-mode
   :defer t
+  :hook
+  (image-mode . show-image-dimensions-in-mode-line)
   :config
   (defun show-image-dimensions-in-mode-line ()
     (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
            (width (car image-dimensions))
            (height (cdr image-dimensions)))
       (setq mode-line-buffer-identification
-            (format "%s %dx%d" (propertized-buffer-identification "%12b") width height))))
-  (add-hook 'image-mode-hook #'show-image-dimensions-in-mode-line))
+            (format "%s %dx%d" (propertized-buffer-identification "%12b") width height)))))
 
 (use-package files
   :custom
@@ -460,8 +457,9 @@
   (dired-recursive-deletes 'always)
   (dired-recursive-copies 'always)
   (dired-auto-revert-buffer t)
+  :hook
+  (dired-mode . dired-hide-details-mode)
   :config
-  (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (put 'dired-find-alternate-file 'disabled nil))
 
 (use-package dired-x
@@ -516,8 +514,9 @@
          ("<escape>"  . abort-recursive-edit)
          ("M-TAB"     . previous-complete-history-element)
          ("<M-S-tab>" . next-complete-history-element)))
+  :hook
+  (writing-modes . auto-fill-mode)
   :config
-  (add-hooks-pair writing-modes #'auto-fill-mode)
   (global-visual-line-mode)
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
     (let ((p (point)))
@@ -564,8 +563,8 @@
   :custom
   (electric-quote-string t)
   (electric-quote-context-sensitive t)
-  :init
-  (add-hooks-pair writing-modes #'electric-quote-local-mode))
+  :hook
+  (writing-modes . electric-quote-local-mode))
 
 (use-package subword
   :init (global-subword-mode))
@@ -578,8 +577,8 @@
          ("M-o" . change-outer)))
 
 (use-package adaptive-wrap
-  :config
-  (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
+  :hook
+  (visual-line-mode . adaptive-wrap-prefix-mode))
 
 (use-package avy
   :custom
@@ -621,6 +620,8 @@
 
 (use-package smart-newline
   :bind ("<s-return>" . eol-then-smart-newline)
+  :hook
+  (prog-mode . maybe-enable-smart-newline-mode)
   :init
   (defun smart-newline-no-reindent-first (orig-fun &rest args)
     (cl-letf (((symbol-function 'reindent-then-newline-and-indent) #'newline-and-indent))
@@ -629,7 +630,6 @@
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))
     (advice-add 'smart-newline :around #'smart-newline-no-reindent-first))
-  (add-hooks-pair progish-modes #'maybe-enable-smart-newline-mode)
   (def eol-then-smart-newline
     (move-end-of-line nil)
     (smart-newline)))
@@ -687,8 +687,8 @@
   :bind ("s-N" . scratch))
 
 (use-package flyspell
-  :config
-  (add-hooks-pair writing-modes #'flyspell-mode))
+  :hook
+  (writing-modes . flyspell-mode))
 
 (use-package hungry-delete
   :config
@@ -746,6 +746,8 @@
    (:map minibuffer-local-map ("TAB" . hippie-expand)))
   :bind*
   ("M-?" . hippie-expand-line)
+  :hook
+  ((emacs-lisp-mode ielm-mode) . hippie-expand-allow-lisp-symbols)
   :init
   (defun try-expand-dabbrev-matching-buffers (old)
     (let ((hippie-expand-only-buffers `(,major-mode)))
@@ -773,8 +775,7 @@
     (setq-local hippie-expand-try-functions-list
                 (append '(try-complete-lisp-symbol-partially
                           try-complete-lisp-symbol)
-                        hippie-expand-try-functions-list)))
-  (add-hooks-pair lispy-modes #'hippie-expand-allow-lisp-symbols))
+                        hippie-expand-try-functions-list))))
 
 (use-package yasnippet
   :mode ("\\.yasnippet\\'" . snippet-mode)
@@ -824,16 +825,17 @@
   :after company
   :custom
   (company-emoji-insert-unicode nil)
+  :hook
+  (writing-modes . company-add-local-emoji-backend)
   :config
   (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
   (defun company-add-local-emoji-backend ()
-    (setq-local company-backends (append '(company-emoji) company-backends)))
-  (add-hooks-pair writing-modes #'company-add-local-emoji-backend))
+    (setq-local company-backends (append '(company-emoji) company-backends))))
 
 (use-package emoji-cheat-sheet-plus
   :bind ("C-c e" . emoji-cheat-sheet-plus-insert)
-  :config
-  (add-hooks-pair writing-modes #'emoji-cheat-sheet-plus-display-mode))
+  :hook
+  (writing-modes . emoji-cheat-sheet-plus-display-mode))
 
 (use-package company-shell
   :after company
@@ -909,15 +911,15 @@
         (delete-window window)))))
 
 (use-package wgrep-ag
+  :after ag
   :custom
-  (wgrep-auto-save-buffer t))
+  (wgrep-auto-save-buffer t)
+  :hook
+  (rg-mode . wgrep-ag-setup))
 
 (use-package rg
-  :after wgrep-ag
   :chords (":G" . rg-project)
-  :ensure-system-package rg
-  :config
-  (add-hook 'rg-mode-hook #'wgrep-ag-setup))
+  :ensure-system-package rg)
 
 (use-package bm
   :bind
@@ -938,12 +940,13 @@
 (use-package imenu
   :custom
   (imenu-auto-rescan t)
+  :hook
+  (emacs-lisp-mode-hook . hemacs-imenu-elisp-expressions)
   :config
   (defun hemacs-imenu-elisp-expressions ()
     (dolist (pattern '((nil "^(def \\(.+\\)$" 1)
                        ("sections" "^;;;;; \\(.+\\)$" 1)))
-      (add-to-list 'imenu-generic-expression pattern)))
-  (add-hook 'emacs-lisp-mode-hook #'hemacs-imenu-elisp-expressions))
+      (add-to-list 'imenu-generic-expression pattern))))
 
 (use-package imenu-anywhere
   :chords (";r" . ivy-imenu-anywhere))
@@ -1084,10 +1087,13 @@
         ("<C-return>" . html-newline-dwim))
   :chords
   ("<>" . sgml-close-tag)
+  :hook
+  (sgml-mode . sgml-electric-tag-pair-mode)
   :config
+  (add-λ 'sgml-mode-hook
+    (run-hooks 'prog-mode-hook))
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
-  (add-hook 'sgml-mode #'sgml-electric-tag-pair-mode)
   (def html-newline-dwim
     (move-end-of-line nil)
     (smart-newline)
@@ -1096,10 +1102,11 @@
   (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss)))))
 
 (use-package web-mode
-  :mode (("\\.erb\\'"        . web-mode)
-         ("\\.php\\'"        . web-mode)
-         ("\\.hbs\\'"        . web-mode)
-         ("\\.handlebars\\'" . web-mode))
+  :mode
+  (("\\.erb\\'"        . web-mode)
+   ("\\.php\\'"        . web-mode)
+   ("\\.hbs\\'"        . web-mode)
+   ("\\.handlebars\\'" . web-mode))
   :bind
   (:map web-mode-map
         ("," . self-with-space)
@@ -1110,8 +1117,8 @@
 
 (use-package emmet-mode
   :after web-mode
-  :config
-  (add-hooks-pair '(sgml-mode-hook web-mode-hook) #'emmet-mode))
+  :hook
+  (sgml-mode web-mode))
 
 (use-package fountain-mode
   :mode "\\.fountain$")
@@ -1136,10 +1143,9 @@
 (use-package pandoc-mode
   :after (markdown-mode org-mode)
   :ensure-system-package pandoc
-  :config
-  (add-hook 'markdown-mode-hook #'pandoc-mode)
-  (add-hook 'org-mode-hook #'pandoc-mode)
-  (add-hook 'pandoc-mode-hook #'pandoc-load-default-settings))
+  :hook
+  ((markdown-mode org-mode)
+   (pandoc-mode . pandoc-load-default-settings)))
 
 (use-package css-mode
   :mode "\\.css\\.erb\\'"
@@ -1150,6 +1156,8 @@
         ("{" . open-brackets-newline-and-indent))
   :custom
   (css-indent-offset 2)
+  :hook
+  (css-mode . set-css-imenu-generic-expression)
   :config
   (def smart-css-colon
     (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
@@ -1161,8 +1169,7 @@
              (insert ": ;")
              (backward-char)))))
   (defun set-css-imenu-generic-expression ()
-    (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1))))
-  (add-hook 'css-mode-hook #'set-css-imenu-generic-expression))
+    (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1)))))
 
 (use-package less-css-mode
   :ensure-system-package (lessc . "npm i -g less")
@@ -1176,7 +1183,9 @@
         ("," . self-with-space)
         ("=" . pad-equals)
         (":" . self-with-space))
-  :interpreter (("node" . js2-mode))
+  :interpreter ("node" . js2-mode)
+  :hook
+  (js2-mode . js2-imenu-extras-mode)
   :custom
   (js2-mode-show-parse-errors nil)
   (js2-strict-trailing-comma-warning nil)
@@ -1185,7 +1194,6 @@
   (js2-basic-offset 2)
   :config
   (setenv "NODE_NO_READLINE" "1")
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
 
@@ -1196,8 +1204,8 @@
 (use-package tern
   :ensure-system-package (tern . "npm i -g tern")
   :after js2-mode
-  :config
-  (add-hook 'js2-mode-hook #'tern-mode))
+  :hook
+  (js2-mode . tern-mode))
 
 (use-package rjsx-mode
   :after js2-mode
@@ -1352,12 +1360,12 @@
 (use-package ruby-hash-syntax
   :after ruby-mode
   :bind
-  (:map ruby-mode-map ("C-c C-:" . ruby-toggle-hash-syntax)))
+  (:map ruby-mode-map ("C-c C-:" . ruby-hash-syntax-toggle)))
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
-  :config
-  (add-hook 'yaml-mode-hook #'text-smaller-no-truncation))
+  :hook
+  (yaml-mode . text-smaller-no-truncation))
 
 (use-package restclient
   :defer t)
@@ -1382,6 +1390,8 @@
   (magit-log-auto-more t)
   (magit-repository-directories projectile-known-projects)
   (magit-no-confirm t)
+  :hook
+  (magit-process-mode . text-smaller-no-truncation)
   :config
   (global-magit-file-mode)
   (def magit-just-amend
@@ -1396,8 +1406,7 @@
       (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
         (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
       (apply orig-fun (list process event))))
-  (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)
-  (add-hook 'magit-process-mode-hook #'text-smaller-no-truncation))
+  (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background))
 
 (use-package git-messenger
   :custom
@@ -1419,10 +1428,11 @@
 
 (use-package diff-hl
   :after magit
+  :hook
+  (dired-mode . diff-hl-dired-mode)
   :config
   (global-diff-hl-mode)
   (diff-hl-margin-mode)
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
   (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
 
 ;;;;; Help & Docs
@@ -1435,8 +1445,8 @@
   :custom (tags-revert-without-query t))
 
 (use-package elisp-slime-nav
-  :config
-  (add-hooks-pair lispy-modes #'elisp-slime-nav-mode))
+  :hook
+  ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
 
 (use-package github-browse-file
   :config
@@ -1511,16 +1521,16 @@
   :custom
   (highlight-symbol-idle-delay 0)
   (highlight-symbol-highlight-single-occurrence nil)
-  :config
-  (add-hooks-pair progish-modes #'highlight-symbol-mode)
-  (add-hooks-pair progish-modes #'highlight-symbol-nav-mode))
+  :hook
+  ((prog-mode . highlight-symbol-mode)
+   (prog-mode . highlight-symbol-nav-mode)))
 
 (use-package volatile-highlights
   :config (volatile-highlights-mode))
 
 (use-package rainbow-delimiters
-  :config
-  (add-hooks-pair progish-modes #'rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 (use-package powerline
   :defer t
