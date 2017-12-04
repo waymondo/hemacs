@@ -975,6 +975,7 @@
   (projectile-enable-caching t)
   (projectile-verbose nil)
   (projectile-completion-system 'ivy)
+  (projectile-require-project-root nil)
   :config
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
   (defun projectile-do-invalidate-cache (&rest _args)
