@@ -1052,6 +1052,8 @@
   :config
   (crab-server-start))
 
+(use-package firefox-controller)
+
 (use-package restart-emacs
   :bind ([remap save-buffers-kill-terminal] . restart-emacs))
 
