@@ -1177,6 +1177,10 @@
   :custom
   (less-css-lessc-options '("--no-color" "-x")))
 
+(use-package js
+  :custom
+  (js-indent-level 2))
+
 (use-package js2-mode
   :mode "\\.js\\'"
   :bind
@@ -1184,7 +1188,8 @@
         ("," . self-with-space)
         ("=" . pad-equals)
         (":" . self-with-space))
-  :interpreter ("node" . js2-mode)
+  :interpreter
+  ("node" . js2-mode)
   :hook
   (js2-mode . js2-imenu-extras-mode)
   :custom
@@ -1192,7 +1197,6 @@
   (js2-strict-trailing-comma-warning nil)
   (js2-strict-missing-semi-warning nil)
   (js2-highlight-level 3)
-  (js2-basic-offset 2)
   :config
   (setenv "NODE_NO_READLINE" "1")
   (setq-default js2-global-externs
