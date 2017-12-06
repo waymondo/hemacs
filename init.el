@@ -1303,7 +1303,7 @@
   :config
   (def smart-ruby-colon
     (if (and (looking-back "[[:word:]]" nil)
-             (not (memq font-lock-type-face (get-text-property (- (point) 1) 'face))))
+             (not (memq font-lock-type-face (list (get-text-property (- (point) 1) 'face)))))
         (insert ": ")
       (insert ":")))
   (def ruby-newline-dwim
