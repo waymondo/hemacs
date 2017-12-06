@@ -74,7 +74,7 @@
 ;;;;; Package Management
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives (cons "melpa" "http://melpa.org/packages/") t)
 (package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -102,8 +102,8 @@
         (file-directory-p (local-package-load-path name))))
 
 (setf (alist-get :ensure use-package-defaults)
-      '(t (and (not (locate-library (symbol-name name)))
-               (not (file-directory-p (local-package-load-path name))))))
+      '((list t) (and (not (locate-library (symbol-name name)))
+                      (not (file-directory-p (local-package-load-path name))))))
 
 (use-package no-littering)
 
