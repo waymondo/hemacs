@@ -733,7 +733,8 @@
   :custom
   (hippie-expand-verbose nil)
   (hippie-expand-try-functions-list
-   '(try-expand-dabbrev-visible
+   '(yas-hippie-try-expand
+     try-expand-dabbrev-visible
      try-expand-dabbrev
      try-expand-dabbrev-matching-buffers
      try-expand-dabbrev-from-kill
