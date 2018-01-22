@@ -821,6 +821,9 @@
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t))
 
+(use-package company-childframe
+  :config (company-childframe-mode))
+
 (use-package company-emoji
   :after company
   :custom
