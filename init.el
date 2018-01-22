@@ -46,12 +46,7 @@
 
 ;;;;; Personal Variables & Helper Macros
 
-(defvar indent-sensitive-modes
-  '(coffee-mode slim-mode))
-(defvar progish-modes
-  '(prog-mode sgml-mode))
-(defvar writing-modes
-  '(org-mode markdown-mode fountain-mode git-commit-mode))
+(defvar indent-sensitive-modes '(coffee-mode slim-mode))
 (defvar *is-mac* (eq system-type 'darwin))
 
 (defmacro def (name &rest body)
@@ -501,6 +496,10 @@
 (use-package newcomment
   :bind ("s-/" . comment-or-uncomment-region))
 
+(use-package face-remap
+  :hook
+  ((org-mode markdown-mode fountain-mode) . variable-pitch-mode))
+
 (use-package simple
   :custom
   (set-mark-command-repeat-pop t)
@@ -515,7 +514,7 @@
          ("M-TAB"     . previous-complete-history-element)
          ("<M-S-tab>" . next-complete-history-element)))
   :hook
-  (writing-modes . auto-fill-mode)
+  ((org-mode markdown-mode fountain-mode git-commit-mode) . auto-fill-mode)
   :config
   (global-visual-line-mode)
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
@@ -526,7 +525,7 @@
   (defun maybe-indent-afterwards (&optional _)
     (and (not current-prefix-arg)
          (not (member major-mode indent-sensitive-modes))
-         (or (-any? #'derived-mode-p progish-modes))
+         (or (-any? #'derived-mode-p '(prog-mode sgml-mode)))
          (indent-region (region-beginning) (region-end) nil)))
   (defun pop-to-process-list-buffer ()
     (pop-to-buffer "*Process List*"))
@@ -564,7 +563,7 @@
   (electric-quote-string t)
   (electric-quote-context-sensitive t)
   :hook
-  (writing-modes . electric-quote-local-mode))
+  ((org-mode markdown-mode fountain-mode git-commit-mode) . electric-quote-local-mode))
 
 (use-package subword
   :init (global-subword-mode))
@@ -688,7 +687,7 @@
 
 (use-package flyspell
   :hook
-  (writing-modes . flyspell-mode))
+  ((org-mode markdown-mode fountain-mode git-commit-mode) . flyspell-mode))
 
 (use-package hungry-delete
   :config
@@ -827,7 +826,7 @@
   :custom
   (company-emoji-insert-unicode nil)
   :hook
-  (writing-modes . company-add-local-emoji-backend)
+  ((org-mode markdown-mode fountain-mode git-commit-mode) . company-add-local-emoji-backend)
   :config
   (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
   (defun company-add-local-emoji-backend ()
@@ -836,7 +835,7 @@
 (use-package emoji-cheat-sheet-plus
   :bind ("C-c e" . emoji-cheat-sheet-plus-insert)
   :hook
-  (writing-modes . emoji-cheat-sheet-plus-display-mode))
+  ((org-mode markdown-mode fountain-mode git-commit-mode) . emoji-cheat-sheet-plus-display-mode))
 
 (use-package company-shell
   :after company
