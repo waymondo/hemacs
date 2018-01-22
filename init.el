@@ -887,7 +887,6 @@
                    "*Help"
                    "*helpful"
                    "*less-css-compilation"
-                   "*rspec-compilation"
                    "*Packages"
                    "*SQL"))
       (display-buffer-reuse-window
