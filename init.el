@@ -1255,6 +1255,10 @@
     (setq-local indent-line-function #'coffee-indent))
   (add-to-list 'coffee-args-compile "--no-header"))
 
+(use-package typescript-mode
+  :custom
+  (typescript-indent-level 2))
+
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
 
