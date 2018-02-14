@@ -269,6 +269,11 @@
 (use-package menu-bar
   :bind ("s-w" . kill-this-buffer))
 
+(use-package jit-lock
+  :custom
+  (jit-lock-stealth-nice 0.1)
+  (jit-lock-stealth-time 0.2))
+
 ;;;;; Processes, Shells, Compilation
 
 (use-package exec-path-from-shell
@@ -504,6 +509,7 @@
   :custom
   (set-mark-command-repeat-pop t)
   (save-interprogram-paste-before-kill t)
+  (idle-update-delay 2)
   (next-error-recenter t)
   (async-shell-command-buffer 'new-buffer)
   :bind
