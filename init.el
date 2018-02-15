@@ -224,7 +224,7 @@
 (def text-smaller-no-truncation
   (setq truncate-lines nil)
   (set (make-local-variable 'scroll-margin) 0)
-  (text-scale-decrease 1))
+  (text-scale-set -0.25))
 
 (add-λ 'minibuffer-setup-hook
   (setq-local input-method-function nil)
