@@ -803,7 +803,9 @@
   (company-require-match nil)
   (company-minimum-prefix-length 2)
   (company-show-numbers t)
+  (company-idle-delay 0.25)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
+  (company-transformers '(company-sort-prefer-same-case-prefix))
   :bind
   (("s-y" . company-kill-ring)
    ([remap completion-at-point] . company-manual-begin)
@@ -815,8 +817,9 @@
     (company-filter-candidates))
   (global-company-mode)
   (setq company-continue-commands
-        (append company-continue-commands '(comint-previous-matching-input-from-input
-                                            comint-next-matching-input-from-input))))
+        (append company-continue-commands
+                '(comint-previous-matching-input-from-input
+                  comint-next-matching-input-from-input))))
 
 (use-package company-dabbrev
   :after company
@@ -830,6 +833,7 @@
   (company-dabbrev-code-everywhere t))
 
 (use-package company-childframe
+  :after company
   :config (company-childframe-mode))
 
 (use-package company-emoji
@@ -857,22 +861,6 @@
   :after company
   :config
   (add-to-list 'company-backends #'company-tern))
-
-(use-package company-web
-  :after company
-  :config
-  (with-eval-after-load 'web-mode
-    (add-λ 'web-mode-hook
-      (setq-local company-backends (append '(company-web-html) company-backends))))
-  (with-eval-after-load 'html-mode
-    (add-λ 'html-mode-hook
-      (setq-local company-backends (append '(company-web-html) company-backends))))
-  (with-eval-after-load 'slim-mode
-    (add-λ 'slim-mode-hook
-      (setq-local company-backends (append '(company-web-slim) company-backends))))
-  (with-eval-after-load 'jade-mode
-    (add-λ 'jade-mode-hook
-      (setq-local company-backends (append '(company-web-jade) company-backends)))))
 
 (use-package smart-tab
   :config
@@ -1269,8 +1257,6 @@
 
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
-
-(use-package jade-mode)
 
 (use-package prettier-js
   :after js2-mode
