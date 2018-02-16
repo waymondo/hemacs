@@ -227,6 +227,8 @@
   (text-scale-set -0.25))
 
 (add-λ 'minibuffer-setup-hook
+  (set-window-fringes (minibuffer-window) 0 0 nil)
+  (text-scale-set 0.25)
   (setq-local input-method-function nil)
   (setq-local gc-cons-threshold most-positive-fixnum))
 
