@@ -1446,7 +1446,15 @@
 
 (use-package google-this)
 
-(use-package helpful)
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  (([remap describe-function] . helpful-callable)
+   ([remap describe-command] . helpful-command)
+   ([remap describe-variable] . helpful-variable)
+   ([remap describe-key] . helpful-key)))
 
 (use-package etags
   :custom (tags-revert-without-query t))
@@ -1613,9 +1621,7 @@
  ("g" . google-this)
  ("d" . dash-at-point)
  ("D" . dash-at-point-with-docset)
- ("v" . helpful-variable)
  ("p" . ffap)
- ("f" . helpful-function)
  ("." . helpful-at-point)
  ("o" . counsel-find-library))
 
