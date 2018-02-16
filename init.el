@@ -803,7 +803,7 @@
   (company-require-match nil)
   (company-minimum-prefix-length 2)
   (company-show-numbers t)
-  (company-idle-delay 0.25)
+  (company-idle-delay 0.3)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
   (company-transformers '(company-sort-prefer-same-case-prefix))
   :bind
@@ -1265,6 +1265,12 @@
   (:map js2-mode-map ("s-b" . prettier))
   :custom
   (prettier-args '("--no-semi" "--trailing-comma" "all")))
+
+(use-package web-beautify
+  :ensure-system-package (prettier . "npm i -g js-beautify")
+  :bind
+  ((:map sgml-mode-map ("s-b" . web-beautify-html))
+   (:map css-mode-map ("s-b" . web-beautify-css))))
 
 (use-package elm-mode)
 
