@@ -1542,13 +1542,14 @@
   (push 'comint-mode beacon-dont-blink-major-modes)
   (beacon-mode))
 
-(use-package highlight-symbol
+(use-package symbol-overlay
   :custom
-  (highlight-symbol-idle-delay 0)
-  (highlight-symbol-highlight-single-occurrence nil)
+  (symbol-overlay-idle-time 0.2)
+  :bind
+  (("M-n" . symbol-overlay-jump-next)
+   ("M-p" . symbol-overlay-jump-prev))
   :hook
-  ((prog-mode . highlight-symbol-mode)
-   (prog-mode . highlight-symbol-nav-mode)))
+  (prog-mode . symbol-overlay-mode))
 
 (use-package volatile-highlights
   :config (volatile-highlights-mode))
