@@ -724,10 +724,11 @@
 
 (use-package ivy
   :custom
-  (ivy-fixed-height-minibuffer t)
   (ivy-extra-directories nil)
   (ivy-re-builders-alist '((swiper . ivy--regex-plus) (t . ivy--regex-fuzzy)))
   (ivy-use-virtual-buffers t)
+  (ivy-virtual-abbreviate 'abbreviate)
+  (ivy-format-function #'ivy-format-function-arrow)
   :bind
   (:map ivy-minibuffer-map
         ("<escape>"  . abort-recursive-edit))
