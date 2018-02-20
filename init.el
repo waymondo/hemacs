@@ -327,9 +327,6 @@
       (find-file (ffap-file-at-point)))
      (t
       (comint-next-prompt 1))))
-  (defun improve-npm-process-output (output)
-    (replace-regexp-in-string "\\[[0-9]+[GK]" "" output))
-  (add-to-list 'comint-preoutput-filter-functions #'improve-npm-process-output)
   (add-hook 'kill-buffer-hook #'comint-write-input-ring)
   (add-λ 'kill-emacs-hook
     (dolist (buffer (buffer-list))
