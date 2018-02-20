@@ -420,13 +420,12 @@
       (delete-trailing-whitespace))
     (when (region-active-p)
       (deactivate-mark t)))
-  (defun find-file-maybe-make-directories (filename &optional _wildcards)
-    (unless (file-exists-p filename)
-      (let ((dir (file-name-directory filename)))
-        (unless (file-exists-p dir)
-          (make-directory dir :make-parents)))))
   (add-hook 'before-save-hook #'hemacs-save-hook)
-  (advice-add 'find-file :before #'find-file-maybe-make-directories))
+  (defun find-file-maybe-make-directories ()
+    (let ((dir (file-name-directory buffer-file-name)))
+      (unless (file-exists-p dir)
+        (make-directory dir t))))
+  (push #'find-file-maybe-make-directories find-file-not-found-functions))
 
 (use-package autorevert
   :custom
