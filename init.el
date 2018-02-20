@@ -1156,7 +1156,6 @@
   :mode "\\.css\\.erb\\'"
   :bind
   (:map css-mode-map
-        (":" . smart-css-colon)
         ("," . self-with-space)
         ("{" . open-brackets-newline-and-indent))
   :custom
@@ -1164,15 +1163,6 @@
   :hook
   (css-mode . set-css-imenu-generic-expression)
   :config
-  (def smart-css-colon
-    (let ((current-line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-      (cond ((string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" current-line)
-             (insert ":"))
-            ((looking-at "\;.*")
-             (insert ": "))
-            (:else
-             (insert ": ;")
-             (backward-char)))))
   (defun set-css-imenu-generic-expression ()
     (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1)))))
 
