@@ -736,6 +736,12 @@
 (use-package ivy-hydra
   :after ivy)
 
+(use-package ivy-posframe
+  :custom
+  (ivy-posframe-style 'point)
+  :config
+  (push '(counsel-yank-pop . ivy-posframe-display) ivy-display-functions-alist))
+
 (use-package hippie-exp
   :custom
   (hippie-expand-verbose nil)
@@ -807,14 +813,9 @@
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
   (company-transformers '(company-sort-prefer-same-case-prefix))
   :bind
-  (("s-y" . company-kill-ring)
-   ([remap completion-at-point] . company-manual-begin)
+  (([remap completion-at-point] . company-manual-begin)
    ([remap complete-symbol] . company-manual-begin))
   :init
-  (def company-kill-ring
-    (company-begin-with
-     (mapcar #'substring-no-properties kill-ring))
-    (company-filter-candidates))
   (global-company-mode)
   (setq company-continue-commands
         (append company-continue-commands
@@ -1026,7 +1027,8 @@
 (use-package counsel
   :bind
   (([remap execute-extended-command] . counsel-M-x)
-   ("s-P" . counsel-M-x))
+   ("s-P" . counsel-M-x)
+   ("s-y" . counsel-yank-pop))
   :chords
   (";f" . counsel-find-file))
 
