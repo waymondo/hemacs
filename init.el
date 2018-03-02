@@ -1157,17 +1157,16 @@
         ("," . self-with-space)
         ("{" . open-brackets-newline-and-indent))
   :custom
-  (css-indent-offset 2)
-  :hook
-  (css-mode . set-css-imenu-generic-expression)
-  :config
-  (defun set-css-imenu-generic-expression ()
-    (setq imenu-generic-expression '((nil "^\\([^\s-].*+\\(?:,\n.*\\)*\\)\\s-{$" 1)))))
+  (css-indent-offset 2))
 
 (use-package less-css-mode
   :ensure-system-package (lessc . "npm i -g less")
   :custom
   (less-css-lessc-options '("--no-color" "-x")))
+
+(use-package counsel-css
+  :hook
+  (css-mode . counsel-css-imenu-setup))
 
 (use-package js
   :custom
