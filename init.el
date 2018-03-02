@@ -1618,8 +1618,10 @@
   :config (auto-dim-other-buffers-mode))
 
 (use-package fringe
-  :defer t
-  :config (fringe-mode '(20 . 8)))
+  :config (fringe-mode '(20 . 8))
+  :custom
+  (fringe-indicator-alist
+   (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
 
 (use-package apropospriate-theme
   :config
