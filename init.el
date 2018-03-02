@@ -674,12 +674,6 @@
   (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-point-to-eol kill-ring-save))
 
-(use-package super-save
-  :custom
-  (super-save-auto-save-when-idle t)
-  :config
-  (super-save-mode))
-
 (use-package abbrev
   :custom
   (save-abbrevs 'silently)
@@ -1606,6 +1600,10 @@
   (spaceline-toggle-minor-modes-off)
   (spaceline-toggle-buffer-size-off)
   (spaceline-toggle-hud-off))
+
+(use-package hide-mode-line
+  :hook
+  ((completion-list-mode magit-mode-hook) . hide-mode-line-mode))
 
 (use-package paren
   :custom
