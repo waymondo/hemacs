@@ -1529,6 +1529,7 @@
 (use-package gitignore-mode)
 
 (use-package dash-at-point
+  :if *is-mac*
   :config
   (defun dash-at-point-installed-docsets ()
     (let ((dash-defaults (shell-command-to-string "defaults read com.kapeli.dashdoc docsets"))
