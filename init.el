@@ -1183,6 +1183,7 @@
   (js2-strict-missing-semi-warning nil)
   (js2-highlight-level 3)
   :config
+  (defvaralias 'js-switch-indent-offset 'js2-basic-offset)
   (setenv "NODE_NO_READLINE" "1")
   (setq-default js2-global-externs
                 '("clearTimeout" "setTimeout" "module" "require" "_")))
