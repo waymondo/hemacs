@@ -1560,7 +1560,6 @@
 (use-package beacon
   :custom
   (beacon-blink-when-focused t)
-  (beacon-blink-when-point-moves-vertically 4)
   :config
   (defun maybe-recenter-current-window ()
     (when (equal (current-buffer) (window-buffer (selected-window)))
