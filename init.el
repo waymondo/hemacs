@@ -1543,6 +1543,10 @@
   (setq-default flycheck-disabled-checkers '(html-tidy))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+(use-package flycheck-posframe
+  :after flycheck
+  :hook (flycheck-mode . flycheck-posframe-mode))
+
 ;;;;; Appearance
 
 (use-package frame
