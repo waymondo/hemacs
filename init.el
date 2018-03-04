@@ -1602,7 +1602,8 @@
 
 (use-package hide-mode-line
   :hook
-  ((completion-list-mode magit-mode-hook) . hide-mode-line-mode))
+  ((dired-mode bs-mode helpful-mode magit-mode magit-popup-mode org-capture-mode) .
+   hide-mode-line-mode))
 
 (use-package paren
   :custom
