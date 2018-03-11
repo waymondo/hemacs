@@ -991,7 +991,7 @@
 
 (use-package counsel-projectile
   :after projectile
-  :config (counsel-projectile-on)
+  :config (counsel-projectile-mode)
   :bind
   ("s-t" . counsel-projectile)
   :chords
