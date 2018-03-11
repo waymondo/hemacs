@@ -3,7 +3,7 @@
 ;;;;; Source Variables
 
 (setq load-prefer-newer t
-      history-length 256
+      history-length 128
       history-delete-duplicates t
       maximum-scroll-margin 0.5
       scroll-margin 50
