@@ -1112,6 +1112,10 @@
   (web-mode-enable-auto-quoting nil)
   (web-mode-enable-current-element-highlight t))
 
+(use-package lorem-ipsum
+  :config
+  (lorem-ipsum-use-default-bindings))
+
 (use-package emmet-mode
   :after web-mode
   :hook
