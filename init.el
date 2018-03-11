@@ -1592,7 +1592,9 @@
 
 (use-package rainbow-delimiters
   :hook
-  (prog-mode . rainbow-delimiters-mode))
+  (prog-mode . rainbow-delimiters-mode)
+  :custom
+  (rainboww-delimiters-max-face-count 5))
 
 (use-package powerline
   :defer t
