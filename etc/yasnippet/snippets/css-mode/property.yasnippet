@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: ...: ...;
 # binding: :
+# condition: (not (string-match "^\\(?:[^[:blank:]]+\\|[[:blank:]]+[[:word:]]*[#&.@,]+\\)" (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
 # --
-$1: $2;
+: $0`(unless (looking-at-p "[[:space:]]*;") ";")`
