@@ -690,9 +690,11 @@
   :hook
   ((org-mode markdown-mode fountain-mode git-commit-mode) . flyspell-mode))
 
-(use-package hungry-delete
+(use-package smart-backspace
   :config
-  (global-hungry-delete-mode))
+  (bind-key "<backspace>" #'smart-backspace global-map
+            (and (member (char-before) (string-to-list " \t"))
+                 (not (or (region-active-p) (member major-mode indent-sensitive-modes))))))
 
 (use-package smart-shift
   :bind (("s-[" . smart-shift-left)
