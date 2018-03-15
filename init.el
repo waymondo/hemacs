@@ -46,7 +46,7 @@
 
 ;;;;; Personal Variables & Helper Macros
 
-(defvar indent-sensitive-modes '(coffee-mode slim-mode))
+(defvar indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defvar *is-mac* (eq system-type 'darwin))
 
 (defmacro def (name &rest body)
@@ -162,12 +162,13 @@
 ;;;;; Bootstrap
 
 (defun ensure-space (direction)
-  (let ((char-fn (cond
+  (let* ((char-fn (cond
                   ((eq direction :before)
                    #'char-before)
                   ((eq direction :after)
-                   #'char-after))))
-    (unless (string-match-p " " (char-to-string (funcall char-fn)))
+                   #'char-after)))
+         (char-result (funcall char-fn)))
+    (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
       (insert " "))
     (when (looking-at " ")
       (forward-char))))
@@ -1369,6 +1370,8 @@
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
+  :bind
+  (:map yaml-mode-map (":" . self-with-space))
   :hook
   (yaml-mode . text-smaller-no-truncation))
 
