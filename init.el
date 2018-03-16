@@ -974,9 +974,6 @@
   (projectile-require-project-root nil)
   :config
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
-  (defun projectile-do-invalidate-cache (&rest _args)
-    (projectile-invalidate-cache nil))
-  (advice-add 'rename-file :after #'projectile-do-invalidate-cache)
   (defmacro make-projectile-switch-project-defun (func)
     `(let ((defun-name (format "projectile-switch-project-%s" (symbol-name ,func))))
        (defalias (intern defun-name)
