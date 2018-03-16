@@ -1135,6 +1135,7 @@
   (:map markdown-mode-map ("," . self-with-space))
   :ensure-system-package (marked . "npm i -g marked")
   :custom
+  (markdown-fontify-code-blocks-natively t)
   (markdown-command "marked")
   (markdown-indent-on-enter nil))
 
