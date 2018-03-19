@@ -806,7 +806,6 @@
   (company-require-match nil)
   (company-minimum-prefix-length 2)
   (company-show-numbers t)
-  (company-idle-delay 0.3)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
   (company-transformers '(company-sort-prefer-same-case-prefix))
   :bind
