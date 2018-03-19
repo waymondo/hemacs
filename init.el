@@ -545,11 +545,12 @@
          (indent-region (region-beginning) (region-end) nil)))
   (defun pop-to-process-list-buffer ()
     (pop-to-buffer "*Process List*"))
-  (defun kill-line-or-join-line (orig-fun &rest args)
+  (defun kill-or-join-line (orig-fun &rest args)
     (if (not (eolp))
         (apply orig-fun args)
-      (forward-line)
-      (join-line)))
+      (delete-indentation 1)
+      (when (and (eolp) (not (eq (point) (point-max))))
+        (kill-or-join-line orig-fun args))))
   (defun move-beginning-of-line-or-indentation (orig-fun &rest args)
     (let ((orig-point (point)))
       (back-to-indentation)
@@ -564,7 +565,8 @@
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
   (advice-add 'backward-kill-word :around #'backward-delete-subword)
   (advice-add 'kill-whole-line :after #'back-to-indentation)
-  (advice-add 'kill-line :around #'kill-line-or-join-line)
+  (advice-add 'kill-line :around #'kill-or-join-line)
+  (advice-add 'kill-visual-line :around #'kill-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
 
@@ -1077,7 +1079,6 @@
   :config (add-hook 'org-mode-hook #'org-autolist-mode))
 
 (use-package org-repo-todo
-  :after org
   :bind
   (("s-`" . ort/goto-todos)
    ("s-n" . ort/capture-checkitem))
