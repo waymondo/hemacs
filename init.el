@@ -944,7 +944,7 @@
   :custom
   (imenu-auto-rescan t)
   :hook
-  (emacs-lisp-mode-hook . hemacs-imenu-elisp-expressions)
+  (emacs-lisp-mode . hemacs-imenu-elisp-expressions)
   :config
   (defun hemacs-imenu-elisp-expressions ()
     (dolist (pattern '((nil "^(def \\(.+\\)$" 1)
