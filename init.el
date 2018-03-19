@@ -239,8 +239,6 @@
 
 (add-λ 'minibuffer-setup-hook
   (set-window-fringes (minibuffer-window) 0 0 nil)
-  (set (make-local-variable 'face-remapping-alist)
-       '((default :height 1.15)))
   (setq-local input-method-function nil)
   (setq-local gc-cons-threshold most-positive-fixnum))
 
