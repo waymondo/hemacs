@@ -669,8 +669,7 @@
   (("s-," . crux-find-user-init-file)
    ("s-D" . crux-duplicate-current-line-or-region)
    ("s-K" . crux-delete-file-and-buffer)
-   ("s-S" . crux-rename-file-and-buffer)
-   ("C-;" . crux-ispell-word-then-abbrev))
+   ("s-S" . crux-rename-file-and-buffer))
   :chords
   (":S" . crux-recentf-find-file)
   :config
@@ -683,12 +682,6 @@
   (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-point-to-eol kill-ring-save))
 
-(use-package abbrev
-  :custom
-  (save-abbrevs 'silently)
-  :config
-  (setq-default abbrev-mode t))
-
 (use-package toggle-quotes
   :bind ("C-'" . toggle-quotes))
 
@@ -698,6 +691,11 @@
 (use-package flyspell
   :hook
   ((org-mode markdown-mode fountain-mode git-commit-mode) . flyspell-mode))
+
+(use-package flyspell-correct-ivy
+  :bind
+  (:map flyspell-mode-map
+        ("C-;" . flyspell-correct-previous-word-generic)))
 
 (use-package smart-backspace
   :config
@@ -745,7 +743,8 @@
   :custom
   (ivy-posframe-style 'point)
   :config
-  (push '(counsel-yank-pop . ivy-posframe-display) ivy-display-functions-alist))
+  (dolist (cmd '(counsel-yank-pop flyspell-correct-ivy))
+    (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
 
 (use-package hippie-exp
   :custom
