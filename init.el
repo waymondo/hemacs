@@ -66,6 +66,16 @@
   (declare (indent 1) (debug t))
   `(add-hook ,hook (lambda () ,@body)))
 
+(defmacro after (feature &rest forms)
+  (declare (indent 1) (debug t))
+  `(,(if (or (not (bound-and-true-p byte-compile-current-file))
+             (if (symbolp feature)
+                 (require feature nil :no-error)
+               (load feature :no-message :no-error)))
+         #'progn
+       #'with-no-warnings)
+    (with-eval-after-load ',feature ,@forms)))
+
 ;;;;; Package Management
 
 (require 'package)
@@ -163,10 +173,10 @@
 
 (defun ensure-space (direction)
   (let* ((char-fn (cond
-                  ((eq direction :before)
-                   #'char-before)
-                  ((eq direction :after)
-                   #'char-after)))
+                   ((eq direction :before)
+                    #'char-before)
+                   ((eq direction :after)
+                    #'char-after)))
          (char-result (funcall char-fn)))
     (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
       (insert " "))
@@ -954,11 +964,11 @@
    (";x" . ace-jump-special-buffers))
   :config
   (make-ace-jump-buffer-function
-   "special"
-   (with-current-buffer buffer
-     (--all?
-      (not (derived-mode-p it))
-      '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
+      "special"
+    (with-current-buffer buffer
+      (--all?
+       (not (derived-mode-p it))
+       '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
 
 (use-package projectile
   :bind
@@ -1069,12 +1079,14 @@
   :config (add-hook 'org-mode-hook #'org-autolist-mode))
 
 (use-package org-repo-todo
-  :after (org projectile)
-  :bind (("s-`" . ort/goto-todos)
-         ("s-n" . ort/capture-checkitem))
+  :after org
+  :bind
+  (("s-`" . ort/goto-todos)
+   ("s-n" . ort/capture-checkitem))
   :config
-  (make-projectile-switch-project-defun #'ort/goto-todos)
-  (make-projectile-switch-project-defun #'ort/capture-checkitem))
+  (after projectile
+    (make-projectile-switch-project-defun #'ort/goto-todos)
+    (make-projectile-switch-project-defun #'ort/capture-checkitem)))
 
 (use-package sgml-mode
   :bind
@@ -1328,11 +1340,12 @@
 
 (use-package rspec-mode
   :bind ("s-R" . rspec-rerun)
-  :after (ruby-mode yasnippet)
+  :after ruby-mode
   :custom
   (rspec-use-chruby t)
   :config
-  (rspec-install-snippets))
+  (after yasnippet
+    (rspec-install-snippets)))
 
 (use-package inf-ruby
   :config
@@ -1350,15 +1363,17 @@
   (projectile-rails-global-mode))
 
 (use-package chruby
-  :after (ruby-mode projectile-rails)
+  :after ruby-mode
   :config
   (defun with-corresponding-chruby (orig-fun &rest args)
     (let ((inhibit-message t))
       (call-interactively #'chruby-use-corresponding))
     (apply orig-fun args))
-  (advice-add 'run-ruby :around #'with-corresponding-chruby)
   (advice-add 'hack-dir-local-variables-non-file-buffer :around #'with-corresponding-chruby)
-  (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map))
+  (after inf-ruby
+    (advice-add 'run-ruby :around #'with-corresponding-chruby))
+  (after projectile-rails
+    (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)))
 
 (use-package ruby-hash-syntax
   :after ruby-mode
@@ -1388,7 +1403,6 @@
   :bind
   (("s-m" . magit-status)
    :map magit-mode-map ("C-c C-a" . magit-just-amend))
-  :after alert
   :custom
   (magit-completing-read-function 'ivy-completing-read)
   (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
@@ -1403,15 +1417,16 @@
     (save-window-excursion
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
       (magit-refresh)))
-  (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
-    (let* ((process (nth 0 args))
-           (event (nth 1 args))
-           (buf (process-get process 'command-buf))
-           (buff-name (buffer-name buf)))
-      (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
-        (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
-      (apply orig-fun (list process event))))
-  (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background))
+  (after alert
+    (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
+      (let* ((process (nth 0 args))
+             (event (nth 1 args))
+             (buf (process-get process 'command-buf))
+             (buff-name (buffer-name buf)))
+        (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
+          (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
+        (apply orig-fun (list process event))))
+    (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)))
 
 (use-package git-messenger
   :custom
@@ -1432,7 +1447,6 @@
   (magithub-feature-autoinject t))
 
 (use-package diff-hl
-  :after magit
   :hook
   (dired-mode . diff-hl-dired-mode)
   :config
