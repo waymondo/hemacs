@@ -80,12 +80,13 @@
 
 (require 'package)
 (add-to-list 'package-archives (cons "melpa" "http://melpa.org/packages/") t)
-(package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
   (defvar use-package-enable-imenu-support t)
+  (defun local-package-load-path (name)
+    (concat user-emacs-directory (format "lib/%s" (symbol-name name))))
   (require 'use-package))
 
 (def upgrade-packages
@@ -97,10 +98,6 @@
         (package-menu-execute t)
       (error
        (package-menu-execute)))))
-
-(eval-and-compile
-  (defun local-package-load-path (name)
-    (concat user-emacs-directory (format "lib/%s" (symbol-name name)))))
 
 (setf (alist-get :load-path use-package-defaults)
       '((list (local-package-load-path name))
@@ -462,6 +459,7 @@
 (use-package dired
   :defer t
   :custom
+  (dired-create-destination-dirs t)
   (dired-use-ls-dired nil)
   (dired-dwim-target t)
   (dired-recursive-deletes 'always)
