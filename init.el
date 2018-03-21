@@ -2,6 +2,9 @@
 
 ;;;;; Source Variables
 
+(when (< emacs-major-version 27)
+  (error "Emacs should be version 27 or greater"))
+
 (setq load-prefer-newer t
       history-length 128
       history-delete-duplicates t
