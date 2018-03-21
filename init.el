@@ -1059,6 +1059,9 @@
 
 ;;;;; Major Modes
 
+(use-package csv-mode
+  :mode "\\.csv")
+
 (use-package org
   :bind
   (:map org-mode-map
