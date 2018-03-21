@@ -18,7 +18,6 @@
       ns-function-modifier 'control
       ns-right-option-modifier 'none
       create-lockfiles nil
-      mouse-wheel-scroll-amount '(1 ((shift) . 1))
       gc-cons-threshold (* 10 1024 1024)
       disabled-command-function nil
       ad-redefinition-action 'accept
@@ -283,7 +282,15 @@
   (jit-lock-stealth-nice 0.1)
   (jit-lock-stealth-time 0.2))
 
+(use-package mwheel
+  :custom
+  (mouse-wheel-scroll-amount '(1 ((shift) . 1))))
+
 ;;;;; Processes, Shells, Compilation
+
+(use-package async
+  :config
+  (dired-async-mode))
 
 (use-package exec-path-from-shell
   :custom
@@ -376,9 +383,8 @@
                 sh-basic-offset 2))
 
 (use-package executable
-  :defer t
-  :config
-  (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p))
+  :hook
+  (after-save . executable-make-buffer-file-executable-if-script-p))
 
 (use-package direnv
   :ensure-system-package direnv
