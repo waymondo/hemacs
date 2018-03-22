@@ -805,8 +805,12 @@
                         hippie-expand-try-functions-list))))
 
 (use-package yasnippet
-  :mode ("\\.yasnippet\\'" . snippet-mode)
+  :custom
+  (yas-wrap-around-region t)
+  :mode
+  ("\\.yasnippet\\'" . snippet-mode)
   :init
+  (setq yas-minor-mode-map (make-sparse-keymap))
   (defun yas-indent-unless-case-sensitive (orig-fun &rest args)
     (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
       (apply orig-fun args)))
