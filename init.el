@@ -719,8 +719,9 @@
   (advice-add 'smart-shift-override-local-map :override #'ignore))
 
 (use-package drag-stuff
-  :bind (("<C-s-down>" . drag-stuff-down)
-         ("<C-s-up>"   . drag-stuff-up))
+  :bind
+  (("<s-down>" . drag-stuff-down)
+   ("<s-up>"   . drag-stuff-up))
   :config
   (defun indent-unless-sensitive (_arg)
     (unless (member major-mode indent-sensitive-modes)
