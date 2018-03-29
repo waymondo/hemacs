@@ -133,7 +133,7 @@
 
 (def hemacs-setup-fira-code-font
   (unless (member "Fira Code" (font-family-list))
-    (heamcs-install-fira-code-font))
+    (hemacs-install-fira-code-font))
   (set-frame-font "Fira Code Retina-15")
   (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                  (35 . ".\\(?:###\\|##\\|[#(?[_{]\\)")
