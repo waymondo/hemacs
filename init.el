@@ -484,8 +484,7 @@
   :after dired
   :bind
   (:map dired-mode-map
-        ("i" . dired-subtree-insert)
-        (";" . dired-subtree-remove)))
+        ("i" . dired-subtree-toggle)))
 
 (use-package undo-tree
   :config (global-undo-tree-mode)
