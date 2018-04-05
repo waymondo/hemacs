@@ -1194,6 +1194,8 @@
 
 (use-package js2-mode
   :mode "\\.js\\'"
+  :ensure-system-package
+  (eslint_d . "npm install -g eslint_d")
   :bind
   (:map js2-mode-map
         ("," . self-with-space)
@@ -1204,15 +1206,13 @@
   :hook
   (js2-mode . js2-imenu-extras-mode)
   :custom
-  (js2-mode-show-parse-errors nil)
-  (js2-strict-trailing-comma-warning nil)
-  (js2-strict-missing-semi-warning nil)
+  (js2-mode-show-strict-warnings nil)
   (js2-highlight-level 3)
   :config
   (defvaralias 'js-switch-indent-offset 'js2-basic-offset)
   (setenv "NODE_NO_READLINE" "1")
-  (setq-default js2-global-externs
-                '("clearTimeout" "setTimeout" "module" "require" "_")))
+  (after flycheck
+    (setq flycheck-javascript-eslint-executable "eslint_d")))
 
 (use-package nodejs-repl
   :ensure-system-package node
