@@ -15,7 +15,6 @@
       auto-window-vscroll nil
       echo-keystrokes 1e-6
       ns-use-native-fullscreen nil
-      ns-use-srgb-colorspace t
       delete-by-moving-to-trash t
       ring-bell-function #'ignore
       ns-function-modifier 'control
@@ -536,6 +535,7 @@
   ((org-mode markdown-mode fountain-mode git-commit-mode) . auto-fill-mode)
   :config
   (global-visual-line-mode)
+  (column-number-mode)
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
     (let ((p (point)))
       (dotimes (_i 10)
@@ -1619,20 +1619,18 @@
   :custom
   (rainboww-delimiters-max-face-count 5))
 
-(use-package powerline
-  :defer t
+(use-package moody
   :custom
-  (powerline-default-separator 'utf-8))
-
-(use-package spaceline)
-
-(use-package spaceline-config
-  :after spaceline
+  (moody-slant-function #'moody-slant-apple-rgb)
+  (x-underline-at-descent-line t)
   :config
-  (spaceline-emacs-theme)
-  (spaceline-toggle-minor-modes-off)
-  (spaceline-toggle-buffer-size-off)
-  (spaceline-toggle-hud-off))
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
+
+(use-package rich-minority
+  :config
+  (setf rm-blacklist "")
+  (rich-minority-mode))
 
 (use-package hide-mode-line
   :hook
