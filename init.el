@@ -90,6 +90,16 @@
     (concat user-emacs-directory (format "lib/%s" (symbol-name name))))
   (require 'use-package))
 
+(def upgrade-packages
+  (package-refresh-contents)
+  (save-window-excursion
+    (package-list-packages t)
+    (package-menu-mark-upgrades)
+    (condition-case nil
+        (package-menu-execute t)
+      (error
+       (package-menu-execute)))))
+
 (setf (alist-get :load-path use-package-defaults)
       '((list (local-package-load-path name))
         (file-directory-p (local-package-load-path name))))
@@ -103,13 +113,6 @@
 (use-package use-package-chords)
 
 (use-package use-package-ensure-system-package)
-
-(use-package auto-package-update
-  :custom
-  (auto-package-update-delete-old-versions t)
-  (auto-package-update-hide-results t)
-  :config
-  (auto-package-update-maybe))
 
 ;;;;; Font
 
