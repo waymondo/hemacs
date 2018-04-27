@@ -892,6 +892,8 @@
   ((";w" . toggle-split-window)
    (":W" . delete-other-windows)
    (":Q" . delete-side-windows))
+  :hook
+  (emacs-startup . toggle-frame-fullscreen)
   :custom
   (display-buffer-alist
    `((,(rx bos (or "*Flycheck errors*"
