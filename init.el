@@ -1497,7 +1497,6 @@
     (github-issues "new")))
 
 (use-package smerge-mode
-  :after hydra
   :hook
   (find-file . enable-smerge-mode-maybe)
   :bind
@@ -1509,8 +1508,9 @@
       (when (re-search-forward "^<<<<<<< " nil :noerror)
         (smerge-mode 1)
         (hydra-smerge/body))))
-  (defhydra hydra-smerge (:hint nil :pre (smerge-mode 1) :post (smerge-auto-leave))
-    "
+  (after hydra
+    (defhydra hydra-smerge (:hint nil :pre (smerge-mode 1) :post (smerge-auto-leave))
+      "
                                                     ╭────────┐
   Movement   Keep           Diff              Other │ smerge │
   ╭─────────────────────────────────────────────────┴────────╯
@@ -1520,27 +1520,27 @@
      ^_j_ ↓^     [_a_] all        [_H_] hightlight
      ^_C-j_^     [_RET_] current  [_E_] ediff             ╭──────────
      ^_G_^                                            │ [_q_] quit"
-    ("g" (progn (goto-char (point-min)) (smerge-next)))
-    ("G" (progn (goto-char (point-max)) (smerge-prev)))
-    ("C-j" smerge-next)
-    ("C-k" smerge-prev)
-    ("j" next-line)
-    ("k" previous-line)
-    ("b" smerge-keep-base)
-    ("u" smerge-keep-upper)
-    ("l" smerge-keep-lower)
-    ("a" smerge-keep-all)
-    ("RET" smerge-keep-current)
-    ("\C-m" smerge-keep-current)
-    ("<" smerge-diff-base-upper)
-    ("=" smerge-diff-upper-lower)
-    (">" smerge-diff-base-lower)
-    ("H" smerge-refine)
-    ("E" smerge-ediff)
-    ("C" smerge-combine-with-next)
-    ("r" smerge-resolve)
-    ("R" smerge-kill-current)
-    ("q" nil :color blue)))
+      ("g" (progn (goto-char (point-min)) (smerge-next)))
+      ("G" (progn (goto-char (point-max)) (smerge-prev)))
+      ("C-j" smerge-next)
+      ("C-k" smerge-prev)
+      ("j" next-line)
+      ("k" previous-line)
+      ("b" smerge-keep-base)
+      ("u" smerge-keep-upper)
+      ("l" smerge-keep-lower)
+      ("a" smerge-keep-all)
+      ("RET" smerge-keep-current)
+      ("\C-m" smerge-keep-current)
+      ("<" smerge-diff-base-upper)
+      ("=" smerge-diff-upper-lower)
+      (">" smerge-diff-base-lower)
+      ("H" smerge-refine)
+      ("E" smerge-ediff)
+      ("C" smerge-combine-with-next)
+      ("r" smerge-resolve)
+      ("R" smerge-kill-current)
+      ("q" nil :color blue))))
 
 (use-package git-timemachine)
 
