@@ -394,10 +394,10 @@
 (use-package repl-toggle
   :custom
   (rtog/mode-repl-alist
-   '(((emacs-lisp-mode . ielm)
-      (ruby-mode . inf-ruby)
-      (js2-mode . nodejs-repl)
-      (rjsx-mode . nodejs-repl))))
+   '((emacs-lisp-mode . ielm)
+     (ruby-mode . inf-ruby)
+     (js2-mode . nodejs-repl)
+     (rjsx-mode . nodejs-repl)))
   :config
   (repl-toggle-mode))
 
