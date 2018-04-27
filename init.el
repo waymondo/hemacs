@@ -738,8 +738,9 @@
   (ivy-virtual-abbreviate 'abbreviate)
   (ivy-format-function #'ivy-format-function-arrow)
   :bind
-  (:map ivy-minibuffer-map
-        ("<escape>"  . abort-recursive-edit))
+  (("s-b" . ivy-switch-buffer)
+   (:map ivy-minibuffer-map
+         ("<escape>"  . abort-recursive-edit)))
   :chords
   (";s" . ivy-switch-buffer)
   :init
