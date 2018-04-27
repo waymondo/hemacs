@@ -396,10 +396,10 @@
 (use-package repl-toggle
   :custom
   (rtog/mode-repl-alist
-   '(((emacs-lisp-mode . ielm)
-      (ruby-mode . inf-ruby)
-      (js2-mode . nodejs-repl)
-      (rjsx-mode . nodejs-repl))))
+   '((emacs-lisp-mode . ielm)
+     (ruby-mode . inf-ruby)
+     (js2-mode . nodejs-repl)
+     (rjsx-mode . nodejs-repl)))
   :config
   (repl-toggle-mode))
 
@@ -895,6 +895,8 @@
   ((";w" . toggle-split-window)
    (":W" . delete-other-windows)
    (":Q" . delete-side-windows))
+  :hook
+  (emacs-startup . toggle-frame-fullscreen)
   :custom
   (display-buffer-alist
    `((,(rx bos (or "*Flycheck errors*"
@@ -1057,14 +1059,6 @@
   (atomic-chrome-start-server)
   :custom
   (atomic-chrome-default-major-mode 'gfm-mode))
-
-(use-package crab
-  :defer 2
-  :bind (("s-R" . crab-reload)
-         ("s-{" . crab-prev-tab)
-         ("s-}" . crab-next-tab))
-  :config
-  (crab-server-start))
 
 (use-package restart-emacs
   :bind ([remap save-buffers-kill-terminal] . restart-emacs))
@@ -1372,19 +1366,6 @@
   (:map projectile-rails-mode-map ("C-c r" . hydra-projectile-rails/body))
   :init
   (projectile-rails-global-mode))
-
-(use-package chruby
-  :after ruby-mode
-  :config
-  (defun with-corresponding-chruby (orig-fun &rest args)
-    (let ((inhibit-message t))
-      (call-interactively #'chruby-use-corresponding))
-    (apply orig-fun args))
-  (advice-add 'hack-dir-local-variables-non-file-buffer :around #'with-corresponding-chruby)
-  (after inf-ruby
-    (advice-add 'run-ruby :around #'with-corresponding-chruby))
-  (after projectile-rails
-    (bind-key "V" #'chruby-use-corresponding projectile-rails-command-map)))
 
 (use-package ruby-hash-syntax
   :after ruby-mode
