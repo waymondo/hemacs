@@ -1415,9 +1415,11 @@
   (("s-m" . magit-status)
    :map magit-mode-map ("C-c C-a" . magit-just-amend))
   :custom
-  (magit-completing-read-function 'ivy-completing-read)
-  (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  (magit-log-section-commit-count 0)
+  (magit-completing-read-function #'ivy-completing-read)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (magit-log-auto-more t)
+  (magit-branch-prefer-remote-upstream t)
   (magit-repository-directories projectile-known-projects)
   (magit-no-confirm t)
   :hook
