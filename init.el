@@ -322,8 +322,7 @@
   :hook
   (comint-mode . text-smaller-no-truncation)
   :config
-  (setq-default comint-process-echoes t
-                comint-input-ignoredups t
+  (setq-default comint-input-ignoredups t
                 comint-scroll-show-maximum-output nil
                 comint-output-filter-functions
                 '(ansi-color-process-output
