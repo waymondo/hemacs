@@ -1200,7 +1200,7 @@
   :hook
   (js2-mode . js2-imenu-extras-mode)
   :custom
-  (js2-mode-show-strict-warnings nil)
+  (js2-strict-missing-semi-warning nil)
   (js2-highlight-level 3)
   :config
   (defvaralias 'js-switch-indent-offset 'js2-basic-offset)
