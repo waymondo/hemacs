@@ -1355,8 +1355,6 @@
 (use-package rspec-mode
   :bind ("s-R" . rspec-rerun)
   :after ruby-mode
-  :custom
-  (rspec-use-chruby t)
   :config
   (after yasnippet
     (rspec-install-snippets)))
