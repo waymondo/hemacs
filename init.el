@@ -748,6 +748,16 @@
 (use-package ivy-hydra
   :after ivy)
 
+(use-package ivy-historian
+  :after ivy
+  :config
+  (ivy-historian-mode))
+
+(use-package ivy-xref
+  :after ivy
+  :custom
+  (xref-show-xrefs-function #'ivy-xref-show-xrefs))
+
 (use-package ivy-posframe
   :custom
   (ivy-posframe-style 'point)
