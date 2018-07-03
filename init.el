@@ -1,42 +1,9 @@
-;;; hemacs --- an emacs configuration -*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
 
-;;;;; Personal Variables & Helper Macros
+;;;;; Personal Variables
 
 (defvar indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defvar *is-mac* (eq system-type 'darwin))
-
-(defmacro def (name &rest body)
-  (declare (indent 1) (debug t))
-  `(defun ,name (&optional _arg)
-     ,(if (stringp (car body)) (car body))
-     (interactive "p")
-     ,@(if (stringp (car body)) (cdr `,body) body)))
-
-(defmacro λ (&rest body)
-  (declare (indent 1) (debug t))
-  `(lambda ()
-     (interactive)
-     ,@body))
-
-(defmacro add-λ (hook &rest body)
-  (declare (indent 1) (debug t))
-  `(add-hook ,hook (lambda () ,@body)))
-
-(defmacro after (feature &rest forms)
-  (declare (indent 1) (debug t))
-  `(,(if (or (not (bound-and-true-p byte-compile-current-file))
-             (if (symbolp feature)
-                 (require feature nil :no-error)
-               (load feature :no-message :no-error)))
-         #'progn
-       #'with-no-warnings)
-    (with-eval-after-load ',feature ,@forms)))
-
-(defmacro use-feature (name &rest args)
-  (declare (indent 1))
-  `(use-package ,name
-     :straight nil
-     ,@args))
 
 ;;;;; Font
 
@@ -1234,17 +1201,15 @@
   :after js2-mode
   :ensure-system-package (prettier . "npm i -g prettier")
   :bind
-  (:map js2-mode-map ("s-b" . prettier))
+  (:map js2-mode-map ("C-M-\\" . prettier))
   :custom
   (prettier-args '("--no-semi" "--trailing-comma" "all")))
 
 (use-package web-beautify
   :ensure-system-package (prettier . "npm i -g js-beautify")
   :bind
-  ((:map sgml-mode-map ("s-b" . web-beautify-html))
-   (:map css-mode-map ("s-b" . web-beautify-css))))
-
-(use-package elm-mode)
+  ((:map sgml-mode-map ("C-M-\\" . web-beautify-html))
+   (:map css-mode-map ("C-M-\\" . web-beautify-css))))
 
 (use-package slim-mode
   :bind
