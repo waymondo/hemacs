@@ -1485,7 +1485,7 @@
   (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
   (flycheck-idle-change-delay 2)
   :config
-  (setq-default flycheck-disabled-checkers '(html-tidy))
+  (setq-default flycheck-disabled-checkers '(html-tidy emacs-lisp emacs-lisp-checkdoc))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package flycheck-posframe
