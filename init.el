@@ -1,49 +1,4 @@
-;;; hemacs --- an emacs configuration -*- lexical-binding: t; flycheck-disabled-checkers: (emacs-lisp-checkdoc); -*-
-
-;;;;; Source Variables
-
-(when (< emacs-major-version 27)
-  (error "Emacs should be version 27 or greater"))
-
-(setq load-prefer-newer t
-      history-length 128
-      history-delete-duplicates t
-      maximum-scroll-margin 0.5
-      scroll-margin 50
-      scroll-conservatively 101
-      scroll-preserve-screen-position 'always
-      auto-window-vscroll nil
-      echo-keystrokes 1e-6
-      ns-use-native-fullscreen nil
-      delete-by-moving-to-trash t
-      ring-bell-function #'ignore
-      ns-function-modifier 'control
-      ns-right-option-modifier 'none
-      create-lockfiles nil
-      gc-cons-threshold (* 10 1024 1024)
-      disabled-command-function nil
-      ad-redefinition-action 'accept
-      custom-safe-themes t
-      custom-file (make-temp-file "emacs-custom")
-      inhibit-startup-screen t
-      initial-scratch-message nil
-      inhibit-startup-echo-area-message ""
-      standard-indent 2
-      enable-recursive-minibuffers t
-      kill-buffer-query-functions nil
-      ns-pop-up-frames nil)
-
-(setq-default indent-tabs-mode nil
-              line-spacing 1
-              tab-width 2
-              c-basic-offset 2
-              cursor-type 'bar
-              cursor-in-non-selected-windows nil
-              bidi-display-reordering nil
-              truncate-lines t)
-
-(defalias 'yes-or-no-p #'y-or-n-p)
-(prefer-coding-system 'utf-8)
+;;; hemacs --- an emacs configuration -*- lexical-binding: t -*-
 
 ;;;;; Personal Variables & Helper Macros
 
@@ -77,42 +32,11 @@
        #'with-no-warnings)
     (with-eval-after-load ',feature ,@forms)))
 
-;;;;; Package Management
-
-(require 'package)
-(add-to-list 'package-archives (cons "melpa" "http://melpa.org/packages/") t)
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (defvar use-package-enable-imenu-support t)
-  (defun local-package-load-path (name)
-    (concat user-emacs-directory (format "lib/%s" (symbol-name name))))
-  (require 'use-package))
-
-(def upgrade-packages
-  (package-refresh-contents)
-  (save-window-excursion
-    (package-list-packages t)
-    (package-menu-mark-upgrades)
-    (condition-case nil
-        (package-menu-execute t)
-      (error
-       (package-menu-execute)))))
-
-(setf (alist-get :load-path use-package-defaults)
-      '((list (local-package-load-path name))
-        (file-directory-p (local-package-load-path name))))
-
-(setf (alist-get :ensure use-package-defaults)
-      '((list t) (and (not (locate-library (symbol-name name)))
-                      (not (file-directory-p (local-package-load-path name))))))
-
-(use-package no-littering)
-
-(use-package use-package-chords)
-
-(use-package use-package-ensure-system-package)
+(defmacro use-feature (name &rest args)
+  (declare (indent 1))
+  `(use-package ,name
+     :straight nil
+     ,@args))
 
 ;;;;; Font
 
@@ -168,6 +92,45 @@
 (add-hook 'emacs-startup-hook #'hemacs-setup-fira-code-font)
 
 ;;;;; Bootstrap
+
+(use-feature emacs
+  :custom
+  (load-prefer-newer t)
+  (history-length 128)
+  (history-delete-duplicates t)
+  (maximum-scroll-margin 0.5)
+  (scroll-margin 50)
+  (scroll-conservatively 101)
+  (scroll-preserve-screen-position 'always)
+  (auto-window-vscroll nil)
+  (echo-keystrokes 1e-6)
+  (ns-use-native-fullscreen nil)
+  (delete-by-moving-to-trash t)
+  (ring-bell-function #'ignore)
+  (ns-function-modifier 'control)
+  (ns-right-option-modifier 'none)
+  (create-lockfiles nil)
+  (gc-cons-threshold (* 10 1024 1024))
+  (disabled-command-function nil)
+  (ad-redefinition-action 'accept)
+  (custom-safe-themes t)
+  (custom-file (make-temp-file "emacs-custom"))
+  (initial-scratch-message nil)
+  (inhibit-startup-echo-area-message "")
+  (standard-indent 2)
+  (enable-recursive-minibuffers t)
+  (kill-buffer-query-functions nil)
+  (ns-pop-up-frames nil)
+  :config
+  (setq-default indent-tabs-mode nil
+                line-spacing 1
+                tab-width 2
+                c-basic-offset 2
+                cursor-type 'bar
+                cursor-in-non-selected-windows nil
+                bidi-display-reordering nil
+                truncate-lines t)
+  (defalias 'yes-or-no-p #'y-or-n-p))
 
 (defun ensure-space (direction)
   (let* ((char-fn (cond
@@ -240,6 +203,11 @@
   (setq-local input-method-function nil)
   (setq-local gc-cons-threshold most-positive-fixnum))
 
+(use-feature mule-cmds
+  :preface (provide 'mule-cmds)
+  :config
+  (prefer-coding-system 'utf-8))
+
 (use-package server
   :config
   (unless (server-running-p)
@@ -268,23 +236,21 @@
         (delete-region (car bounds) (cdr bounds))
         (insert (funcall fn symbol))))))
 
-(use-package tool-bar
-  :defer t
+(use-feature tool-bar
   :config (tool-bar-mode -1))
 
-(use-package scroll-bar
-  :defer t
+(use-feature scroll-bar
   :config (scroll-bar-mode -1))
 
-(use-package menu-bar
+(use-feature menu-bar
   :bind ("s-w" . kill-this-buffer))
 
-(use-package jit-lock
+(use-feature jit-lock
   :custom
   (jit-lock-stealth-nice 0.1)
   (jit-lock-stealth-time 0.2))
 
-(use-package mwheel
+(use-feature mwheel
   :custom
   (mouse-wheel-scroll-amount '(1 ((shift) . 1))))
 
@@ -309,7 +275,7 @@
     (unless (get-buffer-window buf 'visible)
       (alert str :buffer buf))))
 
-(use-package comint
+(use-feature comint
   :bind
   (:map comint-mode-map
         ("RET"       . comint-return-dwim)
@@ -346,7 +312,7 @@
     (dolist (buffer (buffer-list))
       (with-current-buffer buffer (comint-write-input-ring)))))
 
-(use-package compile
+(use-feature compile
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
@@ -404,8 +370,7 @@
 
 ;;;;; Files & History
 
-(use-package image-mode
-  :defer t
+(use-feature image-mode
   :hook
   (image-mode . show-image-dimensions-in-mode-line)
   :custom
@@ -418,7 +383,7 @@
       (setq mode-line-buffer-identification
             (format "%s %dx%d" (propertized-buffer-identification "%12b") width height)))))
 
-(use-package files
+(use-feature files
   :custom
   (require-final-newline t)
   (confirm-kill-processes nil)
@@ -463,8 +428,7 @@
   :config
   (recentf-mode))
 
-(use-package dired
-  :defer t
+(use-feature dired
   :custom
   (dired-create-destination-dirs t)
   (dired-use-ls-dired nil)
@@ -477,7 +441,7 @@
   :config
   (put 'dired-find-alternate-file 'disabled nil))
 
-(use-package dired-x
+(use-feature dired-x
   :after dired
   :bind ("s-\\" . dired-jump-other-window))
 
@@ -512,14 +476,14 @@
 
 ;;;;; Editing
 
-(use-package newcomment
+(use-feature newcomment
   :bind ("s-/" . comment-or-uncomment-region))
 
 (use-package face-remap
   :hook
   ((org-mode markdown-mode fountain-mode) . variable-pitch-mode))
 
-(use-package simple
+(use-feature simple
   :custom
   (set-mark-command-repeat-pop t)
   (save-interprogram-paste-before-kill t)
@@ -838,6 +802,9 @@
   (company-show-numbers t)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
   (company-transformers '(company-sort-prefer-same-case-prefix))
+  (company-dabbrev-minimum-length 2)
+  (company-dabbrev-code-modes t)
+  (company-dabbrev-code-everywhere t)
   :bind
   (([remap completion-at-point] . company-manual-begin)
    ([remap complete-symbol] . company-manual-begin))
@@ -847,17 +814,6 @@
         (append company-continue-commands
                 '(comint-previous-matching-input-from-input
                   comint-next-matching-input-from-input))))
-
-(use-package company-dabbrev
-  :after company
-  :custom
-  (company-dabbrev-minimum-length 2))
-
-(use-package company-dabbrev-code
-  :after company
-  :custom
-  (company-dabbrev-code-modes t)
-  (company-dabbrev-code-everywhere t))
 
 (use-package company-childframe
   :after company
@@ -898,7 +854,7 @@
 
 ;;;;; Navigation & Search
 
-(use-package window
+(use-feature window
   :preface (provide 'window)
   :chords
   ((";w" . toggle-split-window)
@@ -1389,7 +1345,7 @@
 (use-package restclient
   :defer t)
 
-(use-package text-mode
+(use-feature text-mode
   :bind (:map text-mode-map ("," . self-with-space)))
 
 ;;;;; Version Control
@@ -1398,7 +1354,6 @@
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package magit
-  :ensure t
   :bind
   (("s-m" . magit-status)
    :map magit-mode-map ("C-c C-a" . magit-just-amend))
@@ -1433,7 +1388,7 @@
   :custom
   (git-messenger:show-detail t))
 
-(use-package vc-git
+(use-feature vc-git
   :custom
   (vc-git-diff-switches '("--histogram")))
 
@@ -1570,13 +1525,19 @@
 
 ;;;;; Appearance
 
-(use-package frame
+(use-feature startup
+  :preface (provide 'startup)
+  :custom
+  (inhibit-startup-screen t))
+
+(use-feature frame
   :custom
   (blink-cursor-blinks 0)
   :init
-  (add-to-list 'initial-frame-alist '(fullscreen . fullboth)))
+  (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
+  (blink-cursor-mode))
 
-(use-package uniquify
+(use-feature uniquify
   :custom
   (uniquify-buffer-name-style 'forward))
 
@@ -1641,7 +1602,7 @@
 (use-package auto-dim-other-buffers
   :config (auto-dim-other-buffers-mode))
 
-(use-package fringe
+(use-feature fringe
   :config (fringe-mode '(20 . 8))
   :custom
   (fringe-indicator-alist
