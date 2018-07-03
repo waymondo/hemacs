@@ -1318,6 +1318,10 @@
 (use-package ediff
   :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-feature vc-hooks
+  :custom
+  (vc-follow-symlinks t))
+
 (use-package magit
   :bind
   (("s-m" . magit-status)
