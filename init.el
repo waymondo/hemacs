@@ -784,6 +784,7 @@
                    "*compilation"
                    "*Help"
                    "*helpful"
+                   "*ivy-occur"
                    "*less-css-compilation"
                    "*Packages"
                    "*SQL"))
