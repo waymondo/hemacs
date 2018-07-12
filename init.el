@@ -766,6 +766,19 @@
   (smart-tab-using-hippie-expand t)
   (smart-tab-completion-functions-alist '()))
 
+(use-package prescient
+  :config
+  (prescient-persist-mode))
+
+(use-package ivy-prescient
+  :after ivy
+  (ivy-prescient-mode))
+
+(use-package company-prescient
+  :after company
+  :config
+  (company-prescient-mode))
+
 ;;;;; Navigation & Search
 
 (use-feature window
