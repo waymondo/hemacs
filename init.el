@@ -1059,10 +1059,6 @@
   :custom
   (less-css-lessc-options '("--no-color" "-x")))
 
-(use-package counsel-css
-  :hook
-  (css-mode . counsel-css-imenu-setup))
-
 (use-package js
   :custom
   (js-indent-level 2))
