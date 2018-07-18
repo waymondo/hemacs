@@ -1300,6 +1300,10 @@
         (apply orig-fun (list process event))))
     (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)))
 
+(use-package magit-todos
+  :config
+  (magit-todos-mode))
+
 (use-package git-messenger
   :custom
   (git-messenger:show-detail t))
