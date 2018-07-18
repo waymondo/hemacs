@@ -859,7 +859,8 @@
   :config
   (defun hemacs-imenu-elisp-expressions ()
     (dolist (pattern '((nil "^(def \\(.+\\)$" 1)
-                       ("sections" "^;;;;; \\(.+\\)$" 1)))
+                       ("Features" "^(use-feature \\(.+\\)$" 1)
+                       ("Sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern))))
 
 (use-package imenu-anywhere
