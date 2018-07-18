@@ -22,7 +22,6 @@
   (delete-by-moving-to-trash t)
   (ring-bell-function #'ignore)
   (ns-function-modifier 'control)
-  (ns-right-option-modifier 'none)
   (create-lockfiles nil)
   (gc-cons-threshold (* 10 1024 1024))
   (disabled-command-function nil)
