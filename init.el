@@ -1326,6 +1326,13 @@
   :custom
   (tls-program '("gnutls-cli -p %p %h" "gnutls-cli -p %p %h --protocols ssl3")))
 
+(use-package epa
+  :bind
+  ("C-c g d f" . epa-decrypt-file)
+  ("C-c g d r" . epa-decrypt-region)
+  ("C-c g e r" . epa-encrypt-region)
+  ("C-c g e f" . epa-encrypt-file))
+
 (use-package magithub
   :after magit
   :ensure-system-package hub
