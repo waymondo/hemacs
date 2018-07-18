@@ -439,14 +439,14 @@
       (back-to-indentation)
       (when (= orig-point (point))
         (apply orig-fun args))))
-  (defun backward-delete-subword (orig-fun &rest args)
+  (defun delete-region-instead-of-kill-region (orig-fun &rest args)
     (cl-letf (((symbol-function 'kill-region) #'delete-region))
       (apply orig-fun args)))
   (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
-  (advice-add 'backward-kill-word :around #'backward-delete-subword)
+  (advice-add 'backward-kill-word :around #'delete-region-instead-of-kill-region)
   (advice-add 'kill-whole-line :after #'back-to-indentation)
   (advice-add 'kill-line :around #'kill-or-join-line)
   (advice-add 'kill-visual-line :around #'kill-or-join-line)
@@ -473,8 +473,11 @@
   :bind* ("C-," . er/expand-region))
 
 (use-package change-inner
-  :bind (("M-i" . change-inner)
-         ("M-o" . change-outer)))
+  :bind
+  ("M-i" . change-inner)
+  ("M-o" . change-outer)
+  :config
+  (advice-add 'change-inner* :around #'delete-region-instead-of-kill-region))
 
 (use-package adaptive-wrap
   :hook
