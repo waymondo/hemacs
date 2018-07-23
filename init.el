@@ -130,7 +130,8 @@
   :config (dash-enable-font-lock))
 
 (use-package s
-  :bind ("s-;" . transform-symbol-at-point)
+  :bind
+  ("s-;" . transform-symbol-at-point)
   :config
   (def transform-symbol-at-point
     (let* ((choices '((?c . s-lower-camel-case)
@@ -156,7 +157,8 @@
   :config (scroll-bar-mode -1))
 
 (use-feature menu-bar
-  :bind ("s-w" . kill-this-buffer))
+  :bind
+  ("s-w" . kill-this-buffer))
 
 (use-feature jit-lock
   :custom
@@ -236,9 +238,9 @@
 
 (use-package profiler
   :bind
-  (("C-x p r"  . profiler-report)
-   ("C-x p 1"  . profiler-start)
-   ("C-x p 0"  . profiler-stop)))
+  ("C-x p r"  . profiler-report)
+  ("C-x p 1"  . profiler-start)
+  ("C-x p 0"  . profiler-stop))
 
 (use-package warnings
   :custom
@@ -356,7 +358,8 @@
 
 (use-feature dired-x
   :after dired
-  :bind ("s-\\" . dired-jump-other-window))
+  :bind
+  ("s-\\" . dired-jump-other-window))
 
 (use-package dired-subtree
   :after dired
@@ -365,9 +368,11 @@
         ("i" . dired-subtree-toggle)))
 
 (use-package undo-tree
-  :config (global-undo-tree-mode)
-  :bind (("s-z" . undo-tree-undo)
-         ("s-Z" . undo-tree-redo)))
+  :config
+  (global-undo-tree-mode)
+  :bind
+  ("s-z" . undo-tree-undo)
+  ("s-Z" . undo-tree-redo))
 
 (use-package osx-trash
   :if *is-mac*
@@ -390,7 +395,8 @@
 ;;;;; Editing
 
 (use-feature newcomment
-  :bind ("s-/" . comment-or-uncomment-region))
+  :bind
+  ("s-/" . comment-or-uncomment-region))
 
 (use-package face-remap
   :hook
@@ -404,12 +410,12 @@
   (next-error-recenter t)
   (async-shell-command-buffer 'new-buffer)
   :bind
-  (("s-k" . kill-whole-line)
-   ("C-`" . list-processes)
-   (:map minibuffer-local-map
-         ("<escape>"  . abort-recursive-edit)
-         ("M-TAB"     . previous-complete-history-element)
-         ("<M-S-tab>" . next-complete-history-element)))
+  ("s-k" . kill-whole-line)
+  ("C-`" . list-processes)
+  (:map minibuffer-local-map
+        ("<escape>"  . abort-recursive-edit)
+        ("M-TAB"     . previous-complete-history-element)
+        ("<M-S-tab>" . next-complete-history-element))
   :hook
   ((org-mode markdown-mode fountain-mode git-commit-mode) . auto-fill-mode)
   :config
@@ -518,10 +524,12 @@
 (use-package ace-window
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  :bind ([remap next-multiframe-window] . ace-window))
+  :bind
+  ([remap next-multiframe-window] . ace-window))
 
 (use-package smart-newline
-  :bind ("<s-return>" . eol-then-smart-newline)
+  :bind
+  ("<s-return>" . eol-then-smart-newline)
   :hook
   (prog-mode . maybe-enable-smart-newline-mode)
   :init
@@ -537,26 +545,29 @@
     (smart-newline)))
 
 (use-package easy-kill
-  :bind (([remap kill-ring-save] . easy-kill)
-         ([remap mark-sexp]      . easy-mark)))
+  :bind
+  ([remap kill-ring-save] . easy-kill)
+  ([remap mark-sexp]      . easy-mark))
 
 (use-package shift-number
-  :bind (("<M-up>"   . shift-number-up)
-         ("<M-down>" . shift-number-down)))
+  :bind
+  ("<M-up>"   . shift-number-up)
+  ("<M-down>" . shift-number-down))
 
 (use-package multiple-cursors
-  :bind (("s-d"     . mc/mark-next-like-this)
-         ("s-D"     . mc/mark-previous-like-this)
-         ("C-c s-d" . mc/mark-all-like-this-dwim))
+  :bind
+  ("s-d"     . mc/mark-next-like-this)
+  ("s-D"     . mc/mark-previous-like-this)
+  ("C-c s-d" . mc/mark-all-like-this-dwim)
   :config
   (add-hook 'before-save-hook #'mc/keyboard-quit))
 
 (use-package crux
   :bind
-  (("s-," . crux-find-user-init-file)
-   ("s-D" . crux-duplicate-current-line-or-region)
-   ("s-K" . crux-delete-file-and-buffer)
-   ("s-S" . crux-rename-file-and-buffer))
+  ("s-," . crux-find-user-init-file)
+  ("s-D" . crux-duplicate-current-line-or-region)
+  ("s-K" . crux-delete-file-and-buffer)
+  ("s-S" . crux-rename-file-and-buffer)
   :chords
   (":S" . crux-recentf-find-file)
   :config
@@ -570,10 +581,12 @@
   (crux-with-region-or-point-to-eol kill-ring-save))
 
 (use-package toggle-quotes
-  :bind ("C-'" . toggle-quotes))
+  :bind
+  ("C-'" . toggle-quotes))
 
 (use-package scratch
-  :bind ("s-N" . scratch))
+  :bind
+  ("s-N" . scratch))
 
 (use-package flyspell
   :hook
@@ -591,15 +604,16 @@
                  (not (or (region-active-p) (member major-mode indent-sensitive-modes))))))
 
 (use-package smart-shift
-  :bind (("s-[" . smart-shift-left)
-         ("s-]" . smart-shift-right))
+  :bind
+  ("s-[" . smart-shift-left)
+  ("s-]" . smart-shift-right)
   :config
   (advice-add 'smart-shift-override-local-map :override #'ignore))
 
 (use-package drag-stuff
   :bind
-  (("<s-down>" . drag-stuff-down)
-   ("<s-up>"   . drag-stuff-up))
+  ("<s-down>" . drag-stuff-down)
+  ("<s-up>"   . drag-stuff-up)
   :config
   (defun indent-unless-sensitive (_arg)
     (unless (member major-mode indent-sensitive-modes)
@@ -617,9 +631,7 @@
   (ivy-virtual-abbreviate 'abbreviate)
   (ivy-format-function #'ivy-format-function-arrow)
   :bind
-  (("s-b" . ivy-switch-buffer)
-   (:map ivy-minibuffer-map
-         ("<escape>"  . abort-recursive-edit)))
+  ("s-b" . ivy-switch-buffer)
   :chords
   (";s" . ivy-switch-buffer)
   :init
@@ -658,9 +670,9 @@
      try-complete-file-name
      try-expand-dabbrev-other-buffers))
   :bind
-  (([remap dabbrev-expand] . hippie-expand)
-   (:map read-expression-map ("TAB" . hippie-expand))
-   (:map minibuffer-local-map ("TAB" . hippie-expand)))
+  ([remap dabbrev-expand] . hippie-expand)
+  (:map read-expression-map ("TAB" . hippie-expand))
+  (:map minibuffer-local-map ("TAB" . hippie-expand))
   :bind*
   ("M-?" . hippie-expand-line)
   :hook
@@ -722,8 +734,8 @@
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t)
   :bind
-  (([remap completion-at-point] . company-manual-begin)
-   ([remap complete-symbol] . company-manual-begin))
+  ([remap completion-at-point] . company-manual-begin)
+  ([remap complete-symbol] . company-manual-begin)
   :init
   (global-company-mode)
   (setq company-continue-commands
@@ -747,7 +759,8 @@
     (setq-local company-backends (append '(company-emoji) company-backends))))
 
 (use-package emoji-cheat-sheet-plus
-  :bind ("C-c e" . emoji-cheat-sheet-plus-insert)
+  :bind
+  ("C-c e" . emoji-cheat-sheet-plus-insert)
   :hook
   ((org-mode markdown-mode fountain-mode git-commit-mode) . emoji-cheat-sheet-plus-display-mode))
 
@@ -823,17 +836,17 @@
 
 (use-package bm
   :bind
-  (("s-1" . bm-toggle)
-   ("s-2" . bm-next)
-   ("s-@" . bm-previous))
+  ("s-1" . bm-toggle)
+  ("s-2" . bm-next)
+  ("s-@" . bm-previous)
   :custom
   (bm-cycle-all-buffers t))
 
 (use-package anzu
   :bind
-  (([remap query-replace] . anzu-query-replace)
-   ("s-q" . anzu-query-replace)
-   ("C-q" . anzu-query-replace-at-cursor-thing))
+  ([remap query-replace] . anzu-query-replace)
+  ("s-q" . anzu-query-replace)
+  ("C-q" . anzu-query-replace-at-cursor-thing)
   :config
   (global-anzu-mode))
 
@@ -853,7 +866,8 @@
   :chords (";r" . ivy-imenu-anywhere))
 
 (use-package ace-jump-buffer
-  :bind ("s-\"" . ace-jump-buffer)
+  :bind
+  ("s-\"" . ace-jump-buffer)
   :chords
   ((";a" . ace-jump-buffer)
    (":A" . ace-jump-buffer-other-window)
@@ -868,8 +882,8 @@
 
 (use-package projectile
   :bind
-  (("s-p" . projectile-command-map)
-   ("C-x m" . projectile-run-shell))
+  ("s-p" . projectile-command-map)
+  ("C-x m" . projectile-run-shell)
   :chords
   (";t" . projectile-find-file)
   :custom
@@ -905,9 +919,9 @@
 (use-package projector
   :after projectile
   :bind
-  (("C-x RET"        . projector-run-shell-command-project-root)
-   ("C-x <C-return>" . projector-run-default-shell-command)
-   :map comint-mode-map ("s-R" . projector-rerun-buffer-process))
+  ("C-x RET"        . projector-run-shell-command-project-root)
+  ("C-x <C-return>" . projector-run-default-shell-command)
+  (:map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   :custom
   (projector-completion-system 'ivy)
   (projector-command-modes-alist
@@ -918,16 +932,16 @@
 
 (use-package swiper
   :bind
-  (([remap isearch-forward]  . swiper)
-   ([remap isearch-backward] . swiper))
+  ([remap isearch-forward]  . swiper)
+  ([remap isearch-backward] . swiper)
   :custom
   (swiper-action-recenter t))
 
 (use-package counsel
   :bind
-  (([remap execute-extended-command] . counsel-M-x)
-   ("s-P" . counsel-M-x)
-   ("s-y" . counsel-yank-pop))
+  ([remap execute-extended-command] . counsel-M-x)
+  ("s-P" . counsel-M-x)
+  ("s-y" . counsel-yank-pop)
   :chords
   (";f" . counsel-find-file))
 
@@ -944,7 +958,8 @@
   (atomic-chrome-default-major-mode 'gfm-mode))
 
 (use-package restart-emacs
-  :bind ([remap save-buffers-kill-terminal] . restart-emacs))
+  :bind
+  ([remap save-buffers-kill-terminal] . restart-emacs))
 
 ;;;;; Major Modes
 
@@ -969,8 +984,8 @@
 
 (use-package org-repo-todo
   :bind
-  (("s-`" . ort/goto-todos)
-   ("s-n" . ort/capture-checkitem))
+  ("s-`" . ort/goto-todos)
+  ("s-n" . ort/capture-checkitem)
   :config
   (after projectile
     (make-projectile-switch-project-defun #'ort/goto-todos)
@@ -1107,7 +1122,8 @@
 
 (use-package xref-js2
   :after js2-mode
-  :bind (:map js2-mode-map ("M-." . nil))
+  :bind
+  (:map js2-mode-map ("M-." . nil))
   :config
   (add-λ 'js2-mode-hook
     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
@@ -1155,8 +1171,8 @@
 (use-package web-beautify
   :ensure-system-package (prettier . "npm i -g js-beautify")
   :bind
-  ((:map sgml-mode-map ("C-M-\\" . web-beautify-html))
-   (:map css-mode-map ("C-M-\\" . web-beautify-css))))
+  (:map sgml-mode-map ("C-M-\\" . web-beautify-html))
+  (:map css-mode-map ("C-M-\\" . web-beautify-css)))
 
 (use-package slim-mode
   :bind
@@ -1221,7 +1237,8 @@
   :after ruby-mode)
 
 (use-package rspec-mode
-  :bind ("s-R" . rspec-rerun)
+  :bind
+  ("s-R" . rspec-rerun)
   :after ruby-mode
   :config
   (after yasnippet
@@ -1258,7 +1275,8 @@
   :defer t)
 
 (use-feature text-mode
-  :bind (:map text-mode-map ("," . self-with-space)))
+  :bind
+  (:map text-mode-map ("," . self-with-space)))
 
 ;;;;; Version Control
 
@@ -1271,8 +1289,8 @@
 
 (use-package magit
   :bind
-  (("s-m" . magit-status)
-   :map magit-mode-map ("C-c C-a" . magit-just-amend))
+  ("s-m" . magit-status)
+  (:map magit-mode-map ("C-c C-a" . magit-just-amend))
   :custom
   (magit-log-section-commit-count 0)
   (magit-completing-read-function #'ivy-completing-read)
@@ -1346,10 +1364,10 @@
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-variable-function #'helpful-variable)
   :bind
-  (([remap describe-function] . helpful-callable)
-   ([remap describe-command] . helpful-command)
-   ([remap describe-variable] . helpful-variable)
-   ([remap describe-key] . helpful-key)))
+  ([remap describe-function] . helpful-callable)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . helpful-variable)
+  ([remap describe-key] . helpful-key))
 
 (use-package etags
   :custom (tags-revert-without-query t))
@@ -1540,8 +1558,8 @@
   :custom
   (symbol-overlay-idle-time 0.2)
   :bind
-  (("M-n" . symbol-overlay-jump-next)
-   ("M-p" . symbol-overlay-jump-prev))
+  ("M-n" . symbol-overlay-jump-next)
+  ("M-p" . symbol-overlay-jump-prev)
   :hook
   (prog-mode . symbol-overlay-mode))
 
