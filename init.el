@@ -106,6 +106,14 @@
   (insert "||")
   (backward-char))
 
+(defun delete-region-instead-of-kill-region (orig-fun &rest args)
+  (cl-letf (((symbol-function 'kill-region) #'delete-region))
+    (apply orig-fun args)))
+
+(defun inhibit-message-in-minibuffer (orig-fun &rest args)
+  (let ((inhibit-message (minibufferp)))
+    (apply orig-fun args)))
+
 (def text-smaller-no-truncation
   (setq truncate-lines nil)
   (set (make-local-variable 'scroll-margin) 0)
@@ -341,6 +349,7 @@
   (recentf-auto-cleanup 200)
   (recentf-max-saved-items 200)
   :config
+  (advice-add 'recentf-cleanup :around #'inhibit-message-in-minibuffer)
   (recentf-mode))
 
 (use-feature dired
@@ -444,9 +453,6 @@
       (back-to-indentation)
       (when (= orig-point (point))
         (apply orig-fun args))))
-  (defun delete-region-instead-of-kill-region (orig-fun &rest args)
-    (cl-letf (((symbol-function 'kill-region) #'delete-region))
-      (apply orig-fun args)))
   (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
@@ -687,7 +693,7 @@
   (defun hippie-expand-case-sensitive (orig-fun &rest args)
     (let ((case-fold-search nil))
       (apply orig-fun args)))
-  (defun hippie-expand-inhibit-message-in-minibuffer (orig-fun &rest args)
+  (defun inhibit-message-in-minibuffer (orig-fun &rest args)
     (let ((inhibit-message (minibufferp)))
       (apply orig-fun args)))
   (defun hippie-expand-maybe-kill-to-eol (orig-fun &rest args)
@@ -698,7 +704,7 @@
                                  '(try-expand-line
                                    try-expand-line-all-buffers)))
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
-  (advice-add 'hippie-expand :around #'hippie-expand-inhibit-message-in-minibuffer)
+  (advice-add 'hippie-expand :around #'inhibit-message-in-minibuffer)
   (advice-add 'hippie-expand-line :around #'hippie-expand-maybe-kill-to-eol)
   (defun hippie-expand-allow-lisp-symbols ()
     (setq-local hippie-expand-try-functions-list
