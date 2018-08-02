@@ -1085,7 +1085,8 @@
 
 (use-package js
   :custom
-  (js-indent-level 2))
+  (js-indent-level 2)
+  (js-switch-indent-offset 2))
 
 (use-package js2-mode
   :mode "\\.js\\'"
@@ -1104,7 +1105,6 @@
   (js2-strict-missing-semi-warning nil)
   (js2-highlight-level 3)
   :config
-  (defvaralias 'js-switch-indent-offset 'js2-basic-offset)
   (setenv "NODE_NO_READLINE" "1")
   (after flycheck
     (setq flycheck-javascript-eslint-executable "eslint_d")))
@@ -1335,10 +1335,6 @@
 (use-feature vc-git
   :custom
   (vc-git-diff-switches '("--histogram")))
-
-(use-package tls
-  :custom
-  (tls-program '("gnutls-cli -p %p %h" "gnutls-cli -p %p %h --protocols ssl3")))
 
 (use-package epa
   :bind
