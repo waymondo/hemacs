@@ -749,9 +749,9 @@
                 '(comint-previous-matching-input-from-input
                   comint-next-matching-input-from-input))))
 
-(use-package company-childframe
+(use-package company-posframe
   :after company
-  :config (company-childframe-mode))
+  :config (company-posframe-mode))
 
 (use-package company-emoji
   :after company
