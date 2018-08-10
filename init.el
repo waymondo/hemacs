@@ -1236,6 +1236,16 @@
 (use-package ruby-tools
   :after ruby-mode)
 
+(use-package robe
+  :ensure-system-package (pry . "gem install pry pry-doc")
+  :hook
+  (ruby-mode  . robe-mode)
+  :bind
+  (:map robe-mode-map ("M-." . nil))
+  :config
+  (after company
+    (push 'company-robe company-backends)))
+
 (use-package rspec-mode
   :bind
   ("s-R" . rspec-rerun)
