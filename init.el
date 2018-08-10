@@ -680,7 +680,7 @@
   (:map read-expression-map ("TAB" . hippie-expand))
   (:map minibuffer-local-map ("TAB" . hippie-expand))
   :bind*
-  ("M-?" . hippie-expand-line)
+  ("M-'" . hippie-expand-line)
   :hook
   ((emacs-lisp-mode ielm-mode) . hippie-expand-allow-lisp-symbols)
   :init
@@ -1094,6 +1094,8 @@
   (eslint_d . "npm install -g eslint_d")
   :bind
   (:map js2-mode-map
+        ("M-." . nil)
+        ("M-?" . nil)
         ("," . self-with-space)
         ("=" . pad-equals)
         (":" . self-with-space))
@@ -1125,14 +1127,6 @@
   (bind-key "=" #'pad-equals rjsx-mode-map
             (not (memq (js2-node-type (js2-node-at-point))
                        (list rjsx-JSX rjsx-JSX-ATTR rjsx-JSX-IDENT rjsx-JSX-MEMBER)))))
-
-(use-package xref-js2
-  :after js2-mode
-  :bind
-  (:map js2-mode-map ("M-." . nil))
-  :config
-  (add-λ 'js2-mode-hook
-    (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
 (use-package json-mode
   :mode (("\\.bowerrc$"     . json-mode)
