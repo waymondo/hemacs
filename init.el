@@ -337,7 +337,8 @@
 
 (use-package savehist
   :custom
-  (savehist-additional-variables '(search-ring regexp-search-ring comint-input-ring))
+  (savehist-additional-variables
+   '(search-ring regexp-search-ring comint-input-ring projector-command-history))
   :config
   (savehist-mode))
 
