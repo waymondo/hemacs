@@ -1161,6 +1161,12 @@
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
 
+(use-package vue-mode)
+
+(use-package mmm-mode
+  :custom
+  (mmm-submode-decoration-level 0))
+
 (use-package prettier-js
   :after js2-mode
   :ensure-system-package (prettier . "npm i -g prettier")
