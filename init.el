@@ -1167,19 +1167,12 @@
   :custom
   (mmm-submode-decoration-level 0))
 
-(use-package prettier-js
-  :after js2-mode
-  :ensure-system-package (prettier . "npm i -g prettier")
-  :bind
-  (:map js2-mode-map ("C-M-\\" . prettier))
-  :custom
-  (prettier-args '("--no-semi" "--trailing-comma" "all")))
-
-(use-package web-beautify
-  :ensure-system-package (prettier . "npm i -g js-beautify")
-  :bind
-  (:map sgml-mode-map ("C-M-\\" . web-beautify-html))
-  (:map css-mode-map ("C-M-\\" . web-beautify-css)))
+(use-package format-all
+  :ensure-system-package
+  ((prettier . "npm i -g prettier")
+   (rufo . "gem install rufo"))
+  :bind*
+  ("C-M-\\" . format-all-buffer))
 
 (use-package slim-mode
   :bind
