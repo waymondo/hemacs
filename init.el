@@ -1308,6 +1308,7 @@
   (magit-log-auto-more t)
   (magit-branch-prefer-remote-upstream t)
   (magit-repository-directories projectile-known-projects)
+  (magit-diff-refine-hunk 'all)
   (magit-no-confirm t)
   :hook
   (magit-process-mode . text-smaller-no-truncation)
