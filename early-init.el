@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(when (< emacs-major-version 27)
-  (error "Emacs should be version 27 or greater"))
-
 (setq straight-check-for-modifications 'live-with-find)
 
 (let ((bootstrap-file
