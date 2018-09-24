@@ -4,6 +4,8 @@
 
 (defvar indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defvar *is-mac* (eq system-type 'darwin))
+(define-prefix-command 'hemacs-git-map)
+(bind-key "s-g" #'hemacs-git-map)
 
 ;;;;; Bootstrap
 
@@ -1300,6 +1302,7 @@
 (use-package magit
   :bind
   ("s-m" . magit-status)
+  (:map hemacs-git-map ("l" . magit-clone))
   (:map magit-mode-map ("C-c C-a" . magit-just-amend))
   :custom
   (magit-log-section-commit-count 0)
@@ -1334,6 +1337,8 @@
   (magit-todos-mode))
 
 (use-package git-messenger
+  :bind
+  (:map hemacs-git-map ("p" . git-messenger:popup-message))
   :custom
   (git-messenger:show-detail t))
 
@@ -1351,7 +1356,17 @@
 (use-package magithub
   :after magit
   :ensure-system-package hub
+  :bind
+  (:map hemacs-git-map
+        ("o" . magithub-browse-file)
+        ("b" . magithub-browse-file-blame)
+        ("I" . magithub-repo-visit-issues)
+        ("i" . magithub-repo-new-issue))
   :config
+  (defun magithub-repo-new-issue (repo)
+    (interactive (list (thing-at-point 'github-repository)))
+    (when-let ((url (alist-get 'html_url repo)))
+      (browse-url (format "%s/issues/new" url))))
   (magithub-feature-autoinject t))
 
 (use-package diff-hl
@@ -1382,17 +1397,6 @@
 (use-package elisp-slime-nav
   :hook
   ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
-
-(use-package github-browse-file
-  :config
-  (defun github-issues (&optional new)
-    (interactive)
-    (let ((url (concat "https://github.com/"
-                       (github-browse-file--relative-url)
-                       "/issues/" new)))
-      (browse-url url)))
-  (def github-new-issue
-    (github-issues "new")))
 
 (use-package smerge-mode
   :hook
@@ -1440,10 +1444,14 @@
       ("R" smerge-kill-current)
       ("q" nil :color blue))))
 
-(use-package git-timemachine)
+(use-package git-timemachine
+  :bind
+  (:map hemacs-git-map ("t" . git-timemachine)))
 
 (use-package gist
-  :defer t)
+  :defer t
+  :bind
+  (:map hemacs-git-map ("g" . gist-region-or-buffer-private)))
 
 (use-package gitattributes-mode)
 
@@ -1674,16 +1682,3 @@
  ("f"          . projectile-switch-project-projectile-find-file)
  ("`"          . projectile-switch-project-ort/goto-todos)
  ("n"          . projectile-switch-project-ort/capture-checkitem))
-
-(bind-keys
- :prefix-map hemacs-git-map
- :prefix "s-g"
- ("o" . github-browse-file)
- ("b" . github-browse-file-blame)
- ("c" . github-browse-commit)
- ("l" . magit-clone)
- ("i" . github-new-issue)
- ("I" . github-issues)
- ("g" . gist-region-or-buffer-private)
- ("t" . git-timemachine)
- ("p" . git-messenger:popup-message))
