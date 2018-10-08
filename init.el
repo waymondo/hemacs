@@ -177,7 +177,8 @@
 
 (use-feature mwheel
   :custom
-  (mouse-wheel-scroll-amount '(1 ((shift) . 1))))
+  (mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+  (mouse-wheel-progressive-speed nil))
 
 ;;;;; Processes, Shells, Compilation
 
