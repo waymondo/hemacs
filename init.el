@@ -1361,6 +1361,7 @@
   :ensure-system-package hub
   :bind
   (:map hemacs-git-map
+        ("O" . magithub-browse)
         ("o" . magithub-browse-file)
         ("b" . magithub-browse-file-blame)
         ("I" . magithub-repo-visit-issues)
