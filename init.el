@@ -1484,7 +1484,7 @@
 (use-package flycheck
   :custom
   (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
-  (flycheck-idle-change-delay 2)
+  (flycheck-idle-change-delay 5)
   :config
   (setq-default flycheck-disabled-checkers '(html-tidy emacs-lisp emacs-lisp-checkdoc))
   (add-hook 'after-init-hook #'global-flycheck-mode))
