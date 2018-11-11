@@ -822,7 +822,7 @@
        display-buffer-in-side-window)
       (side            . bottom)
       (reusable-frames . visible)
-      (window-height   . 0.5))
+      (window-height   . 0.37))
      ("." nil (reusable-frames . visible))))
   :config
   (def toggle-split-window
