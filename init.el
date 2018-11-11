@@ -723,8 +723,11 @@
   (yas-wrap-around-region t)
   :mode
   ("\\.yasnippet\\'" . snippet-mode)
+  :bind
+  (:map yas-keymap
+        ([(tab)] . smart-tab)
+        ("TAB" . smart-tab))
   :init
-  (setq yas-minor-mode-map (make-sparse-keymap))
   (defun yas-indent-unless-case-sensitive (orig-fun &rest args)
     (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
       (apply orig-fun args)))
