@@ -1163,6 +1163,7 @@
   (add-to-list 'coffee-args-compile "--no-header"))
 
 (use-package typescript-mode
+  :mode "\\.tsx$"
   :custom
   (typescript-indent-level 2))
 
@@ -1491,6 +1492,32 @@
 (use-package flycheck-posframe
   :after flycheck
   :hook (flycheck-mode . flycheck-posframe-mode))
+
+;;;;; Language Server
+
+(use-package lsp-mode
+  :hook
+  (lsp-after-open . lsp-enable-imenu))
+
+(use-package lsp-ui
+  :after lsp-mode
+  :hook
+  (lsp-mode . lsp-ui-mode)
+  :bind
+  ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+  ([remap xref-find-references] . lsp-ui-peek-find-references)
+  :custom
+  (lsp-ui-sideline-enable nil))
+
+(use-package lsp-typescript
+  :ensure-system-package (typescript-language-server . "npm i -g typescript-language-server")
+  :hook
+  (typescript-mode . lsp-typescript-enable))
+
+(use-package company-lsp
+  :after (company lsp-mode)
+  :config
+  (add-to-list 'company-backends #'company-lsp))
 
 ;;;;; Appearance
 
