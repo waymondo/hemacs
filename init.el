@@ -1497,9 +1497,6 @@
   :after lsp-mode
   :hook
   (lsp-mode . lsp-ui-mode)
-  :bind
-  ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-  ([remap xref-find-references] . lsp-ui-peek-find-references)
   :custom
   (lsp-ui-sideline-enable nil))
 
