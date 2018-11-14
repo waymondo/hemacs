@@ -1124,12 +1124,6 @@
   :ensure-system-package node
   :defer t)
 
-(use-package tern
-  :ensure-system-package (tern . "npm i -g tern")
-  :after js2-mode
-  :hook
-  (js2-mode . tern-mode))
-
 (use-package rjsx-mode
   :after js2-mode
   :config
