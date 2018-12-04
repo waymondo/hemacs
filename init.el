@@ -1137,6 +1137,8 @@
          ("\\.json_schema$" . json-mode))
   :config (setq js-indent-level 2))
 
+(use-package graphql-mode)
+
 (use-package coffee-mode
   :ensure-system-package (coffee . "npm i -g coffeescript")
   :mode "\\.coffee\\.*"
