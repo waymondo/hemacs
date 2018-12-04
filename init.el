@@ -816,6 +816,7 @@
                    "*helpful"
                    "*ivy-occur"
                    "*less-css-compilation"
+                   "*format-all-errors"
                    "*Packages"
                    "*SQL"))
       (display-buffer-reuse-window
