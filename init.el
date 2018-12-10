@@ -1305,6 +1305,10 @@
   :custom
   (vc-follow-symlinks t))
 
+(use-package diff-mode
+  :custom
+  (diff-font-lock-prettify t))
+
 (use-package magit
   :bind
   ("s-m" . magit-status)
