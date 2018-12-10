@@ -636,7 +636,9 @@
 (use-package ivy
   :custom
   (ivy-extra-directories nil)
-  (ivy-re-builders-alist '((swiper . ivy--regex-plus) (t . ivy--regex-fuzzy)))
+  (ivy-re-builders-alist '((swiper . ivy--regex-plus)
+                           (counsel-ag . ivy--regex-plus)
+                           (t . ivy--regex-fuzzy)))
   (ivy-use-virtual-buffers t)
   (ivy-virtual-abbreviate 'abbreviate)
   (ivy-format-function #'ivy-format-function-arrow)
