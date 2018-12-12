@@ -1499,25 +1499,13 @@
 ;;;;; Language Server
 
 (use-package lsp-mode
-  :hook
-  (lsp-after-open . lsp-enable-imenu))
-
-(use-package lsp-ui
-  :after lsp-mode
-  :hook
-  (lsp-mode . lsp-ui-mode)
-  :custom
-  (lsp-ui-sideline-enable nil))
-
-(use-package lsp-typescript
   :ensure-system-package (typescript-language-server . "npm i -g typescript-language-server")
   :hook
-  (typescript-mode . lsp-typescript-enable))
+  (typescript-mode . lsp))
 
-(use-package company-lsp
-  :after (company lsp-mode)
-  :config
-  (add-to-list 'company-backends #'company-lsp))
+(use-feature lsp-clients)
+
+(use-package company-lsp)
 
 ;;;;; Appearance
 
