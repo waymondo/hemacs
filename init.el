@@ -1161,8 +1161,24 @@
     (setq-local indent-line-function #'coffee-indent))
   (add-to-list 'coffee-args-compile "--no-header"))
 
+(use-package import-js
+  :ensure-system-package
+  (importjsd . "npm i -g import-js")
+  :hook
+  (typescript-mode . run-import-js)
+  :config
+  (add-λ 'typescript-mode-hook
+    (add-hook 'after-save-hook #'import-js-fix nil 'local)))
+
 (use-package typescript-mode
-  :mode "\\.tsx$"
+  :ensure-system-package
+  (typescript-language-server . "npm i -g typescript-language-server")
+  :mode "\\.tsx\\'"
+  :bind
+  (:map typescript-mode-map
+        ("," . self-with-space)
+        ("=" . pad-equals)
+        (":" . self-with-space))
   :custom
   (typescript-indent-level 2))
 
@@ -1211,7 +1227,8 @@
   ((rubocop     . "gem install rubocop")
    (ruby-lint   . "gem install ruby-lint")
    (ripper-tags . "gem install ripper-tags")
-   (pry         . "gem install pry"))
+   (pry         . "gem install pry")
+   (solargraph  . "gem install solargraph"))
   :custom
   (ruby-insert-encoding-magic-comment nil)
   :config
@@ -1243,16 +1260,6 @@
 
 (use-package ruby-tools
   :after ruby-mode)
-
-(use-package robe
-  :ensure-system-package (pry . "gem install pry pry-doc")
-  :hook
-  (ruby-mode  . robe-mode)
-  :bind
-  (:map robe-mode-map ("M-." . nil))
-  :config
-  (after company
-    (push 'company-robe company-backends)))
 
 (use-package rspec-mode
   :bind
@@ -1499,9 +1506,9 @@
 ;;;;; Language Server
 
 (use-package lsp-mode
-  :ensure-system-package (typescript-language-server . "npm i -g typescript-language-server")
   :hook
-  (typescript-mode . lsp))
+  (typescript-mode . lsp)
+  (ruby-mode . lsp))
 
 (use-feature lsp-clients)
 
