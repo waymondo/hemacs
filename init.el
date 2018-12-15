@@ -932,8 +932,16 @@
   :config (counsel-projectile-mode)
   :bind
   ("s-t" . counsel-projectile)
+  ("s-`" . counsel-projectile-goto-notes)
+  ("s-n" . counsel-projectile-org-capture)
   :chords
-  (";g" . counsel-projectile-rg))
+  (";g" . counsel-projectile-rg)
+  :config
+  (def counsel-projectile-goto-notes
+    (find-file (concat (projectile-project-root) "notes.org")))
+  (after projectile
+    (make-projectile-switch-project-defun #'counsel-projectile-goto-notes)
+    (make-projectile-switch-project-defun #'counsel-projectile-org-capture)))
 
 (use-package projector
   :after projectile
@@ -1000,15 +1008,6 @@
 (use-package org-autolist
   :after org
   :config (add-hook 'org-mode-hook #'org-autolist-mode))
-
-(use-package org-repo-todo
-  :bind
-  ("s-`" . ort/goto-todos)
-  ("s-n" . ort/capture-checkitem)
-  :config
-  (after projectile
-    (make-projectile-switch-project-defun #'ort/goto-todos)
-    (make-projectile-switch-project-defun #'ort/capture-checkitem)))
 
 (use-package sgml-mode
   :bind
