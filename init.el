@@ -290,7 +290,8 @@
    '((emacs-lisp-mode . ielm)
      (ruby-mode . inf-ruby)
      (js2-mode . nodejs-repl)
-     (rjsx-mode . nodejs-repl)))
+     (rjsx-mode . nodejs-repl)
+     (typescript-mode . run-ts)))
   :config
   (repl-toggle-mode))
 
@@ -1181,6 +1182,9 @@
         (":" . self-with-space))
   :custom
   (typescript-indent-level 2))
+
+(use-package ts-comint
+  :ensure-system-package (tsun . "npm i -g tsun"))
 
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
