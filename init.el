@@ -282,7 +282,9 @@
 (use-package direnv
   :ensure-system-package direnv
   :config
-  (direnv-mode))
+  (direnv-mode)
+  :custom
+  (direnv-always-show-summary nil))
 
 (use-package repl-toggle
   :custom
