@@ -1582,7 +1582,13 @@
   (blink-cursor-blinks 0)
   :init
   (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
-  (blink-cursor-mode))
+  (blink-cursor-mode)
+  (defun garbage-collect-when-frame-is-unfocused ()
+    (unless (frame-focus-state)
+      (garbage-collect)))
+  (add-function :after
+                after-focus-change-function
+                #'garbage-collect-when-frame-is-unfocused))
 
 (use-feature uniquify
   :custom
