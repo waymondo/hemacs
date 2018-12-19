@@ -1635,10 +1635,12 @@
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode))
 
-(use-package rich-minority
-  :config
-  (setf rm-blacklist "")
-  (rich-minority-mode))
+(use-feature bindings
+  :init
+  (def purge-minor-modes-from-mode-line
+    (setq minor-mode-alist nil))
+  :hook
+  (after-change-major-mode . purge-minor-modes-from-mode-line))
 
 (use-package hide-mode-line
   :hook
