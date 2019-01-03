@@ -1,11 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
-;;;;; Personal Variables
+;;;;; Personal Variables & Key Maps
 
 (defvar indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defvar *is-mac* (eq system-type 'darwin))
 (define-prefix-command 'hemacs-git-map)
+(define-prefix-command 'hemacs-switch-project-map)
 (bind-key "s-g" #'hemacs-git-map)
+(bind-key "s-o" #'hemacs-switch-project-map)
 
 ;;;;; Bootstrap
 
@@ -898,6 +900,12 @@
   :bind
   ("s-p" . projectile-command-map)
   ("C-x m" . projectile-run-shell)
+  (:map hemacs-switch-project-map
+        ("t" . projectile-switch-project)
+        ("m" . projectile-switch-project-projectile-run-shell)
+        ("g" . projectile-switch-project-projectile-vc)
+        ("u" . projectile-switch-project-projectile-run-project)
+        ("f" . projectile-switch-project-projectile-find-file))
   :chords
   (";t" . projectile-find-file)
   :custom
@@ -928,15 +936,24 @@
   :bind
   ("s-t" . counsel-projectile)
   ("s-`" . counsel-projectile-goto-notes)
-  ("s-n" . counsel-projectile-org-capture)
+  ("s-n" . counsel-projectile-org-capture-todo)
+  (:map hemacs-switch-project-map
+        ("`" . projectile-switch-project-counsel-projectile-goto-notes)
+        ("n" . projectile-switch-project-counsel-projectile-org-capture-todo))
   :chords
   (";g" . counsel-projectile-rg)
   :config
   (def counsel-projectile-goto-notes
     (find-file (concat (projectile-project-root) "notes.org")))
-  (after projectile
-    (make-projectile-switch-project-defun #'counsel-projectile-goto-notes)
-    (make-projectile-switch-project-defun #'counsel-projectile-org-capture)))
+  (defun counsel-projectile-org-capture-todo (&optional from-buffer)
+    (interactive)
+    (cl-letf (((symbol-function 'counsel-org-capture)
+               #'counsel-org-capture-todo-skip-prompt))
+      (counsel-projectile-org-capture from-buffer)))
+  (defun counsel-org-capture-todo-skip-prompt ()
+    (org-capture nil (nth 0 (nth 0 org-capture-templates))))
+  (make-projectile-switch-project-defun #'counsel-projectile-goto-notes)
+  (make-projectile-switch-project-defun #'counsel-projectile-org-capture-todo))
 
 (use-package projector
   :after projectile
@@ -944,6 +961,9 @@
   ("C-x RET"        . projector-run-shell-command-project-root)
   ("C-x <C-return>" . projector-run-default-shell-command)
   (:map comint-mode-map ("s-R" . projector-rerun-buffer-process))
+  (:map hemacs-switch-project-map
+        ("<C-return>" . projectile-switch-project-projector-run-default-shell-command)
+        ("M" . projectile-switch-project-projector-run-shell-command-project-root))
   :custom
   (projector-completion-system 'ivy)
   (projector-command-modes-alist
@@ -1704,16 +1724,3 @@
  ("p" . ffap)
  ("." . helpful-at-point)
  ("o" . counsel-find-library))
-
-(bind-keys
- :prefix-map switch-project-map
- :prefix "s-o"
- ("t"          . projectile-switch-project)
- ("<C-return>" . projectile-switch-project-projector-run-default-shell-command)
- ("m"          . projectile-switch-project-projectile-run-shell)
- ("M"          . projectile-switch-project-projector-run-shell-command-project-root)
- ("g"          . projectile-switch-project-projectile-vc)
- ("u"          . projectile-switch-project-projectile-run-project)
- ("f"          . projectile-switch-project-projectile-find-file)
- ("`"          . projectile-switch-project-ort/goto-todos)
- ("n"          . projectile-switch-project-ort/capture-checkitem))
