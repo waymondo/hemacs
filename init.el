@@ -1304,7 +1304,8 @@
 ;;;;; Version Control
 
 (use-package ediff
-  :config (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-feature vc-hooks
   :custom
@@ -1322,7 +1323,6 @@
   :custom
   (magit-log-section-commit-count 0)
   (magit-completing-read-function #'ivy-completing-read)
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (magit-log-auto-more t)
   (magit-branch-prefer-remote-upstream t)
   (magit-repository-directories projectile-known-projects)
