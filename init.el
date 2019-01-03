@@ -334,13 +334,6 @@
         (make-directory dir t))))
   (push #'find-file-maybe-make-directories find-file-not-found-functions))
 
-(use-package autorevert
-  :custom
-  (auto-revert-verbose nil)
-  (global-auto-revert-non-file-buffers t)
-  :config
-  (global-auto-revert-mode))
-
 (use-package savehist
   :custom
   (savehist-additional-variables
