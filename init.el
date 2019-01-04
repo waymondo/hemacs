@@ -1641,7 +1641,7 @@
   :hook
   (prog-mode . rainbow-delimiters-mode)
   :custom
-  (rainboww-delimiters-max-face-count 5))
+  (rainbow-delimiters-max-face-count 5))
 
 (use-package moody
   :custom
