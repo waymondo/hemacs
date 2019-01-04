@@ -801,9 +801,9 @@
 (use-feature window
   :preface (provide 'window)
   :chords
-  ((";w" . toggle-split-window)
-   (":W" . delete-other-windows)
-   (":Q" . delete-side-windows))
+  (";w" . toggle-split-window)
+  (":W" . delete-other-windows)
+  (":Q" . delete-side-windows)
   :hook
   (emacs-startup . toggle-frame-fullscreen)
   :custom
@@ -1618,10 +1618,10 @@
   (beacon-blink-when-focused t)
   :config
   (defun maybe-recenter-current-window ()
-    (when (equal (current-buffer) (window-buffer (selected-window)))
+    (when (and (equal (current-buffer) (window-buffer (selected-window)))
+               (not (eq recenter-last-op 'middle)))
       (recenter-top-bottom)))
-  (advice-add 'beacon-blink :after #'maybe-recenter-current-window)
-  (push 'maybe-recenter-current-window beacon-dont-blink-commands)
+  (add-hook 'beacon-before-blink-hook #'maybe-recenter-current-window)
   (push 'comint-mode beacon-dont-blink-major-modes)
   (beacon-mode))
 
