@@ -1014,6 +1014,7 @@
   :bind
   (:map org-mode-map
         ("," . self-with-space)
+        ("C-c C-." . org-todo)
         ("C-c t" . timestamp))
   :custom
   (org-support-shift-select t)
@@ -1680,6 +1681,8 @@
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
 
 (use-package apropospriate-theme
+  :custom
+  (apropospriate-org-level-resizing nil)
   :config
   (load-theme 'apropospriate-light t t)
   (load-theme 'apropospriate-dark t t))
