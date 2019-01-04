@@ -818,7 +818,9 @@
                    "*less-css-compilation"
                    "*format-all-errors"
                    "*Packages"
-                   "*SQL"))
+                   "*Flymake"
+                   "*SQL"
+                   "CAPTURE"))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
@@ -1018,7 +1020,8 @@
   (org-startup-indented t)
   :config
   (def timestamp
-    (insert (format-time-string "%m/%d/%Y"))))
+    (insert (format-time-string "%m/%d/%Y")))
+  (advice-add 'org-switch-to-buffer-other-window :override #'switch-to-buffer-other-window))
 
 (use-package org-autolist
   :after org
