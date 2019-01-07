@@ -6,8 +6,10 @@
 (defvar *is-mac* (eq system-type 'darwin))
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
+(define-prefix-command 'hemacs-help-map)
 (bind-key "s-g" #'hemacs-git-map)
 (bind-key "s-o" #'hemacs-switch-project-map)
+(bind-key "s-h" #'hemacs-help-map)
 
 ;;;;; Bootstrap
 
@@ -985,6 +987,7 @@
   ([remap execute-extended-command] . counsel-M-x)
   ("s-P" . counsel-M-x)
   ("s-y" . counsel-yank-pop)
+  (:map hemacs-help-map ("o" . counsel-find-library))
   :chords
   (";f" . counsel-find-file))
 
@@ -1418,7 +1421,9 @@
 
 ;;;;; Help & Docs
 
-(use-package google-this)
+(use-package google-this
+  :bind
+  (:map hemacs-help-map ("g" . google-this)))
 
 (use-package helpful
   :custom
@@ -1428,7 +1433,8 @@
   ([remap describe-function] . helpful-callable)
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . helpful-variable)
-  ([remap describe-key] . helpful-key))
+  ([remap describe-key] . helpful-key)
+  (:map hemacs-help-map ("." . helpful-at-point)))
 
 (use-package etags
   :custom (tags-revert-without-query t))
@@ -1502,6 +1508,10 @@
   :if *is-mac*
   :ensure-system-package
   ("/Applications/Dash.app" . "brew cask install dash")
+  :bind
+  (:map hemacs-help-map
+        ("d" . dash-at-point)
+        ("D" . dash-at-point-with-docset))
   :config
   (defun dash-at-point-installed-docsets ()
     (let ((dash-defaults (shell-command-to-string "defaults read com.kapeli.dashdoc docsets"))
@@ -1694,6 +1704,14 @@
 
 ;;;;; Bindings & Chords
 
+(use-package bind-key
+  :bind
+  (:map hemacs-help-map ("k" . describe-personal-keybindings)))
+
+(use-package ffap
+  :bind
+  (:map hemacs-help-map ("p" . ffap)))
+
 (use-package key-chord
   :chords
   (("}|" . pad-pipes)
@@ -1708,7 +1726,9 @@
   :config
   (key-chord-mode 1))
 
-(use-package free-keys)
+(use-package free-keys
+  :bind
+  (:map hemacs-help-map ("K" . free-keys)))
 
 (use-package which-key
   :config
@@ -1717,15 +1737,3 @@
     (let ((pattern (concat "^" prefix "-\\(.+\\)")))
       (push `((nil . ,pattern) . (nil . "\\1"))
             which-key-replacement-alist))))
-
-(bind-keys
- :prefix-map hemacs-help-map
- :prefix "s-h"
- ("k" . describe-personal-keybindings)
- ("K" . free-keys)
- ("g" . google-this)
- ("d" . dash-at-point)
- ("D" . dash-at-point-with-docset)
- ("p" . ffap)
- ("." . helpful-at-point)
- ("o" . counsel-find-library))
