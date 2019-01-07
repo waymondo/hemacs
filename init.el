@@ -1522,17 +1522,22 @@
 (use-package discover
   :config (global-discover-mode))
 
-(use-package flycheck
+(use-package flymake
+  :bind
+  (:map hemacs-help-map ("f" . flymake-show-diagnostics-buffer))
   :custom
-  (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
-  (flycheck-idle-change-delay 5)
-  :config
-  (setq-default flycheck-disabled-checkers '(html-tidy emacs-lisp emacs-lisp-checkdoc))
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  (flymake-start-syntax-check-on-newline nil))
 
-(use-package flycheck-posframe
-  :after flycheck
-  :hook (flycheck-mode . flycheck-posframe-mode))
+(use-package flymake-diagnostic-at-point
+  :straight
+  (:host github :repo "waymondo/flymake-diagnostic-at-point" :branch "posframe-support")
+  :after flymake
+  :hook
+  (flymake-mode . flymake-diagnostic-at-point-mode)
+  :custom
+  (flymake-diagnostic-at-point-timer-delay 1.5)
+  (flymake-diagnostic-at-point-display-diagnostic-function
+   'flymake-diagnostic-at-point-display-posframe))
 
 ;;;;; Language Server
 
