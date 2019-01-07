@@ -1399,8 +1399,6 @@
   :ensure-system-package hub
   :bind
   (:map hemacs-git-map
-        ("O" . magithub-browse)
-        ("o" . magithub-browse-file)
         ("b" . magithub-browse-file-blame)
         ("I" . magithub-repo-visit-issues)
         ("i" . magithub-repo-new-issue))
@@ -1410,6 +1408,10 @@
     (when-let ((url (alist-get 'html_url repo)))
       (browse-url (format "%s/issues/new" url))))
   (magithub-feature-autoinject t))
+
+(use-package browse-at-remote
+  :bind
+  (:map hemacs-git-map ("o" . browse-at-remote)))
 
 (use-package diff-hl
   :hook
@@ -1719,13 +1721,13 @@
 
 (use-package key-chord
   :chords
-  (("}|" . pad-pipes)
-   ("[]" . pad-brackets)
-   ("{}" . open-brackets-newline-and-indent)
-   ("-=" . insert-arrow)
-   ("_+" . insert-fat-arrow)
-   ("''" . "’")
-   ("^^" . "λ"))
+  ("}|" . pad-pipes)
+  ("[]" . pad-brackets)
+  ("{}" . open-brackets-newline-and-indent)
+  ("-=" . insert-arrow)
+  ("_+" . insert-fat-arrow)
+  ("''" . "’")
+  ("^^" . "λ")
   :custom
   (key-chord-two-keys-delay 0.05)
   :config
