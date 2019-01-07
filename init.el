@@ -460,7 +460,6 @@
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
   (advice-add 'backward-kill-word :around #'delete-region-instead-of-kill-region)
-  (advice-add 'kill-whole-line :after #'back-to-indentation)
   (advice-add 'kill-line :around #'kill-or-join-line)
   (advice-add 'kill-visual-line :around #'kill-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
