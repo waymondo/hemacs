@@ -52,15 +52,16 @@
   (defalias 'yes-or-no-p #'y-or-n-p))
 
 (defun ensure-space (direction)
-  (let* ((char-fn (cond
-                   ((eq direction :before)
-                    #'char-before)
-                   ((eq direction :after)
-                    #'char-after)))
+  (let* ((char-fn
+          (cond
+           ((eq direction :before)
+            #'char-before)
+           ((eq direction :after)
+            #'char-after)))
          (char-result (funcall char-fn)))
     (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
       (insert " "))
-    (when (looking-at " ")
+    (when (and (eq char-fn #'char-after) (looking-at " "))
       (forward-char))))
 
 (def self-with-space
@@ -69,13 +70,12 @@
 
 (def pad-equals
   (if (nth 3 (syntax-ppss))
-      (insert "=")
+      (call-interactively #'self-insert-command)
     (cond ((looking-back "=[[:space:]]" nil)
            (delete-char -1))
           ((looking-back "[^#/|!<>+~]" nil)
            (ensure-space :before)))
-    (call-interactively #'self-insert-command)
-    (ensure-space :after)))
+    (self-with-space)))
 
 (def open-brackets-newline-and-indent
   (let ((inhibit-message t)
