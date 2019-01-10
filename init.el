@@ -977,9 +977,7 @@
 (use-package swiper
   :bind
   ([remap isearch-forward]  . swiper)
-  ([remap isearch-backward] . swiper)
-  :custom
-  (swiper-action-recenter t))
+  ([remap isearch-backward] . swiper))
 
 (use-package counsel
   :bind
