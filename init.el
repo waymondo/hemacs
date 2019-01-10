@@ -577,8 +577,6 @@
   ("s-D" . crux-duplicate-current-line-or-region)
   ("s-K" . crux-delete-file-and-buffer)
   ("s-S" . crux-rename-file-and-buffer)
-  :chords
-  (":S" . crux-recentf-find-file)
   :config
   (defun crux-ignore-vc-backend (orig-fun &rest args)
     (cl-letf (((symbol-function 'vc-backend) #'ignore))
@@ -646,7 +644,7 @@
   (:map ivy-switch-buffer-map
         ("s-k" . ivy-switch-buffer-kill))
   :chords
-  (";s" . ivy-switch-buffer)
+  (":S" . ivy-switch-buffer)
   :init
   (ivy-mode))
 
@@ -944,6 +942,7 @@
         ("`" . projectile-switch-project-counsel-projectile-goto-notes)
         ("n" . projectile-switch-project-counsel-projectile-org-capture-todo))
   :chords
+  (";s" . counsel-projectile-switch-to-buffer)
   (";g" . counsel-projectile-rg)
   :config
   (def counsel-projectile-goto-notes
