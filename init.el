@@ -156,13 +156,15 @@
                       (?u . s-upcase)))
            (chars (mapcar #'car choices))
            (prompt (concat "Transform symbol at point [" chars "]: "))
-           (ch (read-char-choice prompt chars))
+           (ch (read-char-choice prompt chars t))
            (fn (assoc-default ch choices))
            (symbol (thing-at-point 'symbol t))
            (bounds (bounds-of-thing-at-point 'symbol)))
       (when fn
         (delete-region (car bounds) (cdr bounds))
-        (insert (funcall fn symbol))))))
+        (insert (funcall fn symbol))
+        (when (looking-at " ") (forward-char))
+        (keyboard-quit)))))
 
 (use-feature tool-bar
   :config (tool-bar-mode -1))
