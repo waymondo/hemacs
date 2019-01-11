@@ -161,10 +161,12 @@
            (symbol (thing-at-point 'symbol t))
            (bounds (bounds-of-thing-at-point 'symbol)))
       (when fn
+        (put 'quit 'error-message "")
         (delete-region (car bounds) (cdr bounds))
         (insert (funcall fn symbol))
         (when (looking-at " ") (forward-char))
-        (keyboard-quit)))))
+        (keyboard-quit)
+        (run-at-time nil nil (λ () (put 'quit 'error-message "Quit")))))))
 
 (use-feature tool-bar
   :config (tool-bar-mode -1))
