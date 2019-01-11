@@ -804,7 +804,7 @@
   (":W" . delete-other-windows)
   (":Q" . delete-side-windows)
   :hook
-  (emacs-startup . toggle-frame-fullscreen)
+  (emacs-startup . toggle-frame-maximized)
   :custom
   (display-buffer-alist
    `((,(rx bos (or "*Flycheck errors*"
