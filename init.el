@@ -178,11 +178,6 @@
   :bind
   ("s-w" . kill-this-buffer))
 
-(use-feature jit-lock
-  :custom
-  (jit-lock-stealth-nice 0.1)
-  (jit-lock-stealth-time 0.2))
-
 (use-feature mwheel
   :custom
   (mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
@@ -637,9 +632,10 @@
 (use-package ivy
   :custom
   (ivy-extra-directories nil)
-  (ivy-re-builders-alist '((swiper . ivy--regex-plus)
-                           (counsel-ag . ivy--regex-plus)
-                           (t . ivy--regex-fuzzy)))
+  (ivy-re-builders-alist
+   '((swiper . ivy--regex-plus)
+     (counsel-ag . ivy--regex-plus)
+     (t . ivy--regex-fuzzy)))
   (ivy-use-virtual-buffers t)
   (ivy-virtual-abbreviate 'abbreviate)
   (ivy-format-function #'ivy-format-function-arrow)
