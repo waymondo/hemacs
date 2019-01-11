@@ -1525,20 +1525,20 @@
 
 (use-package flymake
   :bind
+  ("s-?" . flymake-tooltip-diagnostic-at-point)
   (:map hemacs-help-map ("f" . flymake-show-diagnostics-buffer))
   :custom
-  (flymake-start-syntax-check-on-newline nil))
-
-(use-package flymake-diagnostic-at-point
-  :straight
-  (:host github :repo "waymondo/flymake-diagnostic-at-point" :branch "posframe-support")
-  :after flymake
-  :hook
-  (flymake-mode . flymake-diagnostic-at-point-mode)
-  :custom
-  (flymake-diagnostic-at-point-timer-delay 1.5)
-  (flymake-diagnostic-at-point-display-diagnostic-function
-   'flymake-diagnostic-at-point-display-posframe))
+  (flymake-start-syntax-check-on-newline nil)
+  :config
+  (def flymake-tooltip-diagnostic-at-point
+    (let ((diagnostic (get-char-property (point) 'flymake-diagnostic)))
+      (when diagnostic
+        (let* ((p (window-absolute-pixel-position))
+               (x (car p))
+               (y (+ (cdr p) 16))
+               (tooltip-frame-parameters `((left . ,x) (top . ,y)))
+               (text (flymake--diag-text diagnostic)))
+          (tooltip-show text))))))
 
 ;;;;; Language Server
 
