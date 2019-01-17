@@ -148,6 +148,7 @@
   ("s-;" . transform-symbol-at-point)
   :config
   (def transform-symbol-at-point
+    (put 'quit 'error-message "")
     (let* ((choices '((?c . s-lower-camel-case)
                       (?C . s-upper-camel-case)
                       (?_ . s-snake-case)
@@ -156,17 +157,17 @@
                       (?u . s-upcase)))
            (chars (mapcar #'car choices))
            (prompt (concat "Transform symbol at point [" chars "]: "))
-           (ch (read-char-choice prompt chars t))
+           (escape-chars '(?\s ?\d ?\t ?\b ?\e ?\r))
+           (ch (read-char-choice prompt (append chars escape-chars)))
            (fn (assoc-default ch choices))
            (symbol (thing-at-point 'symbol t))
            (bounds (bounds-of-thing-at-point 'symbol)))
       (when fn
-        (put 'quit 'error-message "")
         (delete-region (car bounds) (cdr bounds))
         (insert (funcall fn symbol))
-        (when (looking-at " ") (forward-char))
-        (keyboard-quit)
-        (run-at-time nil nil (λ () (put 'quit 'error-message "Quit")))))))
+        (when (looking-at " ") (forward-char)))
+      (keyboard-quit)
+      (run-at-time nil nil (λ () (put 'quit 'error-message "Quit"))))))
 
 (use-feature tool-bar
   :config (tool-bar-mode -1))
@@ -886,9 +887,9 @@
   :bind
   ("s-\"" . ace-jump-buffer)
   :chords
-  ((";a" . ace-jump-buffer)
-   (":A" . ace-jump-buffer-other-window)
-   (";x" . ace-jump-special-buffers))
+  (";a" . ace-jump-buffer)
+  (":A" . ace-jump-buffer-other-window)
+  (";x" . ace-jump-special-buffers)
   :config
   (make-ace-jump-buffer-function
       "special"
