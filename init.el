@@ -1283,9 +1283,10 @@
   :after ruby-mode)
 
 (use-package rspec-mode
+  :after ruby-mode
   :bind
   ("s-R" . rspec-rerun)
-  :after ruby-mode
+  (:map inf-ruby-mode-map ("s-R" . rspec-rerun))
   :config
   (after yasnippet
     (rspec-install-snippets)))
