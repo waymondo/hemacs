@@ -875,7 +875,7 @@
   (emacs-lisp-mode . hemacs-imenu-elisp-expressions)
   :config
   (defun hemacs-imenu-elisp-expressions ()
-    (dolist (pattern '((nil "^(def \\(.+\\)$" 1)
+    (dolist (pattern '((nil "^[[:space:]]*(def \\(.+\\)$" 1)
                        ("Features" "^(use-feature \\(.+\\)$" 1)
                        ("Sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern))))
