@@ -130,6 +130,12 @@
   (setq-local input-method-function nil)
   (setq-local gc-cons-threshold most-positive-fixnum))
 
+(defun set-or-update-alist-value-by-key (alist key value)
+  (let ((current-cell (assq key (symbol-value alist))))
+    (if current-cell
+        (setcdr current-cell value)
+      (add-to-list alist `(,key . ,value)))))
+
 (use-feature mule-cmds
   :preface (provide 'mule-cmds)
   :config
@@ -1614,6 +1620,7 @@
   (blink-cursor-blinks 0)
   :init
   (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (blink-cursor-mode)
   (defun garbage-collect-when-frame-is-unfocused ()
     (unless (frame-focus-state)
@@ -1706,7 +1713,17 @@
   :custom
   (cycle-themes-theme-list '(apropospriate-dark apropospriate-light))
   :config
-  (cycle-themes-mode))
+  (cycle-themes-mode)
+  (defun set-ns-appearance-for-theme-variant ()
+    (let ((theme-name (symbol-name (car custom-enabled-themes))))
+      (cond
+       ((string-match "light" theme-name)
+        (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance 'light)
+        (modify-all-frames-parameters default-frame-alist))
+       ((string-match "dark" theme-name)
+        (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance 'dark)
+        (modify-all-frames-parameters default-frame-alist)))))
+  (add-hook 'cycle-themes-after-cycle-hook #'set-ns-appearance-for-theme-variant))
 
 ;;;;; Bindings & Chords
 
