@@ -811,8 +811,6 @@
   (";w" . toggle-split-window)
   (":W" . delete-other-windows)
   (":Q" . delete-side-windows)
-  :hook
-  (emacs-startup . toggle-frame-maximized)
   :custom
   (display-buffer-alist
    `((,(rx bos (or "*Flycheck errors*"
@@ -1624,7 +1622,7 @@
   :custom
   (blink-cursor-blinks 0)
   :init
-  (add-to-list 'initial-frame-alist '(fullscreen . fullboth))
+  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (blink-cursor-mode)
   (defun garbage-collect-when-frame-is-unfocused ()
