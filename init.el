@@ -1429,6 +1429,10 @@
 
 ;;;;; Help & Docs
 
+(use-package define-word
+  :bind
+  (:map hemacs-help-map ("w" . define-word-at-point)))
+
 (use-package google-this
   :bind
   (:map hemacs-help-map ("g" . google-this)))
