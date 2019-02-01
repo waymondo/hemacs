@@ -291,10 +291,14 @@
 
 (use-package direnv
   :ensure-system-package direnv
+  :custom
+  (direnv-always-show-summary nil)
   :config
   (direnv-mode)
-  :custom
-  (direnv-always-show-summary nil))
+  (add-to-list 'direnv-non-file-modes 'comint-mode)
+  (add-to-list 'direnv-non-file-modes 'shell-mode)
+  (after inf-ruby-mode
+    (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
 
 (use-package repl-toggle
   :custom
