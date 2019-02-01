@@ -314,6 +314,7 @@
   (image-mode . show-image-dimensions-in-mode-line)
   :custom
   (image-animate-loop t)
+  :mode "\\.otf\\'"
   :config
   (defun show-image-dimensions-in-mode-line ()
     (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
