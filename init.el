@@ -444,7 +444,6 @@
   :hook
   ((org-mode markdown-mode fountain-mode git-commit-mode) . auto-fill-mode)
   :config
-  (global-visual-line-mode)
   (column-number-mode)
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
     (let ((p (point)))
@@ -504,10 +503,6 @@
   ("M-o" . change-outer)
   :config
   (advice-add 'change-inner* :around #'delete-region-instead-of-kill-region))
-
-(use-package adaptive-wrap
-  :hook
-  (visual-line-mode . adaptive-wrap-prefix-mode))
 
 (use-package avy
   :custom
