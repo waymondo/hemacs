@@ -1536,7 +1536,7 @@
 (use-package discover
   :config (global-discover-mode))
 
-(use-package flymake
+(use-feature flymake
   :bind
   ("s-?" . flymake-tooltip-diagnostic-at-point)
   (:map hemacs-help-map ("f" . flymake-show-diagnostics-buffer))
