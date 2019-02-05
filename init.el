@@ -1534,21 +1534,9 @@
   :config (global-discover-mode))
 
 (use-feature flymake
-  :bind
-  ("s-?" . flymake-tooltip-diagnostic-at-point)
   (:map hemacs-help-map ("f" . flymake-show-diagnostics-buffer))
   :custom
-  (flymake-start-syntax-check-on-newline nil)
-  :config
-  (def flymake-tooltip-diagnostic-at-point
-    (let ((diagnostic (get-char-property (point) 'flymake-diagnostic)))
-      (when diagnostic
-        (let* ((p (window-absolute-pixel-position))
-               (x (car p))
-               (y (+ (cdr p) 16))
-               (tooltip-frame-parameters `((left . ,x) (top . ,y)))
-               (text (flymake--diag-text diagnostic)))
-          (tooltip-show text))))))
+  (flymake-start-syntax-check-on-newline nil))
 
 ;;;;; Language Server
 
@@ -1613,6 +1601,18 @@
                             `([,(cdr char-regexp) 0 font-shape-gstring])))))
 
 (add-hook 'emacs-startup-hook #'hemacs-setup-fira-code-font)
+
+(use-package showtip
+  :after flymake
+  :custom
+  (showtip-top-adjust (aref (font-info (face-attribute 'default :font)) 2))
+  :bind
+  ("s-?" . flymake-tooltip-diagnostic-at-point)
+  :config
+  (def flymake-tooltip-diagnostic-at-point
+    (let ((diagnostic (get-char-property (point) 'flymake-diagnostic)))
+      (when diagnostic
+        (showtip (flymake--diag-text diagnostic))))))
 
 (use-feature startup
   :preface (provide 'startup)
