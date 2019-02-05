@@ -280,8 +280,9 @@
     (turn-on-comint-history (getenv "HISTFILE"))))
 
 (use-package sh-script
-  :mode (("\\.*bashrc$" . sh-mode)
-         ("\\.*bash_profile" . sh-mode))
+  :mode
+  ("\\.*bashrc$" . sh-mode)
+  ("\\.*bash_profile" . sh-mode)
   :config
   (setq-default sh-indentation 2
                 sh-basic-offset 2))
@@ -510,9 +511,9 @@
   :bind
   (:map dired-mode-map ("." . avy-goto-word-or-subword-1))
   :chords
-  (("jj" . avy-goto-char-timer)
-   ("jk" . avy-goto-word-or-subword-1)
-   ("jl" . avy-goto-line))
+  ("jj" . avy-goto-char-timer)
+  ("jk" . avy-goto-word-or-subword-1)
+  ("jl" . avy-goto-line)
   :config
   (avy-setup-default))
 
@@ -1056,10 +1057,10 @@
 
 (use-package web-mode
   :mode
-  (("\\.erb\\'"        . web-mode)
-   ("\\.php\\'"        . web-mode)
-   ("\\.hbs\\'"        . web-mode)
-   ("\\.handlebars\\'" . web-mode))
+  ("\\.erb\\'"        . web-mode)
+  ("\\.php\\'"        . web-mode)
+  ("\\.hbs\\'"        . web-mode)
+  ("\\.handlebars\\'" . web-mode)
   :bind
   (:map web-mode-map
         ("," . self-with-space)
@@ -1082,8 +1083,8 @@
 
 (use-package markdown-mode
   :mode
-  (("\\.md\\'" . gfm-mode)
-   ("\\.markdown\\'" . gfm-mode))
+  ("\\.md\\'" . gfm-mode)
+  ("\\.markdown\\'" . gfm-mode)
   :bind
   (:map markdown-mode-map ("," . self-with-space))
   :ensure-system-package (marked . "npm i -g marked")
@@ -1159,10 +1160,12 @@
                        (list rjsx-JSX rjsx-JSX-ATTR rjsx-JSX-IDENT rjsx-JSX-MEMBER)))))
 
 (use-package json-mode
-  :mode (("\\.bowerrc$"     . json-mode)
-         ("\\.jshintrc$"    . json-mode)
-         ("\\.json_schema$" . json-mode))
-  :config (setq js-indent-level 2))
+  :mode
+  ("\\.bowerrc$"     . json-mode)
+  ("\\.jshintrc$"    . json-mode)
+  ("\\.json_schema$" . json-mode)
+  :custom
+  (js-indent-level 2))
 
 (use-package graphql-mode)
 
