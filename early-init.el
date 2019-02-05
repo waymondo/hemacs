@@ -18,6 +18,8 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+(cd user-emacs-directory)
+
 (use-package no-littering)
 (use-package use-package-chords)
 (use-package use-package-ensure-system-package)
