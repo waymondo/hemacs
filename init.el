@@ -4,6 +4,7 @@
 
 (defvar indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defvar *is-mac* (eq system-type 'darwin))
+(defvar default-font-size 15)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
@@ -1534,6 +1535,7 @@
   :config (global-discover-mode))
 
 (use-feature flymake
+  :bind
   (:map hemacs-help-map ("f" . flymake-show-diagnostics-buffer))
   :custom
   (flymake-start-syntax-check-on-newline nil))
@@ -1571,7 +1573,7 @@
 (def hemacs-setup-fira-code-font
   (unless (member "Fira Code" (font-family-list))
     (hemacs-install-fira-code-font))
-  (set-frame-font "Fira Code Retina-15")
+  (set-frame-font (concat "Fira Code Retina-" (number-to-string default-font-size)))
   (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                  (35 . ".\\(?:###\\|##\\|[#(?[_{]\\)")
                  (36 . ".\\(?:>\\)")
@@ -1605,10 +1607,14 @@
 (use-package showtip
   :after flymake
   :custom
-  (showtip-top-adjust (aref (font-info (face-attribute 'default :font)) 2))
+  (showtip-top-adjust default-font-size)
   :bind
   ("s-?" . flymake-tooltip-diagnostic-at-point)
   :config
+  (when *is-mac*
+    (shell-command
+     (concat "defaults write org.gnu.Emacs NSToolTipsFontSize -int "
+             (number-to-string default-font-size))))
   (def flymake-tooltip-diagnostic-at-point
     (let ((diagnostic (get-char-property (point) 'flymake-diagnostic)))
       (when diagnostic
