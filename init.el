@@ -1244,10 +1244,7 @@
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-package ruby-mode
-  :mode
-  (((rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos) . ruby-mode)
-   ("\\.\\(rb\\|rabl\\|ru\\|builder\\|rake\\|thor\\|gemspec\\|jbuilder\\)\\'" . ruby-mode)
-   ("Appraisals$" . ruby-mode))
+  :mode "Appraisals$"
   :bind
   (:map ruby-mode-map
         (","          . self-with-space)
