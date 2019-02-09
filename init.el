@@ -1035,6 +1035,8 @@
   :config (add-hook 'org-mode-hook #'org-autolist-mode))
 
 (use-package sgml-mode
+  :ensure-system-package
+  (html-languageserver . "npm i -g vscode-html-languageserver-bin")
   :bind
   (:map html-mode-map
         ("," . self-with-space)
@@ -1107,6 +1109,8 @@
    (pandoc-mode . pandoc-load-default-settings)))
 
 (use-package css-mode
+  :ensure-system-package
+  (css-languageserver . "npm i -g vscode-css-languageserver-bin")
   :mode "\\.css\\.erb\\'"
   :bind
   (:map css-mode-map
@@ -1224,9 +1228,7 @@
 (use-package format-all
   :ensure-system-package
   ((prettier . "npm i -g prettier")
-   (rufo . "gem install rufo"))
-  :bind*
-  ("C-M-\\" . format-all-buffer))
+   (rufo . "gem install rufo")))
 
 (use-package slim-mode
   :bind
@@ -1542,10 +1544,19 @@
 
 (use-package lsp-mode
   :hook
-  (typescript-mode . lsp)
-  (ruby-mode . lsp))
-
-(use-feature lsp-clients)
+  ((typescript-mode ruby-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode) . lsp)
+  :custom
+  (lsp-enable-xref nil)
+  (lsp-auto-guess-root t)
+  :bind*
+  ("C-M-\\" . lsp-format-buffer)
+  :config
+  (defun lsp-format-buffer-maybe-call-format-all (orig-fun &rest args)
+    (condition-case err
+        (apply orig-fun args)
+      (error
+       (format-all-buffer))))
+  (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all))
 
 (use-package company-lsp)
 
