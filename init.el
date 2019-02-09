@@ -792,11 +792,6 @@
   :config
   (add-to-list 'company-backends #'company-shell))
 
-(use-package company-tern
-  :after company
-  :config
-  (add-to-list 'company-backends #'company-tern))
-
 (use-package smart-tab
   :config
   (global-smart-tab-mode)
