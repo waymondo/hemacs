@@ -1222,8 +1222,8 @@
 
 (use-package format-all
   :ensure-system-package
-  ((prettier . "npm i -g prettier")
-   (rufo . "gem install rufo")))
+  (prettier . "npm i -g prettier")
+  (rufo . "gem install rufo"))
 
 (use-package slim-mode
   :bind
@@ -1248,11 +1248,11 @@
         (":"          . smart-ruby-colon)
         ("<C-return>" . ruby-newline-dwim))
   :ensure-system-package
-  ((rubocop     . "gem install rubocop")
-   (ruby-lint   . "gem install ruby-lint")
-   (ripper-tags . "gem install ripper-tags")
-   (pry         . "gem install pry")
-   (solargraph  . "gem install solargraph"))
+  (rubocop     . "gem install rubocop")
+  (ruby-lint   . "gem install ruby-lint")
+  (ripper-tags . "gem install ripper-tags")
+  (pry         . "gem install pry")
+  (solargraph  . "gem install solargraph")
   :custom
   (ruby-insert-encoding-magic-comment nil)
   :config
