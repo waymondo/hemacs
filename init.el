@@ -772,12 +772,11 @@
 
 (use-package company-emoji
   :after company
-  :custom
-  (company-emoji-insert-unicode nil)
   :hook
   ((org-mode markdown-mode fountain-mode git-commit-mode) . company-add-local-emoji-backend)
   :config
-  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+  (when *is-mac*
+    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
   (defun company-add-local-emoji-backend ()
     (setq-local company-backends (append '(company-emoji) company-backends))))
 
@@ -821,6 +820,8 @@
                    "*Packages"
                    "*Flymake"
                    "*SQL"
+                   "*Occur"
+                   "*helm emoji"
                    "CAPTURE"))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
