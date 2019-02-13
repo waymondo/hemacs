@@ -338,6 +338,7 @@
   (confirm-nonexistent-file-or-buffer nil)
   (backup-directory-alist `((".*" . ,temporary-file-directory)))
   (auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+  (large-file-warning-threshold 50000000)
   :config
   (defun hemacs-save-hook ()
     (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
