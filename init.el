@@ -302,6 +302,11 @@
   (after inf-ruby-mode
     (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
 
+(use-package with-editor
+  :hook (comint-mode . with-editor-export-editor)
+  :config
+  (shell-command-with-editor-mode))
+
 (use-package repl-toggle
   :custom
   (rtog/mode-repl-alist
@@ -1251,7 +1256,7 @@
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-package ruby-mode
-  :mode "Appraisals$"
+  :mode ("Appraisals$" "Brewfile$")
   :bind
   (:map ruby-mode-map
         (","          . self-with-space)
