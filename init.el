@@ -303,7 +303,7 @@
     (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
 
 (use-package with-editor
-  :hook (comint-mode . with-editor-export-editor)
+  :hook (shell-mode . with-editor-export-editor)
   :config
   (shell-command-with-editor-mode))
 
