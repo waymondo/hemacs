@@ -281,7 +281,7 @@
 
 (use-package sh-script
   :mode
-  ("\\.*bashrc$" . sh-mode)
+  ("\\.*bashrc" . sh-mode)
   ("\\.*bash_profile" . sh-mode)
   :config
   (setq-default sh-indentation 2
