@@ -771,6 +771,9 @@
   (company-dabbrev-minimum-length 2)
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t)
+  (company-backends '(company-capf company-files
+                                   (company-dabbrev-code company-gtags company-etags company-keywords)
+                                   company-dabbrev))
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
@@ -800,11 +803,6 @@
   ("C-c e" . emoji-cheat-sheet-plus-insert)
   :hook
   ((org-mode markdown-mode fountain-mode git-commit-mode) . emoji-cheat-sheet-plus-display-mode))
-
-(use-package company-shell
-  :after company
-  :config
-  (add-to-list 'company-backends #'company-shell))
 
 (use-package smart-tab
   :config
