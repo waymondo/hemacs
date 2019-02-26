@@ -821,21 +821,10 @@
   (":Q" . delete-side-windows)
   :custom
   (display-buffer-alist
-   `((,(rx bos (or "*Flycheck errors*"
-                   "*Backtrace"
-                   "*Warnings"
-                   "*compilation"
-                   "*Help"
-                   "*helpful"
-                   "*ivy-occur"
-                   "*less-css-compilation"
-                   "*format-all-errors"
-                   "*Packages"
-                   "*Flymake"
-                   "*SQL"
-                   "*Occur"
-                   "*helm emoji"
-                   "CAPTURE"))
+   `((,(rx (or "notes.org"
+               (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
+                            "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
+                            "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "CAPTURE"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
