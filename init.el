@@ -1349,6 +1349,7 @@
   :bind
   ("s-m" . magit-status)
   (:map hemacs-git-map ("l" . magit-clone))
+  (:map hemacs-git-map ("f" . magit-diff-buffer-file))
   (:map magit-mode-map ("C-c C-a" . magit-just-amend))
   :custom
   (magit-log-section-commit-count 0)
