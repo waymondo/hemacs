@@ -279,6 +279,14 @@
   (add-λ 'shell-mode-hook
     (turn-on-comint-history (getenv "HISTFILE"))))
 
+(use-package term
+  :custom
+  (explicit-shell-file-name (getenv "SHELL"))
+  (term-input-ignoredups t)
+  (term-input-ring-file-name (getenv "HISTFILE"))
+  :hook
+  (term-mode . text-smaller-no-truncation))
+
 (use-package sh-script
   :mode
   ("\\.*bashrc" . sh-mode)
@@ -301,11 +309,6 @@
   (add-to-list 'direnv-non-file-modes 'shell-mode)
   (after inf-ruby-mode
     (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
-
-(use-package with-editor
-  :hook (shell-mode . with-editor-export-editor)
-  :config
-  (shell-command-with-editor-mode))
 
 (use-package repl-toggle
   :custom
@@ -905,7 +908,7 @@
 (use-package projectile
   :bind
   ("s-p" . projectile-command-map)
-  ("C-x m" . projectile-run-shell)
+  ("C-x m" . projectile-run-bash-term)
   (:map hemacs-switch-project-map
         ("t" . projectile-switch-project)
         ("m" . projectile-switch-project-projectile-run-shell)
@@ -921,6 +924,8 @@
   (projectile-require-project-root nil)
   :config
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
+  (def projectile-run-bash-term
+    (projectile-run-term explicit-shell-file-name))
   (defmacro make-projectile-switch-project-defun (func)
     `(let ((defun-name (format "projectile-switch-project-%s" (symbol-name ,func))))
        (defalias (intern defun-name)
@@ -1660,7 +1665,8 @@
                (not (eq recenter-last-op 'middle)))
       (recenter-top-bottom)))
   (add-hook 'beacon-before-blink-hook #'maybe-recenter-current-window)
-  (push 'comint-mode beacon-dont-blink-major-modes)
+  (dolist (mode '(comint-mode term-mode))
+    (push mode beacon-dont-blink-major-modes))
   (beacon-mode))
 
 (use-package symbol-overlay
