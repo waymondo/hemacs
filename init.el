@@ -447,7 +447,6 @@
   :bind
   ("s-k" . kill-whole-line)
   ("C-`" . list-processes)
-  ([remap goto-line] . goto-line-with-linum-mode)
   (:map minibuffer-local-map
         ("<escape>"  . abort-recursive-edit)
         ("M-TAB"     . previous-complete-history-element)
@@ -456,14 +455,6 @@
   ((org-mode markdown-mode fountain-mode git-commit-mode) . auto-fill-mode)
   :config
   (column-number-mode)
-  (defun goto-line-with-linum-mode ()
-    (interactive)
-    (let ((linum-not-enabled (or (not (boundp 'linum-mode)) (eq nil linum-mode))))
-      (linum-mode 1)
-      (unwind-protect
-          (call-interactively #'goto-line)
-        (when linum-not-enabled
-          (linum-mode -1)))))
   (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
     (let ((p (point)))
       (dotimes (_i 10)
@@ -1686,6 +1677,19 @@
   (prog-mode . rainbow-delimiters-mode)
   :custom
   (rainbow-delimiters-max-face-count 5))
+
+(use-package linum
+  :bind
+  ([remap goto-line] . goto-line-with-linum-mode)
+  :config
+  (defun goto-line-with-linum-mode ()
+    (interactive)
+    (let ((linum-not-enabled (not global-linum-mode)))
+      (linum-mode 1)
+      (unwind-protect
+          (call-interactively #'goto-line)
+        (when linum-not-enabled
+          (linum-mode -1))))))
 
 (use-package moody
   :custom
