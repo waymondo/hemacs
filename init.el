@@ -455,7 +455,7 @@
   (column-number-mode)
   (defun goto-line-with-linum-mode ()
     (interactive)
-    (let ((linum-not-enabled (eq nil linum-mode)))
+    (let ((linum-not-enabled (or (not (boundp 'linum-mode)) (eq nil linum-mode))))
       (linum-mode 1)
       (unwind-protect
           (call-interactively #'goto-line)
