@@ -821,7 +821,7 @@
   (":Q" . delete-side-windows)
   :custom
   (display-buffer-alist
-   `((,(rx (or "notes.org"
+   `((,(rx (or "ivy-todo.org"
                (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "CAPTURE"))))
@@ -941,26 +941,9 @@
   :config (counsel-projectile-mode)
   :bind
   ("s-t" . counsel-projectile)
-  ("s-`" . counsel-projectile-goto-notes)
-  ("s-n" . counsel-projectile-org-capture-todo)
-  (:map hemacs-switch-project-map
-        ("`" . projectile-switch-project-counsel-projectile-goto-notes)
-        ("n" . projectile-switch-project-counsel-projectile-org-capture-todo))
   :chords
   (";s" . counsel-projectile-switch-to-buffer)
-  (";g" . counsel-projectile-rg)
-  :config
-  (def counsel-projectile-goto-notes
-    (find-file (concat (projectile-project-root) "notes.org")))
-  (defun counsel-projectile-org-capture-todo (&optional from-buffer)
-    (interactive)
-    (cl-letf (((symbol-function 'counsel-org-capture)
-               #'counsel-org-capture-todo-skip-prompt))
-      (counsel-projectile-org-capture from-buffer)))
-  (defun counsel-org-capture-todo-skip-prompt ()
-    (org-capture nil (nth 0 (nth 0 org-capture-templates))))
-  (make-projectile-switch-project-defun #'counsel-projectile-goto-notes)
-  (make-projectile-switch-project-defun #'counsel-projectile-org-capture-todo))
+  (";g" . counsel-projectile-rg))
 
 (use-package projector
   :after projectile
@@ -992,6 +975,16 @@
   (:map hemacs-help-map ("o" . counsel-find-library))
   :chords
   (";f" . counsel-find-file))
+
+(use-package ivy-todo
+  :after projectile
+  :bind
+  ("s-n" . ivy-todo)
+  :config
+  (defun ivy-todo-use-local-project-todo-file (orig-fun &rest args)
+    (let ((ivy-todo-file (expand-file-name "ivy-todo.org" (projectile-project-root))))
+      (apply orig-fun args)))
+  (advice-add 'ivy-todo :around #'ivy-todo-use-local-project-todo-file))
 
 (use-package beginend
   :config
@@ -1382,7 +1375,9 @@
 
 (use-package magit-todos
   :config
-  (magit-todos-mode))
+  (magit-todos-mode)
+  :custom
+  (magit-todos-max-items 30))
 
 (use-package git-messenger
   :bind
