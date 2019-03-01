@@ -834,7 +834,7 @@
    `((,(rx (or "ivy-todo.org"
                (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
-                            "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "CAPTURE"))))
+                            "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
