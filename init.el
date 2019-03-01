@@ -685,10 +685,19 @@
 (use-package ivy-hydra
   :after ivy)
 
-(use-package ivy-historian
-  :after ivy
+(use-package prescient
   :config
-  (ivy-historian-mode))
+  (prescient-persist-mode))
+
+(use-package ivy-prescient
+  :custom
+  (ivy-prescient-retain-classic-highlighting t)
+  :config
+  (ivy-prescient-mode))
+
+(use-package company-prescient
+  :config
+  (company-prescient-mode))
 
 (use-package ivy-xref
   :after ivy
