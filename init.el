@@ -280,12 +280,28 @@
     (turn-on-comint-history (getenv "HISTFILE"))))
 
 (use-package term
+  :bind
+  (:map term-raw-map
+        ("s-k" . comint-clear-buffer)
+        ("s-v" . term-paste))
+  (:map term-mode-map
+        ([remap term-send-input] . term-return-dwim))
   :custom
   (explicit-shell-file-name (getenv "SHELL"))
-  (term-input-ignoredups t)
   (term-input-ring-file-name (getenv "HISTFILE"))
   :hook
-  (term-mode . text-smaller-no-truncation))
+  (term-mode . text-smaller-no-truncation)
+  :config
+  (def term-return-dwim
+    (cond
+     ((term-after-pmark-p)
+      (term-send-input))
+     ((ffap-url-at-point)
+      (browse-url (ffap-url-at-point)))
+     ((ffap-file-at-point)
+      (find-file (ffap-file-at-point)))
+     (t
+      (term-next-prompt 1)))))
 
 (use-package sh-script
   :mode
@@ -902,7 +918,7 @@
   ("C-x m" . projectile-run-bash-term)
   (:map hemacs-switch-project-map
         ("t" . projectile-switch-project)
-        ("m" . projectile-switch-project-projectile-run-shell)
+        ("m" . projectile-switch-project-projectile-run-bash-term)
         ("g" . projectile-switch-project-projectile-vc)
         ("u" . projectile-switch-project-projectile-run-project)
         ("f" . projectile-switch-project-projectile-find-file))
@@ -925,7 +941,7 @@
             (interactive)
             (let ((projectile-switch-project-action ,func))
               (projectile-switch-project)))))))
-  (make-projectile-switch-project-defun #'projectile-run-shell)
+  (make-projectile-switch-project-defun #'projectile-run-bash-term)
   (make-projectile-switch-project-defun #'projectile-run-project)
   (make-projectile-switch-project-defun #'projectile-find-file)
   (make-projectile-switch-project-defun #'projectile-vc)
