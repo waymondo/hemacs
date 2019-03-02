@@ -41,6 +41,8 @@
   (enable-recursive-minibuffers t)
   (kill-buffer-query-functions nil)
   (ns-pop-up-frames nil)
+  :bind
+  ([remap goto-line] . goto-line-with-line-numbers)
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 1
@@ -50,7 +52,16 @@
                 cursor-in-non-selected-windows nil
                 bidi-display-reordering nil
                 truncate-lines t)
-  (defalias 'yes-or-no-p #'y-or-n-p))
+  (defalias 'yes-or-no-p #'y-or-n-p)
+  (defun goto-line-with-line-numbers ()
+    (interactive)
+    (let ((not-already-showing (or (not (boundp 'display-line-numbers-mode))
+                                   (eq nil (display-line-numbers-mode)))))
+      (display-line-numbers-mode 1)
+      (unwind-protect
+          (call-interactively #'goto-line)
+        (when not-already-showing
+          (display-line-numbers-mode -1))))))
 
 (defun ensure-space (direction)
   (let* ((char-fn
@@ -1702,19 +1713,6 @@
   (prog-mode . rainbow-delimiters-mode)
   :custom
   (rainbow-delimiters-max-face-count 5))
-
-(use-package linum
-  :bind
-  ([remap goto-line] . goto-line-with-linum-mode)
-  :config
-  (defun goto-line-with-linum-mode ()
-    (interactive)
-    (let ((linum-not-enabled (not global-linum-mode)))
-      (linum-mode 1)
-      (unwind-protect
-          (call-interactively #'goto-line)
-        (when linum-not-enabled
-          (linum-mode -1))))))
 
 (use-package moody
   :custom
