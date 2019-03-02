@@ -458,7 +458,14 @@
 
 (use-feature newcomment
   :bind
-  ("s-/" . comment-or-uncomment-region))
+  ("s-." . insert-todo-comment)
+  ("s-/" . comment-or-uncomment-region)
+  :config
+  (def insert-todo-comment
+    (call-interactively #'comment-dwim)
+    (ensure-space :before)
+    (insert "TODO:")
+    (ensure-space :after)))
 
 (use-package face-remap
   :hook
