@@ -1742,7 +1742,14 @@
   (show-paren-mode))
 
 (use-package auto-dim-other-buffers
-  :config (auto-dim-other-buffers-mode))
+  :config
+  (auto-dim-other-buffers-mode))
+
+(use-package solaire-mode
+  :hook
+  (minibuffer-setup . solaire-mode-in-minibuffer)
+  :config
+  (solaire-global-mode))
 
 (use-feature fringe
   :config (fringe-mode '(20 . 8))
