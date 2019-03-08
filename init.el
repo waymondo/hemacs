@@ -41,8 +41,6 @@
   (enable-recursive-minibuffers t)
   (kill-buffer-query-functions nil)
   (ns-pop-up-frames nil)
-  :bind
-  ([remap goto-line] . goto-line-with-line-numbers)
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 1
@@ -52,16 +50,7 @@
                 cursor-in-non-selected-windows nil
                 bidi-display-reordering nil
                 truncate-lines t)
-  (defalias 'yes-or-no-p #'y-or-n-p)
-  (defun goto-line-with-line-numbers ()
-    (interactive)
-    (let ((not-already-showing (or (not (boundp 'display-line-numbers-mode))
-                                   (eq nil (display-line-numbers-mode)))))
-      (display-line-numbers-mode 1)
-      (unwind-protect
-          (call-interactively #'goto-line)
-        (when not-already-showing
-          (display-line-numbers-mode -1))))))
+  (defalias 'yes-or-no-p #'y-or-n-p))
 
 (defun ensure-space (direction)
   (let* ((char-fn
@@ -849,6 +838,15 @@
   (smart-tab-completion-functions-alist '()))
 
 ;;;;; Navigation & Search
+
+(use-package goto-line-preview
+  :bind
+  ([remap goto-line] . goto-line-preview)
+  :config
+  (defun with-display-line-numbers (f &rest args)
+    (let ((display-line-numbers t))
+      (apply f args)))
+  (advice-add 'goto-line-preview :around #'with-display-line-numbers))
 
 (use-feature window
   :preface (provide 'window)
