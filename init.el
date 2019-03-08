@@ -244,10 +244,14 @@
       (find-file (ffap-file-at-point)))
      (t
       (comint-next-prompt 1))))
-  (add-hook 'kill-buffer-hook #'comint-write-input-ring)
-  (add-λ 'kill-emacs-hook
+  (defun write-input-ring-for-shellish-modes ()
+    (when (-any? #'derived-mode-p '(comint-mode term-mode))
+      (comint-write-input-ring)))
+  (defun write-input-ring-for-all-shellish-modes ()
     (dolist (buffer (buffer-list))
-      (with-current-buffer buffer (comint-write-input-ring)))))
+      (with-current-buffer buffer (write-input-ring-for-shellish-modes))))
+  (add-hook 'kill-buffer-hook #'write-input-ring-for-shellish-modes)
+  (add-hook 'kill-emacs-hook #'write-input-ring-for-all-shellish-modes))
 
 (use-feature compile
   :custom
