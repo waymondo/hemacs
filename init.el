@@ -193,9 +193,7 @@
 
 ;;;;; Processes, Shells, Compilation
 
-(use-package async
-  :config
-  (dired-async-mode))
+(use-package async)
 
 (use-package exec-path-from-shell
   :custom
@@ -203,6 +201,17 @@
   :config
   (push "HISTFILE" exec-path-from-shell-variables)
   (exec-path-from-shell-initialize))
+
+ (use-package direnv
+   :ensure-system-package direnv
+   :custom
+   (direnv-always-show-summary nil)
+   :init
+   (direnv-mode)
+   (add-to-list 'direnv-non-file-modes 'comint-mode)
+   (add-to-list 'direnv-non-file-modes 'shell-mode)
+   (after inf-ruby-mode
+     (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
 
 (use-package alert
   :custom
@@ -318,17 +327,6 @@
 (use-package executable
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p))
-
-(use-package direnv
-  :ensure-system-package direnv
-  :custom
-  (direnv-always-show-summary nil)
-  :config
-  (direnv-mode)
-  (add-to-list 'direnv-non-file-modes 'comint-mode)
-  (add-to-list 'direnv-non-file-modes 'shell-mode)
-  (after inf-ruby-mode
-    (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
 
 (use-package repl-toggle
   :custom
