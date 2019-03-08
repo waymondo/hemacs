@@ -1093,10 +1093,12 @@
   ("\\.php\\'"        . web-mode)
   ("\\.hbs\\'"        . web-mode)
   ("\\.handlebars\\'" . web-mode)
+  ("\\.tsx\\'"        . web-mode)
   :bind
   (:map web-mode-map
         ("," . self-with-space)
-        ("<C-return>" . html-newline-dwim))
+        ("<C-return>" . html-newline-dwim)
+        ("C-c C-." . typescript-mode))
   :custom
   (web-mode-enable-auto-quoting nil)
   (web-mode-enable-current-element-highlight t))
@@ -1135,8 +1137,8 @@
   :after (markdown-mode org-mode)
   :ensure-system-package pandoc
   :hook
-  ((markdown-mode org-mode)
-   (pandoc-mode . pandoc-load-default-settings)))
+  (markdown-mode org-mode)
+  (pandoc-mode . pandoc-load-default-settings))
 
 (use-package css-mode
   :ensure-system-package
@@ -1234,12 +1236,12 @@
 (use-package typescript-mode
   :ensure-system-package
   (typescript-language-server . "npm i -g typescript-language-server")
-  :mode "\\.tsx\\'"
   :bind
   (:map typescript-mode-map
         ("," . self-with-space)
         ("=" . pad-equals)
-        (":" . self-with-space))
+        (":" . self-with-space)
+        ("C-c C-." . web-mode))
   :custom
   (typescript-indent-level 2))
 
