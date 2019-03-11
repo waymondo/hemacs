@@ -202,16 +202,16 @@
   (push "HISTFILE" exec-path-from-shell-variables)
   (exec-path-from-shell-initialize))
 
- (use-package direnv
-   :ensure-system-package direnv
-   :custom
-   (direnv-always-show-summary nil)
-   :init
-   (direnv-mode)
-   (add-to-list 'direnv-non-file-modes 'comint-mode)
-   (add-to-list 'direnv-non-file-modes 'shell-mode)
-   (after inf-ruby-mode
-     (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
+(use-package direnv
+  :ensure-system-package direnv
+  :custom
+  (direnv-always-show-summary nil)
+  :init
+  (direnv-mode)
+  (add-to-list 'direnv-non-file-modes 'comint-mode)
+  (add-to-list 'direnv-non-file-modes 'shell-mode)
+  (after inf-ruby-mode
+    (add-to-list 'direnv-non-file-modes 'inf-ruby-mode)))
 
 (use-package alert
   :custom
@@ -403,22 +403,13 @@
   (dired-dwim-target t)
   (dired-recursive-deletes 'always)
   (dired-recursive-copies 'always)
-  (dired-auto-revert-buffer t)
-  :hook
-  (dired-mode . dired-hide-details-mode)
-  :config
-  (put 'dired-find-alternate-file 'disabled nil))
+  (dired-auto-revert-buffer t))
 
-(use-feature dired-x
-  :after dired
+(use-package dired-sidebar
   :bind
-  ("s-\\" . dired-jump-other-window))
-
-(use-package dired-subtree
-  :after dired
-  :bind
-  (:map dired-mode-map
-        ("i" . dired-subtree-toggle)))
+  ("s-\\" . dired-sidebar-toggle-sidebar)
+  :custom
+  (dired-sidebar-theme 'ascii))
 
 (use-package undo-tree
   :config
