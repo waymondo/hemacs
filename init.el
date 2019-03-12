@@ -1577,7 +1577,6 @@
   :hook
   ((typescript-mode ruby-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode) . lsp)
   :custom
-  (lsp-enable-xref nil)
   (lsp-auto-guess-root t)
   :bind*
   ("C-M-\\" . lsp-format-buffer)
