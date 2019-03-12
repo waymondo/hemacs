@@ -409,7 +409,7 @@
   :bind
   ("s-\\" . dired-sidebar-toggle-sidebar)
   :custom
-  (dired-sidebar-theme 'ascii))
+  (dired-sidebar-theme 'vscode))
 
 (use-package undo-tree
   :config
@@ -1763,6 +1763,8 @@
   :config
   (load-theme 'apropospriate-light t t)
   (load-theme 'apropospriate-dark t t))
+
+(use-package vscode-icon)
 
 (use-package cycle-themes
   :custom
