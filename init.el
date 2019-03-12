@@ -283,6 +283,8 @@
 
 (use-package shell
   :defer t
+  :custom
+  (explicit-shell-file-name (getenv "SHELL"))
   :config
   (defun make-shell-command-behave-interactively (orig-fun &rest args)
     (let ((shell-command-switch "-ic"))
@@ -296,11 +298,9 @@
   :bind
   (:map term-raw-map
         ("s-k" . comint-clear-buffer)
-        ("s-v" . term-paste))
-  (:map term-mode-map
+        ("s-v" . term-paste)
         ([remap term-send-input] . term-return-dwim))
   :custom
-  (explicit-shell-file-name (getenv "SHELL"))
   (term-input-ring-file-name (getenv "HISTFILE"))
   :hook
   (term-mode . text-smaller-no-truncation)
@@ -807,6 +807,10 @@
   :after company
   :config (company-posframe-mode))
 
+(use-package bash-completion
+  :init
+  (bash-completion-setup))
+
 (use-package company-emoji
   :after company
   :hook
@@ -826,6 +830,7 @@
 (use-package smart-tab
   :config
   (global-smart-tab-mode)
+  (push 'shell-mode smart-tab-disabled-major-modes)
   :custom
   (smart-tab-using-hippie-expand t)
   (smart-tab-completion-functions-alist '()))
@@ -933,10 +938,10 @@
 (use-package projectile
   :bind
   ("s-p" . projectile-command-map)
-  ("C-x m" . projectile-run-bash-term)
+  ("C-x m" . projectile-run-shell)
   (:map hemacs-switch-project-map
         ("t" . projectile-switch-project)
-        ("m" . projectile-switch-project-projectile-run-bash-term)
+        ("m" . projectile-switch-project-projectile-run-shell)
         ("g" . projectile-switch-project-projectile-vc)
         ("u" . projectile-switch-project-projectile-run-project)
         ("f" . projectile-switch-project-projectile-find-file))
@@ -949,8 +954,6 @@
   (projectile-require-project-root nil)
   :config
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
-  (def projectile-run-bash-term
-    (projectile-run-term explicit-shell-file-name))
   (defmacro make-projectile-switch-project-defun (func)
     `(let ((defun-name (format "projectile-switch-project-%s" (symbol-name ,func))))
        (defalias (intern defun-name)
@@ -959,7 +962,7 @@
             (interactive)
             (let ((projectile-switch-project-action ,func))
               (projectile-switch-project)))))))
-  (make-projectile-switch-project-defun #'projectile-run-bash-term)
+  (make-projectile-switch-project-defun #'projectile-run-shell)
   (make-projectile-switch-project-defun #'projectile-run-project)
   (make-projectile-switch-project-defun #'projectile-find-file)
   (make-projectile-switch-project-defun #'projectile-vc)
