@@ -563,12 +563,6 @@
 (use-package ace-jump-zap
   :chords ("jz" . ace-jump-zap-up-to-char))
 
-(use-package ace-window
-  :custom
-  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  :bind
-  ([remap next-multiframe-window] . ace-window))
-
 (use-package smart-newline
   :bind
   ("<s-return>" . eol-then-smart-newline)
@@ -877,6 +871,20 @@
       (quit-window nil window)
       (when (window-live-p window)
         (delete-window window)))))
+
+(use-package zoom
+  :bind
+  ([remap balance-windows] . zoom)
+  :custom
+  (zoom-mode t)
+  (zoom-size '(0.618 . 0.618))
+  (zoom-ignored-major-modes '(dired-mode)))
+
+(use-package ace-window
+  :custom
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  :bind
+  ([remap next-multiframe-window] . ace-window))
 
 (use-package wgrep-ag
   :after ag
