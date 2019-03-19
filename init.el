@@ -1239,9 +1239,9 @@
   (importjsd . "npm i -g import-js")
   :hook
   (typescript-mode . run-import-js)
-  :config
-  (add-λ 'typescript-mode-hook
-    (add-hook 'after-save-hook #'import-js-fix nil 'local)))
+  :bind
+  (:map typescript-mode-map
+        ("C-s-s" . import-js-fix)))
 
 (use-package typescript-mode
   :ensure-system-package
