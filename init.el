@@ -1628,7 +1628,7 @@
 (def hemacs-setup-fira-code-font
   (unless (member "Fira Code" (font-family-list))
     (hemacs-install-fira-code-font))
-  (set-frame-font (concat "Fira Code Retina-" (number-to-string default-font-size)))
+  (add-to-list 'default-frame-alist `(font . ,(concat "Fira Code Retina-" (number-to-string default-font-size))))
   (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                  (35 . ".\\(?:###\\|##\\|[#(?[_{]\\)")
                  (36 . ".\\(?:>\\)")
