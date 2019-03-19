@@ -944,9 +944,8 @@
                     "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace"))
     (push regexp frog-jump-buffer-ignore-buffers))
   (defun frog-jump-buffer-filter-special-buffers (buffer)
-    (--all?
-     (derived-mode-p it)
-     '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))
+    (with-current-buffer buffer
+      (-any? #'derived-mode-p '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode))))
   (add-to-list
    'frog-jump-buffer-filter-actions
    '("5" "[special]" frog-jump-buffer-filter-special-buffers) t))
