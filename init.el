@@ -928,20 +928,28 @@
 (use-package imenu-anywhere
   :chords (";r" . ivy-imenu-anywhere))
 
-(use-package ace-jump-buffer
-  :bind
-  ("s-\"" . ace-jump-buffer)
+(use-package frog-menu
+  :custom
+  (frog-menu-avy-padding t)
+  :straight
+  (:host github :repo "clemera/frog-menu"))
+
+(use-package frog-jump-buffer
+  :straight
+  (:host github :repo "waymondo/frog-jump-buffer")
   :chords
-  (";a" . ace-jump-buffer)
-  (":A" . ace-jump-buffer-other-window)
-  (";x" . ace-jump-special-buffers)
+  (";a" . frog-jump-buffer)
   :config
-  (make-ace-jump-buffer-function
-      "special"
-    (with-current-buffer buffer
-      (--all?
-       (not (derived-mode-p it))
-       '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
+  (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
+                    "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace"))
+    (push regexp frog-jump-buffer-ignore-buffers))
+  (defun frog-jump-buffer-filter-special-buffers (buffer)
+    (--all?
+     (derived-mode-p it)
+     '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))
+  (add-to-list
+   'frog-jump-buffer-filter-actions
+   '("5" "[special]" frog-jump-buffer-filter-special-buffers) t))
 
 (use-package projectile
   :bind
