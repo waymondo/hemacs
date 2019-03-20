@@ -701,8 +701,17 @@
 (use-package ivy-posframe
   :custom
   (ivy-posframe-style 'point)
+  (ivy-posframe-width 80)
+  (ivy-posframe-parameters '((internal-border-width . 12)))
+  (ivy-posframe-hide-minibuffer t)
   :config
-  (dolist (cmd '(counsel-yank-pop flyspell-correct-ivy))
+  (dolist (cmd '(counsel-yank-pop
+                 flyspell-correct-ivy
+                 ivy-imenu-anywhere
+                 ivy-todo
+                 ivy-switch-buffer
+                 counsel-find-file
+                 counsel-projectile-switch-to-buffer))
     (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
 
 (use-package hippie-exp
@@ -927,6 +936,7 @@
 (use-package frog-menu
   :custom
   (frog-menu-avy-padding t)
+  (frog-menu-posframe-parameters '((internal-border-width . 12)))
   :straight
   (:host github :repo "clemera/frog-menu"))
 
@@ -936,8 +946,9 @@
   :chords
   (";a" . frog-jump-buffer)
   :config
-  (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
-                    "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace"))
+  (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
+                    "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$"
+                    "stderr\\*$" "^\\*Flymake" "^\\*direnv" "^\\*vc" "^\\*Warnings" "^\\*eldoc" "\\^*Shell Command"))
     (push regexp frog-jump-buffer-ignore-buffers))
   (defun frog-jump-buffer-filter-special-buffers (buffer)
     (with-current-buffer buffer
