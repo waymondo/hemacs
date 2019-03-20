@@ -1286,7 +1286,7 @@
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-package ruby-mode
-  :mode ("Appraisals$" "Brewfile$")
+  :mode ("Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
   :bind
   (:map ruby-mode-map
         (","          . self-with-space)
