@@ -1762,12 +1762,6 @@
   :config
   (auto-dim-other-buffers-mode))
 
-(use-package solaire-mode
-  :hook
-  (minibuffer-setup . solaire-mode-in-minibuffer)
-  :config
-  (solaire-global-mode))
-
 (use-feature fringe
   :config (fringe-mode '(20 . 8))
   :custom
@@ -1798,6 +1792,16 @@
         (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance 'dark)
         (modify-all-frames-parameters default-frame-alist)))))
   (add-hook 'cycle-themes-after-cycle-hook #'set-ns-appearance-for-theme-variant))
+
+(use-package solaire-mode
+  :after diff-hl
+  :hook
+  (minibuffer-setup . solaire-mode-in-minibuffer)
+  (change-major-mode . turn-on-solaire-mode)
+  :config
+  (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
+    (add-to-list 'solaire-mode-remap-alist `((,face solaire-line-number-face) . t)))
+  (solaire-global-mode))
 
 ;;;;; Bindings & Chords
 
