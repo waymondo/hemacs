@@ -779,23 +779,22 @@
   (company-require-match nil)
   (company-minimum-prefix-length 2)
   (company-show-numbers t)
+  (company-idle-delay #'company-conditional-idle-delay)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
   (company-transformers '(company-sort-prefer-same-case-prefix))
   (company-dabbrev-minimum-length 2)
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t)
-  (company-backends '(company-capf company-files
-                                   (company-dabbrev-code company-gtags company-etags company-keywords)
-                                   company-dabbrev))
+  (company-backends '(company-capf company-files (company-dabbrev-code company-etags) company-dabbrev))
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
   :init
-  (global-company-mode)
-  (setq company-continue-commands
-        (append company-continue-commands
-                '(comint-previous-matching-input-from-input
-                  comint-next-matching-input-from-input))))
+  (defun company-conditional-idle-delay ()
+    (if (company-in-string-or-comment) nil 0.3))
+  (dolist (command '(comint-previous-matching-input-from-input comint-next-matching-input-from-input))
+    (add-to-list 'company-continue-commands command))
+  (global-company-mode))
 
 (use-package company-posframe
   :after company
