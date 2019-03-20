@@ -796,10 +796,6 @@
     (add-to-list 'company-continue-commands command))
   (global-company-mode))
 
-(use-package company-posframe
-  :after company
-  :config (company-posframe-mode))
-
 (use-package bash-completion
   :init
   (bash-completion-setup))
