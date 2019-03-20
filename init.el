@@ -835,6 +835,7 @@
   ([remap goto-line] . goto-line-preview)
   :config
   (defun with-display-line-numbers (f &rest args)
+    (make-local-variable 'display-line-numbers)
     (let ((display-line-numbers t))
       (apply f args)))
   (advice-add 'goto-line-preview :around #'with-display-line-numbers))
