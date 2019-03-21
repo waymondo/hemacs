@@ -113,13 +113,13 @@
   (insert "||")
   (backward-char))
 
-(defun delete-region-instead-of-kill-region (orig-fun &rest args)
+(defun delete-region-instead-of-kill-region (f &rest args)
   (cl-letf (((symbol-function 'kill-region) #'delete-region))
-    (apply orig-fun args)))
+    (apply f args)))
 
-(defun inhibit-message-in-minibuffer (orig-fun &rest args)
+(defun inhibit-message-in-minibuffer (f &rest args)
   (let ((inhibit-message (minibufferp)))
-    (apply orig-fun args)))
+    (apply f args)))
 
 (def text-smaller-no-truncation
   (setq truncate-lines nil)
@@ -286,9 +286,9 @@
   :custom
   (explicit-shell-file-name (getenv "SHELL"))
   :config
-  (defun make-shell-command-behave-interactively (orig-fun &rest args)
+  (defun make-shell-command-behave-interactively (f &rest args)
     (let ((shell-command-switch "-ic"))
-      (apply orig-fun args)))
+      (apply f args)))
   (advice-add 'shell-command :around #'make-shell-command-behave-interactively)
   (advice-add 'start-process-shell-command :around #'make-shell-command-behave-interactively)
   (add-λ 'shell-mode-hook
@@ -471,11 +471,11 @@
   ((org-mode markdown-mode fountain-mode git-commit-mode) . auto-fill-mode)
   :config
   (column-number-mode)
-  (defun pop-to-mark-command-until-new-point (orig-fun &rest args)
+  (defun pop-to-mark-command-until-new-point (f &rest args)
     (let ((p (point)))
       (dotimes (_i 10)
         (when (= p (point))
-          (apply orig-fun args)))))
+          (apply f args)))))
   (defun maybe-indent-afterwards (&optional _)
     (and (not current-prefix-arg)
          (not (member major-mode indent-sensitive-modes))
@@ -483,17 +483,18 @@
          (indent-region (region-beginning) (region-end) nil)))
   (defun pop-to-process-list-buffer ()
     (pop-to-buffer "*Process List*"))
-  (defun kill-or-join-line (orig-fun &rest args)
+
+  (defun kill-or-join-line (f &rest args)
     (if (not (eolp))
-        (apply orig-fun args)
+        (apply f args)
       (delete-indentation 1)
       (when (and (eolp) (not (eq (point) (point-max))))
-        (kill-or-join-line orig-fun args))))
-  (defun move-beginning-of-line-or-indentation (orig-fun &rest args)
+        (kill-or-join-line f args))))
+  (defun move-beginning-of-line-or-indentation (f &rest args)
     (let ((orig-point (point)))
       (back-to-indentation)
       (when (= orig-point (point))
-        (apply orig-fun args))))
+        (apply f args))))
   (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
@@ -569,9 +570,9 @@
   :hook
   (prog-mode . maybe-enable-smart-newline-mode)
   :init
-  (defun smart-newline-no-reindent-first (orig-fun &rest args)
+  (defun smart-newline-no-reindent-first (f &rest args)
     (cl-letf (((symbol-function 'reindent-then-newline-and-indent) #'newline-and-indent))
-      (apply orig-fun args)))
+      (apply f args)))
   (defun maybe-enable-smart-newline-mode ()
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode))
@@ -595,8 +596,8 @@
   ("s-d"     . mc/mark-next-like-this)
   ("s-D"     . mc/mark-previous-like-this)
   ("C-c s-d" . mc/mark-all-like-this-dwim)
-  :config
-  (add-hook 'before-save-hook #'mc/keyboard-quit))
+  :hook
+  (before-save . mc/keyboard-quit))
 
 (use-package crux
   :bind
@@ -741,16 +742,16 @@
   (defun try-expand-dabbrev-other-buffers (old)
     (let ((hippie-expand-ignore-buffers `(,major-mode)))
       (try-expand-dabbrev-all-buffers old)))
-  (defun hippie-expand-case-sensitive (orig-fun &rest args)
+  (defun hippie-expand-case-sensitive (f &rest args)
     (let ((case-fold-search nil))
-      (apply orig-fun args)))
-  (defun inhibit-message-in-minibuffer (orig-fun &rest args)
+      (apply f args)))
+  (defun inhibit-message-in-minibuffer (f &rest args)
     (let ((inhibit-message (minibufferp)))
-      (apply orig-fun args)))
-  (defun hippie-expand-maybe-kill-to-eol (orig-fun &rest args)
+      (apply f args)))
+  (defun hippie-expand-maybe-kill-to-eol (f &rest args)
     (unless (eolp)
       (kill-line))
-    (apply orig-fun args))
+    (apply f args))
   (defalias 'hippie-expand-line (make-hippie-expand-function
                                  '(try-expand-line
                                    try-expand-line-all-buffers)))
@@ -773,9 +774,9 @@
         ([(tab)] . smart-tab)
         ("TAB" . smart-tab))
   :init
-  (defun yas-indent-unless-case-sensitive (orig-fun &rest args)
+  (defun yas-indent-unless-case-sensitive (f &rest args)
     (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
-      (apply orig-fun args)))
+      (apply f args)))
   (delete 'yas-installed-snippets-dir yas-snippet-dirs)
   (advice-add 'yas--indent :around #'yas-indent-unless-case-sensitive)
   (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand)
@@ -1036,9 +1037,9 @@
   :bind
   ("s-n" . ivy-todo)
   :config
-  (defun ivy-todo-use-local-project-todo-file (orig-fun &rest args)
+  (defun ivy-todo-use-local-project-todo-file (f &rest args)
     (let ((ivy-todo-file (expand-file-name "ivy-todo.org" (projectile-project-root))))
-      (apply orig-fun args)))
+      (apply f args)))
   (advice-add 'ivy-todo :around #'ivy-todo-use-local-project-todo-file))
 
 (use-package beginend
@@ -1325,12 +1326,12 @@
       (if add-newline
           (smart-newline)
         (indent-according-to-mode))))
-  (defun hippie-expand-ruby-symbols (orig-fun &rest args)
+  (defun hippie-expand-ruby-symbols (f &rest args)
     (if (eq major-mode 'ruby-mode)
         (let ((table (make-syntax-table ruby-mode-syntax-table)))
           (modify-syntax-entry ?: "." table)
-          (with-syntax-table table (apply orig-fun args)))
-      (apply orig-fun args)))
+          (with-syntax-table table (apply f args)))
+      (apply f args)))
   (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols)
   (add-λ 'ruby-mode-hook
     (setq-local projectile-tags-command "ripper-tags -R -f TAGS")))
@@ -1418,14 +1419,14 @@
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
       (magit-refresh)))
   (after alert
-    (defun magit-process-alert-after-finish-in-background (orig-fun &rest args)
+    (defun magit-process-alert-after-finish-in-background (f &rest args)
       (let* ((process (nth 0 args))
              (event (nth 1 args))
              (buf (process-get process 'command-buf))
              (buff-name (buffer-name buf)))
         (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
           (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
-        (apply orig-fun (list process event))))
+        (apply f (list process event))))
     (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)))
 
 (use-package magit-popup)
@@ -1603,9 +1604,9 @@
   :bind*
   ("C-M-\\" . lsp-format-buffer)
   :config
-  (defun lsp-format-buffer-maybe-call-format-all (orig-fun &rest args)
+  (defun lsp-format-buffer-maybe-call-format-all (f &rest args)
     (condition-case err
-        (apply orig-fun args)
+        (apply f args)
       (error
        (format-all-buffer))))
   (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all))
