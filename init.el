@@ -668,7 +668,7 @@
   (:map ivy-switch-buffer-map
         ("s-k" . ivy-switch-buffer-kill))
   :chords
-  (":S" . ivy-switch-buffer)
+  (";s" . ivy-switch-buffer)
   :init
   (ivy-mode))
 
@@ -993,7 +993,6 @@
   :bind
   ("s-t" . counsel-projectile)
   :chords
-  (";s" . counsel-projectile-switch-to-buffer)
   (";g" . counsel-projectile-rg))
 
 (use-package projector
