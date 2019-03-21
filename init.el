@@ -5,6 +5,9 @@
 (defvar indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defvar *is-mac* (eq system-type 'darwin))
 (defvar default-font-size 15)
+(defvar hemacs-posframe-width 80)
+(defvar hemacs-posframe-padding 12)
+(defvar hemacs-posframe-delay 1.5)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
@@ -694,22 +697,6 @@
   :custom
   (xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
-(use-package ivy-posframe
-  :custom
-  (ivy-posframe-style 'point)
-  (ivy-posframe-width 80)
-  (ivy-posframe-parameters '((internal-border-width . 12)))
-  (ivy-posframe-hide-minibuffer t)
-  :config
-  (dolist (cmd '(counsel-yank-pop
-                 flyspell-correct-ivy
-                 ivy-imenu-anywhere
-                 ivy-todo
-                 ivy-switch-buffer
-                 counsel-find-file
-                 counsel-projectile-switch-to-buffer))
-    (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
-
 (use-package hippie-exp
   :custom
   (hippie-expand-verbose nil)
@@ -928,30 +915,6 @@
 
 (use-package imenu-anywhere
   :chords (";r" . ivy-imenu-anywhere))
-
-(use-package frog-menu
-  :custom
-  (frog-menu-avy-padding t)
-  (frog-menu-posframe-parameters '((internal-border-width . 12)))
-  :straight
-  (:host github :repo "clemera/frog-menu"))
-
-(use-package frog-jump-buffer
-  :straight
-  (:host github :repo "waymondo/frog-jump-buffer")
-  :chords
-  (";a" . frog-jump-buffer)
-  :config
-  (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
-                    "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$"
-                    "stderr\\*$" "^\\*Flymake" "^\\*direnv" "^\\*vc" "^\\*Warnings" "^\\*eldoc" "\\^*Shell Command"))
-    (push regexp frog-jump-buffer-ignore-buffers))
-  (defun frog-jump-buffer-filter-special-buffers (buffer)
-    (with-current-buffer buffer
-      (-any? #'derived-mode-p '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode))))
-  (add-to-list
-   'frog-jump-buffer-filter-actions
-   '("5" "[special]" frog-jump-buffer-filter-special-buffers) t))
 
 (use-package projectile
   :bind
@@ -1485,6 +1448,10 @@
   :bind
   (:map hemacs-help-map ("g" . google-this)))
 
+(use-package eldoc
+  :custom
+  (eldoc-idle-delay hemacs-posframe-delay))
+
 (use-package helpful
   :custom
   (counsel-describe-function-function #'helpful-callable)
@@ -1588,6 +1555,73 @@
   :custom
   (flymake-start-syntax-check-on-newline nil))
 
+;;;;; Posframe
+
+(use-package ivy-posframe
+  :custom
+  (ivy-posframe-style 'point)
+  (ivy-posframe-width hemacs-posframe-width)
+  (ivy-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding)))
+  (ivy-posframe-hide-minibuffer t)
+  :config
+  (dolist (cmd '(counsel-yank-pop
+                 flyspell-correct-ivy
+                 ivy-imenu-anywhere
+                 ivy-todo
+                 ivy-switch-buffer
+                 counsel-find-file
+                 counsel-projectile-switch-to-buffer))
+    (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
+
+(use-package eldoc-posframe
+  :straight
+  (:host github :repo "waymondo/eldoc-posframe")
+  :custom
+  (eldoc-posframe-left-fringe 0)
+  (eldoc-posframe-padding 12)
+  (eldoc-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
+  :config
+  (eldoc-posframe-mode))
+
+(use-package frog-menu
+  :custom
+  (frog-menu-avy-padding t)
+  (frog-menu-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding)))
+  :straight
+  (:host github :repo "clemera/frog-menu"))
+
+(use-package frog-jump-buffer
+  :straight
+  (:host github :repo "waymondo/frog-jump-buffer")
+  :chords
+  (";a" . frog-jump-buffer)
+  :config
+  (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
+                    "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$"
+                    "stderr\\*$" "^\\*Flymake" "^\\*direnv" "^\\*vc" "^\\*Warnings" "^\\*eldoc" "\\^*Shell Command"))
+    (push regexp frog-jump-buffer-ignore-buffers))
+  (defun frog-jump-buffer-filter-special-buffers (buffer)
+    (with-current-buffer buffer
+      (-any? #'derived-mode-p '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode))))
+  (add-to-list
+   'frog-jump-buffer-filter-actions
+   '("5" "[special]" frog-jump-buffer-filter-special-buffers) t))
+
+(use-package flymake-diagnostic-at-point
+  :straight
+  (:host github :repo "waymondo/flymake-diagnostic-at-point")
+  :after
+  flymake
+  :bind
+  ("s-?" . flymake-diagnostic-at-point-maybe-display)
+  :custom
+  (flymake-diagnostic-at-point-timer-delay hemacs-posframe-delay)
+  (flymake-diagnostic-at-point-posframe-width hemacs-posframe-width)
+  (flymake-diagnostic-at-point-display-diagnostic-function #'flymake-diagnostic-at-point-display-posframe)
+  (flymake-diagnostic-at-point-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding)))
+  :hook
+  (flymake-mode . flymake-diagnostic-at-point-mode))
+
 ;;;;; Language Server
 
 (use-package lsp-mode
@@ -1661,20 +1695,13 @@
 (add-hook 'emacs-startup-hook #'hemacs-setup-fira-code-font)
 
 (use-package showtip
-  :after flymake
   :custom
   (showtip-top-adjust default-font-size)
-  :bind
-  ("s-?" . flymake-tooltip-diagnostic-at-point)
   :config
   (when *is-mac*
     (shell-command
      (concat "defaults write org.gnu.Emacs NSToolTipsFontSize -int "
-             (number-to-string default-font-size))))
-  (def flymake-tooltip-diagnostic-at-point
-    (let ((diagnostic (get-char-property (point) 'flymake-diagnostic)))
-      (when diagnostic
-        (showtip (flymake--diag-text diagnostic))))))
+             (number-to-string default-font-size)))))
 
 (use-feature startup
   :preface (provide 'startup)
