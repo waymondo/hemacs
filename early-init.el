@@ -4,7 +4,7 @@
 
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 4))
+      (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -15,10 +15,10 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq use-package-enable-imenu-support t)
+(setq straight-vc-git-default-protocol 'ssh)
+(setq straight-vc-git-force-protocol t)
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
-
-(cd user-emacs-directory)
 
 (use-package no-littering)
 (use-package use-package-chords)
