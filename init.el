@@ -1861,6 +1861,8 @@
   (:map hemacs-help-map ("K" . free-keys)))
 
 (use-package which-key
+  :custom
+  (which-key-popup-type 'minibuffer)
   :config
   (which-key-mode)
   (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile"))
