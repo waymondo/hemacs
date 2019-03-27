@@ -1483,39 +1483,30 @@
       (when (re-search-forward "^<<<<<<< " nil :noerror)
         (smerge-mode 1)
         (hydra-smerge/body))))
-  (after hydra
-    (defhydra hydra-smerge (:hint nil :pre (smerge-mode 1) :post (smerge-auto-leave))
-      "
-                                                    ╭────────┐
-  Movement   Keep           Diff              Other │ smerge │
-  ╭─────────────────────────────────────────────────┴────────╯
-     ^_g_^       [_b_] base       [_<_] upper/base    [_C_] Combine
-     ^_C-k_^     [_u_] upper      [_=_] upper/lower   [_r_] resolve
-     ^_k_ ↑^     [_l_] lower      [_>_] base/lower    [_R_] remove
-     ^_j_ ↓^     [_a_] all        [_H_] hightlight
-     ^_C-j_^     [_RET_] current  [_E_] ediff             ╭──────────
-     ^_G_^                                            │ [_q_] quit"
-      ("g" (progn (goto-char (point-min)) (smerge-next)))
-      ("G" (progn (goto-char (point-max)) (smerge-prev)))
-      ("C-j" smerge-next)
-      ("C-k" smerge-prev)
-      ("j" next-line)
-      ("k" previous-line)
-      ("b" smerge-keep-base)
-      ("u" smerge-keep-upper)
-      ("l" smerge-keep-lower)
-      ("a" smerge-keep-all)
-      ("RET" smerge-keep-current)
-      ("\C-m" smerge-keep-current)
-      ("<" smerge-diff-base-upper)
-      ("=" smerge-diff-upper-lower)
-      (">" smerge-diff-base-lower)
-      ("H" smerge-refine)
-      ("E" smerge-ediff)
-      ("C" smerge-combine-with-next)
-      ("r" smerge-resolve)
-      ("R" smerge-kill-current)
-      ("q" nil :color blue))))
+  :hydra
+  (hydra-smerge
+   (:hint nil :pre (smerge-mode 1) :post (smerge-auto-leave) :color pink)
+   ("g" (progn (goto-char (point-min)) (smerge-next)) "first diff")
+   ("G" (progn (goto-char (point-max)) (smerge-prev)) "last diff")
+   ("C-j" smerge-next "next diff")
+   ("C-k" smerge-prev "prev diff")
+   ("j" next-line "next line")
+   ("k" previous-line "prev line")
+   ("b" smerge-keep-base "base")
+   ("u" smerge-keep-upper "upper")
+   ("l" smerge-keep-lower "lower")
+   ("a" smerge-keep-all "all")
+   ("RET" smerge-keep-current "current")
+   ("\C-m" smerge-keep-current "current")
+   ("<" smerge-diff-base-upper "upper/base")
+   ("=" smerge-diff-upper-lower "upper/lower")
+   (">" smerge-diff-base-lower "base/lower")
+   ("H" smerge-refine "highlight")
+   ("E" smerge-ediff "ediff")
+   ("C" smerge-combine-with-next "combine")
+   ("r" smerge-resolve "resolve")
+   ("R" smerge-kill-current "remove")
+   ("q" nil :color blue)))
 
 (use-package git-timemachine
   :bind

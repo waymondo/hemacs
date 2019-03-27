@@ -15,14 +15,16 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq use-package-enable-imenu-support t)
-(setq straight-vc-git-default-protocol 'ssh)
-(setq straight-vc-git-force-protocol t)
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
 (use-package no-littering)
 (use-package use-package-chords)
 (use-package use-package-ensure-system-package)
+(use-package use-package-hydra)
+
+(setq straight-vc-git-default-protocol 'ssh)
+(setq straight-vc-git-force-protocol t)
 
 (defmacro def (name &rest body)
   (declare (indent 1) (debug t))
