@@ -52,6 +52,7 @@
                 cursor-type 'bar
                 cursor-in-non-selected-windows nil
                 bidi-display-reordering nil
+                fill-column 100
                 truncate-lines t)
   (defalias 'yes-or-no-p #'y-or-n-p))
 
