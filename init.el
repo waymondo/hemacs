@@ -840,7 +840,8 @@
    `((,(rx (or "ivy-todo.org"
                (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
-                            "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"))))
+                            "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
+                            "*Free keys"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
@@ -1564,6 +1565,14 @@
                  counsel-find-file
                  counsel-projectile-switch-to-buffer))
     (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
+
+(use-package which-key-posframe
+  :straight
+  (:host github :repo "yanghaoxie/which-key-posframe")
+  :config
+  (which-key-posframe-enable)
+  :custom
+  (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner))
 
 (use-package eldoc-posframe
   :straight
