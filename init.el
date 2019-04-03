@@ -1567,12 +1567,15 @@
     (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
 
 (use-package which-key-posframe
+  :after which-key
   :straight
   (:host github :repo "yanghaoxie/which-key-posframe")
   :config
   (which-key-posframe-enable)
   :custom
-  (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner))
+  (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner)
+  (which-key-posframe-width hemacs-posframe-width)
+  (which-key-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding))))
 
 (use-package eldoc-posframe
   :straight
@@ -1863,7 +1866,7 @@
 
 (use-package which-key
   :custom
-  (which-key-popup-type 'minibuffer)
+  (which-key-idle-delay 0.5)
   :config
   (which-key-mode)
   (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile"))
