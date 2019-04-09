@@ -1832,13 +1832,12 @@
   (add-hook 'cycle-themes-after-cycle-hook #'set-ns-appearance-for-theme-variant))
 
 (use-package solaire-mode
-  :after diff-hl
   :hook
   (minibuffer-setup . solaire-mode-in-minibuffer)
-  (change-major-mode . turn-on-solaire-mode)
   :config
-  (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
-    (add-to-list 'solaire-mode-remap-alist `((,face solaire-line-number-face) . t)))
+  (after diff-hl
+    (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
+      (add-to-list 'solaire-mode-remap-alist `((,face solaire-line-number-face) . t))))
   (solaire-global-mode))
 
 ;;;;; Bindings & Chords
