@@ -1648,7 +1648,9 @@
        (format-all-buffer))))
   (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all))
 
-(use-package company-lsp)
+(use-package company-lsp
+  :custom
+  (company-lsp-cache-candidates 'auto))
 
 ;;;;; Appearance
 
