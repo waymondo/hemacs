@@ -2,12 +2,12 @@
 
 ;;;;; Personal Variables & Key Maps
 
-(defvar indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
-(defvar *is-mac* (eq system-type 'darwin))
-(defvar default-font-size 15)
-(defvar hemacs-posframe-width 80)
-(defvar hemacs-posframe-padding 12)
-(defvar hemacs-posframe-delay 1.5)
+(defconst indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
+(defconst *is-mac* (eq system-type 'darwin))
+(defconst default-font-size 15)
+(defconst hemacs-posframe-width 80)
+(defconst hemacs-posframe-padding 12)
+(defconst hemacs-posframe-delay 1.5)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
