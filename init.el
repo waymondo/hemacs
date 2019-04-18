@@ -1553,6 +1553,14 @@
   :custom
   (flymake-start-syntax-check-on-newline nil))
 
+(use-package list-environment
+  :bind
+  (:map hemacs-help-map ("l" . list-environment)))
+
+(use-package memory-usage
+  :bind
+  (:map hemacs-help-map ("m" . memory-usage)))
+
 ;;;;; Posframe
 
 (use-package ivy-posframe
