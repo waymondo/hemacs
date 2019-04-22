@@ -1531,18 +1531,14 @@
 
 (use-package dash-at-point
   :if *is-mac*
+  :straight
+  (:host github :repo "waymondo/dash-at-point")
   :ensure-system-package
   ("/Applications/Dash.app" . "brew cask install dash")
   :bind
   (:map hemacs-help-map
         ("d" . dash-at-point)
-        ("D" . dash-at-point-with-docset))
-  :config
-  (defun dash-at-point-installed-docsets ()
-    (let ((dash-defaults (shell-command-to-string "defaults read com.kapeli.dashdoc docsets"))
-          (keyword-regexp (rx (or "platform" "pluginKeyword") space "=" space (group (1+ word)) ";\n")))
-      (-distinct (cl-map 'list #'cdr (s-match-strings-all keyword-regexp dash-defaults)))))
-  (setq dash-at-point-docsets (or (dash-at-point-installed-docsets))))
+        ("D" . dash-at-point-with-docset)))
 
 (use-package discover
   :config (global-discover-mode))
