@@ -867,14 +867,6 @@
       (when (window-live-p window)
         (delete-window window)))))
 
-(use-package zoom
-  :bind
-  ([remap balance-windows] . zoom)
-  :custom
-  (zoom-mode t)
-  (zoom-size '(0.618 . 0.618))
-  (zoom-ignored-major-modes '(dired-mode)))
-
 (use-package ace-window
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
