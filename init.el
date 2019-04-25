@@ -1573,7 +1573,7 @@
 (use-package which-key-posframe
   :after which-key
   :config
-  (which-key-posframe-enable)
+  (which-key-posframe-mode)
   :custom
   (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner)
   (which-key-posframe-width hemacs-posframe-width)
