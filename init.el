@@ -1572,8 +1572,6 @@
 
 (use-package which-key-posframe
   :after which-key
-  :straight
-  (:host github :repo "yanghaoxie/which-key-posframe")
   :config
   (which-key-posframe-enable)
   :custom
