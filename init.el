@@ -881,8 +881,11 @@
   (rg-mode . wgrep-ag-setup))
 
 (use-package rg
-  :chords (":G" . rg-project)
-  :ensure-system-package rg)
+  :ensure-system-package rg
+  :chords
+  (":G" . rg-project)
+  :hook
+  (after-init . rg-enable-default-bindings))
 
 (use-package bm
   :bind
