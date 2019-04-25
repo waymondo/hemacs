@@ -445,7 +445,7 @@
 (use-feature newcomment
   :bind
   ("s-." . insert-todo-comment)
-  ("s-/" . comment-or-uncomment-region)
+  ("s-/" . comment-line)
   :config
   (def insert-todo-comment
     (call-interactively #'comment-dwim)
@@ -616,7 +616,6 @@
   (advice-add 'crux-rename-file-and-buffer :around #'crux-ignore-vc-backend)
   (advice-add 'crux-delete-file-and-buffer :around #'crux-ignore-vc-backend)
   (crux-with-region-or-buffer indent-region)
-  (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-point-to-eol kill-ring-save))
 
 (use-package toggle-quotes
