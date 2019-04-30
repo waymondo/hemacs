@@ -1387,7 +1387,8 @@
         (apply f (list process event))))
     (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)))
 
-(use-package magit-popup)
+(use-package forge
+  :after magit)
 
 (use-package magit-todos
   :config
@@ -1411,21 +1412,6 @@
   ("C-c g d r" . epa-decrypt-region)
   ("C-c g e r" . epa-encrypt-region)
   ("C-c g e f" . epa-encrypt-file))
-
-(use-package magithub
-  :after magit
-  :ensure-system-package hub
-  :bind
-  (:map hemacs-git-map
-        ("b" . magithub-browse-file-blame)
-        ("I" . magithub-repo-visit-issues)
-        ("i" . magithub-repo-new-issue))
-  :config
-  (defun magithub-repo-new-issue (repo)
-    (interactive (list (thing-at-point 'github-repository)))
-    (when-let ((url (alist-get 'html_url repo)))
-      (browse-url (format "%s/issues/new" url))))
-  (magithub-feature-autoinject t))
 
 (use-package browse-at-remote
   :bind
