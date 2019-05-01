@@ -33,7 +33,6 @@
   (ring-bell-function #'ignore)
   (ns-function-modifier 'control)
   (create-lockfiles nil)
-  (gc-cons-threshold (* 10 1024 1024))
   (disabled-command-function nil)
   (ad-redefinition-action 'accept)
   (custom-safe-themes t)
