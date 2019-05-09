@@ -844,13 +844,14 @@
                (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
-                            "*Free keys" "new-issue"))))
+                            "*Free keys" "new-issue" "COMMIT_EDITMSG"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
       (reusable-frames . visible)
       (window-height   . 0.37))
      ("." nil (reusable-frames . visible))))
+  (switch-to-buffer-obey-display-actions t)
   :config
   (def toggle-split-window
     (if (eq last-command 'toggle-split-window)
