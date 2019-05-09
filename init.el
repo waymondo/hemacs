@@ -1387,7 +1387,9 @@
     (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)))
 
 (use-package forge
-  :after magit)
+  :after magit
+  :config
+  (advice-add 'gnutls-available-p :override #'ignore))
 
 (use-package magit-todos
   :config
