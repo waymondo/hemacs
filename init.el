@@ -7,7 +7,7 @@
 (defconst default-font-size 15)
 (defconst hemacs-posframe-width 80)
 (defconst hemacs-posframe-padding 12)
-(defconst hemacs-posframe-delay 1.5)
+(defconst hemacs-posframe-delay 2)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
