@@ -844,7 +844,7 @@
                (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
-                            "*Free keys"))))
+                            "*Free keys" "new-issue"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
