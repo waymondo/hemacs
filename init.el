@@ -564,9 +564,6 @@
             (pop-to-buffer compilation-buffer)
             (ace-link-compilation)))))))
 
-(use-package ace-jump-zap
-  :chords ("jz" . ace-jump-zap-up-to-char))
-
 (use-package smart-newline
   :bind
   ("<s-return>" . eol-then-smart-newline)
