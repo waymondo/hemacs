@@ -1389,8 +1389,11 @@
   :custom
   (forge-topic-list-limit '(60 . 0))
   :config
-  (push '(issues . show) magit-section-initial-visibility-alist)
-  (advice-add 'gnutls-available-p :override #'ignore))
+  (push '(issues . show) magit-section-initial-visibility-alist))
+
+(use-package ghub
+  :custom
+  (ghub-use-workaround-for-emacs-bug t))
 
 (use-package magit-todos
   :config
