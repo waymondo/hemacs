@@ -218,7 +218,7 @@
 
 (use-package alert
   :custom
-  (alert-default-style 'osx-notifier)
+  (alert-default-style (if *is-mac* 'osx-notifier 'message))
   :config
   (defun alert-after-finish-in-background (buf str)
     (unless (get-buffer-window buf 'visible)
