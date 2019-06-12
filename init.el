@@ -43,6 +43,7 @@
   (enable-recursive-minibuffers t)
   (kill-buffer-query-functions nil)
   (ns-pop-up-frames nil)
+  (shell-file-name (getenv "SHELL"))
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 1
@@ -320,9 +321,9 @@
       (term-next-prompt 1)))))
 
 (use-package sh-script
+  :ensure-system-package "shfmt"
   :mode
-  ("\\.*bashrc" . sh-mode)
-  ("\\.*bash_profile" . sh-mode)
+  ((rx (and (? ".") (or "bash" "zsh"))) . sh-mode)
   :config
   (setq-default sh-indentation 2
                 sh-basic-offset 2))

@@ -6,6 +6,7 @@ dump.
 ## Installation
 
 ```
+$ # assumes homebrew is installed and zsh is your shell
 $ brew tap d12frosted/emacs-plus
 $ brew install emacs-plus --with-xwidgets --HEAD 
 $ git clone https://github.com/waymondo/hemacs.git "$HOME/.emacs.d"
