@@ -615,9 +615,9 @@
   (crux-with-region-or-buffer indent-region)
   (crux-with-region-or-point-to-eol kill-ring-save))
 
-(use-package toggle-quotes
+(use-package cycle-quotes
   :bind
-  ("C-'" . toggle-quotes))
+  ("C-'" . cycle-quotes))
 
 (use-package scratch
   :bind
