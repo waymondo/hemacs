@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(setenv "SHELL" "/usr/local/bin/zsh")
-
 (setq straight-check-for-modifications 'live-with-find)
 
 (let ((bootstrap-file
