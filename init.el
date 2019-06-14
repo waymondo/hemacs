@@ -1130,32 +1130,18 @@
   (less-css-lessc-options '("--no-color" "-x")))
 
 (use-package js
-  :custom
-  (js-indent-level 2)
-  (js-switch-indent-offset 2))
-
-(use-package js2-mode
-  :mode "\\.js\\'"
   :ensure-system-package
   (eslint_d . "npm install -g eslint_d")
   :bind
-  (:map js2-mode-map
-        ("M-." . nil)
-        ("M-?" . nil)
+  (:map js-mode-map
         ("," . self-with-space)
         ("=" . pad-equals)
         (":" . self-with-space))
-  :interpreter
-  ("node" . js2-mode)
-  :hook
-  (js2-mode . js2-imenu-extras-mode)
+  :mode
+  ("\\.js\\'" . js-mode)
   :custom
-  (js2-strict-missing-semi-warning nil)
-  (js2-highlight-level 3)
-  :config
-  (setenv "NODE_NO_READLINE" "1")
-  (after flycheck
-    (setq flycheck-javascript-eslint-executable "eslint_d")))
+  (js-indent-level 2)
+  (js-switch-indent-offset 2))
 
 (use-package nodejs-repl
   :ensure-system-package node
