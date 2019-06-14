@@ -1147,13 +1147,6 @@
   :ensure-system-package node
   :defer t)
 
-(use-package rjsx-mode
-  :after js2-mode
-  :config
-  (bind-key "=" #'pad-equals rjsx-mode-map
-            (not (memq (js2-node-type (js2-node-at-point))
-                       (list rjsx-JSX rjsx-JSX-ATTR rjsx-JSX-IDENT rjsx-JSX-MEMBER)))))
-
 (use-package json-mode
   :mode
   ("\\.bowerrc$"     . json-mode)
