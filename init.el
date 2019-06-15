@@ -1681,6 +1681,10 @@
      (concat "defaults write org.gnu.Emacs NSToolTipsFontSize -int "
              (number-to-string default-font-size)))))
 
+(use-package darkroom
+  :hook
+  (writing-modes . darkroom-tentative-mode))
+
 (use-feature startup
   :preface (provide 'startup)
   :custom
