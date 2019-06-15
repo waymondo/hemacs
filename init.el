@@ -1505,9 +1505,6 @@
         ("d" . dash-at-point)
         ("D" . dash-at-point-with-docset)))
 
-(use-package discover
-  :config (global-discover-mode))
-
 (use-feature flymake
   :bind
   (:map hemacs-help-map ("f" . flymake-show-diagnostics-buffer))
