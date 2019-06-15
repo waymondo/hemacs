@@ -1787,13 +1787,10 @@
   (cycle-themes-mode)
   (defun set-ns-appearance-for-theme-variant ()
     (let ((theme-name (symbol-name (car custom-enabled-themes))))
-      (cond
-       ((string-match "light" theme-name)
-        (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance 'light)
-        (modify-all-frames-parameters default-frame-alist))
-       ((string-match "dark" theme-name)
-        (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance 'dark)
-        (modify-all-frames-parameters default-frame-alist)))))
+      (dolist (variant '(dark light))
+        (when (string-match (symbol-name variant) theme-name)
+          (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance variant)
+          (modify-all-frames-parameters default-frame-alist)))))
   (add-hook 'cycle-themes-after-cycle-hook #'set-ns-appearance-for-theme-variant))
 
 (use-package solaire-mode
