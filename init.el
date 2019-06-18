@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(load (concat user-emacs-directory "lib.el"))
+
 ;;;;; Personal Variables & Key Maps
 
 (defconst indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
@@ -54,92 +56,11 @@
                 bidi-display-reordering nil
                 fill-column 100
                 truncate-lines t)
-  (defalias 'yes-or-no-p #'y-or-n-p))
-
-(defun ensure-space (direction)
-  (let* ((char-fn
-          (cond
-           ((eq direction :before)
-            #'char-before)
-           ((eq direction :after)
-            #'char-after)))
-         (char-result (funcall char-fn)))
-    (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
-      (insert " "))
-    (when (and (eq char-fn #'char-after) (looking-at " "))
-      (forward-char))))
-
-(def self-with-space
-  (call-interactively #'self-insert-command)
-  (ensure-space :after))
-
-(def pad-equals
-  (if (nth 3 (syntax-ppss))
-      (call-interactively #'self-insert-command)
-    (cond ((looking-back "=[[:space:]]" nil)
-           (delete-char -1))
-          ((looking-back "[^#/|!<>+~]" nil)
-           (ensure-space :before)))
-    (self-with-space)))
-
-(def open-brackets-newline-and-indent
-  (let ((inhibit-message t)
-        (text
-         (when (region-active-p)
-           (buffer-substring-no-properties (region-beginning) (region-end)))))
-    (when (region-active-p)
-      (delete-region (region-beginning) (region-end)))
-    (unless (looking-back (rx (or "(" "[")) nil)
-      (ensure-space :before))
-    (insert (concat "{\n" text "\n}"))
-    (indent-according-to-mode)
-    (forward-line -1)
-    (indent-according-to-mode)))
-
-(def pad-brackets
-  (unless (looking-back (rx (or "(" "[")) nil)
-    (ensure-space :before))
-  (insert "{  }")
-  (backward-char 2))
-
-(def insert-arrow
-  (ensure-space :before)
-  (insert "->")
-  (ensure-space :after))
-
-(def insert-fat-arrow
-  (ensure-space :before)
-  (insert "=>")
-  (ensure-space :after))
-
-(def pad-pipes
-  (ensure-space :before)
-  (insert "||")
-  (backward-char))
-
-(defun delete-region-instead-of-kill-region (f &rest args)
-  (cl-letf (((symbol-function 'kill-region) #'delete-region))
-    (apply f args)))
-
-(defun inhibit-message-in-minibuffer (f &rest args)
-  (let ((inhibit-message (minibufferp)))
-    (apply f args)))
-
-(def text-smaller-no-truncation
-  (setq truncate-lines nil)
-  (set (make-local-variable 'scroll-margin) 0)
-  (text-scale-set -0.25))
-
-(add-λ 'minibuffer-setup-hook
-  (set-window-fringes (minibuffer-window) 0 0 nil)
-  (setq-local input-method-function nil)
-  (setq-local gc-cons-threshold most-positive-fixnum))
-
-(defun set-or-update-alist-value-by-key (alist key value)
-  (let ((current-cell (assq key (symbol-value alist))))
-    (if current-cell
-        (setcdr current-cell value)
-      (add-to-list alist `(,key . ,value)))))
+  (defalias 'yes-or-no-p #'y-or-n-p)
+  (defun hemacs-minibuffer-setup-hook ()
+    (set-window-fringes (minibuffer-window) 0 0 nil)
+    (setq-local input-method-function nil))
+  (add-hook 'minibuffer-setup-hook #'hemacs-minibuffer-setup-hook))
 
 (use-feature mule-cmds
   :preface (provide 'mule-cmds)
