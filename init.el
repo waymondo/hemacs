@@ -864,12 +864,6 @@
       (when (window-live-p window)
         (delete-window window)))))
 
-(use-package ace-window
-  :custom
-  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  :bind
-  ([remap next-multiframe-window] . ace-window))
-
 (use-package wgrep-ag
   :after ag
   :custom
@@ -913,7 +907,8 @@
       (add-to-list 'imenu-generic-expression pattern))))
 
 (use-package imenu-anywhere
-  :chords (";r" . ivy-imenu-anywhere))
+  :chords
+  (";r" . ivy-imenu-anywhere))
 
 (use-package projectile
   :bind
@@ -1538,7 +1533,6 @@
     (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
 
 (use-package which-key-posframe
-  :after which-key
   :config
   (which-key-posframe-mode)
   :custom
