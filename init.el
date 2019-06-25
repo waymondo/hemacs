@@ -1474,13 +1474,9 @@
 (use-package frog-menu
   :custom
   (frog-menu-avy-padding t)
-  (frog-menu-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding)))
-  :straight
-  (:host github :repo "clemera/frog-menu"))
+  (frog-menu-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding))))
 
 (use-package frog-jump-buffer
-  :straight
-  (:host github :repo "waymondo/frog-jump-buffer")
   :chords
   (";a" . frog-jump-buffer)
   :config
