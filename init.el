@@ -8,8 +8,6 @@
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst *is-mac* (eq system-type 'darwin))
 (defconst default-font-size 15)
-(defconst hemacs-posframe-width 80)
-(defconst hemacs-posframe-padding 12)
 (defconst hemacs-posframe-delay 2)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
@@ -1430,13 +1428,19 @@
 
 ;;;;; Posframe
 
+(use-package posframe
+  :config
+  (setq posframe-arghandler #'hemacs-posframe-arghandler)
+  (defun hemacs-posframe-arghandler (posframe-buffer arg-name value)
+    (let ((info '(:internal-border-width 12 :width 80 :min-width 80)))
+      (or (plist-get info arg-name) value))))
+
 (use-package ivy-posframe
   :custom
   (ivy-posframe-style 'point)
-  (ivy-posframe-width hemacs-posframe-width)
-  (ivy-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding)))
   (ivy-posframe-hide-minibuffer t)
   :config
+  (ivy-posframe-mode)
   (dolist (cmd '(counsel-yank-pop
                  flyspell-correct-ivy
                  ivy-imenu-anywhere
@@ -1450,9 +1454,7 @@
   :config
   (which-key-posframe-mode)
   :custom
-  (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner)
-  (which-key-posframe-width hemacs-posframe-width)
-  (which-key-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding))))
+  (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner))
 
 (use-package eldoc-posframe
   :straight
@@ -1466,8 +1468,7 @@
 
 (use-package frog-menu
   :custom
-  (frog-menu-avy-padding t)
-  (frog-menu-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding))))
+  (frog-menu-avy-padding t))
 
 (use-package frog-jump-buffer
   :chords
@@ -1493,9 +1494,7 @@
   ("s-?" . flymake-diagnostic-at-point-maybe-display)
   :custom
   (flymake-diagnostic-at-point-timer-delay hemacs-posframe-delay)
-  (flymake-diagnostic-at-point-posframe-width hemacs-posframe-width)
   (flymake-diagnostic-at-point-display-diagnostic-function #'flymake-diagnostic-at-point-display-posframe)
-  (flymake-diagnostic-at-point-posframe-parameters `((internal-border-width . ,hemacs-posframe-padding)))
   :hook
   (flymake-mode . flymake-diagnostic-at-point-mode))
 
