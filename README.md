@@ -6,10 +6,10 @@ dump.
 ## Installation
 
 ```
-$ # assumes homebrew is installed and zsh is your shell
+$ # assumes homebrew is installed
 $ brew tap d12frosted/emacs-plus
 $ brew install emacs-plus --with-xwidgets --HEAD 
 $ git clone https://github.com/waymondo/hemacs.git "$HOME/.emacs.d"
 ```
 
-My [dotfiles](https://github.com/waymondo/dotfiles) (`.bashrc`, etc.).
+My [dotfiles](https://github.com/waymondo/dotfiles) (`.bashrc`, `.zshrc`, etc.).
