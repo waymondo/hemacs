@@ -1396,10 +1396,6 @@
    ("R" smerge-kill-current "remove")
    ("q" nil :color blue)))
 
-(use-package git-timemachine
-  :bind
-  (:map hemacs-git-map ("t" . git-timemachine)))
-
 (use-package gist
   :defer t
   :bind
