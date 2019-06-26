@@ -15,15 +15,14 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq use-package-enable-imenu-support t)
-(straight-use-package 'use-package)
+(straight-use-package
+ '(use-package :type git :host github :repo "waymondo/use-package" :branch "personal"))
 (setq straight-use-package-by-default t)
 
 (use-package no-littering)
 (use-package use-package-chords)
 (use-package use-package-ensure-system-package)
 (use-package use-package-hydra)
-(use-package gcmh
-  :config (gcmh-mode))
 
 (setq straight-vc-git-default-protocol 'ssh)
 (setq straight-vc-git-force-protocol t)
