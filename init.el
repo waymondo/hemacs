@@ -5,6 +5,7 @@
 ;;;;; Personal Variables & Key Maps
 
 (defconst indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
+(defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst *is-mac* (eq system-type 'darwin))
 (defconst default-font-size 15)
 (defconst hemacs-posframe-width 80)
@@ -376,7 +377,7 @@
 
 (use-package face-remap
   :hook
-  ((org-mode markdown-mode fountain-mode) . variable-pitch-mode))
+  (writing-modes . variable-pitch-mode))
 
 (use-feature simple
   :custom
@@ -393,7 +394,7 @@
         ("M-TAB"     . previous-complete-history-element)
         ("<M-S-tab>" . next-complete-history-element))
   :hook
-  ((org-mode markdown-mode fountain-mode git-commit-mode) . auto-fill-mode)
+  (writing-modes . auto-fill-mode)
   :config
   (column-number-mode)
   (defun pop-to-mark-command-until-new-point (f &rest args)
@@ -441,7 +442,7 @@
   (electric-quote-string t)
   (electric-quote-context-sensitive t)
   :hook
-  ((org-mode markdown-mode fountain-mode git-commit-mode) . electric-quote-local-mode))
+  (writing-modes . electric-quote-local-mode))
 
 (use-package subword
   :init (global-subword-mode))
@@ -546,7 +547,7 @@
 
 (use-package flyspell
   :hook
-  ((org-mode markdown-mode fountain-mode git-commit-mode) . flyspell-mode))
+  (writing-modes . flyspell-mode))
 
 (use-package flyspell-correct-ivy
   :bind
@@ -718,7 +719,7 @@
 (use-package company-emoji
   :after company
   :hook
-  ((org-mode markdown-mode fountain-mode git-commit-mode) . company-add-local-emoji-backend)
+  (writing-modes . company-add-local-emoji-backend)
   :config
   (when *is-mac*
     (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
@@ -729,7 +730,7 @@
   :bind
   ("C-c e" . emoji-cheat-sheet-plus-insert)
   :hook
-  ((org-mode markdown-mode fountain-mode git-commit-mode) . emoji-cheat-sheet-plus-display-mode))
+  (writing-modes . emoji-cheat-sheet-plus-display-mode))
 
 (use-package smart-tab
   :config
