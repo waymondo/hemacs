@@ -1439,16 +1439,11 @@
   :custom
   (ivy-posframe-style 'point)
   (ivy-posframe-hide-minibuffer t)
+  (ivy-posframe-display-functions-alist
+   '((swiper . nil)
+     (t . ivy-posframe-display)))
   :config
-  (ivy-posframe-mode)
-  (dolist (cmd '(counsel-yank-pop
-                 flyspell-correct-ivy
-                 ivy-imenu-anywhere
-                 ivy-todo
-                 ivy-switch-buffer
-                 counsel-find-file
-                 counsel-projectile-switch-to-buffer))
-    (push `(,cmd . ivy-posframe-display) ivy-display-functions-alist)))
+  (ivy-posframe-mode))
 
 (use-package which-key-posframe
   :config
