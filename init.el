@@ -675,10 +675,6 @@
   (yas-wrap-around-region t)
   :mode
   ("\\.yasnippet\\'" . snippet-mode)
-  :bind
-  (:map yas-keymap
-        ([(tab)] . smart-tab)
-        ("TAB" . smart-tab))
   :init
   (defun yas-indent-unless-case-sensitive (f &rest args)
     (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
