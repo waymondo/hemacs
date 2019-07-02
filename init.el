@@ -1432,7 +1432,7 @@
   :config
   (setq posframe-arghandler #'hemacs-posframe-arghandler)
   (defun hemacs-posframe-arghandler (posframe-buffer arg-name value)
-    (let ((info '(:internal-border-width 12 :width 80 :min-width 80)))
+    (let ((info '(:internal-border-width 12 :min-width 80)))
       (or (plist-get info arg-name) value))))
 
 (use-package ivy-posframe
