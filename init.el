@@ -926,26 +926,26 @@
 
 ;;;;; Major Modes
 
-(use-package csv-mode
-  :mode "\\.csv")
+(use-package csv-mode)
 
 (use-package org
   :bind
   (:map org-mode-map
         ("," . self-with-space)
         ("C-c C-." . org-todo)
-        ("C-c t" . timestamp))
+        ("C-c t" . insert-date))
   :custom
   (org-support-shift-select t)
   (org-startup-indented t)
   :config
-  (def timestamp
+  (def insert-date
     (insert (format-time-string "%m/%d/%Y")))
   (advice-add 'org-switch-to-buffer-other-window :override #'switch-to-buffer-other-window))
 
 (use-package org-autolist
   :after org
-  :config (add-hook 'org-mode-hook #'org-autolist-mode))
+  :hook
+  (org-mode . org-autolist-mode))
 
 (use-package sgml-mode
   :ensure-system-package
