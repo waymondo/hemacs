@@ -407,7 +407,6 @@
          (indent-region (region-beginning) (region-end) nil)))
   (defun pop-to-process-list-buffer ()
     (pop-to-buffer "*Process List*"))
-
   (defun kill-or-join-line (f &rest args)
     (if (not (eolp))
         (apply f args)
@@ -758,7 +757,7 @@
                (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
-                            "*Free keys" "new-issue" "COMMIT_EDITMSG"))))
+                            "*Free keys" "new-issue" "COMMIT_EDITMSG" "*MDN CSS" "*xref"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
