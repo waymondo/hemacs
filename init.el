@@ -1437,9 +1437,9 @@
 (use-package ivy-posframe
   :custom
   (ivy-posframe-style 'point)
-  (ivy-posframe-hide-minibuffer t)
   (ivy-posframe-display-functions-alist
-   '((swiper . nil)
+   '((swiper . ivy-posframe-display-at-window-bottom-left)
+     (ivy-switch-buffer . ivy-posframe-display-at-window-center)
      (t . ivy-posframe-display)))
   :config
   (ivy-posframe-mode))
