@@ -1477,7 +1477,7 @@
       (-any? #'derived-mode-p '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode))))
   (add-to-list
    'frog-jump-buffer-filter-actions
-   '("5" "[special]" frog-jump-buffer-filter-special-buffers) t))
+   '("6" "[special]" frog-jump-buffer-filter-special-buffers) t))
 
 (use-package flymake-diagnostic-at-point
   :straight
