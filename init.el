@@ -258,8 +258,7 @@
   (rtog/mode-repl-alist
    '((emacs-lisp-mode . ielm)
      (ruby-mode . inf-ruby)
-     (js2-mode . nodejs-repl)
-     (rjsx-mode . nodejs-repl)
+     (js-mode . nodejs-repl)
      (typescript-mode . run-ts)))
   :config
   (repl-toggle-mode))
