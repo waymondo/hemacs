@@ -8,7 +8,7 @@ dump.
 ```
 $ # assumes homebrew is installed
 $ brew tap d12frosted/emacs-plus
-$ brew install emacs-plus --with-xwidgets --HEAD 
+$ brew install emacs-plus --with-xwidgets --with-jansson --HEAD 
 $ git clone https://github.com/waymondo/hemacs.git "$HOME/.emacs.d"
 ```
 

@@ -42,6 +42,7 @@
   (inhibit-startup-echo-area-message "")
   (standard-indent 2)
   (enable-recursive-minibuffers t)
+  (gc-cons-threshold 30000000)
   (kill-buffer-query-functions nil)
   (ns-pop-up-frames nil)
   (shell-file-name (getenv "SHELL"))
