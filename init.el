@@ -1320,15 +1320,7 @@
   (diff-hl-margin-mode)
   (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
 
-;;;;; Help & Docs
-
-(use-package define-word
-  :bind
-  (:map hemacs-help-map ("w" . define-word-at-point)))
-
-(use-package google-this
-  :bind
-  (:map hemacs-help-map ("g" . google-this)))
+;;;;; Emacs Lisping
 
 (use-package eldoc
   :custom
@@ -1345,12 +1337,24 @@
   ([remap describe-key] . helpful-key)
   (:map hemacs-help-map ("." . helpful-at-point)))
 
-(use-package etags
-  :custom (tags-revert-without-query t))
-
 (use-package elisp-slime-nav
   :hook
   ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
+
+;;;;; Help & Docs
+
+(use-package know-your-http-well)
+
+(use-package define-word
+  :bind
+  (:map hemacs-help-map ("w" . define-word-at-point)))
+
+(use-package google-this
+  :bind
+  (:map hemacs-help-map ("g" . google-this)))
+
+(use-package etags
+  :custom (tags-revert-without-query t))
 
 (use-package smerge-mode
   :hook
