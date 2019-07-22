@@ -143,7 +143,7 @@
   (alert-default-style (if *is-mac* 'osx-notifier 'message))
   :config
   (defun alert-after-finish-in-background (buf str)
-    (unless (get-buffer-window buf 'visible)
+    (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
       (alert str :buffer buf))))
 
 (use-feature comint
