@@ -242,7 +242,7 @@
       (term-next-prompt 1)))))
 
 (use-package sh-script
-  :ensure-system-package "shfmt"
+  :ensure-system-package shfmt
   :mode
   ((rx (and (? ".") (or "bash" "zsh"))) . sh-mode)
   :config
