@@ -1432,18 +1432,18 @@
 ;;;;; Posframe
 
 (use-package posframe
+  :custom
+  (posframe-arghandler #'hemacs-posframe-arghandler)
   :config
-  (setq posframe-arghandler #'hemacs-posframe-arghandler)
   (defun hemacs-posframe-arghandler (posframe-buffer arg-name value)
     (let ((info '(:internal-border-width 12 :min-width 80)))
       (or (plist-get info arg-name) value))))
 
 (use-package ivy-posframe
   :custom
-  (ivy-posframe-style 'point)
+  (ivy-posframe-style 'frame-center)
   (ivy-posframe-display-functions-alist
    '((swiper . ivy-posframe-display-at-window-bottom-left)
-     (ivy-switch-buffer . ivy-posframe-display-at-window-center)
      (t . ivy-posframe-display)))
   :config
   (ivy-posframe-mode))
@@ -1471,6 +1471,10 @@
 (use-package frog-jump-buffer
   :chords
   (";a" . frog-jump-buffer)
+  :custom
+  (frog-jump-buffer-posframe-handler #'posframe-poshandler-frame-center)
+  (frog-jump-buffer-default-filters-capital-letters t)
+  (frog-jump-buffer-filter-actions '(("7" "[special]" frog-jump-buffer-filter-special-buffers)))
   :config
   (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
                     "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$"
