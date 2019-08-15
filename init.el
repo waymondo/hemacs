@@ -1482,10 +1482,7 @@
     (push regexp frog-jump-buffer-ignore-buffers))
   (defun frog-jump-buffer-filter-special-buffers (buffer)
     (with-current-buffer buffer
-      (-any? #'derived-mode-p '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode))))
-  (add-to-list
-   'frog-jump-buffer-filter-actions
-   '("6" "[special]" frog-jump-buffer-filter-special-buffers) t))
+      (-any? #'derived-mode-p '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
 
 (use-package flymake-diagnostic-at-point
   :straight
@@ -1667,9 +1664,11 @@
   :config
   (show-paren-mode))
 
-(use-package auto-dim-other-buffers
+(use-package dimmer
+  :custom
+  (dimmer-exclusion-regexp (rx (or "frog-menu" "posframe" "which-key")))
   :config
-  (auto-dim-other-buffers-mode))
+  (dimmer-mode))
 
 (use-feature fringe
   :config (fringe-mode '(20 . 8))
