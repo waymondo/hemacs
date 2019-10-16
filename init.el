@@ -748,7 +748,8 @@
                (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
-                            "*Free keys" "new-issue" "COMMIT_EDITMSG" "*MDN CSS" "*xref" "*rails"))))
+                            "*Free keys" "new-issue" "COMMIT_EDITMSG" "*MDN CSS" "*xref" "*rails"
+                            "*rspec-compilation"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
