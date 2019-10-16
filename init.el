@@ -1345,7 +1345,9 @@
   (:map hemacs-help-map ("g" . google-this)))
 
 (use-package etags
-  :custom (tags-revert-without-query t))
+  :custom
+  (tags-add-tables nil)
+  (tags-revert-without-query t))
 
 (use-package smerge-mode
   :hook
