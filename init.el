@@ -46,6 +46,8 @@
   (kill-buffer-query-functions nil)
   (ns-pop-up-frames nil)
   (shell-file-name (getenv "SHELL"))
+  (frame-inhibit-implied-resize t)
+  (fast-but-imprecise-scrolling t)
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 1
@@ -53,7 +55,7 @@
                 c-basic-offset 2
                 cursor-type 'bar
                 cursor-in-non-selected-windows nil
-                bidi-display-reordering nil
+                bidi-display-reordering 'left-to-right
                 fill-column 100
                 truncate-lines t)
   (defalias 'yes-or-no-p #'y-or-n-p)
