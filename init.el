@@ -1606,6 +1606,7 @@
 (use-package beacon
   :custom
   (beacon-blink-when-focused t)
+  (beacon-blink-when-window-scrolls nil)
   :config
   (defun maybe-recenter-current-window ()
     (when (and (equal (current-buffer) (window-buffer (selected-window)))
@@ -1626,7 +1627,8 @@
   (prog-mode . symbol-overlay-mode))
 
 (use-package volatile-highlights
-  :config (volatile-highlights-mode))
+  :config
+  (volatile-highlights-mode))
 
 (use-package rainbow-delimiters
   :hook
