@@ -1495,18 +1495,14 @@
 
 (use-package lsp-mode
   :hook
-  ((typescript-mode ruby-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode) . lsp)
+  ((typescript-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode ruby-mode) . lsp-deferred)
   :custom
   (lsp-auto-guess-root t)
+  (lsp-restart nil)
+  (lsp-solargraph-autoformat t)
+  (lsp-solargraph-use-bundler t)
   :bind*
-  ("C-M-\\" . lsp-format-buffer)
-  :config
-  (defun lsp-format-buffer-maybe-call-format-all (f &rest args)
-    (condition-case err
-        (apply f args)
-      (error
-       (format-all-buffer))))
-  (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all))
+  ("C-M-\\" . lsp-format-buffer))
 
 (use-package company-lsp
   :custom
