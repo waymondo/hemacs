@@ -1350,43 +1350,6 @@
   (tags-add-tables nil)
   (tags-revert-without-query t))
 
-(use-package smerge-mode
-  :hook
-  (find-file . enable-smerge-mode-maybe)
-  :bind
-  (:map smerge-mode-map ("s-M" . hydra-smerge/body))
-  :config
-  (defun enable-smerge-mode-maybe ()
-    (save-excursion
-      (goto-char (point-min))
-      (when (re-search-forward "^<<<<<<< " nil :noerror)
-        (smerge-mode 1)
-        (hydra-smerge/body))))
-  :hydra
-  (hydra-smerge
-   (:hint nil :pre (smerge-mode 1) :post (smerge-auto-leave) :color pink)
-   ("g" (progn (goto-char (point-min)) (smerge-next)) "first diff")
-   ("G" (progn (goto-char (point-max)) (smerge-prev)) "last diff")
-   ("C-j" smerge-next "next diff")
-   ("C-k" smerge-prev "prev diff")
-   ("j" next-line "next line")
-   ("k" previous-line "prev line")
-   ("b" smerge-keep-base "base")
-   ("u" smerge-keep-upper "upper")
-   ("l" smerge-keep-lower "lower")
-   ("a" smerge-keep-all "all")
-   ("RET" smerge-keep-current "current")
-   ("\C-m" smerge-keep-current "current")
-   ("<" smerge-diff-base-upper "upper/base")
-   ("=" smerge-diff-upper-lower "upper/lower")
-   (">" smerge-diff-base-lower "base/lower")
-   ("H" smerge-refine "highlight")
-   ("E" smerge-ediff "ediff")
-   ("C" smerge-combine-with-next "combine")
-   ("r" smerge-resolve "resolve")
-   ("R" smerge-kill-current "remove")
-   ("q" nil :color blue)))
-
 (use-package gist
   :defer t
   :bind
