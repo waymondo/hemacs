@@ -2,6 +2,7 @@
 
 (setq straight-check-for-modifications 'live-with-find)
 
+(defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
       (bootstrap-version 5))
@@ -19,6 +20,7 @@
  '(use-package :type git :host github :repo "waymondo/use-package" :branch "personal"))
 (setq straight-use-package-by-default t)
 
+(use-package bind-key)
 (use-package no-littering)
 (use-package use-package-chords)
 (use-package use-package-ensure-system-package)
