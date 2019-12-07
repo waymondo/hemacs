@@ -103,6 +103,10 @@
       (keyboard-quit)
       (run-at-time nil nil (λ () (put 'quit 'error-message "Quit"))))))
 
+(use-package inflections)
+
+(use-package f)
+
 (use-feature tool-bar
   :config (tool-bar-mode -1))
 
@@ -1194,6 +1198,8 @@
   (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
   (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
 
+(use-package rake)
+
 (use-package projectile-rails
   :bind
   (:map projectile-rails-mode-map ("C-c r" . hydra-projectile-rails/body))
@@ -1244,7 +1250,6 @@
   (magit-completing-read-function #'ivy-completing-read)
   (magit-log-auto-more t)
   (magit-branch-prefer-remote-upstream t)
-  (magit-repository-directories projectile-known-projects)
   (magit-diff-refine-hunk 'all)
   (magit-no-confirm t)
   :hook
@@ -1255,6 +1260,8 @@
     (save-window-excursion
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
       (magit-refresh)))
+  (after projectile
+    (setq magit-repository-directories projectile-known-projects))
   (after alert
     (defun magit-process-alert-after-finish-in-background (f &rest args)
       (let* ((process (nth 0 args))
@@ -1669,6 +1676,7 @@
   (:map hemacs-help-map ("k" . describe-personal-keybindings)))
 
 (use-package ffap
+  :commands (ffap-file-at-point ffap-url-at-point)
   :bind
   (:map hemacs-help-map ("p" . ffap)))
 
