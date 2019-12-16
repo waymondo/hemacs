@@ -1597,6 +1597,10 @@
   :config
   (volatile-highlights-mode))
 
+(use-package highlight-indentation
+  :hook
+  (indent-sensitive-modes . highlight-indentation-current-column-mode))
+
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode)
