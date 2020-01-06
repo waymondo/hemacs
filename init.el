@@ -330,12 +330,10 @@
   :custom
   (dired-sidebar-theme 'vscode))
 
-(use-package undo-tree
-  :config
-  (global-undo-tree-mode)
-  :bind
-  ("s-z" . undo-tree-undo)
-  ("s-Z" . undo-tree-redo))
+(use-package undo-fu
+ :bind
+ ("s-z" . undo-fu-only-undo)
+ ("s-Z" . undo-fu-only-redo))
 
 (use-package osx-trash
   :if *is-mac*
