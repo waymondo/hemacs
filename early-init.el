@@ -24,6 +24,3 @@
 (use-package no-littering)
 (use-package use-package-chords)
 (use-package use-package-ensure-system-package)
-
-(setq straight-vc-git-default-protocol 'ssh)
-(setq straight-vc-git-force-protocol t)
