@@ -1,7 +1,6 @@
-An ever evolving Cocoa Emacs 27+ setup on macOS. I'm mainly writing
-Ruby, JavaScript/TypeScript, interfacing with Git and Bash, writing
-compiled stylesheets and HTML templates, and hacking on this Elisp
-dump.
+An ever evolving, bleeding-edge Cocoa Emacs 28+ setup on macOS. I'm mainly writing Ruby,
+JavaScript/TypeScript, interfacing with Git and Bash, writing compiled stylesheets and HTML
+templates, and hacking on this Elisp dump.
 
 ## Installation
 
