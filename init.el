@@ -379,7 +379,7 @@
   (async-shell-command-buffer 'new-buffer)
   :bind
   ("s-k" . kill-whole-line)
-  ("C-`" . list-processes)
+  ("M-`" . list-processes)
   (:map minibuffer-local-map
         ("<escape>"  . abort-recursive-edit)
         ("M-TAB"     . previous-complete-history-element)
@@ -1662,7 +1662,9 @@
         (when (string-match (symbol-name variant) theme-name)
           (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance variant)
           (modify-all-frames-parameters default-frame-alist)))))
-  (add-hook 'cycle-themes-after-cycle-hook #'set-ns-appearance-for-theme-variant))
+  (add-hook 'cycle-themes-after-cycle-hook #'set-ns-appearance-for-theme-variant)
+  (after highlight-tail
+    (add-hook 'cycle-themes-after-cycle-hook #'highlight-tail-reload)))
 
 (use-package solaire-mode
   :hook
