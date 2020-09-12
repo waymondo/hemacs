@@ -330,11 +330,6 @@
   :custom
   (dired-sidebar-theme 'vscode))
 
-(use-package undo-fu
- :bind
- ("s-z" . undo-fu-only-undo)
- ("s-Z" . undo-fu-only-redo))
-
 (use-package osx-trash
   :if *is-mac*
   :ensure-system-package trash
@@ -380,6 +375,8 @@
   :bind
   ("s-k" . kill-whole-line)
   ("M-`" . list-processes)
+  ("s-z" . undo-only)
+  ("s-Z" . undo-redo)
   (:map minibuffer-local-map
         ("<escape>"  . abort-recursive-edit)
         ("M-TAB"     . previous-complete-history-element)
