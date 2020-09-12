@@ -688,6 +688,7 @@
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
+  (:map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
   :init
   (defun company-conditional-idle-delay ()
     (if (company-in-string-or-comment) nil 0.3))
