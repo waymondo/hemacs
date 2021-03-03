@@ -48,6 +48,7 @@
   (shell-file-name (getenv "SHELL"))
   (frame-inhibit-implied-resize t)
   (fast-but-imprecise-scrolling t)
+  (redisplay-skip-fontification-on-input t)
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 1
