@@ -8,7 +8,7 @@
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst *is-mac* (eq system-type 'darwin))
 (defconst default-font-size 15)
-(defconst hemacs-posframe-delay 2)
+(defconst hemacs-posframe-delay 5)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
@@ -50,9 +50,10 @@
   (fast-but-imprecise-scrolling t)
   (redisplay-skip-fontification-on-input t)
   (read-process-output-max (* 1024 1024))
+  (use-short-answers t)
   :config
   (setq-default indent-tabs-mode nil
-                line-spacing 1
+                line-spacing 2
                 tab-width 2
                 c-basic-offset 2
                 cursor-type 'bar
@@ -60,7 +61,6 @@
                 bidi-display-reordering 'left-to-right
                 fill-column 100
                 truncate-lines t)
-  (defalias 'yes-or-no-p #'y-or-n-p)
   (defun hemacs-minibuffer-setup-hook ()
     (set-window-fringes (minibuffer-window) 0 0 nil)
     (setq-local input-method-function nil))
