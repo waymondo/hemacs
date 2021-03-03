@@ -16,6 +16,9 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq use-package-enable-imenu-support t)
+(setq straight-vc-git-default-protocol 'ssh)
+(setq package-enable-at-startup nil)
+
 (straight-use-package
  '(use-package :type git :host github :repo "waymondo/use-package" :branch "personal"))
 (setq straight-use-package-by-default t)
