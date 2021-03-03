@@ -1606,15 +1606,13 @@
   (rainbow-delimiters-max-face-count 5))
 
 (use-package moody
-  :custom
-  (moody-slant-function #'moody-slant-apple-rgb)
-  (x-underline-at-descent-line t)
   :config
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode))
 
 (use-package minions
-  :config (minions-mode))
+  :config
+  (minions-mode))
 
 (use-package hide-mode-line
   :hook
