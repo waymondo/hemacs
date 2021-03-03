@@ -884,7 +884,6 @@
   :bind
   ([remap execute-extended-command] . counsel-M-x)
   ("s-P" . counsel-M-x)
-  ("s-y" . counsel-yank-pop)
   (:map hemacs-help-map ("o" . counsel-find-library))
   :chords
   (";f" . counsel-find-file))
