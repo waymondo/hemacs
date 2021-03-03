@@ -49,6 +49,7 @@
   (frame-inhibit-implied-resize t)
   (fast-but-imprecise-scrolling t)
   (redisplay-skip-fontification-on-input t)
+  (read-process-output-max (* 1024 1024))
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 1
@@ -735,7 +736,6 @@
   (advice-add 'goto-line-preview :around #'with-display-line-numbers))
 
 (use-feature window
-  :preface (provide 'window)
   :chords
   (";w" . toggle-split-window)
   (":W" . delete-other-windows)
@@ -747,7 +747,7 @@
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
                             "*Free keys" "new-issue" "COMMIT_EDITMSG" "*MDN CSS" "*xref" "*rails"
-                            "*rspec-compilation"))))
+                            "*rspec-compilation" "*lsp-help"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
@@ -1460,11 +1460,12 @@
 (use-package lsp-mode
   :hook
   ((typescript-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode ruby-mode) . lsp-deferred)
+  (lsp-mode . lsp-enable-which-key-integration)
   :custom
-  (lsp-auto-guess-root t)
-  (lsp-restart nil)
-  (lsp-solargraph-autoformat t)
   (lsp-solargraph-use-bundler t)
+  :config
+  (add-λ 'lsp-mode-hook
+    (setq-local lsp-headerline-breadcrumb-enable nil))
   :bind*
   ("C-M-\\" . lsp-format-buffer))
 
@@ -1612,7 +1613,7 @@
 
 (use-package hide-mode-line
   :hook
-  ((dired-mode bs-mode helpful-mode magit-mode magit-popup-mode org-capture-mode) .
+  ((dired-mode bs-mode helpful-mode magit-mode magit-popup-mode org-capture-mode help-mode) .
    hide-mode-line-mode))
 
 (use-package paren
