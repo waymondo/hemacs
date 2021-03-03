@@ -1249,7 +1249,6 @@
   :hook
   (magit-process-mode . text-smaller-no-truncation)
   :config
-  (global-magit-file-mode)
   (def magit-just-amend
     (save-window-excursion
       (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
