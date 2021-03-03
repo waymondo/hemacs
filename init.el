@@ -1397,15 +1397,6 @@
     (let ((info '(:internal-border-width 12 :min-width 80)))
       (or (plist-get info arg-name) value))))
 
-(use-package ivy-posframe
-  :custom
-  (ivy-posframe-style 'frame-center)
-  (ivy-posframe-display-functions-alist
-   '((swiper . ivy-posframe-display-at-window-bottom-left)
-     (t . ivy-posframe-display)))
-  :config
-  (ivy-posframe-mode))
-
 (use-package which-key-posframe
   :config
   (which-key-posframe-mode)
