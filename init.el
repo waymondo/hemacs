@@ -108,19 +108,16 @@
 (use-package f)
 
 (use-feature tool-bar
-  :config (tool-bar-mode -1))
+  :config
+  (tool-bar-mode -1))
 
 (use-feature scroll-bar
-  :config (scroll-bar-mode -1))
+  :config
+  (scroll-bar-mode -1))
 
 (use-feature menu-bar
   :bind
   ("s-w" . kill-this-buffer))
-
-(use-feature mwheel
-  :custom
-  (mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-  (mouse-wheel-progressive-speed nil))
 
 ;;;;; Processes, Shells, Compilation
 
