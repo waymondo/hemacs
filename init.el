@@ -1486,11 +1486,6 @@
   :hook
   (writing-modes . darkroom-tentative-mode))
 
-(use-feature startup
-  :preface (provide 'startup)
-  :custom
-  (inhibit-startup-screen t))
-
 (use-feature frame
   :custom
   (blink-cursor-blinks 0)

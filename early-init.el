@@ -18,6 +18,7 @@
 (setq use-package-enable-imenu-support t)
 (setq straight-vc-git-default-protocol 'ssh)
 (setq package-enable-at-startup nil)
+(setq inhibit-startup-screen t)
 
 (straight-use-package
  '(use-package :type git :host github :repo "waymondo/use-package" :branch "personal"))
