@@ -571,8 +571,7 @@
   :custom
   (ivy-extra-directories nil)
   (ivy-re-builders-alist
-   '((swiper . ivy--regex-plus)
-     (counsel-ag . ivy--regex-plus)
+   '((counsel-ag . ivy--regex-plus)
      (t . ivy--regex-fuzzy)))
   (ivy-use-virtual-buffers t)
   (ivy-virtual-abbreviate 'abbreviate)
@@ -877,10 +876,9 @@
   (make-projectile-switch-project-defun #'projector-run-shell-command-project-root)
   (make-projectile-switch-project-defun #'projector-run-default-shell-command))
 
-(use-package swiper
-  :bind
-  ([remap isearch-forward]  . swiper)
-  ([remap isearch-backward] . swiper))
+(use-package ctrlf
+  :config
+  (ctrlf-mode))
 
 (use-package counsel
   :bind
