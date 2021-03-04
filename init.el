@@ -51,6 +51,7 @@
   (redisplay-skip-fontification-on-input t)
   (read-process-output-max (* 1024 1024))
   (use-short-answers t)
+  (x-underline-at-descent-line t)
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 2
