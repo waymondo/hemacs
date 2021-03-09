@@ -1471,6 +1471,8 @@
 ;;;;; Appearance
 
 (use-package fira-code-mode
+  :custom
+  (fira-code-mode-enable-hex-literal nil)
   :config
   (unless (member "Fira Code" (font-family-list))
     (fira-code-mode-install-fonts))
