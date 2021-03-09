@@ -691,6 +691,14 @@
     (add-to-list 'company-continue-commands command))
   (global-company-mode))
 
+(use-package company-posframe
+  :custom
+  (company-posframe-show-indicator nil)
+  (company-posframe-show-metadata nil)
+  (company-posframe-quickhelp-delay nil)
+  :config
+  (company-posframe-mode))
+
 (use-package bash-completion
   :init
   (bash-completion-setup))
