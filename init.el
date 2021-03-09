@@ -1268,13 +1268,7 @@
 (use-package forge
   :after magit
   :custom
-  (forge-topic-list-limit '(60 . 0))
-  :config
-  (push '(issues . show) magit-section-initial-visibility-alist))
-
-(use-package ghub
-  :custom
-  (ghub-use-workaround-for-emacs-bug t))
+  (forge-topic-list-limit '(60 . 0)))
 
 (use-package magit-todos
   :config
@@ -1287,10 +1281,6 @@
   (:map hemacs-git-map ("p" . git-messenger:popup-message))
   :custom
   (git-messenger:show-detail t))
-
-(use-feature vc-git
-  :custom
-  (vc-git-diff-switches '("--histogram")))
 
 (use-package epa
   :bind
