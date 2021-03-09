@@ -261,12 +261,14 @@
   (image-animate-loop t)
   :mode "\\.otf\\'"
   :config
-  (defun show-image-dimensions-in-mode-line ()
-    (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
-           (width (car image-dimensions))
-           (height (cdr image-dimensions)))
-      (setq mode-line-buffer-identification
-            (format "%s %dx%d" (propertized-buffer-identification "%12b") width height)))))
+  (after moody
+    (defun show-image-dimensions-in-mode-line ()
+      (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
+             (width (car image-dimensions))
+             (height (cdr image-dimensions)))
+        (setq moody-mode-line-buffer-identification
+              `(:eval (moody-tab (format "%s %dx%d" (propertized-buffer-identification "%b") ,width ,height)
+                                 20 'down)))))))
 
 (use-feature files
   :custom
