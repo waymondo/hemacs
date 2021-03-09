@@ -1085,6 +1085,11 @@
   (:map typescript-mode-map
         ("C-s-s" . import-js-fix)))
 
+(use-package swift-mode)
+
+(use-package dotenv-mode
+  :mode "\\.env\\..*\\'")
+
 (use-package typescript-mode
   :ensure-system-package
   (typescript-language-server . "npm i -g typescript-language-server")
