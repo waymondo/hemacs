@@ -67,18 +67,14 @@
     (setq-local input-method-function nil))
   (add-hook 'minibuffer-setup-hook #'hemacs-minibuffer-setup-hook))
 
-(use-feature mule-cmds
-  :preface (provide 'mule-cmds)
-  :config
-  (prefer-coding-system 'utf-8))
-
 (use-package server
   :config
   (unless (server-running-p)
     (server-start)))
 
 (use-package dash
-  :config (dash-enable-font-lock))
+  :config
+  (dash-enable-font-lock))
 
 (use-package s
   :bind
@@ -123,8 +119,6 @@
   ("s-w" . kill-this-buffer))
 
 ;;;;; Processes, Shells, Compilation
-
-(use-package async)
 
 (use-package exec-path-from-shell
   :custom
