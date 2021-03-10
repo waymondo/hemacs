@@ -301,7 +301,8 @@
   (savehist-mode))
 
 (use-package saveplace
-  :init (save-place-mode))
+  :init
+  (save-place-mode))
 
 (use-package recentf
   :custom
@@ -365,9 +366,13 @@
   :custom
   (set-mark-command-repeat-pop t)
   (save-interprogram-paste-before-kill t)
+  (kill-do-not-save-duplicates t)
+  (yank-pop-change-selection t)
   (idle-update-delay 2)
   (next-error-recenter t)
   (async-shell-command-buffer 'new-buffer)
+  (shell-command-prompt-show-cwd t)
+  (what-cursor-show-names t)
   :bind
   ("s-k" . kill-whole-line)
   ("M-`" . list-processes)
@@ -415,10 +420,12 @@
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
 
 (use-package delsel
-  :init (delete-selection-mode))
+  :init
+  (delete-selection-mode))
 
 (use-package elec-pair
-  :init (electric-pair-mode))
+  :init
+  (electric-pair-mode))
 
 (use-package electric
   :custom
@@ -428,10 +435,12 @@
   (writing-modes . electric-quote-local-mode))
 
 (use-package subword
-  :init (global-subword-mode))
+  :init
+  (global-subword-mode))
 
 (use-package expand-region
-  :bind* ("C-," . er/expand-region))
+  :bind*
+  ("C-," . er/expand-region))
 
 (use-package change-inner
   :bind
