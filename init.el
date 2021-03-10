@@ -102,10 +102,6 @@
       (keyboard-quit)
       (run-at-time nil nil (λ () (put 'quit 'error-message "Quit"))))))
 
-(use-package inflections)
-
-(use-package f)
-
 (use-feature tool-bar
   :config
   (tool-bar-mode -1))
