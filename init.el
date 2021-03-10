@@ -683,7 +683,6 @@
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
-  (:map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
   :init
   (defun company-conditional-idle-delay ()
     (if (company-in-string-or-comment) nil 0.3))
@@ -889,6 +888,7 @@
   ([remap execute-extended-command] . counsel-M-x)
   ("s-P" . counsel-M-x)
   (:map hemacs-help-map ("o" . counsel-find-library))
+  (:map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
   :chords
   (";f" . counsel-find-file))
 
