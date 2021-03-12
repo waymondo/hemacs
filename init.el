@@ -1303,7 +1303,8 @@
   :config
   (global-diff-hl-mode)
   (diff-hl-margin-mode)
-  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh t))
+  (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
 
 ;;;;; Emacs Lisping
 
@@ -1499,7 +1500,8 @@
   (uniquify-buffer-name-style 'forward))
 
 (use-package page-break-lines
-  :config (global-page-break-lines-mode))
+  :config
+  (global-page-break-lines-mode))
 
 (use-package beacon
   :custom
@@ -1560,49 +1562,37 @@
   (show-paren-mode))
 
 (use-package dimmer
-  :custom
-  (dimmer-exclusion-regexp (rx (or "frog-menu" "posframe" "which-key")))
   :config
-  (dimmer-mode))
+  (dimmer-mode)
+  (dimmer-configure-posframe)
+  (dimmer-configure-magit)
+  (dimmer-configure-hydra)
+  (dimmer-configure-which-key))
 
 (use-feature fringe
-  :config (fringe-mode '(20 . 8))
+  :config
+  (fringe-mode '(20 . 8))
   :custom
   (fringe-indicator-alist
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
+
+(use-package solaire-mode
+  :after diff-hl
+  :hook
+  (minibuffer-setup . solaire-mode-in-minibuffer)
+  :config
+  (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
+    (add-to-list 'solaire-mode-remap-alist `((,face solaire-default-face) . t)))
+  (solaire-global-mode))
 
 (use-package apropospriate-theme
   :custom
   (apropospriate-org-level-resizing nil)
   :config
   (load-theme 'apropospriate-light t t)
-  (load-theme 'apropospriate-dark t t))
+  (load-theme 'apropospriate-dark t))
 
 (use-package vscode-icon)
-
-(use-package cycle-themes
-  :custom
-  (cycle-themes-theme-list '(apropospriate-dark apropospriate-light))
-  :config
-  (cycle-themes-mode)
-  (defun set-ns-appearance-for-theme-variant ()
-    (let ((theme-name (symbol-name (car custom-enabled-themes))))
-      (dolist (variant '(dark light))
-        (when (string-match (symbol-name variant) theme-name)
-          (set-or-update-alist-value-by-key 'default-frame-alist 'ns-appearance variant)
-          (modify-all-frames-parameters default-frame-alist)))))
-  (add-hook 'cycle-themes-after-cycle-hook #'set-ns-appearance-for-theme-variant)
-  (after highlight-tail
-    (add-hook 'cycle-themes-after-cycle-hook #'highlight-tail-reload)))
-
-(use-package solaire-mode
-  :hook
-  (minibuffer-setup . solaire-mode-in-minibuffer)
-  :config
-  (after diff-hl
-    (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
-      (add-to-list 'solaire-mode-remap-alist `((,face solaire-line-number-face) . t))))
-  (solaire-global-mode))
 
 ;;;;; Bindings & Chords
 
