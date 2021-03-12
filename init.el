@@ -886,7 +886,9 @@
 
 (use-package ctrlf
   :config
-  (ctrlf-mode))
+  (ctrlf-mode)
+  :custom
+  (ctrlf-auto-recenter t))
 
 (use-package counsel
   :bind
@@ -1606,7 +1608,8 @@
   (:map hemacs-help-map ("k" . describe-personal-keybindings)))
 
 (use-package ffap
-  :commands (ffap-file-at-point ffap-url-at-point)
+  :commands
+  (ffap-file-at-point ffap-url-at-point)
   :bind
   (:map hemacs-help-map ("p" . ffap)))
 
