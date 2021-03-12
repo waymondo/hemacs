@@ -1286,12 +1286,6 @@
   :custom
   (magit-todos-max-items 30))
 
-(use-package git-messenger
-  :bind
-  (:map hemacs-git-map ("p" . git-messenger:popup-message))
-  :custom
-  (git-messenger:show-detail t))
-
 (use-package epa
   :bind
   ("C-c g d f" . epa-decrypt-file)
