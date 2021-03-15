@@ -1520,6 +1520,11 @@
     (push mode beacon-dont-blink-major-modes))
   (beacon-mode))
 
+(use-package goggles
+  :hook ((prog-mode text-mode) . goggles-mode)
+  :config
+  (setq-default goggles-pulse t))
+
 (use-package symbol-overlay
   :custom
   (symbol-overlay-idle-time 0.2)
@@ -1528,10 +1533,6 @@
   ("M-p" . symbol-overlay-jump-prev)
   :hook
   (prog-mode . symbol-overlay-mode))
-
-(use-package volatile-highlights
-  :config
-  (volatile-highlights-mode))
 
 (use-package highlight-indentation
   :hook
