@@ -30,7 +30,7 @@
 (defmacro use-feature (name &rest args)
   (declare (indent 1))
   `(use-package ,name
-     :straight nil
+     :straight (:type built-in)
      ,@args))
 
 (defun ensure-space (direction)
@@ -112,3 +112,9 @@
     (if current-cell
         (setcdr current-cell value)
       (add-to-list alist `(,key . ,value)))))
+
+(defun defer-garbage-collection ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun restore-garbage-collection ()
+  (run-at-time 1 nil (lambda () (setq gc-cons-threshold (* 1024 1024 30)))))

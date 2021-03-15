@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
+(setq gc-cons-threshold most-positive-fixnum)
 (setq straight-check-for-modifications 'live-with-find)
 
 (defvar bootstrap-version)

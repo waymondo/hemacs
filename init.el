@@ -42,7 +42,6 @@
   (inhibit-startup-echo-area-message "")
   (standard-indent 2)
   (enable-recursive-minibuffers t)
-  (gc-cons-threshold 30000000)
   (kill-buffer-query-functions nil)
   (ns-pop-up-frames nil)
   (shell-file-name (getenv "SHELL"))
@@ -63,9 +62,12 @@
                 fill-column 100
                 truncate-lines t)
   (defun hemacs-minibuffer-setup-hook ()
+    (defer-garbage-collection)
     (set-window-fringes (minibuffer-window) 0 0 nil)
     (setq-local input-method-function nil))
-  (add-hook 'minibuffer-setup-hook #'hemacs-minibuffer-setup-hook))
+  (add-hook 'minibuffer-setup-hook #'hemacs-minibuffer-setup-hook)
+  (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
+  (add-hook 'emacs-startup-hook #'restore-garbage-collection 100))
 
 (use-package server
   :config
@@ -1494,13 +1496,7 @@
   :init
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (blink-cursor-mode)
-  (defun garbage-collect-when-frame-is-unfocused ()
-    (unless (frame-focus-state)
-      (garbage-collect)))
-  (add-function :after
-                after-focus-change-function
-                #'garbage-collect-when-frame-is-unfocused))
+  (blink-cursor-mode))
 
 (use-feature uniquify
   :custom
