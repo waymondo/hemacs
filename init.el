@@ -929,7 +929,9 @@
 
 ;;;;; Major Modes
 
-(use-package csv-mode)
+(use-package csv-mode
+  :hook
+  (csv-mode . csv-align-mode))
 
 (use-package org
   :bind
