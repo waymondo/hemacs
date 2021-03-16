@@ -231,7 +231,7 @@
 (use-package sh-script
   :ensure-system-package shfmt
   :mode
-  ((rx (and (? ".") (or "bash" "zsh"))) . sh-mode)
+  ((rx (and (? ".") (or "bash" "zsh" "zprofile"))) . sh-mode)
   :config
   (setq-default sh-indentation 2
                 sh-basic-offset 2))
