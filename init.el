@@ -191,7 +191,7 @@
 
 (use-package warnings
   :custom
-  (warning-suppress-types '((undo discard-info))))
+  (warning-suppress-types '((comp) (undo discard-info))))
 
 (use-package shell
   :defer t
