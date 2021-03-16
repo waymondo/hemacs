@@ -8,7 +8,7 @@
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst *is-mac* (eq system-type 'darwin))
 (defconst default-font-size 15)
-(defconst hemacs-posframe-delay 5)
+(defconst hemacs-posframe-delay 3)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
@@ -1407,15 +1407,9 @@
   :custom
   (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner))
 
-(use-package eldoc-posframe
-  :straight
-  (:host github :repo "waymondo/eldoc-posframe")
-  :custom
-  (eldoc-posframe-left-fringe 0)
-  (eldoc-posframe-padding 12)
-  (eldoc-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
-  :config
-  (eldoc-posframe-mode))
+(use-package eldoc-box
+  :hook
+  (emacs-lisp-mode . eldoc-box-hover-at-point-mode))
 
 (use-package frog-menu
   :custom
