@@ -1437,6 +1437,12 @@
   :config
   (add-λ 'lsp-mode-hook
     (setq-local lsp-headerline-breadcrumb-enable nil))
+  (defun lsp-format-buffer-maybe-call-format-all (f &rest args)
+    (condition-case err
+        (apply f args)
+      (error
+       (call-interactively 'format-all-buffer))))
+  (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all)
   :bind*
   ("C-M-\\" . lsp-format-buffer))
 
