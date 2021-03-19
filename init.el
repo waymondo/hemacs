@@ -747,8 +747,7 @@
       (window-height   . 0.37))
      ("." nil (reusable-frames . visible))))
   (switch-to-buffer-obey-display-actions t)
-  (split-height-threshold nil)
-  (split-width-threshold 200)
+  (split-width-threshold 190)
   :config
   (def toggle-split-window
     (if (eq last-command 'toggle-split-window)
