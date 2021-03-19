@@ -465,13 +465,9 @@
   :hook
   (prog-mode . maybe-enable-smart-newline-mode)
   :init
-  (defun smart-newline-no-reindent-first (f &rest args)
-    (cl-letf (((symbol-function 'reindent-then-newline-and-indent) #'newline-and-indent))
-      (apply f args)))
   (defun maybe-enable-smart-newline-mode ()
     (when (not (member major-mode indent-sensitive-modes))
-      (smart-newline-mode))
-    (advice-add 'smart-newline :around #'smart-newline-no-reindent-first))
+      (smart-newline-mode)))
   (def eol-then-smart-newline
     (move-end-of-line nil)
     (smart-newline)))
