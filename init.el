@@ -669,6 +669,9 @@
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
+  (:map company-active-map
+        ("<tab>" . #'company-complete-selection)
+        ("TAB" . #'company-complete-selection))
   :init
   (defun company-conditional-idle-delay ()
     (if (company-in-string-or-comment) nil 0.3))
