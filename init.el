@@ -62,6 +62,12 @@
                 bidi-display-reordering 'left-to-right
                 fill-column 100
                 truncate-lines t)
+  (defun keyboard-quit-minibuffer-first (f &rest args)
+    (if-let ((minibuffer (active-minibuffer-window)))
+        (with-current-buffer (window-buffer minibuffer)
+          (minibuffer-keyboard-quit))
+      (apply f args)))
+  (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
   (defun hemacs-minibuffer-setup-hook ()
     (defer-garbage-collection)
     (set-window-fringes (minibuffer-window) 0 0 nil)
@@ -498,11 +504,6 @@
   ("s-W" . crux-delete-file-and-buffer)
   ("s-S" . crux-rename-file-and-buffer)
   :config
-  (defun crux-ignore-vc-backend (orig-fun &rest args)
-    (cl-letf (((symbol-function 'vc-backend) #'ignore))
-      (apply orig-fun args)))
-  (advice-add 'crux-rename-file-and-buffer :around #'crux-ignore-vc-backend)
-  (advice-add 'crux-delete-file-and-buffer :around #'crux-ignore-vc-backend)
   (crux-with-region-or-buffer indent-region)
   (crux-with-region-or-point-to-eol kill-ring-save))
 
@@ -1228,7 +1229,7 @@
 
 (use-feature vc-hooks
   :custom
-  (vc-follow-symlinks t))
+  (vc-handled-backends nil))
 
 (use-package diff-mode
   :custom
