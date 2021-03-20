@@ -1614,7 +1614,9 @@
 
 (use-package which-key
   :custom
-  (which-key-idle-delay 0.5)
+  (which-key-show-early-on-C-h t)
+  (which-key-idle-delay most-positive-fixnum)
+  (which-key-idle-secondary-delay 1e-100)
   :config
   (which-key-mode)
   (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile"))
