@@ -48,6 +48,7 @@
   (frame-inhibit-implied-resize t)
   (fast-but-imprecise-scrolling t)
   (redisplay-skip-fontification-on-input t)
+  (frame-resize-pixelwise t)
   (read-process-output-max (* 1024 1024))
   (use-short-answers t)
   (x-underline-at-descent-line t)
