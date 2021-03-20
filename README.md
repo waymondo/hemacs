@@ -10,5 +10,3 @@ $ brew tap d12frosted/emacs-plus
 $ brew install emacs-plus@28 --with-xwidgets --with-native-comp
 $ git clone git@github.com:waymondo/hemacs.git "$HOME/.config/emacs"
 ```
-
-My [dotfiles](https://github.com/waymondo/dotfiles) (`.bashrc`, `.zshrc`, etc.).
