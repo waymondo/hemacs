@@ -2,6 +2,7 @@
 
 (setq gc-cons-threshold most-positive-fixnum)
 (setq straight-check-for-modifications 'live-with-find)
+(setq straight-cache-autoloads t)
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
