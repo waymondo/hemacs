@@ -673,7 +673,7 @@
   (:map company-active-map
         ("<tab>" . #'company-complete-selection)
         ("TAB" . #'company-complete-selection))
-  :init
+  :config
   (defun company-conditional-idle-delay ()
     (if (company-in-string-or-comment) nil 0.3))
   (dolist (command '(comint-previous-matching-input-from-input comint-next-matching-input-from-input))
@@ -713,6 +713,7 @@
   (global-smart-tab-mode)
   (push 'shell-mode smart-tab-disabled-major-modes)
   :custom
+  (smart-tab-user-provided-completion-function 'company-complete)
   (smart-tab-using-hippie-expand t)
   (smart-tab-completion-functions-alist '()))
 
@@ -740,7 +741,7 @@
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
                             "*Free keys" "new-issue" "COMMIT_EDITMSG" "*MDN CSS" "*xref" "*rails"
-                            "*rspec-compilation" "*lsp-help"))))
+                            "*rspec-compilation" "*lsp-help" "*company-documentation"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
@@ -1446,9 +1447,9 @@
   :bind*
   ("C-M-\\" . lsp-format-buffer))
 
-(use-package company-lsp
+(use-package lsp-tailwindcss
   :custom
-  (company-lsp-cache-candidates 'auto))
+  (lsp-tailwindcss-add-on-mode t))
 
 ;;;;; Appearance
 
