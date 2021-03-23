@@ -658,7 +658,7 @@
   (company-tooltip-align-annotations t)
   (company-tooltip-flip-when-above t)
   (company-require-match nil)
-  (company-minimum-prefix-length 2)
+  (company-minimum-prefix-length 1)
   (company-show-numbers t)
   (company-idle-delay #'company-conditional-idle-delay)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
@@ -666,7 +666,7 @@
   (company-dabbrev-minimum-length 2)
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t)
-  (company-backends '(company-capf company-files (company-dabbrev-code company-etags) company-dabbrev))
+  (company-backends '(company-capf (company-dabbrev-code company-etags) company-dabbrev))
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
@@ -675,7 +675,7 @@
         ("TAB" . #'company-complete-selection))
   :config
   (defun company-conditional-idle-delay ()
-    (if (company-in-string-or-comment) nil 0.3))
+    (if (company-in-string-or-comment) nil 0.2))
   (dolist (command '(comint-previous-matching-input-from-input comint-next-matching-input-from-input))
     (add-to-list 'company-continue-commands command))
   (global-company-mode))
