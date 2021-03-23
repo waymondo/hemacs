@@ -1301,10 +1301,6 @@
 
 ;;;;; Emacs Lisping
 
-(use-package eldoc
-  :custom
-  (eldoc-idle-delay hemacs-posframe-delay))
-
 (use-package helpful
   :custom
   (counsel-describe-function-function #'helpful-callable)
@@ -1389,12 +1385,6 @@
   :custom
   (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner))
 
-(use-package eldoc-box
-  :custom
-  (eldoc-box-self-insert-command-list '())
-  :hook
-  (prog-mode . eldoc-box-hover-at-point-mode))
-
 (use-package frog-menu
   :custom
   (frog-menu-avy-padding t))
@@ -1442,9 +1432,9 @@
   (lsp-mode . lsp-enable-which-key-integration)
   :custom
   (lsp-solargraph-use-bundler t)
+  (lsp-eldoc-enable-hover nil)
+  (lsp-headerline-breadcrumb-enable nil)
   :config
-  (add-λ 'lsp-mode-hook
-    (setq-local lsp-headerline-breadcrumb-enable nil))
   (defun lsp-format-buffer-maybe-call-format-all (f &rest args)
     (condition-case err
         (apply f args)
@@ -1453,6 +1443,16 @@
   (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all)
   :bind*
   ("C-M-\\" . lsp-format-buffer))
+
+(use-package lsp-ui
+  :custom
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-include-signature t)
+  (lsp-ui-doc-delay most-positive-fixnum)
+  :config
+  (lsp-ui-doc-mode)
+  :bind
+  (:map hemacs-help-map ("e" . lsp-ui-doc-show)))
 
 (use-package lsp-tailwindcss
   :custom
