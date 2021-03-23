@@ -1429,6 +1429,12 @@
   :hook
   (flymake-mode . flymake-diagnostic-at-point-mode))
 
+(use-package ivy-posframe
+  :custom
+  (ivy-posframe-style 'frame-center)
+  :config
+  (ivy-posframe-mode))
+
 ;;;;; Language Server
 
 (use-package lsp-mode
