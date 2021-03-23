@@ -661,17 +661,13 @@
   (company-show-numbers t)
   (company-idle-delay #'company-conditional-idle-delay)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
-  (company-transformers '(company-sort-prefer-same-case-prefix))
   (company-dabbrev-minimum-length 2)
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t)
-  (company-backends '(company-capf (company-dabbrev-code company-etags) company-dabbrev))
+  (company-backends '((company-capf company-dabbrev-code company-yasnippet company-keywords company-files)))
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
-  (:map company-active-map
-        ("<tab>" . #'company-complete-selection)
-        ("TAB" . #'company-complete-selection))
   :config
   (defun company-conditional-idle-delay ()
     (if (company-in-string-or-comment) nil 0.2))
@@ -679,13 +675,11 @@
     (add-to-list 'company-continue-commands command))
   (global-company-mode))
 
-(use-package company-posframe
+(use-package company-box
   :custom
-  (company-posframe-show-indicator nil)
-  (company-posframe-show-metadata nil)
-  (company-posframe-quickhelp-delay nil)
-  :config
-  (company-posframe-mode))
+  (company-box-show-single-candidate 'never)
+  :hook
+  (company-mode . company-box-mode))
 
 (use-package bash-completion
   :init
@@ -713,7 +707,6 @@
   (push 'shell-mode smart-tab-disabled-major-modes)
   :custom
   (smart-tab-user-provided-completion-function 'company-complete)
-  (smart-tab-using-hippie-expand t)
   (smart-tab-completion-functions-alist '()))
 
 ;;;;; Navigation & Search
