@@ -70,7 +70,6 @@
   (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
   (defun hemacs-minibuffer-setup-hook ()
     (defer-garbage-collection)
-    (set-window-fringes (minibuffer-window) 0 0 nil)
     (setq-local input-method-function nil))
   (add-hook 'minibuffer-setup-hook #'hemacs-minibuffer-setup-hook)
   (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
