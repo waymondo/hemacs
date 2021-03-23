@@ -1391,8 +1391,10 @@
   (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner))
 
 (use-package eldoc-box
+  :custom
+  (eldoc-box-self-insert-command-list '())
   :hook
-  (emacs-lisp-mode . eldoc-box-hover-at-point-mode))
+  (prog-mode . eldoc-box-hover-at-point-mode))
 
 (use-package frog-menu
   :custom
