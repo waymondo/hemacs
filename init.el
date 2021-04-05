@@ -8,7 +8,6 @@
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst *is-mac* (eq system-type 'darwin))
 (defconst default-font-size 15)
-(defconst hemacs-posframe-delay 3)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
@@ -655,18 +654,16 @@
   (company-require-match nil)
   (company-minimum-prefix-length 1)
   (company-show-numbers t)
-  (company-idle-delay #'company-conditional-idle-delay)
+  (company-idle-delay nil)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
   (company-dabbrev-minimum-length 2)
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t)
-  (company-backends '((company-capf company-dabbrev-code company-yasnippet company-keywords company-files)))
+  (company-backends '((company-capf company-yasnippet company-dabbrev-code)))
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
   :config
-  (defun company-conditional-idle-delay ()
-    (if (company-in-string-or-comment) nil 0.2))
   (dolist (command '(comint-previous-matching-input-from-input comint-next-matching-input-from-input))
     (add-to-list 'company-continue-commands command))
   (global-company-mode))
@@ -1402,7 +1399,7 @@
   :bind
   ("s-?" . flymake-diagnostic-at-point-maybe-display)
   :custom
-  (flymake-diagnostic-at-point-timer-delay hemacs-posframe-delay)
+  (flymake-diagnostic-at-point-timer-delay most-positive-fixnum)
   (flymake-diagnostic-at-point-display-diagnostic-function #'flymake-diagnostic-at-point-display-posframe)
   :hook
   (flymake-mode . flymake-diagnostic-at-point-mode))
