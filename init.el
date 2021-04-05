@@ -1495,10 +1495,13 @@
     (push mode beacon-dont-blink-major-modes))
   (beacon-mode))
 
+(use-package pulse
+  :custom
+  (pulse-iterations 4))
+
 (use-package goggles
-  :hook ((prog-mode text-mode) . goggles-mode)
-  :config
-  (setq-default goggles-pulse t))
+  :hook
+  ((prog-mode text-mode) . goggles-mode))
 
 (use-package symbol-overlay
   :custom
