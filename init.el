@@ -791,10 +791,6 @@
                        ("Sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern))))
 
-(use-package imenu-anywhere
-  :chords
-  (";r" . ivy-imenu-anywhere))
-
 (use-package projectile
   :bind
   ("s-p" . projectile-command-map)
@@ -867,6 +863,7 @@
   (:map hemacs-help-map ("o" . counsel-find-library))
   (:map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
   :chords
+  (";r" . counsel-imenu)
   (";f" . counsel-find-file))
 
 (use-package ivy-todo
