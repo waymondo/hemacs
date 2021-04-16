@@ -1431,6 +1431,7 @@
 
 (use-package lsp-ui
   :custom
+  (lsp-ui-sideline-enable nil)
   (lsp-ui-doc-position 'at-point)
   (lsp-ui-doc-include-signature t)
   (lsp-ui-doc-delay most-positive-fixnum)
