@@ -264,6 +264,8 @@
   (backup-directory-alist `((".*" . ,temporary-file-directory)))
   (auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
   (large-file-warning-threshold 50000000)
+  :chords
+  (";f" . find-file)
   :config
   (defun hemacs-save-hook ()
     (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
@@ -547,45 +549,65 @@
 
 ;;;;; Completion
 
-(use-package ivy
-  :custom
-  (ivy-extra-directories nil)
-  (ivy-re-builders-alist
-   '((counsel-ag . ivy--regex-plus)
-     (t . ivy--regex-fuzzy)))
-  (ivy-use-virtual-buffers t)
-  (ivy-virtual-abbreviate 'abbreviate)
-  (ivy-format-function #'ivy-format-function-arrow)
+(use-package amx
+  :config
+  (amx-mode)
   :bind
-  ("s-b" . ivy-switch-buffer)
-  (:map ivy-switch-buffer-map
-        ("s-k" . ivy-switch-buffer-kill))
-  :chords
-  (";s" . ivy-switch-buffer)
+  ("s-P" . amx))
+
+(use-package vertico
+  :straight
+  (:host github :repo "minad/vertico")
   :init
-  (ivy-mode))
+  (vertico-mode))
 
-(use-package ivy-hydra
-  :after ivy)
-
-(use-package prescient
-  :config
-  (prescient-persist-mode))
-
-(use-package ivy-prescient
+(use-package orderless
   :custom
-  (ivy-prescient-retain-classic-highlighting t)
-  :config
-  (ivy-prescient-mode))
+  (completion-styles '(orderless)))
 
-(use-package company-prescient
-  :config
-  (company-prescient-mode))
+(use-package marginalia
+  :bind
+  ("C-?" . marginalia-cycle)
+  :init
+  (marginalia-mode))
 
-(use-package ivy-xref
-  :after ivy
+(use-package consult
+  :bind
+  ([remap goto-line] . consult-goto-line)
+  ([remap yank-pop] . consult-yank-pop)
+  ([remap isearch-forward] . consult-line)
+  ("C-c C-t" . consult-theme)
+  :chords
+  (";s" . consult-buffer)
+  (";g" . consult-ripgrep-project-dwim)
+  (";r" . consult-project-imenu)
   :custom
-  (xref-show-xrefs-function #'ivy-xref-show-xrefs))
+  (consult-project-root-function #'projectile-project-root)
+  (xref-show-xrefs-function #'consult-xref)
+  (xref-show-definitions-function #'consult-xref)
+  :config
+  (def consult-ripgrep-project-dwim ()
+    (consult-ripgrep (projectile-project-root) (substring-no-properties (or (thing-at-point 'symbol) "")))))
+
+(use-package embark
+  :custom
+  (prefix-help-command #'embark-prefix-help-command)
+  :bind
+  ("C->" . embark-act)
+  (:map hemacs-help-map ("b" . embark-bindings))
+  :config
+  (after which-key
+    (setq embark-action-indicator
+          (lambda (map _target)
+            (which-key--show-keymap "Embark" map nil nil 'no-paging)
+            #'which-key--hide-popup-ignore-command)
+          embark-become-indicator embark-action-indicator)))
+
+(use-package embark-consult
+  :after
+  (embark consult)
+  :hook
+  (embark-collect-mode . embark-consult-preview-minor-mode))
 
 (use-package hippie-exp
   :custom
@@ -706,16 +728,6 @@
 
 ;;;;; Navigation & Search
 
-(use-package goto-line-preview
-  :bind
-  ([remap goto-line] . goto-line-preview)
-  :config
-  (defun with-display-line-numbers (f &rest args)
-    (make-local-variable 'display-line-numbers)
-    (let ((display-line-numbers t))
-      (apply f args)))
-  (advice-add 'goto-line-preview :around #'with-display-line-numbers))
-
 (use-feature window
   :chords
   (";w" . toggle-split-window)
@@ -724,11 +736,11 @@
   :custom
   (display-buffer-alist
    `((,(rx (or "ivy-todo.org"
-               (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help"
+               (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help" "*Embark Collect"
                             "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
                             "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
                             "*Free keys" "new-issue" "COMMIT_EDITMSG" "*MDN CSS" "*xref" "*rails"
-                            "*rspec-compilation" "*lsp-help" "*company-documentation"))))
+                            "*rspec-compilation" "*lsp-help" "*company-documentation" "*rg"))))
       (display-buffer-reuse-window
        display-buffer-in-side-window)
       (side            . bottom)
@@ -751,19 +763,17 @@
       (when (window-live-p window)
         (delete-window window)))))
 
+(use-package rg
+  :ensure-system-package rg
+  :hook
+  (after-init . rg-enable-default-bindings))
+
 (use-package wgrep-ag
-  :after ag
+  :after rg
   :custom
   (wgrep-auto-save-buffer t)
   :hook
   (rg-mode . wgrep-ag-setup))
-
-(use-package rg
-  :ensure-system-package rg
-  :chords
-  (":G" . rg-project)
-  :hook
-  (after-init . rg-enable-default-bindings))
 
 (use-package bm
   :bind
@@ -808,7 +818,6 @@
   :custom
   (projectile-enable-caching t)
   (projectile-verbose nil)
-  (projectile-completion-system 'ivy)
   (projectile-require-project-root nil)
   :config
   (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
@@ -827,14 +836,6 @@
   (projectile-mode)
   (projectile-cleanup-known-projects))
 
-(use-package counsel-projectile
-  :after projectile
-  :config (counsel-projectile-mode)
-  :bind
-  ("s-t" . counsel-projectile)
-  :chords
-  (";g" . counsel-projectile-rg))
-
 (use-package projector
   :after projectile
   :bind
@@ -845,38 +846,12 @@
         ("<C-return>" . projectile-switch-project-projector-run-default-shell-command)
         ("M" . projectile-switch-project-projector-run-shell-command-project-root))
   :custom
-  (projector-completion-system 'ivy)
+  (projector-completion-system 'default)
   (projector-command-modes-alist
    '(("^heroku run console" . inf-ruby-mode)))
   :config
   (make-projectile-switch-project-defun #'projector-run-shell-command-project-root)
   (make-projectile-switch-project-defun #'projector-run-default-shell-command))
-
-(use-package ctrlf
-  :config
-  (ctrlf-mode)
-  :custom
-  (ctrlf-auto-recenter t))
-
-(use-package counsel
-  :bind
-  ([remap execute-extended-command] . counsel-M-x)
-  ("s-P" . counsel-M-x)
-  (:map hemacs-help-map ("o" . counsel-find-library))
-  (:map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
-  :chords
-  (";r" . counsel-imenu)
-  (";f" . counsel-find-file))
-
-(use-package ivy-todo
-  :after projectile
-  :bind
-  ("s-n" . ivy-todo)
-  :config
-  (defun ivy-todo-use-local-project-todo-file (f &rest args)
-    (let ((ivy-todo-file (expand-file-name "ivy-todo.org" (projectile-project-root))))
-      (apply f args)))
-  (advice-add 'ivy-todo :around #'ivy-todo-use-local-project-todo-file))
 
 (use-package beginend
   :config
@@ -1228,7 +1203,6 @@
   (:map magit-mode-map ("C-c C-a" . magit-just-amend))
   :custom
   (magit-log-section-commit-count 0)
-  (magit-completing-read-function #'ivy-completing-read)
   (magit-log-auto-more t)
   (magit-branch-prefer-remote-upstream t)
   (magit-diff-refine-hunk 'all)
@@ -1403,12 +1377,6 @@
   :hook
   (flymake-mode . flymake-diagnostic-at-point-mode))
 
-(use-package ivy-posframe
-  :custom
-  (ivy-posframe-style 'frame-center)
-  :config
-  (ivy-posframe-mode))
-
 ;;;;; Language Server
 
 (use-package lsp-mode
@@ -1536,7 +1504,7 @@
 
 (use-package hide-mode-line
   :hook
-  ((dired-mode bs-mode helpful-mode magit-mode magit-popup-mode org-capture-mode help-mode) .
+  ((dired-mode bs-mode helpful-mode magit-mode magit-popup-mode org-capture-mode help-mode embark-collect-mode) .
    hide-mode-line-mode))
 
 (use-package paren
