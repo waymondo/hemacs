@@ -1580,6 +1580,10 @@
 
 ;;;;; Bindings & Chords
 
+(use-feature ns-win
+  :custom
+  (mac-right-option-modifier 'none))
+
 (use-package bind-key
   :bind
   (:map hemacs-help-map ("k" . describe-personal-keybindings)))
