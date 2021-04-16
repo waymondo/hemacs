@@ -1338,12 +1338,6 @@
     (let ((info '(:internal-border-width 12 :min-width 80)))
       (or (plist-get info arg-name) value))))
 
-(use-package which-key-posframe
-  :config
-  (which-key-posframe-mode)
-  :custom
-  (which-key-posframe-poshandler 'posframe-poshandler-point-bottom-left-corner))
-
 (use-package frog-menu
   :custom
   (frog-menu-avy-padding t))
