@@ -1233,10 +1233,11 @@
   (forge-topic-list-limit '(60 . 0)))
 
 (use-package magit-todos
-  :config
-  (magit-todos-mode)
+  :after magit
   :custom
-  (magit-todos-max-items 30))
+  (magit-todos-max-items 256)
+  :bind
+  (:map hemacs-git-map ("t" . magit-todos-list)))
 
 (use-package epa
   :bind
