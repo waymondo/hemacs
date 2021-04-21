@@ -679,6 +679,7 @@
   (company-minimum-prefix-length 1)
   (company-show-numbers t)
   (company-idle-delay nil)
+  (company-format-margin-function #'company-vscode-dark-icons-margin)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
   (company-dabbrev-minimum-length 2)
   (company-dabbrev-code-modes t)
@@ -687,14 +688,13 @@
   :bind
   ([remap completion-at-point] . company-manual-begin)
   ([remap complete-symbol] . company-manual-begin)
+  :hook
+  (after-init . global-company-mode)
   :config
   (dolist (command '(comint-previous-matching-input-from-input comint-next-matching-input-from-input))
-    (add-to-list 'company-continue-commands command))
-  (global-company-mode))
+    (add-to-list 'company-continue-commands command)))
 
 (use-package company-box
-  :custom
-  (company-box-show-single-candidate 'never)
   :hook
   (company-mode . company-box-mode))
 
