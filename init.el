@@ -214,6 +214,9 @@
      (t
       (term-next-prompt 1)))))
 
+(use-package vterm
+  :ensure-system-package cmake)
+
 (use-package sh-script
   :ensure-system-package shfmt
   :mode
@@ -806,10 +809,10 @@
 (use-package projectile
   :bind
   ("s-p" . projectile-command-map)
-  ("C-x m" . projectile-run-shell)
+  ("C-x m" . projectile-run-vterm)
   (:map hemacs-switch-project-map
         ("t" . projectile-switch-project)
-        ("m" . projectile-switch-project-projectile-run-shell)
+        ("m" . projectile-switch-project-projectile-run-vterm)
         ("g" . projectile-switch-project-projectile-vc)
         ("u" . projectile-switch-project-projectile-run-project)
         ("f" . projectile-switch-project-projectile-find-file))
@@ -829,7 +832,7 @@
             (interactive)
             (let ((projectile-switch-project-action ,func))
               (projectile-switch-project)))))))
-  (make-projectile-switch-project-defun #'projectile-run-shell)
+  (make-projectile-switch-project-defun #'projectile-run-vterm)
   (make-projectile-switch-project-defun #'projectile-run-project)
   (make-projectile-switch-project-defun #'projectile-find-file)
   (make-projectile-switch-project-defun #'projectile-vc)
@@ -842,11 +845,11 @@
   ("C-x RET"        . projector-run-shell-command-project-root)
   ("C-x <C-return>" . projector-run-default-shell-command)
   (:map comint-mode-map ("s-R" . projector-rerun-buffer-process))
+  (:map vterm-mode-map ("s-R" . projector-rerun-buffer-process))
   (:map hemacs-switch-project-map
         ("<C-return>" . projectile-switch-project-projector-run-default-shell-command)
         ("M" . projectile-switch-project-projector-run-shell-command-project-root))
   :custom
-  (projector-completion-system 'default)
   (projector-command-modes-alist
    '(("^heroku run console" . inf-ruby-mode)))
   :config
