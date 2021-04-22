@@ -862,11 +862,7 @@
 
 ;;;;; External Utilities
 
-(use-package atomic-chrome
-  :config
-  (atomic-chrome-start-server)
-  :custom
-  (atomic-chrome-default-major-mode 'gfm-mode))
+(use-package emacs-everywhere)
 
 (use-package restart-emacs
   :bind
