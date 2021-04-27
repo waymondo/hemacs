@@ -586,11 +586,11 @@
   (";r" . consult-project-imenu)
   :custom
   (consult-project-root-function #'projectile-project-root)
-  (xref-show-xrefs-function #'consult-xref)
-  (xref-show-definitions-function #'consult-xref)
   :config
-  (def consult-ripgrep-project-dwim ()
-    (consult-ripgrep (projectile-project-root) (substring-no-properties (or (thing-at-point 'symbol) "")))))
+  (def consult-ripgrep-project-dwim
+    (consult-ripgrep
+     (projectile-project-root)
+     (substring-no-properties (if (region-active-p) (buffer-substring (mark) (point)) "")))))
 
 (use-package embark
   :custom
