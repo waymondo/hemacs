@@ -625,8 +625,6 @@
      try-expand-dabbrev-other-buffers))
   :bind
   ([remap dabbrev-expand] . hippie-expand)
-  (:map read-expression-map ("TAB" . hippie-expand))
-  (:map minibuffer-local-map ("TAB" . hippie-expand))
   :bind*
   ("M-'" . hippie-expand-line)
   :hook
@@ -688,9 +686,6 @@
   (company-dabbrev-code-modes t)
   (company-dabbrev-code-everywhere t)
   (company-backends '((company-capf company-yasnippet company-dabbrev-code)))
-  :bind
-  ([remap completion-at-point] . company-manual-begin)
-  ([remap complete-symbol] . company-manual-begin)
   :hook
   (after-init . global-company-mode)
   :config
