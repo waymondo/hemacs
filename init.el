@@ -1206,7 +1206,9 @@
 (use-package forge
   :after magit
   :custom
-  (forge-topic-list-limit '(60 . 0)))
+  (forge-topic-list-limit '(60 . 0))
+  :bind
+  (:map hemacs-git-map ("c" . forge-browse-commit)))
 
 (use-package magit-todos
   :after magit
