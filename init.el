@@ -1424,18 +1424,21 @@
   (global-page-break-lines-mode))
 
 (use-package beacon
-  :custom
-  (beacon-blink-when-focused t)
-  (beacon-blink-when-window-scrolls nil)
   :config
-  (defun maybe-recenter-current-window ()
-    (when (and (equal (current-buffer) (window-buffer (selected-window)))
-               (not (eq recenter-last-op 'middle)))
-      (recenter-top-bottom)))
-  (add-hook 'beacon-before-blink-hook #'maybe-recenter-current-window)
-  (dolist (mode '(comint-mode term-mode))
+  (dolist (mode '(comint-mode vterm-mode))
     (push mode beacon-dont-blink-major-modes))
-  (beacon-mode))
+  (defun hemacs-beacon-blink (&optional _)
+    (interactive)
+    (unless (or (window-minibuffer-p) (seq-find 'derived-mode-p beacon-dont-blink-major-modes))
+      (beacon-blink)))
+  (dolist (command '(next-window-any-frame
+                     scroll-up-command
+                     scroll-down-command
+                     recenter-top-bottom
+                     move-to-window-line-top-bottom))
+    (advice-add command :after #'hemacs-beacon-blink))
+  (dolist (hook '(window-configuration-change-hook))
+    (add-hook hook #'hemacs-beacon-blink)))
 
 (use-package pulse
   :custom
