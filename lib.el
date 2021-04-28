@@ -118,3 +118,16 @@
 
 (defun restore-garbage-collection ()
   (run-at-time 1 nil (lambda () (setq gc-cons-threshold (* 1024 1024 30)))))
+
+(defun restore-default-file-name-handler-alist ()
+  (setq file-name-handler-alist default-file-name-handler-alist))
+
+(defun hemacs-minibuffer-setup-hook ()
+  (defer-garbage-collection)
+  (setq-local input-method-function nil))
+
+(defun keyboard-quit-minibuffer-first (f &rest args)
+  (if-let ((minibuffer (active-minibuffer-window)))
+      (with-current-buffer (window-buffer minibuffer)
+        (minibuffer-keyboard-quit))
+    (apply f args)))

@@ -60,18 +60,11 @@
                 bidi-display-reordering 'left-to-right
                 fill-column 100
                 truncate-lines t)
-  (defun keyboard-quit-minibuffer-first (f &rest args)
-    (if-let ((minibuffer (active-minibuffer-window)))
-        (with-current-buffer (window-buffer minibuffer)
-          (minibuffer-keyboard-quit))
-      (apply f args)))
   (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
-  (defun hemacs-minibuffer-setup-hook ()
-    (defer-garbage-collection)
-    (setq-local input-method-function nil))
   (add-hook 'minibuffer-setup-hook #'hemacs-minibuffer-setup-hook)
   (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
-  (add-hook 'emacs-startup-hook #'restore-garbage-collection 100))
+  (add-hook 'emacs-startup-hook #'restore-garbage-collection 100)
+  (add-hook 'emacs-startup-hook #'restore-default-file-name-handler-alist))
 
 (use-package server
   :config

@@ -1,6 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
 (setq gc-cons-threshold most-positive-fixnum)
+(defvar default-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
 (setq straight-check-for-modifications 'live-with-find)
 (setq straight-cache-autoloads t)
 
@@ -20,6 +23,7 @@
 (setq use-package-enable-imenu-support t)
 (setq straight-vc-git-default-protocol 'ssh)
 (setq package-enable-at-startup nil)
+(setq package--init-file-ensured t)
 (setq inhibit-startup-screen t)
 
 (straight-use-package
