@@ -152,7 +152,7 @@
      (t
       (comint-next-prompt 1))))
   (defun write-input-ring-for-shellish-modes ()
-    (when (-any? #'derived-mode-p '(comint-mode term-mode))
+    (when (derived-mode-p 'comint-mode)
       (comint-write-input-ring)))
   (defun write-input-ring-for-all-shellish-modes ()
     (dolist (buffer (buffer-list))
@@ -192,30 +192,11 @@
   (add-λ 'shell-mode-hook
     (turn-on-comint-history (getenv "HISTFILE"))))
 
-(use-package term
-  :bind
-  (:map term-raw-map
-        ("s-k" . comint-clear-buffer)
-        ("s-v" . term-paste)
-        ([remap term-send-input] . term-return-dwim))
-  :custom
-  (term-input-ring-file-name (getenv "HISTFILE"))
-  :hook
-  (term-mode . text-smaller-no-truncation)
-  :config
-  (def term-return-dwim
-    (cond
-     ((term-after-pmark-p)
-      (term-send-input))
-     ((ffap-url-at-point)
-      (browse-url (ffap-url-at-point)))
-     ((ffap-file-at-point)
-      (find-file (ffap-file-at-point)))
-     (t
-      (term-next-prompt 1)))))
-
 (use-package vterm
-  :ensure-system-package cmake)
+  :ensure-system-package cmake
+  :demand t
+  :hook
+  (vterm-mode . text-smaller-no-truncation))
 
 (use-package sh-script
   :ensure-system-package shfmt
@@ -835,7 +816,8 @@
   (projectile-cleanup-known-projects))
 
 (use-package projector
-  :after projectile
+  :after
+  (projectile vterm)
   :bind
   ("C-x RET"        . projector-run-shell-command-project-root)
   ("C-x <C-return>" . projector-run-default-shell-command)
@@ -1351,7 +1333,7 @@
     (push regexp frog-jump-buffer-ignore-buffers))
   (defun frog-jump-buffer-filter-special-buffers (buffer)
     (with-current-buffer buffer
-      (-any? #'derived-mode-p '(comint-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
+      (-any? #'derived-mode-p '(comint-mode vterm-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
 
 (use-package flymake-diagnostic-at-point
   :straight
