@@ -1422,7 +1422,7 @@
   :config
   (dolist (mode '(comint-mode vterm-mode))
     (push mode beacon-dont-blink-major-modes))
-  (defun hemacs-beacon-blink (&optional _)
+  (defun hemacs-beacon-blink (&rest _)
     (interactive)
     (unless (or (window-minibuffer-p) (seq-find 'derived-mode-p beacon-dont-blink-major-modes))
       (beacon-blink)))
@@ -1430,7 +1430,8 @@
                      scroll-up-command
                      scroll-down-command
                      recenter-top-bottom
-                     move-to-window-line-top-bottom))
+                     move-to-window-line-top-bottom
+                     symbol-overlay-basic-jump))
     (advice-add command :after #'hemacs-beacon-blink))
   (dolist (hook '(window-configuration-change-hook))
     (add-hook hook #'hemacs-beacon-blink)))
