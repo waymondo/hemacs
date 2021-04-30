@@ -1380,6 +1380,14 @@
 
 ;;;;; Appearance
 
+(use-package tree-sitter
+  :config
+  (global-tree-sitter-mode)
+  :hook
+  (tree-sitter-after-on . tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs)
+
 (use-package fira-code-mode
   :custom
   (fira-code-mode-enable-hex-literal nil)
