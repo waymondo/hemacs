@@ -402,6 +402,8 @@
   (global-subword-mode))
 
 (use-package expand-region
+  :custom
+  (expand-region-fast-keys-enabled nil)
   :bind*
   ("C-," . er/expand-region))
 
