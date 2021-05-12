@@ -1527,6 +1527,12 @@
 
 (use-package vscode-icon)
 
+(use-package mlscroll
+  :straight
+  (:host github :repo "jdtsmith/mlscroll")
+  :config
+  (mlscroll-mode))
+
 ;;;;; Bindings & Chords
 
 (use-feature ns-win
