@@ -540,6 +540,12 @@
   :init
   (vertico-mode))
 
+(use-package corfu
+  :straight
+  (:host github :repo "minad/corfu")
+  :hook
+  (minibuffer-setup . corfu-mode))
+
 (use-package orderless
   :custom
   (completion-styles '(orderless)))
