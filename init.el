@@ -1339,7 +1339,6 @@
   ((typescript-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode ruby-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   :custom
-  (lsp-solargraph-use-bundler t)
   (lsp-eldoc-enable-hover nil)
   (lsp-headerline-breadcrumb-enable nil)
   :config
