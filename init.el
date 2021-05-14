@@ -712,21 +712,7 @@
   :chords
   (";w" . toggle-split-window)
   (":W" . delete-other-windows)
-  (":Q" . delete-side-windows)
   :custom
-  (display-buffer-alist
-   `((,(rx (or "ivy-todo.org"
-               (and bos (or "*Flycheck errors*" "*Backtrace" "*Warnings" "*compilation" "*Help" "*Embark Collect"
-                            "*helpful" "*ivy-occur" "*less-css-compilation" "*format-all-errors"
-                            "*Packages" "*Flymake" "*SQL" "*Occur" "*helm emoji" "*Process List"
-                            "*Free keys" "new-issue" "COMMIT_EDITMSG" "*MDN CSS" "*xref" "*rails"
-                            "*rspec-compilation" "*lsp-help" "*company-documentation" "*rg"))))
-      (display-buffer-reuse-window
-       display-buffer-in-side-window)
-      (side            . bottom)
-      (reusable-frames . visible)
-      (window-height   . 0.37))
-     ("." nil (reusable-frames . visible))))
   (switch-to-buffer-obey-display-actions t)
   (split-width-threshold 190)
   :config
@@ -736,12 +722,7 @@
           (jump-to-register :toggle-split-window)
           (setq this-command 'toggle-unsplit-window))
       (window-configuration-to-register :toggle-split-window)
-      (switch-to-buffer-other-window nil)))
-  (def delete-side-windows
-    (dolist (window (window-at-side-list nil 'bottom))
-      (quit-window nil window)
-      (when (window-live-p window)
-        (delete-window window)))))
+      (switch-to-buffer-other-window nil))))
 
 (use-package rg
   :ensure-system-package rg
@@ -1538,6 +1519,41 @@
   (:host github :repo "jdtsmith/mlscroll")
   :config
   (mlscroll-mode))
+
+(use-package popper
+  :after
+  projectile
+  :bind
+  ("C-`"   . popper-toggle-latest)
+  ("C-~"   . popper-cycle)
+  :custom
+  (popper-display-function #'popper-select-popup-at-bottom-fixed-height)
+  (popper-reference-buffers
+   '("\\*Messages\\*"
+     "\\*Backtrace\\*"
+     "\\*Warnings\\*"
+     "Output\\*$"
+     "*Process List*"
+     "COMMIT_EDITMSG"
+     help-mode
+     helpful-mode
+     embark-collect-mode
+     grep-mode
+     rg-mode
+     rspec-compilation-mode
+     inf-ruby-mode
+     nodejs-repl-mode
+     ts-comint-mode
+     compilation-mode))
+  :init
+  (defun popper-select-popup-at-bottom-fixed-height (buffer &optional _)
+    (let ((window (display-buffer-in-side-window
+                   buffer
+                   '((window-height . 0.37)
+                     (side . bottom)
+                     (slot . 1)))))
+      (select-window window)))
+  (popper-mode))
 
 ;;;;; Bindings & Chords
 
