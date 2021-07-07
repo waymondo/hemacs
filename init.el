@@ -568,6 +568,7 @@
   (";r" . consult-project-imenu)
   :custom
   (consult-project-root-function #'projectile-project-root)
+  (consult-preview-key (kbd "\""))
   :config
   (def consult-ripgrep-project-dwim
     (consult-ripgrep
