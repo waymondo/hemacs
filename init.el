@@ -861,7 +861,8 @@
         ("," . self-with-space)
         ("<C-return>" . html-newline-dwim))
   :chords
-  ("<>" . sgml-close-tag)
+  (:map html-mode-map
+        ("<>" . sgml-close-tag))
   :hook
   (sgml-mode . sgml-electric-tag-pair-mode)
   :config
