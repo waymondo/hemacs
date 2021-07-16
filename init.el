@@ -1517,13 +1517,13 @@
   (mlscroll-mode))
 
 (use-package popper
-  :after
-  projectile
+  :straight
+  (:host github :repo "waymondo/popper")
   :bind
   ("C-`"   . popper-toggle-latest)
   ("C-~"   . popper-cycle)
   :custom
-  (popper-display-function #'popper-select-popup-at-bottom-fixed-height)
+  (advice-add 'popper-determine-window-height :override #'zero-point-thirty-seven)
   (popper-reference-buffers
    '("\\*Messages\\*"
      "\\*Backtrace\\*"
@@ -1542,13 +1542,7 @@
      ts-comint-mode
      compilation-mode))
   :init
-  (defun popper-select-popup-at-bottom-fixed-height (buffer &optional _)
-    (let ((window (display-buffer-in-side-window
-                   buffer
-                   '((window-height . 0.37)
-                     (side . bottom)
-                     (slot . 1)))))
-      (select-window window)))
+  (defun zero-point-thirty-seven () 0.37)
   (popper-mode))
 
 ;;;;; Bindings & Chords
