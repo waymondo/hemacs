@@ -1160,7 +1160,6 @@
   ("s-m" . magit-status)
   (:map hemacs-git-map ("l" . magit-clone))
   (:map hemacs-git-map ("f" . magit-diff-buffer-file))
-  (:map magit-mode-map ("C-c C-a" . magit-just-amend))
   :custom
   (magit-log-section-commit-count 0)
   (magit-log-auto-more t)
@@ -1170,10 +1169,6 @@
   :hook
   (magit-process-mode . text-smaller-no-truncation)
   :config
-  (def magit-just-amend
-    (save-window-excursion
-      (shell-command "git --no-pager commit --amend --reuse-message=HEAD")
-      (magit-refresh)))
   (after projectile
     (setq magit-repository-directories projectile-known-projects))
   (after alert
