@@ -341,6 +341,7 @@
   ("M-`" . list-processes)
   ("s-z" . undo-only)
   ("s-Z" . undo-redo)
+  ("<escape>" . keyboard-escape-quit)
   (:map minibuffer-local-map
         ("<escape>"  . abort-recursive-edit)
         ("M-TAB"     . previous-complete-history-element)
