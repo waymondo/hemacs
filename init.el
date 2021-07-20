@@ -1524,7 +1524,6 @@
   ("C-`"   . popper-toggle-latest)
   ("C-~"   . popper-cycle)
   :custom
-  (advice-add 'popper-determine-window-height :override #'zero-point-thirty-seven)
   (popper-reference-buffers
    '("\\*Messages\\*"
      "\\*Backtrace\\*"
@@ -1542,8 +1541,10 @@
      nodejs-repl-mode
      ts-comint-mode
      compilation-mode))
-  :init
+  :config
   (defun zero-point-thirty-seven () 0.37)
+  (advice-add 'popper-determine-window-height :override #'zero-point-thirty-seven)
+  :init
   (popper-mode))
 
 ;;;;; Bindings & Chords
