@@ -566,7 +566,7 @@
   :chords
   (";s" . consult-buffer)
   (";g" . consult-ripgrep-project-dwim)
-  (";r" . consult-project-imenu)
+  (";r" . consult-imenu-project)
   :custom
   (consult-project-root-function #'projectile-project-root)
   (consult-preview-key (kbd "\""))
@@ -584,11 +584,21 @@
   (:map hemacs-help-map ("b" . embark-bindings))
   :config
   (after which-key
-    (setq embark-action-indicator
-          (lambda (map _target)
-            (which-key--show-keymap "Embark" map nil nil 'no-paging)
-            #'which-key--hide-popup-ignore-command)
-          embark-become-indicator embark-action-indicator)))
+    (defun embark-which-key-indicator (keymap targets)
+      (which-key--show-keymap
+       (if (eq (caar targets) 'embark-become)
+           "Become"
+         (format "Act on %s '%s'%s"
+                 (caar targets)
+                 (embark--truncate-target (cdar targets))
+                 (if (cdr targets) "…" "")))
+       keymap
+       nil nil t)
+      (lambda (prefix)
+        (if prefix
+            (embark-which-key-indicator (lookup-key keymap prefix) targets)
+          (kill-buffer which-key--buffer))))
+    (setq embark-indicator #'embark-which-key-indicator)))
 
 (use-package embark-consult
   :after
