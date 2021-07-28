@@ -767,6 +767,8 @@
       (add-to-list 'imenu-generic-expression pattern))))
 
 (use-package projectile
+  :straight
+  (:host github :repo "waymondo/projectile")
   :bind
   ("s-p" . projectile-command-map)
   ("C-x m" . projectile-run-vterm)
