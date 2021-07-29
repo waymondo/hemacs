@@ -1349,6 +1349,7 @@
   ((typescript-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode ruby-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   :custom
+  (lsp-signature-function #'lsp-signature-posframe)
   (lsp-eldoc-enable-hover nil)
   (lsp-headerline-breadcrumb-enable nil)
   :config
@@ -1364,13 +1365,14 @@
 (use-package lsp-ui
   :custom
   (lsp-ui-sideline-enable nil)
+  (lsp-ui-doc-show-with-mouse nil)
   (lsp-ui-doc-position 'at-point)
   (lsp-ui-doc-include-signature t)
   (lsp-ui-doc-delay most-positive-fixnum)
   :config
   (lsp-ui-doc-mode)
   :bind
-  (:map hemacs-help-map ("e" . lsp-ui-doc-show)))
+  (:map lsp-command-map ("hd" . lsp-ui-doc-show)))
 
 (use-package lsp-tailwindcss
   :custom
