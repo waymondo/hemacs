@@ -536,14 +536,17 @@
   ("s-P" . amx))
 
 (use-package vertico
-  :straight
-  (:host github :repo "minad/vertico")
-  :init
-  (vertico-mode))
+  :preface
+  (load (concat straight-base-dir "straight/repos/vertico/extensions/vertico-quick.el"))
+  :config
+  (vertico-mode)
+  (def vertico-quick-insert-and-return
+    (vertico-quick-insert)
+    (vertico-exit))
+  :chords
+  (:map vertico-map ("jj" . vertico-quick-insert-and-return)))
 
 (use-package corfu
-  :straight
-  (:host github :repo "minad/corfu")
   :hook
   (minibuffer-setup . corfu-mode))
 
