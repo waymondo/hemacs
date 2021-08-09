@@ -122,10 +122,6 @@
 (defun restore-default-file-name-handler-alist ()
   (setq file-name-handler-alist default-file-name-handler-alist))
 
-(defun hemacs-minibuffer-setup-hook ()
-  (defer-garbage-collection)
-  (setq-local input-method-function nil))
-
 (defun keyboard-quit-minibuffer-first (f &rest args)
   (if-let ((minibuffer (active-minibuffer-window)))
       (with-current-buffer (window-buffer minibuffer)
