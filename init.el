@@ -566,7 +566,7 @@
   :chords
   (";s" . consult-buffer)
   (";g" . consult-ripgrep-project-dwim)
-  (";r" . consult-imenu-project)
+  (";r" . consult-imenu-multi)
   :custom
   (consult-project-root-function #'projectile-project-root)
   (consult-preview-key (kbd "\""))
