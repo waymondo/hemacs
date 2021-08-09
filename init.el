@@ -498,10 +498,12 @@
   :hook
   (writing-modes . flyspell-mode))
 
-(use-package flyspell-correct-ivy
+(use-package flyspell-correct
+  :after
+  flyspell
   :bind
   (:map flyspell-mode-map
-        ("C-;" . flyspell-correct-previous-word-generic)))
+        ("C-;" . flyspell-correct-wrapper)))
 
 (use-package smart-backspace
   :config
