@@ -490,10 +490,6 @@
   :bind
   ("C-'" . cycle-quotes))
 
-(use-package scratch
-  :bind
-  ("s-N" . scratch))
-
 (use-package flyspell
   :hook
   (writing-modes . flyspell-mode))
@@ -574,7 +570,7 @@
   (";r" . consult-imenu-multi)
   :custom
   (consult-project-root-function #'projectile-project-root)
-  (consult-preview-key (kbd "\""))
+  (consult-preview-key (kbd "M-."))
   :config
   (def consult-ripgrep-project-dwim
     (consult-ripgrep
@@ -589,21 +585,20 @@
   (:map hemacs-help-map ("b" . embark-bindings))
   :config
   (after which-key
-    (defun embark-which-key-indicator (keymap targets)
-      (which-key--show-keymap
-       (if (eq (caar targets) 'embark-become)
-           "Become"
-         (format "Act on %s '%s'%s"
-                 (caar targets)
-                 (embark--truncate-target (cdar targets))
-                 (if (cdr targets) "…" "")))
-       keymap
-       nil nil t)
-      (lambda (prefix)
-        (if prefix
-            (embark-which-key-indicator (lookup-key keymap prefix) targets)
-          (kill-buffer which-key--buffer))))
-    (setq embark-indicator #'embark-which-key-indicator)))
+    (defun embark-which-key-indicator ()
+      (lambda (&optional keymap targets prefix)
+        (if (null keymap)
+            (kill-buffer which-key--buffer)
+          (which-key--show-keymap
+           (if (eq (caar targets) 'embark-become)
+               "Become"
+             (format "Act on %s '%s'%s"
+                     (caar targets)
+                     (embark--truncate-target (cdar targets))
+                     (if (cdr targets) "…" "")))
+           (if prefix (lookup-key keymap prefix) keymap)
+           nil nil t))))
+    (setq embark-indicators '(embark-which-key-indicator))))
 
 (use-package embark-consult
   :after
@@ -1225,15 +1220,6 @@
   :bind
   (:map hemacs-git-map ("o" . browse-at-remote)))
 
-(use-package diff-hl
-  :hook
-  (dired-mode . diff-hl-dired-mode)
-  :config
-  (global-diff-hl-mode)
-  (diff-hl-margin-mode)
-  (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
-
 ;;;;; Emacs Lisping
 
 (use-package helpful
@@ -1491,7 +1477,7 @@
 
 (use-package hide-mode-line
   :hook
-  ((dired-mode bs-mode helpful-mode magit-mode magit-popup-mode org-capture-mode help-mode embark-collect-mode) .
+  ((dired-mode helpful-mode magit-mode magit-popup-mode org-capture-mode help-mode embark-collect-mode) .
    hide-mode-line-mode))
 
 (use-package paren
@@ -1518,9 +1504,6 @@
 
 (use-package solaire-mode
   :config
-  (after diff-hl
-    (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
-      (add-to-list 'solaire-mode-remap-alist `((,face solaire-default-face) . t))))
   (solaire-global-mode))
 
 (use-package apropospriate-theme
