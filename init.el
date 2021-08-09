@@ -1465,6 +1465,10 @@
   :hook
   (indent-sensitive-modes . highlight-indentation-current-column-mode))
 
+(use-feature hl-line
+  :config
+  (global-hl-line-mode))
+
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode)
@@ -1502,7 +1506,7 @@
 
 (use-feature fringe
   :config
-  (fringe-mode '(20 . 8))
+  (fringe-mode '(16 . 8))
   :custom
   (fringe-indicator-alist
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
@@ -1524,8 +1528,6 @@
 (use-package vscode-icon)
 
 (use-package mlscroll
-  :straight
-  (:host github :repo "jdtsmith/mlscroll")
   :config
   (mlscroll-mode))
 
