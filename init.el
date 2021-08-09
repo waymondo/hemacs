@@ -1508,12 +1508,10 @@
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
 
 (use-package solaire-mode
-  :after diff-hl
-  :hook
-  (minibuffer-setup . solaire-mode-in-minibuffer)
   :config
-  (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
-    (add-to-list 'solaire-mode-remap-alist `((,face solaire-default-face) . t)))
+  (after diff-hl
+    (dolist (face '(diff-hl-insert diff-hl-unknown diff-hl-delete diff-hl-change))
+      (add-to-list 'solaire-mode-remap-alist `((,face solaire-default-face) . t))))
   (solaire-global-mode))
 
 (use-package apropospriate-theme
