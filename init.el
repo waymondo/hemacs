@@ -383,6 +383,10 @@
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
 
+(use-package autoinsert
+  :init
+  (auto-insert-mode))
+
 (use-package delsel
   :init
   (delete-selection-mode))
