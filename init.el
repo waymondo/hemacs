@@ -385,7 +385,9 @@
 
 (use-package autoinsert
   :init
-  (auto-insert-mode))
+  (auto-insert-mode)
+  :custom
+  (auto-insert-query nil))
 
 (use-package delsel
   :init
