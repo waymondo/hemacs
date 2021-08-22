@@ -1077,12 +1077,6 @@
         ("="          . pad-equals)
         (":"          . smart-ruby-colon)
         ("<C-return>" . ruby-newline-dwim))
-  :ensure-system-package
-  (rubocop     . "gem install rubocop")
-  (ruby-lint   . "gem install ruby-lint")
-  (ripper-tags . "gem install ripper-tags")
-  (pry         . "gem install pry")
-  (solargraph  . "gem install solargraph")
   :custom
   (ruby-insert-encoding-magic-comment nil)
   :config
@@ -1108,9 +1102,7 @@
           (modify-syntax-entry ?: "." table)
           (with-syntax-table table (apply f args)))
       (apply f args)))
-  (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols)
-  (add-λ 'ruby-mode-hook
-    (setq-local projectile-tags-command "ripper-tags -R -f TAGS")))
+  (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols))
 
 (use-package ruby-tools
   :after ruby-mode)
@@ -1118,7 +1110,8 @@
 (use-package rspec-mode
   :after ruby-mode
   :bind
-  ("s-R" . rspec-rerun)
+  (:map ruby-mode-map ("s-R" . rspec-rerun))
+  (:map rspec-compilation-mode-map ("s-R" . rspec-rerun))
   (:map inf-ruby-mode-map ("s-R" . rspec-rerun))
   :config
   (after yasnippet
@@ -1133,11 +1126,9 @@
   (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
   (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
 
-(use-package rake)
-
 (use-package projectile-rails
   :bind
-  (:map projectile-rails-mode-map ("C-c r" . hydra-projectile-rails/body))
+  (:map projectile-rails-mode-map ("C-c r" . projectile-rails-command-map))
   :init
   (projectile-rails-global-mode))
 
@@ -1356,6 +1347,7 @@
       (error
        (call-interactively 'format-all-buffer))))
   (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all)
+  (push '(".*\\.html\\.erb$" . "ruby") lsp-language-id-configuration)
   :bind*
   ("C-M-\\" . lsp-format-buffer))
 
@@ -1498,7 +1490,6 @@
   (dimmer-mode)
   (dimmer-configure-posframe)
   (dimmer-configure-magit)
-  (dimmer-configure-hydra)
   (dimmer-configure-which-key))
 
 (use-feature fringe
@@ -1596,7 +1587,7 @@
   (which-key-idle-secondary-delay 1e-100)
   :config
   (which-key-mode)
-  (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile"))
+  (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile" "rails"))
     (let ((pattern (concat "^" prefix "-\\(.+\\)")))
       (push `((nil . ,pattern) . (nil . "\\1"))
             which-key-replacement-alist))))
