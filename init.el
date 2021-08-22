@@ -994,7 +994,8 @@
 (use-package graphql-mode)
 
 (use-package coffee-mode
-  :ensure-system-package (coffee . "npm i -g coffeescript")
+  :ensure-system-package
+  (coffee . "npm i -g coffeescript")
   :mode "\\.coffee\\.*"
   :bind
   (:map coffee-mode-map
@@ -1011,17 +1012,6 @@
   (add-λ 'coffee-mode-hook
     (setq-local indent-line-function #'coffee-indent))
   (add-to-list 'coffee-args-compile "--no-header"))
-
-(use-package import-js
-  :ensure-system-package
-  (importjsd . "npm i -g import-js")
-  :hook
-  (typescript-mode . run-import-js)
-  :bind
-  (:map typescript-mode-map
-        ("C-s-s" . import-js-fix)))
-
-(use-package swift-mode)
 
 (use-package dotenv-mode
   :mode "\\.env\\..*\\'")
@@ -1043,8 +1033,6 @@
 
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
-
-(use-package vue-mode)
 
 (use-package mmm-mode
   :custom
@@ -1144,9 +1132,6 @@
   :hook
   (yaml-mode . text-smaller-no-truncation))
 
-(use-package restclient
-  :defer t)
-
 (use-feature text-mode
   :bind
   (:map text-mode-map ("," . self-with-space)))
@@ -1220,9 +1205,6 @@
 ;;;;; Emacs Lisping
 
 (use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
   :bind
   ([remap describe-function] . helpful-callable)
   ([remap describe-command] . helpful-command)
@@ -1235,8 +1217,6 @@
   ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
 
 ;;;;; Help & Docs
-
-(use-package know-your-http-well)
 
 (use-package define-word
   :bind
@@ -1551,10 +1531,6 @@
 (use-feature ns-win
   :custom
   (mac-right-option-modifier 'none))
-
-(use-package bind-key
-  :bind
-  (:map hemacs-help-map ("k" . describe-personal-keybindings)))
 
 (use-package ffap
   :commands
