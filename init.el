@@ -164,9 +164,9 @@
 
 (use-package profiler
   :bind
-  ("C-x p r"  . profiler-report)
-  ("C-x p 1"  . profiler-start)
-  ("C-x p 0"  . profiler-stop))
+  ("C-x P r"  . profiler-report)
+  ("C-x P 1"  . profiler-start)
+  ("C-x P 0"  . profiler-stop))
 
 (use-package warnings
   :custom
