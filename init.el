@@ -1097,13 +1097,19 @@
 
 (use-package rspec-mode
   :after ruby-mode
-  :bind
-  (:map ruby-mode-map ("s-R" . rspec-rerun))
-  (:map rspec-compilation-mode-map ("s-R" . rspec-rerun))
-  (:map inf-ruby-mode-map ("s-R" . rspec-rerun))
   :config
   (after yasnippet
     (rspec-install-snippets)))
+
+(use-package minitest
+  :after ruby-mode
+  :hook
+  (ruby-mode . minitest-mode)
+  :custom
+  (minitest-keymap-prefix (kbd "C-c ."))
+  :config
+  (after yasnippet
+    (minitest-install-snippets)))
 
 (use-package inf-ruby
   :config
@@ -1516,6 +1522,7 @@
      grep-mode
      rg-mode
      rspec-compilation-mode
+     minitest-compilation-mode
      inf-ruby-mode
      nodejs-repl-mode
      ts-comint-mode
