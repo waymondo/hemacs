@@ -1503,12 +1503,11 @@
   (mlscroll-mode))
 
 (use-package popper
-  :straight
-  (:host github :repo "waymondo/popper")
   :bind
   ("C-`"   . popper-toggle-latest)
   ("C-~"   . popper-cycle)
   :custom
+  (popper-window-height 0.37)
   (popper-reference-buffers
    '("\\*Messages\\*"
      "\\*Backtrace\\*"
@@ -1527,9 +1526,6 @@
      nodejs-repl-mode
      ts-comint-mode
      compilation-mode))
-  :config
-  (defun zero-point-thirty-seven () 0.37)
-  (advice-add 'popper-determine-window-height :override #'zero-point-thirty-seven)
   :init
   (popper-mode))
 
