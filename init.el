@@ -1097,6 +1097,8 @@
 
 (use-package rspec-mode
   :after ruby-mode
+  :bind
+  (:map rspec-compilation-mode-map ("s-R" . rspec-rerun))
   :config
   (after yasnippet
     (rspec-install-snippets)))
