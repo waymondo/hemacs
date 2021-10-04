@@ -1144,6 +1144,12 @@
   :bind
   (:map text-mode-map ("," . self-with-space)))
 
+(use-package lua-mode
+  :mode
+  ("\\.lua$" . lua-mode)
+  :custom
+  (lua-indent-level 2))
+
 ;;;;; Version Control
 
 (use-package ediff
