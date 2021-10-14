@@ -1267,11 +1267,7 @@
         ("d" . dash-at-point)
         ("D" . dash-at-point-with-docset)))
 
-(use-feature flymake
-  :bind
-  (:map hemacs-help-map ("f" . flymake-show-diagnostics-buffer))
-  :custom
-  (flymake-start-syntax-check-on-newline nil))
+(use-package flycheck)
 
 (use-package list-environment
   :bind
@@ -1311,19 +1307,6 @@
     (with-current-buffer buffer
       (-any? #'derived-mode-p '(comint-mode vterm-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
 
-(use-package flymake-diagnostic-at-point
-  :straight
-  (:host github :repo "waymondo/flymake-diagnostic-at-point")
-  :after
-  flymake
-  :bind
-  ("s-?" . flymake-diagnostic-at-point-maybe-display)
-  :custom
-  (flymake-diagnostic-at-point-timer-delay most-positive-fixnum)
-  (flymake-diagnostic-at-point-display-diagnostic-function #'flymake-diagnostic-at-point-display-posframe)
-  :hook
-  (flymake-mode . flymake-diagnostic-at-point-mode))
-
 ;;;;; Language Server
 
 (use-package lsp-mode
@@ -1347,7 +1330,8 @@
 
 (use-package lsp-ui
   :custom
-  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-ignore-duplicate t)
+  (lsp-ui-doc-show-with-cursor nil)
   (lsp-ui-doc-show-with-mouse nil)
   (lsp-ui-doc-position 'at-point)
   (lsp-ui-doc-include-signature t)
@@ -1359,7 +1343,8 @@
 
 (use-package lsp-tailwindcss
   :custom
-  (lsp-tailwindcss-add-on-mode t))
+  (lsp-tailwindcss-add-on-mode t)
+  (lsp-tailwindcss-emmet-completions t))
 
 ;;;;; Appearance
 
