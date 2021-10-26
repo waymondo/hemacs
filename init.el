@@ -915,7 +915,6 @@
   (lorem-ipsum-use-default-bindings))
 
 (use-package emmet-mode
-  :after web-mode
   :hook
   (sgml-mode web-mode))
 
@@ -1311,13 +1310,16 @@
   (lsp-eldoc-enable-hover nil)
   (lsp-headerline-breadcrumb-enable nil)
   :config
+  (dolist (pattern '("[/\\\\]storage\\'" "[/\\\\]tmp\\'" "[/\\\\]log\\'" "[/\\\\]\\.log\\'"))
+    (add-to-list 'lsp-file-watch-ignored-directories pattern))
   (defun lsp-format-buffer-maybe-call-format-all (f &rest args)
     (condition-case err
         (apply f args)
       (error
        (call-interactively 'format-all-buffer))))
   (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all)
-  (push '(".*\\.html\\.erb$" . "ruby") lsp-language-id-configuration)
+
+  (push '(".*\\.html\\.erb$" . "html") lsp-language-id-configuration)
   :bind*
   ("C-M-\\" . lsp-format-buffer))
 
