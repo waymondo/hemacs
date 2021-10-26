@@ -1240,11 +1240,6 @@
   :bind
   (:map hemacs-help-map ("g" . google-this)))
 
-(use-package etags
-  :custom
-  (tags-add-tables nil)
-  (tags-revert-without-query t))
-
 (use-package gist
   :defer t
   :bind
