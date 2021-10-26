@@ -1389,27 +1389,23 @@
   :config
   (global-page-break-lines-mode))
 
-(use-package beacon
+(use-package pulse
   :config
-  (dolist (mode '(comint-mode vterm-mode))
-    (push mode beacon-dont-blink-major-modes))
-  (defun hemacs-beacon-blink (&rest _)
+  (defun hemacs-pulse-line (&rest _)
     (interactive)
-    (unless (or (window-minibuffer-p) (seq-find 'derived-mode-p beacon-dont-blink-major-modes))
-      (beacon-blink)))
+    (let ((pulse-command-advice-flag
+           (not (or (window-minibuffer-p)
+                    (seq-find 'derived-mode-p '(magit-status-mode comint-mode vterm-mode))))))
+      (pulse-line-hook-function)))
   (dolist (command '(next-window-any-frame
                      scroll-up-command
                      scroll-down-command
                      recenter-top-bottom
                      move-to-window-line-top-bottom
                      symbol-overlay-basic-jump))
-    (advice-add command :after #'hemacs-beacon-blink))
+    (advice-add command :after #'hemacs-pulse-line))
   (dolist (hook '(window-configuration-change-hook))
-    (add-hook hook #'hemacs-beacon-blink)))
-
-(use-package pulse
-  :custom
-  (pulse-iterations 4))
+    (add-hook hook #'hemacs-pulse-line)))
 
 (use-package goggles
   :hook
