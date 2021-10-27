@@ -120,10 +120,16 @@
   (run-at-time 1 nil (lambda () (setq gc-cons-threshold (* 1024 1024 30)))))
 
 (defun restore-default-file-name-handler-alist ()
-  (setq file-name-handler-alist default-file-name-handler-alist))
+  (setq file-name-handler-alist
+        (delete-dups (append file-name-handler-alist default-file-name-handler-alist))))
 
 (defun keyboard-quit-minibuffer-first (f &rest args)
   (if-let ((minibuffer (active-minibuffer-window)))
       (with-current-buffer (window-buffer minibuffer)
         (minibuffer-keyboard-quit))
     (apply f args)))
+
+(defun restore-redisplay-and-message ()
+  (setq-default inhibit-redisplay nil)
+  (setq-default inhibit-message nil)
+  (redisplay))

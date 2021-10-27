@@ -19,7 +19,6 @@
 
 (use-feature emacs
   :custom
-  (load-prefer-newer t)
   (history-length 128)
   (history-delete-duplicates t)
   (maximum-scroll-margin 0.5)
@@ -64,7 +63,8 @@
   (add-hook 'minibuffer-setup-hook #'defer-garbage-collection)
   (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
   (add-hook 'emacs-startup-hook #'restore-garbage-collection 100)
-  (add-hook 'emacs-startup-hook #'restore-default-file-name-handler-alist))
+  (add-hook 'emacs-startup-hook #'restore-default-file-name-handler-alist)
+  (add-hook 'window-setup-hook #'restore-redisplay-and-message))
 
 (use-package server
   :config

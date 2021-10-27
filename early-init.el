@@ -1,8 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
 (setq gc-cons-threshold most-positive-fixnum)
+(setq native-comp-deferred-compilation nil)
+(setq load-prefer-newer noninteractive)
+
 (defvar default-file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
+(setq-default file-name-handler-alist nil)
 
 (setq straight-check-for-modifications 'live-with-find)
 (setq straight-cache-autoloads t)
@@ -25,6 +28,8 @@
 (setq package-enable-at-startup nil)
 (setq package--init-file-ensured t)
 (setq inhibit-startup-screen t)
+(setq-default inhibit-redisplay t)
+(setq-default inhibit-message t)
 
 (straight-use-package
  '(use-package :type git :host github :repo "waymondo/use-package" :branch "personal"))
