@@ -1309,6 +1309,7 @@
   (lsp-signature-function #'lsp-signature-posframe)
   (lsp-eldoc-enable-hover nil)
   (lsp-headerline-breadcrumb-enable nil)
+  (lsp-completion-provider :none)
   :config
   (dolist (pattern '("[/\\\\]storage\\'" "[/\\\\]tmp\\'" "[/\\\\]log\\'" "[/\\\\]\\.log\\'"))
     (add-to-list 'lsp-file-watch-ignored-directories pattern))
