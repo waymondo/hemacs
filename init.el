@@ -1319,8 +1319,8 @@
       (error
        (call-interactively 'format-all-buffer))))
   (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all)
-
   (push '(".*\\.html\\.erb$" . "html") lsp-language-id-configuration)
+  (push '(".*\\.hbs$" . "html") lsp-language-id-configuration)
   :bind*
   ("C-M-\\" . lsp-format-buffer))
 
