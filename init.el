@@ -531,6 +531,12 @@
 
 ;;;;; Completion
 
+(use-package cursor-sensor
+  :custom
+  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+  :hook
+  (minibuffer-setup . cursor-intangible-mode))
+
 (use-package amx
   :config
   (amx-mode)
