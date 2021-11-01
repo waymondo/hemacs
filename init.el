@@ -1450,6 +1450,10 @@
   :config
   (global-hl-line-mode))
 
+(use-package hl-sentence
+  :hook
+  (text-mode . hl-sentence-mode))
+
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode)
