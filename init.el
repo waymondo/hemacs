@@ -1264,11 +1264,7 @@
   :bind
   (:map hemacs-git-map ("g" . gist-region-or-buffer-private)))
 
-(use-package gitattributes-mode)
-
-(use-package gitconfig-mode)
-
-(use-package gitignore-mode)
+(use-package git-modes)
 
 (use-package dash-at-point
   :if *is-mac*
