@@ -673,7 +673,6 @@
       (apply f args)))
   (delete 'yas-installed-snippets-dir yas-snippet-dirs)
   (advice-add 'yas--indent :around #'yas-indent-unless-case-sensitive)
-  (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand)
   (yas-global-mode))
 
 (use-package company
@@ -786,20 +785,36 @@
                        ("Sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern))))
 
+(use-package project
+  :bind
+  (:map project-prefix-map
+        ("m" . magit-status)
+        ("t" . project-vterm))
+  :chords
+  (";t" . project-find-file)
+  :custom
+  (project-switch-use-entire-map t)
+  :config
+  (defun project-vterm (&optional arg)
+    (interactive "P")
+    (let* ((project (projectile-acquire-root))
+           (buffer (projectile-generate-process-name "vterm" arg project)))
+      (unless (buffer-live-p (get-buffer buffer))
+        (projectile-with-default-dir project
+          (vterm buffer)))
+      (switch-to-buffer buffer))))
+
 (use-package projectile
   :straight
   (:host github :repo "waymondo/projectile")
   :bind
   ("s-p" . projectile-command-map)
-  ("C-x m" . projectile-run-vterm)
   (:map hemacs-switch-project-map
         ("t" . projectile-switch-project)
         ("m" . projectile-switch-project-projectile-run-vterm)
         ("g" . projectile-switch-project-projectile-vc)
         ("u" . projectile-switch-project-projectile-run-project)
         ("f" . projectile-switch-project-projectile-find-file))
-  :chords
-  (";t" . projectile-find-file)
   :custom
   (projectile-enable-caching t)
   (projectile-verbose nil)
@@ -1161,7 +1176,7 @@
 
 (use-feature vc-hooks
   :custom
-  (vc-handled-backends nil))
+  (vc-follow-symlinks t))
 
 (use-package diff-mode
   :custom
