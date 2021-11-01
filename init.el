@@ -1375,10 +1375,8 @@
 (use-package tree-sitter-langs)
 
 (use-package fira-code-mode
-  :custom
-  (fira-code-mode-enable-hex-literal nil)
   :config
-  (unless (member "Fira Code" (font-family-list))
+  (unless (member "Fira Code Symbol" (font-family-list))
     (fira-code-mode-install-fonts))
   (global-fira-code-mode)
   (set-face-attribute 'default nil :height (* default-font-size 10)))
