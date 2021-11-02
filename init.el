@@ -954,12 +954,6 @@
   (markdown-command "marked")
   (markdown-indent-on-enter nil))
 
-(use-package vmd-mode
-  :after markdown-mode
-  :bind
-  (:map markdown-mode-map ("C-x p" . vmd-mode))
-  :ensure-system-package (vmd . "npm i -g vmd"))
-
 (use-package pandoc-mode
   :after (markdown-mode org-mode)
   :ensure-system-package pandoc
