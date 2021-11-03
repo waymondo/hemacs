@@ -1284,12 +1284,10 @@
 ;;;;; Posframe
 
 (use-package posframe
-  :custom
-  (posframe-arghandler #'hemacs-posframe-arghandler)
   :config
-  (defun hemacs-posframe-arghandler (posframe-buffer arg-name value)
-    (let ((info '(:internal-border-width 12 :min-width 80)))
-      (or (plist-get info arg-name) value))))
+  (defun hemacs-posframe-arghandler (f &rest args)
+    (apply f (car args) (plist-put (cdr args) :internal-border-width 12)))
+  (advice-add 'posframe-show :around #'hemacs-posframe-arghandler))
 
 (use-package frog-menu
   :custom
