@@ -97,13 +97,6 @@
 
 ;;;;; Processes, Shells, Compilation
 
-(use-package exec-path-from-shell
-  :custom
-  (exec-path-from-shell-check-startup-files nil)
-  :config
-  (push "HISTFILE" exec-path-from-shell-variables)
-  (exec-path-from-shell-initialize))
-
 (use-package alert
   :custom
   (alert-default-style (if *is-mac* 'osx-notifier 'message))
