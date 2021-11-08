@@ -703,22 +703,6 @@
   :init
   (bash-completion-setup))
 
-(use-package company-emoji
-  :after company
-  :hook
-  (writing-modes . company-add-local-emoji-backend)
-  :config
-  (when *is-mac*
-    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
-  (defun company-add-local-emoji-backend ()
-    (setq-local company-backends (append '(company-emoji) company-backends))))
-
-(use-package emoji-cheat-sheet-plus
-  :bind
-  ("C-c e" . emoji-cheat-sheet-plus-insert)
-  :hook
-  (writing-modes . emoji-cheat-sheet-plus-display-mode))
-
 (use-package smart-tab
   :config
   (global-smart-tab-mode)
