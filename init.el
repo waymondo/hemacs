@@ -66,7 +66,7 @@
   (add-hook 'emacs-startup-hook #'restore-default-file-name-handler-alist)
   (add-hook 'window-setup-hook #'restore-redisplay-and-message))
 
-(use-package server
+(use-feature server
   :config
   (unless (server-running-p)
     (server-start)))
@@ -100,7 +100,7 @@
 (use-package alert
   :custom
   (alert-default-style (if *is-mac* 'osx-notifier 'message))
-  :config
+  :init
   (defun alert-after-finish-in-background (buf str)
     (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
       (alert str :buffer buf))))
@@ -147,19 +147,18 @@
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
-(use-package profiler
+(use-feature profiler
   :bind
   ("C-x P r"  . profiler-report)
   ("C-x P 1"  . profiler-start)
   ("C-x P 0"  . profiler-stop))
 
-(use-package warnings
+(use-feature warnings
   :custom
   (warning-suppress-types '((comp) (undo discard-info))))
 
 (use-package vterm
   :ensure-system-package cmake
-  :demand t
   :hook
   (vterm-mode . text-smaller-no-truncation))
 
@@ -171,7 +170,7 @@
   (setq-default sh-indentation 2
                 sh-basic-offset 2))
 
-(use-package executable
+(use-feature executable
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p))
 
@@ -228,18 +227,18 @@
         (make-directory dir t))))
   (push #'find-file-maybe-make-directories find-file-not-found-functions))
 
-(use-package savehist
+(use-feature savehist
   :custom
   (savehist-additional-variables
    '(search-ring regexp-search-ring comint-input-ring projector-command-history))
   :config
   (savehist-mode))
 
-(use-package saveplace
+(use-feature saveplace
   :init
   (save-place-mode))
 
-(use-package recentf
+(use-feature recentf
   :custom
   (recentf-auto-cleanup 200)
   (recentf-max-saved-items 200)
@@ -293,7 +292,7 @@
     (insert "TODO:")
     (ensure-space :after)))
 
-(use-package face-remap
+(use-feature face-remap
   :hook
   (writing-modes . variable-pitch-mode))
 
@@ -355,26 +354,26 @@
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
 
-(use-package autoinsert
+(use-feature autoinsert
   :init
   (auto-insert-mode))
 
-(use-package delsel
+(use-feature delsel
   :init
   (delete-selection-mode))
 
-(use-package elec-pair
+(use-feature elec-pair
   :init
   (electric-pair-mode))
 
-(use-package electric
+(use-feature electric
   :custom
   (electric-quote-string t)
   (electric-quote-context-sensitive t)
   :hook
   (writing-modes . electric-quote-local-mode))
 
-(use-package subword
+(use-feature subword
   :init
   (global-subword-mode))
 
@@ -466,7 +465,7 @@
   :bind
   ("C-'" . cycle-quotes))
 
-(use-package flyspell
+(use-feature flyspell
   :hook
   (writing-modes . flyspell-mode))
 
@@ -503,7 +502,7 @@
 
 ;;;;; Completion
 
-(use-package cursor-sensor
+(use-feature cursor-sensor
   :custom
   (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
   :hook
@@ -588,7 +587,7 @@
   :hook
   (embark-collect-mode . embark-consult-preview-minor-mode))
 
-(use-package hippie-exp
+(use-feature hippie-exp
   :custom
   (hippie-expand-verbose nil)
   (hippie-expand-try-functions-list
@@ -639,7 +638,7 @@
   (yas-wrap-around-region t)
   :mode
   ("\\.yasnippet\\'" . snippet-mode)
-  :init
+  :config
   (defun yas-indent-unless-case-sensitive (f &rest args)
     (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
       (apply f args)))
@@ -732,7 +731,7 @@
   :config
   (global-anzu-mode))
 
-(use-package imenu
+(use-feature imenu
   :custom
   (imenu-auto-rescan t)
   :hook
@@ -831,7 +830,7 @@
   :hook
   (csv-mode . csv-align-mode))
 
-(use-package org
+(use-feature org
   :bind
   (:map org-mode-map
         ("," . self-with-space)
@@ -850,7 +849,7 @@
   :hook
   (org-mode . org-autolist-mode))
 
-(use-package sgml-mode
+(use-feature sgml-mode
   :ensure-system-package
   (html-languageserver . "npm i -g vscode-html-languageserver-bin")
   :bind
@@ -920,7 +919,7 @@
   (markdown-mode org-mode)
   (pandoc-mode . pandoc-load-default-settings))
 
-(use-package css-mode
+(use-feature css-mode
   :ensure-system-package
   (css-languageserver . "npm i -g vscode-css-languageserver-bin")
   :mode "\\.css\\.erb\\'"
@@ -936,7 +935,7 @@
   :custom
   (less-css-lessc-options '("--no-color" "-x")))
 
-(use-package js
+(use-feature js
   :ensure-system-package
   (eslint_d . "npm install -g eslint_d")
   :bind
@@ -951,8 +950,7 @@
   (js-switch-indent-offset 2))
 
 (use-package nodejs-repl
-  :ensure-system-package node
-  :defer t)
+  :ensure-system-package node)
 
 (use-package json-mode
   :mode
@@ -1028,7 +1026,7 @@
     (newline-and-indent))
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
-(use-package ruby-mode
+(use-feature ruby-mode
   :mode ("Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
   :bind
   (:map ruby-mode-map
@@ -1124,7 +1122,7 @@
 
 ;;;;; Version Control
 
-(use-package ediff
+(use-feature ediff
   :custom
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
@@ -1132,7 +1130,7 @@
   :custom
   (vc-follow-symlinks t))
 
-(use-package diff-mode
+(use-feature diff-mode
   :custom
   (diff-font-lock-prettify t))
 
@@ -1152,16 +1150,15 @@
   :config
   (after projectile
     (setq magit-repository-directories projectile-known-projects))
-  (after alert
-    (defun magit-process-alert-after-finish-in-background (f &rest args)
-      (let* ((process (nth 0 args))
-             (event (nth 1 args))
-             (buf (process-get process 'command-buf))
-             (buff-name (buffer-name buf)))
-        (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
-          (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
-        (apply f (list process event))))
-    (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)))
+  (defun magit-process-alert-after-finish-in-background (f &rest args)
+    (let* ((process (nth 0 args))
+           (event (nth 1 args))
+           (buf (process-get process 'command-buf))
+           (buff-name (buffer-name buf)))
+      (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
+        (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
+      (apply f (list process event))))
+  (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background))
 
 (use-package forge
   :after magit
@@ -1177,7 +1174,7 @@
   :bind
   (:map hemacs-git-map ("t" . magit-todos-list)))
 
-(use-package epa
+(use-feature epa
   :bind
   ("C-c g d f" . epa-decrypt-file)
   ("C-c g d r" . epa-decrypt-region)
@@ -1213,7 +1210,6 @@
   (:map hemacs-help-map ("g" . google-this)))
 
 (use-package gist
-  :defer t
   :bind
   (:map hemacs-git-map ("g" . gist-region-or-buffer-private)))
 
@@ -1322,7 +1318,7 @@
 (use-package tree-sitter-langs)
 
 (use-package fira-code-mode
-  :config
+  :init
   (unless (member "Fira Code Symbol" (font-family-list))
     (fira-code-mode-install-fonts))
   (global-fira-code-mode)
@@ -1354,10 +1350,10 @@
   (uniquify-buffer-name-style 'forward))
 
 (use-package page-break-lines
-  :config
+  :init
   (global-page-break-lines-mode))
 
-(use-package pulse
+(use-feature pulse
   :config
   (defun hemacs-pulse-line (&rest _)
     (interactive)
@@ -1393,7 +1389,7 @@
   (indent-sensitive-modes . highlight-indentation-current-column-mode))
 
 (use-feature hl-line
-  :config
+  :init
   (global-hl-line-mode))
 
 (use-package hl-sentence
@@ -1407,12 +1403,12 @@
   (rainbow-delimiters-max-face-count 5))
 
 (use-package moody
-  :config
+  :init
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode))
 
 (use-package minions
-  :config
+  :init
   (minions-mode))
 
 (use-package hide-mode-line
@@ -1420,7 +1416,7 @@
   ((dired-mode helpful-mode magit-mode magit-popup-mode org-capture-mode help-mode embark-collect-mode) .
    hide-mode-line-mode))
 
-(use-package paren
+(use-feature paren
   :custom
   (show-paren-when-point-inside-paren t)
   (show-paren-when-point-in-periphery t)
@@ -1429,7 +1425,7 @@
   (show-paren-mode))
 
 (use-package dimmer
-  :config
+  :init
   (dimmer-mode)
   (dimmer-configure-posframe)
   (dimmer-configure-magit)
@@ -1443,20 +1439,20 @@
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
 
 (use-package solaire-mode
-  :config
+  :init
   (solaire-global-mode))
 
 (use-package apropospriate-theme
   :custom
   (apropospriate-org-level-resizing nil)
-  :config
+  :init
   (load-theme 'apropospriate-light t t)
   (load-theme 'apropospriate-dark t))
 
 (use-package vscode-icon)
 
 (use-package mlscroll
-  :config
+  :init
   (mlscroll-mode))
 
 (use-package popper
@@ -1492,7 +1488,7 @@
   :custom
   (mac-right-option-modifier 'none))
 
-(use-package ffap
+(use-feature ffap
   :commands
   (ffap-file-at-point ffap-url-at-point)
   :bind

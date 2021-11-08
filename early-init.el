@@ -24,6 +24,7 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq use-package-enable-imenu-support t)
+(setq use-package-always-defer t)
 (setq straight-vc-git-default-protocol 'ssh)
 (setq package-enable-at-startup nil)
 (setq package--init-file-ensured t)
@@ -35,7 +36,6 @@
  '(use-package :type git :host github :repo "waymondo/use-package" :branch "personal"))
 (setq straight-use-package-by-default t)
 
-(use-package bind-key)
-(use-package no-littering)
-(use-package use-package-chords)
-(use-package use-package-ensure-system-package)
+(use-package no-littering :demand t)
+(use-package use-package-chords :demand t)
+(use-package use-package-ensure-system-package :demand t)
