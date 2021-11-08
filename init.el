@@ -143,15 +143,7 @@
      ((ffap-file-at-point)
       (find-file (ffap-file-at-point)))
      (t
-      (comint-next-prompt 1))))
-  (defun write-input-ring-for-shellish-modes ()
-    (when (derived-mode-p 'comint-mode)
-      (comint-write-input-ring)))
-  (defun write-input-ring-for-all-shellish-modes ()
-    (dolist (buffer (buffer-list))
-      (with-current-buffer buffer (write-input-ring-for-shellish-modes))))
-  (add-hook 'kill-buffer-hook #'write-input-ring-for-shellish-modes)
-  (add-hook 'kill-emacs-hook #'write-input-ring-for-all-shellish-modes))
+      (comint-next-prompt 1)))))
 
 (use-feature compile
   :custom
@@ -171,19 +163,6 @@
 (use-package warnings
   :custom
   (warning-suppress-types '((comp) (undo discard-info))))
-
-(use-package shell
-  :defer t
-  :custom
-  (explicit-shell-file-name (getenv "SHELL"))
-  :config
-  (defun make-shell-command-behave-interactively (f &rest args)
-    (let ((shell-command-switch "-ic"))
-      (apply f args)))
-  (advice-add 'shell-command :around #'make-shell-command-behave-interactively)
-  (advice-add 'start-process-shell-command :around #'make-shell-command-behave-interactively)
-  (add-λ 'shell-mode-hook
-    (turn-on-comint-history (getenv "HISTFILE"))))
 
 (use-package vterm
   :ensure-system-package cmake
@@ -699,6 +678,10 @@
   :hook
   (company-mode . company-box-mode))
 
+(use-package capf-autosuggest
+  :hook
+  (comint-mode . capf-autosuggest-mode))
+
 (use-package bash-completion
   :init
   (bash-completion-setup))
@@ -706,7 +689,6 @@
 (use-package smart-tab
   :config
   (global-smart-tab-mode)
-  (push 'shell-mode smart-tab-disabled-major-modes)
   :custom
   (smart-tab-user-provided-completion-function 'company-complete)
   (smart-tab-completion-functions-alist '()))
