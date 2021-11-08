@@ -6,7 +6,6 @@
 
 (defconst indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
-(defconst *is-mac* (eq system-type 'darwin))
 (defconst default-font-size 15)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-switch-project-map)
@@ -99,7 +98,7 @@
 
 (use-package alert
   :custom
-  (alert-default-style (if *is-mac* 'osx-notifier 'message))
+  (alert-default-style 'osx-notifier)
   :init
   (defun alert-after-finish-in-background (buf str)
     (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
@@ -262,22 +261,17 @@
   (dired-sidebar-theme 'vscode))
 
 (use-package osx-trash
-  :if *is-mac*
   :ensure-system-package trash
-  :init (osx-trash-setup))
+  :init
+  (osx-trash-setup))
 
 (use-package terminal-here
-  :if *is-mac*)
+  :bind
+  ("C-c o t" . terminal-here))
 
 (use-package reveal-in-osx-finder
-  :if *is-mac*)
-
-(when *is-mac*
-  (bind-keys
-   :prefix-map hemacs-osx-map
-   :prefix "C-c o"
-   ("t" . terminal-here)
-   ("f" . reveal-in-osx-finder)))
+  :bind
+  ("C-c o f" . reveal-in-osx-finder))
 
 ;;;;; Editing
 
@@ -1216,7 +1210,6 @@
 (use-package git-modes)
 
 (use-package dash-at-point
-  :if *is-mac*
   :straight
   (:host github :repo "waymondo/dash-at-point")
   :ensure-system-package
