@@ -1404,8 +1404,7 @@
 
 (use-package hide-mode-line
   :hook
-  ((dired-mode helpful-mode magit-mode magit-popup-mode org-capture-mode help-mode embark-collect-mode) .
-   hide-mode-line-mode))
+  ((dired-mode magit-mode magit-popup-mode org-capture-mode) . hide-mode-line-mode))
 
 (use-feature paren
   :custom
@@ -1452,12 +1451,14 @@
   ("C-~"   . popper-cycle)
   :custom
   (popper-window-height 0.37)
+  (popper-display-function #'popper-select-popup-at-bottom-no-mode-line)
   (popper-reference-buffers
    '("\\*Messages\\*"
      "\\*Backtrace\\*"
      "\\*Warnings\\*"
      "Output\\*$"
      "*Process List*"
+     "*Embark Actions*"
      "COMMIT_EDITMSG"
      help-mode
      helpful-mode
@@ -1471,6 +1472,14 @@
      ts-comint-mode
      compilation-mode))
   :init
+  (defun popper-select-popup-at-bottom-no-mode-line (buffer &optional _alist)
+    (let ((window (display-buffer-in-side-window
+                   buffer
+                   `((window-height . ,popper-window-height)
+                     (side . bottom)
+                     (slot . 1)
+                     (window-parameters ,`(mode-line-format . none))))))
+      (select-window window)))
   (popper-mode))
 
 ;;;;; Bindings & Chords
