@@ -180,7 +180,7 @@
      (ruby-mode . inf-ruby)
      (js-mode . nodejs-repl)
      (typescript-mode . run-ts)))
-  :config
+  :init
   (repl-toggle-mode))
 
 ;;;;; Files & History
@@ -564,23 +564,37 @@
     (defun embark-which-key-indicator ()
       (lambda (&optional keymap targets prefix)
         (if (null keymap)
-            (kill-buffer which-key--buffer)
+            (which-key--hide-popup-ignore-command)
           (which-key--show-keymap
-           (if (eq (caar targets) 'embark-become)
+           (if (eq (plist-get (car targets) :type) 'embark-become)
                "Become"
              (format "Act on %s '%s'%s"
-                     (caar targets)
-                     (embark--truncate-target (cdar targets))
+                     (plist-get (car targets) :type)
+                     (embark--truncate-target (plist-get (car targets) :target))
                      (if (cdr targets) "…" "")))
-           (if prefix (lookup-key keymap prefix) keymap)
-           nil nil t))))
-    (setq embark-indicators '(embark-which-key-indicator))))
+           (if prefix
+               (pcase (lookup-key keymap prefix 'accept-default)
+                 ((and (pred keymapp) km) km)
+                 (_ (key-binding prefix 'accept-default)))
+             keymap)
+           nil nil t (lambda (binding)
+                       (not (string-suffix-p "-argument" (cdr binding))))))))
+    (setq embark-indicators
+          '(embark-which-key-indicator
+            embark-highlight-indicator
+            embark-isearch-highlight-indicator))
+    (defun embark-hide-which-key-indicator (fn &rest args)
+      (which-key--hide-popup-ignore-command)
+      (let ((embark-indicators
+             (remq #'embark-which-key-indicator embark-indicators)))
+        (apply fn args)))
+    (advice-add #'embark-completing-read-prompter :around #'embark-hide-which-key-indicator)))
 
 (use-package embark-consult
   :after
   (embark consult)
   :hook
-  (embark-collect-mode . embark-consult-preview-minor-mode))
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-feature hippie-exp
   :custom
@@ -1517,9 +1531,10 @@
   (which-key-show-early-on-C-h t)
   (which-key-idle-delay most-positive-fixnum)
   (which-key-idle-secondary-delay 1e-100)
-  :config
+  (which-key-max-display-columns 4)
+  :init
   (which-key-mode)
-  (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile" "rails"))
+  (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile" "rails" "project" "embark"))
     (let ((pattern (concat "^" prefix "-\\(.+\\)")))
       (push `((nil . ,pattern) . (nil . "\\1"))
             which-key-replacement-alist))))
