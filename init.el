@@ -1169,12 +1169,9 @@
   :bind
   (:map hemacs-git-map ("t" . magit-todos-list)))
 
-(use-feature epa
+(use-package tray
   :bind
-  ("C-c g d f" . epa-decrypt-file)
-  ("C-c g d r" . epa-decrypt-region)
-  ("C-c g e r" . epa-encrypt-region)
-  ("C-c g e f" . epa-encrypt-file))
+  ("C-c g" . tray-epa-key-list-dispatch))
 
 (use-package browse-at-remote
   :bind
