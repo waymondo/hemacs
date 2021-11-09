@@ -26,7 +26,6 @@
   (scroll-preserve-screen-position 'always)
   (auto-window-vscroll nil)
   (echo-keystrokes 1e-6)
-  (ns-use-native-fullscreen nil)
   (delete-by-moving-to-trash t)
   (ring-bell-function #'ignore)
   (ns-function-modifier 'control)
@@ -1346,8 +1345,8 @@
   :custom
   (blink-cursor-blinks 0)
   :init
+  (add-to-list 'initial-frame-alist '(undecorated . t))
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (blink-cursor-mode))
 
 (use-feature uniquify
