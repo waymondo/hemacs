@@ -471,7 +471,8 @@
         ("C-;" . flyspell-correct-wrapper)))
 
 (use-package smart-backspace
-  :config
+  :commands (smart-backspace)
+  :init
   (bind-key "<backspace>" #'smart-backspace global-map
             (and (member (char-before) (string-to-list " \t"))
                  (not (or (region-active-p) (member major-mode indent-sensitive-modes))))))
