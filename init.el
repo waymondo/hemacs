@@ -302,6 +302,7 @@
   :bind
   ("s-k" . kill-whole-line)
   ("M-`" . list-processes)
+  ("s-P" . execute-extended-command)
   ("s-z" . undo-only)
   ("s-Z" . undo-redo)
   ("<escape>" . keyboard-escape-quit)
@@ -498,12 +499,6 @@
   (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
   :hook
   (minibuffer-setup . cursor-intangible-mode))
-
-(use-package amx
-  :config
-  (amx-mode)
-  :bind
-  ("s-P" . amx))
 
 (use-package vertico
   :preface
