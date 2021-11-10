@@ -70,8 +70,8 @@
     (server-start)))
 
 (use-package dash
-  :config
-  (dash-enable-font-lock))
+  :custom
+  (dash-enable-fontlock t))
 
 (use-package transform-string-at-point
   :straight
@@ -161,12 +161,10 @@
   (vterm-mode . text-smaller-no-truncation))
 
 (use-package sh-script
-  :ensure-system-package shfmt
   :mode
   ((rx (and (? ".") (or "bash" "zsh" "zprofile"))) . sh-mode)
-  :config
-  (setq-default sh-indentation 2
-                sh-basic-offset 2))
+  :custom
+  (sh-basic-offset 2))
 
 (use-feature executable
   :hook
@@ -229,7 +227,7 @@
   :custom
   (savehist-additional-variables
    '(search-ring regexp-search-ring comint-input-ring projector-command-history))
-  :config
+  :init
   (savehist-mode))
 
 (use-feature saveplace
@@ -245,6 +243,7 @@
   (recentf-mode))
 
 (use-feature dired
+  :demand t
   :custom
   (dired-create-destination-dirs t)
   (dired-use-ls-dired nil)
@@ -391,9 +390,7 @@
   :chords
   ("jj" . avy-goto-char-timer)
   ("jk" . avy-goto-word-or-subword-1)
-  ("jl" . avy-goto-line)
-  :config
-  (avy-setup-default))
+  ("jl" . avy-goto-line))
 
 (use-package ace-link
   :bind
@@ -590,6 +587,7 @@
     (advice-add #'embark-completing-read-prompter :around #'embark-hide-which-key-indicator)))
 
 (use-package embark-consult
+  :demand t
   :after
   (embark consult)
   :hook
@@ -760,7 +758,7 @@
   (";t" . project-find-file)
   :custom
   (project-switch-use-entire-map t)
-  :config
+  :init
   (defun project-vterm (&optional arg)
     (interactive "P")
     (let* ((project (projectile-acquire-root))
@@ -821,7 +819,7 @@
   (make-projectile-switch-project-defun #'projector-run-default-shell-command))
 
 (use-package beginend
-  :config
+  :init
   (beginend-global-mode))
 
 ;;;;; External Utilities
@@ -897,9 +895,7 @@
   (web-mode-enable-auto-quoting nil)
   (web-mode-enable-current-element-highlight t))
 
-(use-package lorem-ipsum
-  :config
-  (lorem-ipsum-use-default-bindings))
+(use-package lorem-ipsum)
 
 (use-package emmet-mode
   :hook
