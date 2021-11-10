@@ -694,7 +694,7 @@
   (":W" . delete-other-windows)
   :custom
   (switch-to-buffer-obey-display-actions t)
-  (split-width-threshold 190)
+  (split-width-threshold 100)
   :config
   (def toggle-split-window
     (if (eq last-command 'toggle-split-window)
