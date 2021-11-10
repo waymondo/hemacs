@@ -86,8 +86,16 @@
   (tool-bar-mode -1))
 
 (use-feature scroll-bar
+  :hook
+  (window-configuration-change . update-scroll-bars)
+  (buffer-list-update . update-scroll-bars)
   :config
-  (scroll-bar-mode -1))
+  (def update-scroll-bars
+    (mapc (lambda (win)
+            (set-window-scroll-bars win nil))
+          (window-list))
+    (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
+      (set-window-scroll-bars (selected-window) nil t))))
 
 (use-feature menu-bar
   :bind
@@ -1444,10 +1452,6 @@
   (load-theme 'apropospriate-dark t))
 
 (use-package vscode-icon)
-
-(use-package mlscroll
-  :init
-  (mlscroll-mode))
 
 (use-package popper
   :bind
