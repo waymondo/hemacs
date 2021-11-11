@@ -690,7 +690,7 @@
   (":W" . delete-other-windows)
   :custom
   (switch-to-buffer-obey-display-actions t)
-  (split-width-threshold 100)
+  (split-width-threshold 184)
   :config
   (def toggle-split-window
     (if (eq last-command 'toggle-split-window)
@@ -1235,6 +1235,14 @@
     (apply f (car args) (plist-put (cdr args) :internal-border-width 12)))
   (advice-add 'posframe-show :around #'hemacs-posframe-arghandler))
 
+(use-package transient-posframe
+  :custom
+  (transient-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
+  (transient-posframe-min-height 1)
+  (transient-posframe-min-width 1)
+  :init
+  (transient-posframe-mode))
+
 (use-package frog-menu
   :custom
   (frog-menu-avy-padding t))
@@ -1331,7 +1339,9 @@
 (use-feature frame
   :custom
   (blink-cursor-blinks 0)
+  (window-divider-default-places t)
   (window-divider-default-right-width 1)
+  (window-divider-default-bottom-width 1)
   :init
   (add-to-list 'initial-frame-alist '(undecorated . t))
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -1359,6 +1369,10 @@
   (global-page-break-lines-mode))
 
 (use-feature pulse
+  :custom
+  (pulse-iterations 20)
+  :hook
+  (window-configuration-change-hook . hemacs-pulse-line)
   :config
   (defun hemacs-pulse-line (&rest _)
     (interactive)
@@ -1372,9 +1386,7 @@
                      recenter-top-bottom
                      move-to-window-line-top-bottom
                      symbol-overlay-basic-jump))
-    (advice-add command :after #'hemacs-pulse-line))
-  (dolist (hook '(window-configuration-change-hook))
-    (add-hook hook #'hemacs-pulse-line)))
+    (advice-add command :after #'hemacs-pulse-line)))
 
 (use-package goggles
   :hook
@@ -1429,11 +1441,15 @@
   (show-paren-mode))
 
 (use-package dimmer
+  :custom
+  (dimmer-fraction 0.3)
   :init
   (dimmer-mode)
+  (add-to-list 'dimmer-exclusion-regexp-list " *frog-menu-menu*")
   (dimmer-configure-posframe)
   (dimmer-configure-magit)
-  (dimmer-configure-which-key))
+  (dimmer-configure-which-key)
+  (dimmer-configure-company-box))
 
 (use-feature fringe
   :config
@@ -1443,6 +1459,8 @@
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
 
 (use-package solaire-mode
+  :config
+  (advice-remove 'transient--insert-groups #'solaire-mode--enable-if-global)
   :init
   (solaire-global-mode))
 
@@ -1475,6 +1493,7 @@
      embark-collect-mode
      grep-mode
      rg-mode
+     vc-annotate-mode
      rspec-compilation-mode
      minitest-compilation-mode
      inf-ruby-mode
