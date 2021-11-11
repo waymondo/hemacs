@@ -85,18 +85,6 @@
   :config
   (tool-bar-mode -1))
 
-(use-feature scroll-bar
-  :hook
-  (window-configuration-change . update-scroll-bars)
-  (buffer-list-update . update-scroll-bars)
-  :config
-  (def update-scroll-bars
-    (mapc (lambda (win)
-            (set-window-scroll-bars win nil))
-          (window-list))
-    (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
-      (set-window-scroll-bars (selected-window) nil t))))
-
 (use-feature menu-bar
   :bind
   ("s-w" . kill-this-buffer))
@@ -1343,10 +1331,24 @@
 (use-feature frame
   :custom
   (blink-cursor-blinks 0)
+  (window-divider-default-right-width 1)
   :init
   (add-to-list 'initial-frame-alist '(undecorated . t))
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+  (window-divider-mode)
   (blink-cursor-mode))
+
+(use-feature scroll-bar
+  :hook
+  (window-configuration-change . update-scroll-bars)
+  (buffer-list-update . update-scroll-bars)
+  :config
+  (def update-scroll-bars
+    (mapc (lambda (win)
+            (set-window-scroll-bars win nil))
+          (window-list))
+    (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
+      (set-window-scroll-bars (selected-window) nil t))))
 
 (use-feature uniquify
   :custom
