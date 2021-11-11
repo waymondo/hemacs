@@ -78,8 +78,8 @@
   (:host github :repo "waymondo/transform-string-at-point")
   :custom
   (transform-string-at-point-cursor-after-transform 'next-string)
-  :bind-keymap
-  ("s-;" . transform-string-at-point-map))
+  :bind
+  ("s-;" . transform-string-at-point))
 
 (use-feature tool-bar
   :config
