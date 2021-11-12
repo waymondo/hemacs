@@ -1130,6 +1130,7 @@
   (:map hemacs-git-map ("l" . magit-clone))
   (:map hemacs-git-map ("f" . magit-diff-buffer-file))
   :custom
+  (magit-status-goto-file-position t)
   (magit-log-section-commit-count 0)
   (magit-log-auto-more t)
   (magit-branch-prefer-remote-upstream t)
