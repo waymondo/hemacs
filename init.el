@@ -8,10 +8,8 @@
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst default-font-size 15)
 (define-prefix-command 'hemacs-git-map)
-(define-prefix-command 'hemacs-switch-project-map)
 (define-prefix-command 'hemacs-help-map)
 (bind-key "s-g" #'hemacs-git-map)
-(bind-key "s-o" #'hemacs-switch-project-map)
 (bind-key "s-h" #'hemacs-help-map)
 
 ;;;;; Bootstrap
@@ -735,8 +733,11 @@
                        ("Sections" "^;;;;; \\(.+\\)$" 1)))
       (add-to-list 'imenu-generic-expression pattern))))
 
-(use-package project
+(use-feature project
+  :bind-keymap
+  ("s-p" . project-prefix-map)
   :bind
+  ("C-x m" . project-shell)
   (:map project-prefix-map
         ("m" . magit-status)
         ("t" . project-vterm))
@@ -754,55 +755,15 @@
           (vterm buffer)))
       (switch-to-buffer buffer))))
 
-(use-package projectile
-  :straight
-  (:host github :repo "waymondo/projectile")
-  :bind
-  ("s-p" . projectile-command-map)
-  (:map hemacs-switch-project-map
-        ("t" . projectile-switch-project)
-        ("m" . projectile-switch-project-projectile-run-vterm)
-        ("g" . projectile-switch-project-projectile-vc)
-        ("u" . projectile-switch-project-projectile-run-project)
-        ("f" . projectile-switch-project-projectile-find-file))
-  :custom
-  (projectile-enable-caching t)
-  (projectile-verbose nil)
-  (projectile-require-project-root nil)
-  :config
-  (put 'projectile-project-run-cmd 'safe-local-variable #'stringp)
-  (defmacro make-projectile-switch-project-defun (func)
-    `(let ((defun-name (format "projectile-switch-project-%s" (symbol-name ,func))))
-       (defalias (intern defun-name)
-         (function
-          (lambda ()
-            (interactive)
-            (let ((projectile-switch-project-action ,func))
-              (projectile-switch-project)))))))
-  (make-projectile-switch-project-defun #'projectile-run-vterm)
-  (make-projectile-switch-project-defun #'projectile-run-project)
-  (make-projectile-switch-project-defun #'projectile-find-file)
-  (make-projectile-switch-project-defun #'projectile-vc)
-  (projectile-mode)
-  (projectile-cleanup-known-projects))
-
 (use-package projector
-  :after
-  (projectile vterm)
   :bind
   ("C-x RET"        . projector-run-shell-command-project-root)
-  ("C-x <C-return>" . projector-run-default-shell-command)
   (:map comint-mode-map ("s-R" . projector-rerun-buffer-process))
-  (:map vterm-mode-map ("s-R" . projector-rerun-buffer-process))
-  (:map hemacs-switch-project-map
-        ("<C-return>" . projectile-switch-project-projector-run-default-shell-command)
-        ("M" . projectile-switch-project-projector-run-shell-command-project-root))
+  (:map project-prefix-map ("RET" . projector-run-shell-command-project-root))
   :custom
+  (projector-project-package 'project)
   (projector-command-modes-alist
-   '(("^heroku run console" . inf-ruby-mode)))
-  :config
-  (make-projectile-switch-project-defun #'projector-run-shell-command-project-root)
-  (make-projectile-switch-project-defun #'projector-run-default-shell-command))
+   '(("^heroku console" . inf-ruby-mode))))
 
 (use-package beginend
   :init
