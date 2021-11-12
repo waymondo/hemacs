@@ -64,11 +64,6 @@
   (add-hook 'emacs-startup-hook #'restore-default-file-name-handler-alist)
   (add-hook 'window-setup-hook #'restore-redisplay-and-message))
 
-(use-feature server
-  :config
-  (unless (server-running-p)
-    (server-start)))
-
 (use-package dash
   :custom
   (dash-enable-fontlock t))
