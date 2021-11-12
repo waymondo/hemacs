@@ -1131,6 +1131,9 @@
   ("C-c g" . tray-epa-key-list-dispatch))
 
 (use-package browse-at-remote
+  :custom
+  (browse-at-remote-add-line-number-if-no-region-selected nil)
+  (browse-at-remote-prefer-symbolic nil)
   :bind
   (:map hemacs-git-map ("o" . browse-at-remote)))
 
