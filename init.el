@@ -683,8 +683,13 @@
   (":W" . delete-other-windows)
   :custom
   (switch-to-buffer-obey-display-actions t)
-  (split-width-threshold 184)
+  (split-width-threshold (- (window-width) 10))
   :config
+  (defun do-not-split-more-than-two-non-side-windows (window &optional horizontal)
+    (if (and horizontal (> (length (--filter (not (window-parameter it 'window-side)) (window-list))) 1))
+        nil
+      t))
+  (advice-add 'window-splittable-p :before-while #'do-not-split-more-than-two-non-side-windows)
   (def toggle-split-window
     (if (eq last-command 'toggle-split-window)
         (progn
@@ -1314,9 +1319,7 @@
   (buffer-list-update . update-scroll-bars)
   :config
   (def update-scroll-bars
-    (mapc (lambda (win)
-            (set-window-scroll-bars win nil))
-          (window-list))
+    (mapc (lambda (win) (set-window-scroll-bars win nil)) (window-list))
     (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
       (set-window-scroll-bars (selected-window) nil t))))
 
