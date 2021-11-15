@@ -1461,7 +1461,8 @@
                      (slot . 1)
                      (window-parameters ,`(mode-line-format . none))))))
       (select-window window)))
-  (popper-mode))
+  (popper-mode)
+  (popper-echo-mode))
 
 ;;;;; Bindings & Chords
 
