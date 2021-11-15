@@ -1171,7 +1171,11 @@
         ("d" . dash-at-point)
         ("D" . dash-at-point-with-docset)))
 
-(use-package flycheck)
+(use-package flycheck
+  :custom
+  (flycheck-display-errors-delay most-positive-fixnum)
+  :bind
+  ("s-?" . flycheck-display-error-at-point))
 
 (use-package list-environment
   :bind
@@ -1244,7 +1248,7 @@
 
 (use-package lsp-ui
   :custom
-  (lsp-ui-sideline-ignore-duplicate t)
+  (lsp-ui-sideline-enable nil)
   (lsp-ui-doc-show-with-cursor nil)
   (lsp-ui-doc-show-with-mouse nil)
   (lsp-ui-doc-position 'at-point)
@@ -1278,13 +1282,22 @@
   (set-face-attribute 'default nil :height (* default-font-size 10)))
 
 (use-package showtip
+  :after
+  flycheck
+  :commands
+  (flycheck-display-error-messages-tooltip)
   :custom
-  (showtip-top-adjust default-font-size)
+  (showtip-top-adjust (* default-font-size -1))
+  (flycheck-display-errors-function #'flycheck-display-error-messages-tooltip)
   :config
-  (when *is-mac*
+  (let ((inhibit-message t))
     (shell-command
      (concat "defaults write org.gnu.Emacs NSToolTipsFontSize -int "
-             (number-to-string default-font-size)))))
+             (number-to-string default-font-size))))
+  (defun flycheck-display-error-messages-tooltip (errors)
+    (when errors
+      (let ((message (flycheck-help-echo-all-error-messages errors)))
+        (showtip message)))))
 
 (use-package darkroom
   :hook
