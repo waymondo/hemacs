@@ -642,7 +642,7 @@
   (company-tooltip-flip-when-above t)
   (company-require-match nil)
   (company-minimum-prefix-length 1)
-  (company-show-numbers t)
+  (company-show-quick-access t)
   (company-idle-delay nil)
   (company-format-margin-function #'company-vscode-dark-icons-margin)
   (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
@@ -652,28 +652,17 @@
   (company-backends '((company-capf company-yasnippet company-dabbrev-code)))
   :hook
   (after-init . global-company-mode)
-  :config
-  (dolist (command '(comint-previous-matching-input-from-input comint-next-matching-input-from-input))
-    (add-to-list 'company-continue-commands command)))
+  :bind
+  ("TAB" . company-indent-or-complete-common)
+  (:map shell-mode-map ("TAB" . company-indent-or-complete-common)))
 
 (use-package company-box
   :hook
   (company-mode . company-box-mode))
 
-(use-package capf-autosuggest
-  :hook
-  (comint-mode . capf-autosuggest-mode))
-
 (use-package bash-completion
   :init
   (bash-completion-setup))
-
-(use-package smart-tab
-  :config
-  (global-smart-tab-mode)
-  :custom
-  (smart-tab-user-provided-completion-function 'company-complete)
-  (smart-tab-completion-functions-alist '()))
 
 ;;;;; Navigation & Search
 
