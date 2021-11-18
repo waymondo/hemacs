@@ -1008,6 +1008,7 @@
   (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols))
 
 (use-package ruby-tools
+  :demand t
   :after ruby-mode)
 
 (use-package rspec-mode
