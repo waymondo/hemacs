@@ -201,7 +201,7 @@
   (";f" . find-file)
   :config
   (defun hemacs-save-hook ()
-    (unless (member major-mode '(markdown-mode gfm-mode sql-mode))
+    (unless (member major-mode '(markdown-mode gfm-mode sql-mode csv-mode))
       (delete-trailing-whitespace))
     (when (region-active-p)
       (deactivate-mark t)))
