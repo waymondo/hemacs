@@ -1276,6 +1276,8 @@
 (use-package tree-sitter-langs)
 
 (use-package fira-code-mode
+  :custom
+  (fira-code-mode-enable-hex-literal nil)
   :init
   (unless (member "Fira Code Symbol" (font-family-list))
     (fira-code-mode-install-fonts))
