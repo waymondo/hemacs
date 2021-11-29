@@ -123,7 +123,15 @@
      ((ffap-file-at-point)
       (find-file (ffap-file-at-point)))
      (t
-      (comint-next-prompt 1)))))
+      (comint-next-prompt 1))))
+  (defun write-input-ring-for-shellish-modes ()
+    (when (derived-mode-p 'comint-mode)
+      (comint-write-input-ring)))
+  (defun write-input-ring-for-all-shellish-modes ()
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer (write-input-ring-for-shellish-modes))))
+  (add-hook 'kill-buffer-hook #'write-input-ring-for-shellish-modes)
+  (add-hook 'kill-emacs-hook #'write-input-ring-for-all-shellish-modes))
 
 (use-feature compile
   :custom
