@@ -472,8 +472,8 @@
 
 (use-package drag-stuff
   :bind
-  ("<s-down>" . drag-stuff-down)
-  ("<s-up>"   . drag-stuff-up)
+  ("C-s-k" . drag-stuff-down)
+  ("s-TAB" . drag-stuff-up)
   :config
   (defun indent-unless-sensitive (_arg)
     (unless (member major-mode indent-sensitive-modes)
