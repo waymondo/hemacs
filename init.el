@@ -1033,6 +1033,8 @@
   (ruby-mode . minitest-mode)
   :custom
   (minitest-keymap-prefix (kbd "C-c ."))
+  :bind
+  (:map minitest-compilation-mode-map ("s-R" . minitest-rerun))
   :config
   (after yasnippet
     (minitest-install-snippets)))
