@@ -45,6 +45,7 @@
   (read-process-output-max (* 1024 1024))
   (use-short-answers t)
   (x-underline-at-descent-line t)
+  (tab-always-indent 'complete)
   :config
   (setq-default indent-tabs-mode nil
                 line-spacing 2
@@ -513,7 +514,27 @@
 
 (use-package corfu
   :hook
-  (minibuffer-setup . corfu-mode))
+  (after-init . corfu-global-mode))
+
+(use-package corfu-doc
+  :after corfu
+  :straight
+  (:host github :repo "galeo/corfu-doc")
+  :bind
+  (:map corfu-map
+        ("M-p" . corfu-doc-scroll-down)
+        ("M-n" . corfu-doc-scroll-up))
+  :hook
+  (corfu-mode . corfu-doc-mode))
+
+(use-package kind-icon
+  :after corfu
+  :commands
+  (kind-icon-margin-formatter)
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :init
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package orderless
   :custom
@@ -646,30 +667,6 @@
   (delete 'yas-installed-snippets-dir yas-snippet-dirs)
   (advice-add 'yas--indent :around #'yas-indent-unless-case-sensitive)
   (yas-global-mode))
-
-(use-package company
-  :custom
-  (company-tooltip-align-annotations t)
-  (company-tooltip-flip-when-above t)
-  (company-require-match nil)
-  (company-minimum-prefix-length 1)
-  (company-show-quick-access t)
-  (company-idle-delay nil)
-  (company-format-margin-function #'company-vscode-dark-icons-margin)
-  (company-occurrence-weight-function #'company-occurrence-prefer-any-closest)
-  (company-dabbrev-minimum-length 2)
-  (company-dabbrev-code-modes t)
-  (company-dabbrev-code-everywhere t)
-  (company-backends '((company-capf company-yasnippet company-dabbrev-code)))
-  :hook
-  (after-init . global-company-mode)
-  :bind
-  ("TAB" . company-indent-or-complete-common)
-  (:map shell-mode-map ("TAB" . company-indent-or-complete-common)))
-
-(use-package company-box
-  :hook
-  (company-mode . company-box-mode))
 
 (use-package bash-completion
   :init
