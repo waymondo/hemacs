@@ -240,20 +240,23 @@
   (recentf-mode))
 
 (use-feature dired
-  :demand t
   :custom
-  (dired-create-destination-dirs t)
-  (dired-use-ls-dired nil)
-  (dired-dwim-target t)
-  (dired-recursive-deletes 'always)
-  (dired-recursive-copies 'always)
-  (dired-auto-revert-buffer t))
+  (dired-use-ls-dired nil))
 
-(use-package dired-sidebar
+(use-package all-the-icons
+  :config
+  (unless (member "all-the-icons" (font-family-list))
+    (all-the-icons-install-fonts)
+    (fira-code-mode-install-fonts)))
+
+(use-package dirvish
   :bind
-  ("s-\\" . dired-sidebar-toggle-sidebar)
+  ("s-\\" . dirvish)
+  :hook
+  (after-init . dirvish-override-dired-mode)
   :custom
-  (dired-sidebar-theme 'vscode))
+  (dirvish-header-style 'normal)
+  (dirvish-body-fontsize-increment 0))
 
 (use-package osx-trash
   :ensure-system-package trash
@@ -1361,6 +1364,7 @@
   (dolist (command '(next-window-any-frame
                      scroll-up-command
                      scroll-down-command
+                     revert-buffer
                      recenter-top-bottom
                      move-to-window-line-top-bottom
                      symbol-overlay-basic-jump))
@@ -1448,8 +1452,6 @@
   :init
   (load-theme 'apropospriate-light t t)
   (load-theme 'apropospriate-dark t))
-
-(use-package vscode-icon)
 
 (use-package popper
   :bind
