@@ -554,16 +554,18 @@
   ("C-c C-t" . consult-theme)
   :chords
   (";s" . consult-buffer)
-  (";g" . consult-ripgrep-project-dwim)
   (";r" . consult-imenu-multi)
   :custom
-  (consult-project-root-function #'projectile-project-root)
+  (consult-project-root-function #'consult-project-current)
   (consult-preview-key (kbd "M-."))
-  :config
-  (def consult-ripgrep-project-dwim
-    (consult-ripgrep
-     (projectile-project-root)
-     (substring-no-properties (if (region-active-p) (buffer-substring (mark) (point)) "")))))
+  :init
+  (defun consult-project-current ()
+    (when-let (project (project-current))
+      (car (project-roots project)))))
+
+(use-package affe
+  :chords
+  (";g" . affe-grep))
 
 (use-package embark
   :custom
