@@ -755,14 +755,14 @@
   :custom
   (project-switch-use-entire-map t)
   :init
-  (defun project-vterm (&optional arg)
-    (interactive "P")
-    (let* ((project (projectile-acquire-root))
-           (buffer (projectile-generate-process-name "vterm" arg project)))
-      (unless (buffer-live-p (get-buffer buffer))
-        (projectile-with-default-dir project
-          (vterm buffer)))
-      (switch-to-buffer buffer))))
+  (defun project-vterm ()
+    (interactive)
+    (let* ((default-directory (project-root (project-current t)))
+           (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
+           (vterm-buffer (get-buffer default-project-vterm-name)))
+      (if (and vterm-buffer (not current-prefix-arg))
+          (pop-to-buffer vterm-buffer display-comint-buffer-action)
+        (vterm (generate-new-buffer-name default-project-vterm-name))))))
 
 (use-package projector
   :bind
@@ -1112,8 +1112,6 @@
   :hook
   (magit-process-mode . text-smaller-no-truncation)
   :config
-  (after projectile
-    (setq magit-repository-directories projectile-known-projects))
   (defun magit-process-alert-after-finish-in-background (f &rest args)
     (let* ((process (nth 0 args))
            (event (nth 1 args))
