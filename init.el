@@ -168,16 +168,6 @@
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p))
 
-(use-package repl-toggle
-  :custom
-  (rtog/mode-repl-alist
-   '((emacs-lisp-mode . ielm)
-     (ruby-mode . inf-ruby)
-     (js-mode . nodejs-repl)
-     (typescript-mode . run-ts)))
-  :init
-  (repl-toggle-mode))
-
 ;;;;; Files & History
 
 (use-feature image-mode
@@ -257,11 +247,6 @@
   :custom
   (dirvish-header-style 'normal)
   (dirvish-body-fontsize-increment 0))
-
-(use-package osx-trash
-  :ensure-system-package trash
-  :init
-  (osx-trash-setup))
 
 (use-package terminal-here
   :bind
@@ -722,14 +707,6 @@
   :custom
   (bm-cycle-all-buffers t))
 
-(use-package anzu
-  :bind
-  ([remap query-replace] . anzu-query-replace)
-  ("s-q" . anzu-query-replace)
-  ("C-q" . anzu-query-replace-at-cursor-thing)
-  :config
-  (global-anzu-mode))
-
 (use-feature imenu
   :custom
   (imenu-auto-rescan t)
@@ -856,9 +833,6 @@
 (use-package emmet-mode
   :hook
   (sgml-mode web-mode))
-
-(use-package fountain-mode
-  :mode "\\.fountain$")
 
 (use-package markdown-mode
   :mode
@@ -1317,10 +1291,6 @@
       (let ((message (flycheck-help-echo-all-error-messages errors)))
         (showtip message)))))
 
-(use-package darkroom
-  :hook
-  (writing-modes . darkroom-tentative-mode))
-
 (use-feature frame
   :custom
   (blink-cursor-blinks 0)
@@ -1423,17 +1393,6 @@
   (show-paren-context-when-offscreen t)
   :config
   (show-paren-mode))
-
-(use-package dimmer
-  :custom
-  (dimmer-fraction 0.3)
-  :init
-  (dimmer-mode)
-  (add-to-list 'dimmer-exclusion-regexp-list " *frog-menu-menu*")
-  (dimmer-configure-posframe)
-  (dimmer-configure-magit)
-  (dimmer-configure-which-key)
-  (dimmer-configure-company-box))
 
 (use-feature fringe
   :config
