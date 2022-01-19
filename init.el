@@ -563,8 +563,14 @@
       (car (project-roots project)))))
 
 (use-package affe
+  :custom
+  (affe-regexp-compiler #'affe-orderless-regexp-compiler)
   :chords
-  (";g" . affe-grep))
+  (";g" . affe-grep)
+  :init
+  (defun affe-orderless-regexp-compiler (input _type)
+    (setq input (orderless-pattern-compiler input))
+    (cons input (lambda (str) (orderless--highlight input str)))))
 
 (use-package embark
   :custom
