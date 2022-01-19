@@ -247,8 +247,7 @@
 (use-package all-the-icons
   :config
   (unless (member "all-the-icons" (font-family-list))
-    (all-the-icons-install-fonts)
-    (fira-code-mode-install-fonts)))
+    (all-the-icons-install-fonts)))
 
 (use-package dirvish
   :bind
