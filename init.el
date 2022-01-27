@@ -285,7 +285,6 @@
   (shell-command-prompt-show-cwd t)
   (what-cursor-show-names t)
   :bind
-  ("s-k" . kill-whole-line)
   ("M-`" . list-processes)
   ("s-P" . execute-extended-command)
   ("s-z" . undo-only)
@@ -311,12 +310,6 @@
          (indent-region (region-beginning) (region-end) nil)))
   (defun pop-to-process-list-buffer ()
     (pop-to-buffer "*Process List*"))
-  (defun kill-or-join-line (f &rest args)
-    (if (not (eolp))
-        (apply f args)
-      (delete-indentation 1)
-      (when (and (eolp) (not (eq (point) (point-max))))
-        (kill-or-join-line f args))))
   (defun move-beginning-of-line-or-indentation (f &rest args)
     (let ((orig-point (point)))
       (back-to-indentation)
@@ -326,11 +319,15 @@
   (advice-add 'yank :after #'maybe-indent-afterwards)
   (advice-add 'yank-pop :after #'maybe-indent-afterwards)
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
-  (advice-add 'backward-kill-word :around #'delete-region-instead-of-kill-region)
-  (advice-add 'kill-line :around #'kill-or-join-line)
-  (advice-add 'kill-visual-line :around #'kill-or-join-line)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
+
+(use-package puni
+  :hook
+  (after-init . puni-global-mode)
+  (vterm-mode . puni-disable-puni-mode)
+  :bind
+  ("C-," . puni-expand-region))
 
 (use-feature autoinsert
   :init
@@ -350,23 +347,6 @@
   (electric-quote-context-sensitive t)
   :hook
   (writing-modes . electric-quote-local-mode))
-
-(use-feature subword
-  :init
-  (global-subword-mode))
-
-(use-package expand-region
-  :custom
-  (expand-region-fast-keys-enabled nil)
-  :bind*
-  ("C-," . er/expand-region))
-
-(use-package change-inner
-  :bind
-  ("M-i" . change-inner)
-  ("M-o" . change-outer)
-  :config
-  (advice-add 'change-inner* :around #'delete-region-instead-of-kill-region))
 
 (use-package avy
   :custom
@@ -408,11 +388,6 @@
   (def eol-then-smart-newline
     (move-end-of-line nil)
     (smart-newline)))
-
-(use-package easy-kill
-  :bind
-  ([remap kill-ring-save] . easy-kill)
-  ([remap mark-sexp]      . easy-mark))
 
 (use-package shift-number
   :bind

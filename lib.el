@@ -94,10 +94,6 @@
   (insert "||")
   (backward-char))
 
-(defun delete-region-instead-of-kill-region (f &rest args)
-  (cl-letf (((symbol-function 'kill-region) #'delete-region))
-    (apply f args)))
-
 (defun inhibit-message-in-minibuffer (f &rest args)
   (let ((inhibit-message (minibufferp)))
     (apply f args)))
