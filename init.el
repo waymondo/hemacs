@@ -506,6 +506,8 @@
   (marginalia-mode))
 
 (use-package consult
+  :commands
+  (consult--crm-selected)
   :bind
   ([remap goto-line] . consult-goto-line)
   ([remap yank-pop] . consult-yank-pop)
@@ -513,7 +515,9 @@
   ("C-c C-t" . consult-theme)
   :chords
   (";s" . consult-buffer)
-  (";r" . consult-imenu-multi)
+  (":G" . consult-ripgrep)
+  (";r" . consult-imenu)
+  (":R" . consult-imenu-multi)
   :custom
   (consult-project-root-function #'consult-project-current)
   (consult-preview-key (kbd "M-."))
