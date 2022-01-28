@@ -477,7 +477,8 @@
 
 (use-package corfu
   :hook
-  (after-init . corfu-global-mode))
+  (after-init . corfu-global-mode)
+  (minibuffer-setup . corfu-mode))
 
 (use-package corfu-doc
   :after corfu
