@@ -329,6 +329,10 @@
   :bind
   ("C-," . puni-expand-region))
 
+(use-feature subword
+  :hook
+  (after-init . global-subword-mode))
+
 (use-feature autoinsert
   :init
   (auto-insert-mode))
