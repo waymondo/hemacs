@@ -1134,16 +1134,6 @@
 
 (use-package git-modes)
 
-(use-package dash-at-point
-  :straight
-  (:host github :repo "waymondo/dash-at-point")
-  :ensure-system-package
-  ("/Applications/Dash.app" . "brew cask install dash")
-  :bind
-  (:map hemacs-help-map
-        ("d" . dash-at-point)
-        ("D" . dash-at-point-with-docset)))
-
 (use-package flycheck
   :custom
   (flycheck-display-errors-delay most-positive-fixnum)
