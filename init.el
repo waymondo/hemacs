@@ -703,6 +703,7 @@
       (add-to-list 'imenu-generic-expression pattern))))
 
 (use-feature project
+  :demand t
   :bind-keymap
   ("s-p" . project-prefix-map)
   :bind
@@ -1328,6 +1329,29 @@
   :hook
   (prog-mode . symbol-overlay-mode))
 
+(use-feature tab-bar
+  :custom
+  (tab-bar-format '(tab-bar-format-tabs tab-bar-separator))
+  (tab-bar-close-button-show nil)
+  (tab-bar-show 1)
+  (tab-bar-tab-name-function #'tab-bar-tab-project-name-current)
+  :bind-keymap
+  ("s-t" . tab-prefix-map)
+  :bind
+  ("s-{" . tab-bar-switch-to-prev-tab)
+  ("s-}" . tab-bar-switch-to-next-tab)
+  :hook
+  (after-init . tab-bar-mode)
+  :init
+  (defun tab-bar-tab-project-name-current ()
+    (if-let (project (project--find-in-directory (buffer-file-name (window-buffer (minibuffer-selected-window)))))
+        (file-name-nondirectory (directory-file-name (car (project-roots project))))
+      (tab-bar-tab-name-truncated)))
+  (after embark
+    (keymap-set embark-buffer-map "t" #'switch-to-buffer-other-tab)
+    (keymap-set embark-file-map "t" #'find-file-other-tab))
+  (tab-bar-mode))
+
 (use-package highlight-indentation
   :hook
   (indent-sensitive-modes . highlight-indentation-current-column-mode))
@@ -1357,7 +1381,7 @@
 
 (use-package hide-mode-line
   :hook
-  ((dired-mode magit-mode magit-popup-mode org-capture-mode) . hide-mode-line-mode))
+  ((dired-mode magit-mode magit-popup-mode org-capture-mode tab-switcher-mode) . hide-mode-line-mode))
 
 (use-feature paren
   :custom
