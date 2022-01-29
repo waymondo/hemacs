@@ -1177,6 +1177,7 @@
   (frog-jump-buffer-posframe-handler #'posframe-poshandler-frame-center)
   (frog-jump-buffer-default-filters-capital-letters t)
   (frog-jump-buffer-filter-actions '(("X" "[special]" frog-jump-buffer-filter-special-buffers)))
+  (frog-jump-buffer-project-package 'project)
   :config
   (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
                     "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$"
