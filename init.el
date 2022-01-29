@@ -198,7 +198,12 @@
   (large-file-warning-threshold 50000000)
   :chords
   (";f" . find-file)
+  :bind
+  ("s-," . find-user-init-file)
   :config
+  (defun find-user-init-file ()
+    (interactive)
+    (find-file user-init-file))
   (defun hemacs-save-hook ()
     (unless (member major-mode '(markdown-mode gfm-mode sql-mode csv-mode))
       (delete-trailing-whitespace))
@@ -408,7 +413,6 @@
 
 (use-package crux
   :bind
-  ("s-," . crux-find-user-init-file)
   ("s-D" . crux-duplicate-current-line-or-region)
   ("s-W" . crux-delete-file-and-buffer)
   ("s-S" . crux-rename-file-and-buffer)
