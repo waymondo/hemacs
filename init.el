@@ -1337,22 +1337,37 @@
   (tab-bar-close-button-show nil)
   (tab-bar-show 1)
   (tab-bar-tab-name-function #'tab-bar-tab-project-name-current)
+  (tab-bar-tab-post-open-functions '(tab-bar-set-project-group-name))
   :bind-keymap
   ("s-t" . tab-prefix-map)
-  :bind
-  ("s-{" . tab-bar-switch-to-prev-tab)
-  ("s-}" . tab-bar-switch-to-next-tab)
   :hook
   (after-init . tab-bar-mode)
   :init
+  (defun tab-bar-project-name (project-path)
+    (file-name-nondirectory (directory-file-name project-path)))
+  (defun tab-bar-set-project-group-name (&optional tab)
+    (when-let (project (project-current))
+      (tab-bar-change-tab-group (tab-bar-project-name (car (project-roots project))))))
+  (defun project-pop-to-buffer-advice (f &rest args)
+    (let ((project (project-current))
+          (buffer-project (project-current nil (buffer-file-name (window-normalize-buffer-to-switch-to (nth 0 args))))))
+      (when (and tab-bar-mode (not (equal project buffer-project)))
+        (let* ((tab-bar-project-name (tab-bar-project-name (cdr buffer-project)))
+               (tab (seq-find
+                     (lambda (tab) (equal tab-bar-project-name (alist-get 'group tab)))
+                     (funcall tab-bar-tabs-function))))
+          (if tab
+              (tab-bar-switch-to-tab (alist-get 'group tab))
+            (tab-bar-new-tab)
+            (tab-bar-change-tab-group tab-bar-project-name))))
+      (apply f args)
+      (run-hooks 'tab-bar-tab-post-open-functions)))
+  (advice-add 'pop-to-buffer :around #'project-pop-to-buffer-advice)
   (defun tab-bar-tab-project-name-current ()
-    (if-let (project (project--find-in-directory (buffer-file-name (window-buffer (minibuffer-selected-window)))))
-        (file-name-nondirectory (directory-file-name (car (project-roots project))))
-      (tab-bar-tab-name-truncated)))
-  (after embark
-    (keymap-set embark-buffer-map "t" #'switch-to-buffer-other-tab)
-    (keymap-set embark-file-map "t" #'find-file-other-tab))
-  (tab-bar-mode))
+    (let* ((tabs (frame-parameter nil 'tabs))
+           (current-tab (tab-bar--current-tab-find tabs)))
+      (or (alist-get 'group current-tab)
+          (tab-bar-tab-name-truncated)))))
 
 (use-package highlight-indentation
   :hook
