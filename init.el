@@ -471,6 +471,8 @@
 (use-package vertico
   :preface
   (load (concat straight-base-dir "straight/repos/vertico/extensions/vertico-quick.el"))
+  :custom
+  (vertico-count 20)
   :config
   (vertico-mode)
   (def vertico-quick-insert-and-return
