@@ -1169,8 +1169,14 @@
   (transient-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
   (transient-posframe-min-height 1)
   (transient-posframe-min-width 1)
-  :init
-  (transient-posframe-mode))
+  :hook
+  (after-init . transient-posframe-mode))
+
+(use-package which-key-posframe
+  :custom
+  (which-key-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
+  :hook
+  (after-init . which-key-posframe-mode))
 
 (use-package frog-menu
   :custom
