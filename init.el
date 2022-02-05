@@ -1462,6 +1462,7 @@
      rg-mode
      vc-annotate-mode
      rspec-compilation-mode
+     xref--xref-buffer-mode
      minitest-compilation-mode
      inf-ruby-mode
      nodejs-repl-mode
