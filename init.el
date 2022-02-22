@@ -7,6 +7,7 @@
 (defconst indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst default-font-size 15)
+(defconst default-indent-width 2)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-help-map)
 (bind-key "s-g" #'hemacs-git-map)
@@ -16,7 +17,7 @@
 
 (use-feature emacs
   :custom
-  (history-length 128)
+  (history-length 64)
   (history-delete-duplicates t)
   (maximum-scroll-margin 0.5)
   (scroll-margin 50)
@@ -34,10 +35,8 @@
   (custom-file (make-temp-file "emacs-custom"))
   (initial-scratch-message nil)
   (inhibit-startup-echo-area-message "")
-  (standard-indent 2)
   (enable-recursive-minibuffers t)
   (kill-buffer-query-functions nil)
-  (ns-pop-up-frames nil)
   (frame-inhibit-implied-resize t)
   (fast-but-imprecise-scrolling t)
   (redisplay-skip-fontification-on-input t)
@@ -45,18 +44,15 @@
   (read-process-output-max (* 1024 1024))
   (use-short-answers t)
   (x-underline-at-descent-line t)
-  (tab-always-indent 'complete)
   :config
-  (setq-default indent-tabs-mode nil
-                line-spacing 2
-                tab-width 2
-                c-basic-offset 2
+  (setq-default line-spacing default-indent-width
+                tab-width default-indent-width
+                c-basic-offset default-indent-width
                 cursor-type 'bar
                 cursor-in-non-selected-windows nil
                 bidi-display-reordering 'left-to-right
                 fill-column 100
                 truncate-lines t)
-  (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
   (add-hook 'minibuffer-setup-hook #'defer-garbage-collection)
   (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
   (add-hook 'emacs-startup-hook #'restore-garbage-collection 100)
@@ -263,6 +259,11 @@
 
 ;;;;; Editing
 
+(use-feature indent
+  :custom
+  (standard-indent default-indent-width)
+  (tab-always-indent 'complete))
+
 (use-feature newcomment
   :bind
   ("s-." . insert-todo-comment)
@@ -302,7 +303,9 @@
   :hook
   (writing-modes . auto-fill-mode)
   :config
+  (indent-tabs-mode -1)
   (column-number-mode)
+  (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
   (defun pop-to-mark-command-until-new-point (f &rest args)
     (let ((p (point)))
       (dotimes (_i 10)
@@ -1458,6 +1461,7 @@
 
 (use-feature ns-win
   :custom
+  (ns-pop-up-frames nil)
   (mac-right-option-modifier 'none))
 
 (use-feature ffap
