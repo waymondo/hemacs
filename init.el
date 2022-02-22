@@ -1483,6 +1483,7 @@
 (use-package dimmer
   :custom
   (dimmer-fraction 0.25)
+  (dimmer-watch-frame-focus-events nil)
   :init
   (dimmer-mode)
   (add-to-list 'dimmer-exclusion-regexp-list " *frog-menu-menu*")
