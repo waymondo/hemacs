@@ -47,6 +47,7 @@
   :config
   (setq-default line-spacing default-indent-width
                 tab-width default-indent-width
+								indent-tabs-mode nil
                 c-basic-offset default-indent-width
                 cursor-type 'bar
                 cursor-in-non-selected-windows nil
@@ -303,7 +304,6 @@
   :hook
   (writing-modes . auto-fill-mode)
   :config
-  (indent-tabs-mode -1)
   (column-number-mode)
   (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
   (defun pop-to-mark-command-until-new-point (f &rest args)
