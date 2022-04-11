@@ -1272,13 +1272,11 @@
   (global-fira-code-mode)
   (set-face-attribute 'default nil :height (* default-font-size 10)))
 
-(use-package showtip
-  :after
-  flycheck
+(use-package pos-tip
+  :after flycheck
   :commands
   (flycheck-display-error-messages-tooltip)
   :custom
-  (showtip-top-adjust (* default-font-size -1))
   (flycheck-display-errors-function #'flycheck-display-error-messages-tooltip)
   :config
   (let ((inhibit-message t))
@@ -1288,7 +1286,7 @@
   (defun flycheck-display-error-messages-tooltip (errors)
     (when errors
       (let ((message (flycheck-help-echo-all-error-messages errors)))
-        (showtip message)))))
+        (pos-tip-show message)))))
 
 (use-feature frame
   :custom
