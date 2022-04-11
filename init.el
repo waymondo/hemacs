@@ -64,6 +64,11 @@
   :custom
   (dash-enable-fontlock t))
 
+(use-package keymap
+  :config
+  (--each '("s-q" "s-t" "s-o" "s-n")
+    (keymap-global-unset it)))
+
 (use-package transform-string-at-point
   :straight
   (:host github :repo "waymondo/transform-string-at-point")
