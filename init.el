@@ -65,9 +65,9 @@
   (dash-enable-fontlock t))
 
 (use-package keymap
-  :config
-  (--each '("s-q" "s-t" "s-o" "s-n")
-    (keymap-global-unset it)))
+  :init
+  (dolist (key-binding '("s-q" "s-t" "s-o" "s-n"))
+    (keymap-global-unset key-binding)))
 
 (use-package transform-string-at-point
   :straight
