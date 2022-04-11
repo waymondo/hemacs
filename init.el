@@ -496,8 +496,6 @@
 
 (use-package corfu-doc
   :after corfu
-  :straight
-  (:host github :repo "galeo/corfu-doc")
   :bind
   (:map corfu-map
         ("M-p" . corfu-doc-scroll-down)
