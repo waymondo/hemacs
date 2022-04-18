@@ -202,6 +202,7 @@
   (";f" . find-file)
   :bind
   ("s-," . find-user-init-file)
+  ([remap save-buffers-kill-terminal] . restart-emacs)
   :config
   (defun find-user-init-file ()
     (interactive)
@@ -760,10 +761,6 @@
 ;;;;; External Utilities
 
 (use-package emacs-everywhere)
-
-(use-package restart-emacs
-  :bind
-  ([remap save-buffers-kill-terminal] . restart-emacs))
 
 ;;;;; Major Modes
 
