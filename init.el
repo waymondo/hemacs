@@ -1256,9 +1256,8 @@
 ;;;;; Appearance
 
 (use-package tree-sitter
-  :config
-  (global-tree-sitter-mode)
   :hook
+  (after-init . global-tree-sitter-mode)
   (tree-sitter-after-on . tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs)
