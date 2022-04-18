@@ -1210,6 +1210,13 @@
     (with-current-buffer buffer
       (-any? #'derived-mode-p '(comint-mode vterm-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
 
+(use-package vertico-posframe
+  :custom
+  (vertico-posframe-width 109)
+  (vertico-posframe-border-width 12)
+  :hook
+  (after-init . vertico-posframe-mode))
+
 ;;;;; Language Server
 
 (use-package lsp-mode
