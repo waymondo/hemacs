@@ -649,8 +649,6 @@
                         hippie-expand-try-functions-list))))
 
 (use-package yasnippet
-  :custom
-  (yas-wrap-around-region t)
   :config
   (yas-global-mode))
 
@@ -658,6 +656,8 @@
   :init
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions (cons #'tempel-expand completion-at-point-functions)))
+  (after lsp-mode
+    (add-hook 'lsp-completion-mode-hook #'tempel-setup-capf))
   :hook
   ((prog-mode text-mode) . tempel-setup-capf))
 

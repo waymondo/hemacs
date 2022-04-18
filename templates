@@ -20,7 +20,7 @@ js-mode typescript-mode
 ruby-mode
 
 (def "def " p n> p n "end")
-(fsl "# frozen_string_literal: true" n n)
+(fsl "# frozen_string_literal: true" n)
 (init "def initialize " p n> p n "end")
 (p "puts #############" n> "pp " p n> "puts #############")
 (here (p "name: " name t) > "<<~" (upcase name) n> p n> (upcase name) n>)
