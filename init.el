@@ -1381,12 +1381,6 @@
   (fringe-indicator-alist
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
 
-(use-package solaire-mode
-  :config
-  (advice-remove 'transient--insert-groups #'solaire-mode--enable-if-global)
-  :init
-  (solaire-global-mode))
-
 (use-package apropospriate-theme
   :custom
   (apropospriate-org-level-resizing nil)
