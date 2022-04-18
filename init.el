@@ -651,15 +651,15 @@
 (use-package yasnippet
   :custom
   (yas-wrap-around-region t)
-  :mode
-  ("\\.yasnippet\\'" . snippet-mode)
   :config
-  (defun yas-indent-unless-case-sensitive (f &rest args)
-    (let ((yas-indent-line (if (member major-mode indent-sensitive-modes) nil 'auto)))
-      (apply f args)))
-  (delete 'yas-installed-snippets-dir yas-snippet-dirs)
-  (advice-add 'yas--indent :around #'yas-indent-unless-case-sensitive)
   (yas-global-mode))
+
+(use-package tempel
+  :init
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions (cons #'tempel-expand completion-at-point-functions)))
+  :hook
+  ((prog-mode text-mode) . tempel-setup-capf))
 
 (use-package bash-completion
   :init
@@ -775,14 +775,11 @@
   :bind
   (:map org-mode-map
         ("," . self-with-space)
-        ("C-c C-." . org-todo)
-        ("C-c t" . insert-date))
+        ("C-c C-." . org-todo))
   :custom
   (org-support-shift-select t)
   (org-startup-indented t)
   :config
-  (def insert-date
-    (insert (format-time-string "%m/%d/%Y")))
   (advice-add 'org-switch-to-buffer-other-window :override #'switch-to-buffer-other-window))
 
 (use-package org-autolist
@@ -897,26 +894,6 @@
   (js-indent-level 2))
 
 (use-package graphql-mode)
-
-(use-package coffee-mode
-  :ensure-system-package
-  (coffee . "npm i -g coffeescript")
-  :mode "\\.coffee\\.*"
-  :bind
-  (:map coffee-mode-map
-        (","          . self-with-space)
-        ("="          . pad-equals)
-        ("C-c C-c"    . coffee-compile-region))
-  :custom
-  (coffee-args-repl '("-i" "--nodejs"))
-  :config
-  (defun coffee-indent ()
-    (if (coffee-line-wants-indent)
-        (coffee-insert-spaces (+ (coffee-previous-indent) coffee-tab-width))
-      (coffee-insert-spaces (coffee-previous-indent))))
-  (add-λ 'coffee-mode-hook
-    (setq-local indent-line-function #'coffee-indent))
-  (add-to-list 'coffee-args-compile "--no-header"))
 
 (use-package dotenv-mode
   :mode "\\.env\\..*\\'")

@@ -1,0 +1,31 @@
+fundamental-mode
+
+(today (format-time-string "%Y-%m-%d"))
+
+emacs-lisp-mode
+
+(la "(lambda (" p ")" n> r> ")")
+(let "(let (" p ")" n> r> ")")
+(star "(let* (" p ")" n> r> ")")
+
+js-mode typescript-mode
+
+(f "function(" p ") {" n> p n "}" >)
+(gen "function*(" p ") {" n> p n "}" >)
+(if "if (" p ") {" n> p n "}" >)
+(map "map(" p " => ) {" n> p n "}" >)
+(fore "map(" p " => ) {" n> p n "}" >)
+(log "console.log(" p ")")
+
+ruby-mode
+
+(def "def " p n> p n "end")
+(fsl "# frozen_string_literal: true" n n)
+(init "def initialize " p n> p n "end")
+(p "puts #############" n> "pp " p n> "puts #############")
+(here (p "name: " name t) > "<<~" (upcase name) n> p n> (upcase name) n>)
+
+;; Local Variables:
+;; mode: lisp-data
+;; outline-regexp: "[a-z]"
+;; End:
