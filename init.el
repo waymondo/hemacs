@@ -52,6 +52,7 @@
                 cursor-type 'bar
                 cursor-in-non-selected-windows nil
                 bidi-display-reordering 'left-to-right
+                sentence-end-double-space nil
                 fill-column 100
                 truncate-lines t)
   (add-hook 'minibuffer-setup-hook #'defer-garbage-collection)

@@ -27,8 +27,8 @@
 (setq use-package-always-defer t)
 (setq straight-vc-git-default-protocol 'ssh)
 (setq package-enable-at-startup nil)
-(setq package--init-file-ensured t)
 (setq inhibit-startup-screen t)
+(setq site-run-file nil)
 (setq-default inhibit-redisplay t)
 (setq-default inhibit-message t)
 
