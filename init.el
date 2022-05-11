@@ -4,7 +4,7 @@
 
 ;;;;; Personal Variables & Key Maps
 
-(defconst indent-sensitive-modes '(coffee-mode slim-mode yaml-mode))
+(defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-mode))
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst default-font-size 15)
 (defconst default-indent-width 2)
@@ -1027,6 +1027,8 @@
   (:map projectile-rails-mode-map ("C-c r" . projectile-rails-command-map))
   :init
   (projectile-rails-global-mode))
+
+(use-package haml-mode)
 
 (use-package ruby-hash-syntax
   :after ruby-mode
