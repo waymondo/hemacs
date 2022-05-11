@@ -930,10 +930,6 @@
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
 
-(use-package mmm-mode
-  :custom
-  (mmm-submode-decoration-level 0))
-
 (use-package format-all
   :ensure-system-package
   (prettier . "npm i -g prettier")
