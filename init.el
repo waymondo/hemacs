@@ -1245,6 +1245,9 @@
   (:map lsp-command-map ("hd" . lsp-ui-doc-show)))
 
 (use-package lsp-tailwindcss
+  :init
+  (after lsp-mode
+    (setq lsp-client-settings (--filter (not (eq (first it) "tailwindCSS.experimental.classRegex")) lsp-client-settings)))
   :custom
   (lsp-tailwindcss-add-on-mode t)
   (lsp-tailwindcss-emmet-completions t))
