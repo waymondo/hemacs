@@ -1276,6 +1276,8 @@
   (flycheck-display-error-messages-tooltip)
   :custom
   (flycheck-display-errors-function #'flycheck-display-error-messages-tooltip)
+  :hook
+  (focus-out . pos-tip-hide)
   :config
   (let ((inhibit-message t))
     (shell-command
