@@ -14,7 +14,7 @@ js-mode typescript-mode
 (gen "function*(" p ") {" n> p n "}" >)
 (if "if (" p ") {" n> p n "}" >)
 (map "map(" p " => ) {" n> p n "}" >)
-(fore "map(" p " => ) {" n> p n "}" >)
+(fore "forEach(" p " => ) {" n> p n "}" >)
 (log "console.log(" p ")")
 
 ruby-mode
@@ -22,7 +22,7 @@ ruby-mode
 (def "def " p n> p n "end")
 (fsl "# frozen_string_literal: true" n)
 (init "def initialize " p n> p n "end")
-(p "puts #############" n> "pp " p n> "puts #############")
+(p "puts \"#############\"" n> "pp " p n> "puts \"#############\"")
 (here (p "name: " name t) > "<<~" (upcase name) n> p n> (upcase name) n>)
 
 ;; Local Variables:
