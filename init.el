@@ -514,7 +514,7 @@
 
 (use-package corfu
   :hook
-  (after-init . corfu-global-mode)
+  (after-init . global-corfu-mode)
   (minibuffer-setup . corfu-mode))
 
 (use-package corfu-doc
@@ -572,7 +572,7 @@
   :chords
   (";g" . affe-grep)
   :init
-  (defun affe-orderless-regexp-compiler (input _type)
+  (defun affe-orderless-regexp-compiler (input _type _ignorecase)
     (setq input (orderless-pattern-compiler input))
     (cons input (lambda (str) (orderless--highlight input str)))))
 
