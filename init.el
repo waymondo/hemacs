@@ -832,6 +832,7 @@
   ("\\.hbs\\'"        . web-mode)
   ("\\.handlebars\\'" . web-mode)
   ("\\.tsx\\'"        . web-mode)
+  ("\\.ecr\\'"        . web-mode)
   :bind
   (:map web-mode-map
         ("," . self-with-space)
@@ -1025,6 +1026,10 @@
   (projectile-rails-global-mode))
 
 (use-package haml-mode)
+
+(use-package sass-mode)
+
+(use-package crystal-mode)
 
 (use-package ruby-hash-syntax
   :after ruby-mode
@@ -1264,10 +1269,11 @@
 (use-package fira-code-mode
   :custom
   (fira-code-mode-enable-hex-literal nil)
+  :hook
+  (prog-mode . fira-code-mode)
   :init
   (unless (member "Fira Code Symbol" (font-family-list))
     (fira-code-mode-install-fonts))
-  (global-fira-code-mode)
   (set-face-attribute 'default nil :height (* default-font-size 10)))
 
 (use-package pos-tip
