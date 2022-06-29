@@ -344,6 +344,8 @@
   :bind
   ("C-," . puni-expand-region)
   ("M-i" . puni-change-inner)
+  :custom
+  (puni-confirm-when-delete-unbalanced-active-region nil)
   :config
   (defun puni-change-inner (_)
     (interactive "P")
