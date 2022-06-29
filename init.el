@@ -1217,7 +1217,7 @@
 
 (use-package lsp-mode
   :hook
-  ((typescript-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode ruby-mode) . lsp-deferred)
+  ((typescript-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode ruby-mode crystal-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   :custom
   (lsp-signature-function #'lsp-signature-posframe)
