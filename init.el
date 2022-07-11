@@ -261,9 +261,9 @@
   :bind
   ("C-c o t" . terminal-here))
 
-(use-package reveal-in-osx-finder
+(use-package reveal-in-folder
   :bind
-  ("C-c o f" . reveal-in-osx-finder))
+  ("C-c o f" . reveal-in-folder))
 
 ;;;;; Editing
 
