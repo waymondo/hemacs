@@ -1380,8 +1380,8 @@
 
 (use-package moody
   :init
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
+  (moody-replace-mode-line-front-space)
+  (moody-replace-mode-line-buffer-identification))
 
 (use-package minions
   :init
