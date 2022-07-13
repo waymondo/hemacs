@@ -241,7 +241,8 @@
 
 (use-feature dired
   :custom
-  (dired-use-ls-dired nil))
+  (dired-use-ls-dired nil)
+  (dired-recursive-deletes 'always))
 
 (use-package all-the-icons
   :config
@@ -249,13 +250,19 @@
     (all-the-icons-install-fonts)))
 
 (use-package dirvish
+  :preface
+  (load (concat straight-base-dir "straight/repos/dirvish/extensions/dirvish-subtree.el"))
+  (load (concat straight-base-dir "straight/repos/dirvish/extensions/dirvish-side.el"))
   :bind
-  ("s-\\" . dirvish)
+  ("s-\\" . dirvish-side)
+  (:map dired-mode-map
+        ([remap dired-summary] . dirvish-dispatch)
+        ("TAB" . dirvish-subtree-toggle))
   :hook
   (after-init . dirvish-override-dired-mode)
   :custom
-  (dirvish-header-style 'normal)
-  (dirvish-body-fontsize-increment 0))
+  (dirvish-mode-line-position 'disable)
+  (dirvish-side-attributes '(subtree-state all-the-icons collapse file-size)))
 
 (use-package terminal-here
   :bind
