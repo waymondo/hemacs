@@ -960,7 +960,7 @@
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-feature ruby-mode
-  :mode ("Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
+  :mode ("Steepfile$" "Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
   :bind
   (:map ruby-mode-map
         (","          . self-with-space)
@@ -1027,6 +1027,8 @@
     (turn-on-comint-history ".pry_history"))
   (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
   (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
+
+(use-package rbs-mode)
 
 (use-package projectile-rails
   :bind
