@@ -32,8 +32,7 @@
 (setq-default inhibit-redisplay t)
 (setq-default inhibit-message t)
 
-(straight-use-package
- '(use-package :type git :host github :repo "waymondo/use-package" :branch "personal"))
+(straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
 (use-package no-littering :demand t)
