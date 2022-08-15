@@ -940,10 +940,7 @@
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
 
-(use-package format-all
-  :ensure-system-package
-  (prettier . "npm i -g prettier")
-  (rufo . "gem install rufo"))
+(use-package format-all)
 
 (use-package slim-mode
   :bind
