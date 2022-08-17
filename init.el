@@ -642,7 +642,6 @@
      try-expand-dabbrev-other-buffers))
   :bind
   ([remap dabbrev-expand] . hippie-expand)
-  :bind*
   ("M-'" . hippie-expand-line)
   :hook
   ((emacs-lisp-mode ielm-mode) . hippie-expand-allow-lisp-symbols)
@@ -1227,6 +1226,7 @@
   (lsp-mode . lsp-enable-which-key-integration)
   :custom
   (lsp-signature-function #'lsp-signature-posframe)
+  (lsp-warn-no-matched-clients nil)
   (lsp-eldoc-enable-hover nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-completion-provider :none)
@@ -1239,9 +1239,7 @@
       (error
        (call-interactively 'format-all-buffer))))
   (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all)
-  (push '(".*\\.html\\.erb$" . "html") lsp-language-id-configuration)
-  (push '(".*\\.hbs$" . "html") lsp-language-id-configuration)
-  :bind*
+  :bind
   ("C-M-\\" . lsp-format-buffer))
 
 (use-package lsp-ui
