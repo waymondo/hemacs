@@ -939,7 +939,9 @@
 (use-package ember-mode
   :ensure-system-package (ember . "npm i -g ember-cli"))
 
-(use-package format-all)
+(use-package format-all
+  :bind
+  ("C-M-\\" . format-all-buffer))
 
 (use-package slim-mode
   :bind
@@ -1226,21 +1228,13 @@
   (lsp-mode . lsp-enable-which-key-integration)
   :custom
   (lsp-signature-function #'lsp-signature-posframe)
-  (lsp-warn-no-matched-clients nil)
   (lsp-eldoc-enable-hover nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-completion-provider :none)
   :config
   (dolist (pattern '("[/\\\\]storage\\'" "[/\\\\]tmp\\'" "[/\\\\]log\\'" "[/\\\\]\\.log\\'"))
     (add-to-list 'lsp-file-watch-ignored-directories pattern))
-  (defun lsp-format-buffer-maybe-call-format-all (f &rest args)
-    (condition-case err
-        (apply f args)
-      (error
-       (call-interactively 'format-all-buffer))))
-  (advice-add 'lsp-format-buffer :around #'lsp-format-buffer-maybe-call-format-all)
-  :bind
-  ("C-M-\\" . lsp-format-buffer))
+  (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
 
 (use-package lsp-ui
   :custom
@@ -1256,9 +1250,6 @@
   (:map lsp-command-map ("hd" . lsp-ui-doc-show)))
 
 (use-package lsp-tailwindcss
-  :init
-  (after lsp-mode
-    (setq lsp-client-settings (--filter (not (eq (first it) "tailwindCSS.experimental.classRegex")) lsp-client-settings)))
   :custom
   (lsp-tailwindcss-add-on-mode t)
   (lsp-tailwindcss-emmet-completions t))
