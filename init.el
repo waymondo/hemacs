@@ -158,6 +158,10 @@
 
 (use-package vterm
   :ensure-system-package cmake
+  :custom
+  (vterm-always-compile-module t)
+  :bind
+  ("s-k" . vterm-clear)
   :hook
   (vterm-mode . text-smaller-no-truncation))
 
@@ -751,7 +755,7 @@
   :bind-keymap
   ("s-p" . project-prefix-map)
   :bind
-  ("C-x m" . project-shell)
+  ("C-x m" . project-vterm)
   (:map project-prefix-map
         ("m" . magit-status)
         ("t" . project-vterm))
@@ -771,7 +775,7 @@
 
 (use-package projector
   :bind
-  ("C-x RET"        . projector-run-shell-command-project-root)
+  ("C-x RET" . projector-run-shell-command-project-root)
   (:map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   (:map project-prefix-map ("RET" . projector-run-shell-command-project-root))
   :custom
