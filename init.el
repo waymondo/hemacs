@@ -1022,13 +1022,10 @@
     (minitest-install-snippets)))
 
 (use-package inf-ruby
-  :config
-  (add-hook 'compilation-filter-hook #'inf-ruby-auto-enter t)
-  (add-hook 'after-init-hook #'inf-ruby-switch-setup)
-  (add-λ 'inf-ruby-mode-hook
-    (turn-on-comint-history ".pry_history"))
-  (bind-key "M-TAB" #'comint-previous-matching-input-from-input inf-ruby-mode-map)
-  (bind-key "<M-S-tab>" #'comint-next-matching-input-from-input inf-ruby-mode-map))
+  :hook
+  (ruby-mode . inf-ruby-minor-mode)
+  (compilation-filter . inf-ruby-auto-enter)
+  (after-init . inf-ruby-switch-setup))
 
 (use-package rbs-mode)
 
