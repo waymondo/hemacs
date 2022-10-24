@@ -7,6 +7,6 @@ templates, and hacking on this Elisp dump.
 ```
 $ # assumes homebrew is installed
 $ brew tap d12frosted/emacs-plus
-$ brew install emacs-plus@29 --with-xwidgets --with-native-comp
+$ brew install emacs-plus@29 --with-native-comp
 $ git clone git@github.com:waymondo/hemacs.git "$HOME/.emacs.d"
 ```
