@@ -679,10 +679,8 @@
   :init
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions (cons #'tempel-expand completion-at-point-functions)))
-  (after lsp-mode
-    (add-hook 'lsp-completion-mode-hook #'tempel-setup-capf))
   :hook
-  ((prog-mode text-mode) . tempel-setup-capf))
+  ((prog-mode text-mode eglot-managed-mode) . tempel-setup-capf))
 
 (use-package bash-completion
   :init
@@ -1136,6 +1134,10 @@
 
 ;;;;; Help & Docs
 
+(use-feature eldoc
+  :hook
+  (after-init . global-eldoc-mode))
+
 (use-package define-word
   :bind
   (:map hemacs-help-map ("w" . define-word-at-point)))
@@ -1150,11 +1152,19 @@
 
 (use-package git-modes)
 
-(use-package flycheck
-  :custom
-  (flycheck-display-errors-delay most-positive-fixnum)
+(use-feature flymake
   :bind
-  ("s-?" . flycheck-display-error-at-point))
+  ("s-?" . flymake-tooltip-diagnostic-at-point)
+  :config
+  (def flymake-tooltip-diagnostic-at-point
+    (let ((diagnostic (get-char-property (point) 'flymake-diagnostic)))
+      (when diagnostic
+        (let* ((p (point-position-relative-to-native-frame))
+               (x (car p))
+               (y (cdr p))
+               (tooltip-frame-parameters `((left . ,x) (top . ,y)))
+               (text (flymake-diagnostic-text diagnostic)))
+          (tooltip-show text))))))
 
 (use-package list-environment
   :bind
@@ -1199,9 +1209,10 @@
   (frog-jump-buffer-filter-actions '(("X" "[special]" frog-jump-buffer-filter-special-buffers)))
   (frog-jump-buffer-project-package 'project)
   :config
-  (dolist (regexp '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log"
-                    "-debug\\*$" "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$"
-                    "stderr\\*$" "^\\*Flymake" "^\\*direnv" "^\\*vc" "^\\*Warnings" "^\\*eldoc" "\\^*Shell Command"))
+  (dolist (regexp
+           '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log" "-debug\\*$"
+             "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$" "stderr\\*$" "EGLOT"
+             "^\\*Flymake" "^\\*direnv" "^\\*vc" "^\\*Warnings" "^\\*eldoc" "\\^*Shell Command"))
     (push regexp frog-jump-buffer-ignore-buffers))
   (defun frog-jump-buffer-filter-special-buffers (buffer)
     (with-current-buffer buffer
@@ -1216,37 +1227,11 @@
 
 ;;;;; Language Server
 
-(use-package lsp-mode
+(use-feature eglot
   :hook
-  ((typescript-mode sgml-mode web-mode html-mode css-mode less-css-mode scss-mode ruby-mode crystal-mode) . lsp-deferred)
-  (lsp-mode . lsp-enable-which-key-integration)
-  :custom
-  (lsp-signature-function #'lsp-signature-posframe)
-  (lsp-eldoc-enable-hover nil)
-  (lsp-headerline-breadcrumb-enable nil)
-  (lsp-completion-provider :none)
+  ((typescript-mode sgml-mode html-mode css-mode less-css-mode scss-mode ruby-mode crystal-mode) . eglot-ensure)
   :config
-  (dolist (pattern '("[/\\\\]storage\\'" "[/\\\\]tmp\\'" "[/\\\\]log\\'" "[/\\\\]\\.log\\'"))
-    (add-to-list 'lsp-file-watch-ignored-directories pattern))
-  (add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")))
-
-(use-package lsp-ui
-  :custom
-  (lsp-ui-sideline-enable nil)
-  (lsp-ui-doc-show-with-cursor nil)
-  (lsp-ui-doc-show-with-mouse nil)
-  (lsp-ui-doc-position 'at-point)
-  (lsp-ui-doc-include-signature t)
-  (lsp-ui-doc-delay most-positive-fixnum)
-  :config
-  (lsp-ui-doc-mode)
-  :bind
-  (:map lsp-command-map ("hd" . lsp-ui-doc-show)))
-
-(use-package lsp-tailwindcss
-  :custom
-  (lsp-tailwindcss-add-on-mode t)
-  (lsp-tailwindcss-emmet-completions t))
+  (add-to-list 'eglot-ignored-server-capabilites :hoverProvider))
 
 ;;;;; Appearance
 
@@ -1266,24 +1251,6 @@
   (unless (member "Fira Code Symbol" (font-family-list))
     (fira-code-mode-install-fonts))
   (set-face-attribute 'default nil :height (* default-font-size 10)))
-
-(use-package pos-tip
-  :after flycheck
-  :commands
-  (flycheck-display-error-messages-tooltip)
-  :custom
-  (flycheck-display-errors-function #'flycheck-display-error-messages-tooltip)
-  :hook
-  (focus-out . pos-tip-hide)
-  :config
-  (let ((inhibit-message t))
-    (shell-command
-     (concat "defaults write org.gnu.Emacs NSToolTipsFontSize -int "
-             (number-to-string default-font-size))))
-  (defun flycheck-display-error-messages-tooltip (errors)
-    (when errors
-      (let ((message (flycheck-help-echo-all-error-messages errors)))
-        (pos-tip-show message)))))
 
 (use-feature frame
   :custom
@@ -1416,7 +1383,10 @@
      "Output\\*$"
      "*Process List*"
      "*Embark Actions*"
+     "*format-all-errors*"
+     "*eldoc*"
      "COMMIT_EDITMSG"
+     flymake-diagnostics-buffer-mode
      help-mode
      helpful-mode
      embark-collect-mode
