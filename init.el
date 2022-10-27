@@ -1412,18 +1412,6 @@
   (popper-mode)
   (popper-echo-mode))
 
-(use-package dimmer
-  :custom
-  (dimmer-fraction 0.25)
-  (dimmer-watch-frame-focus-events nil)
-  :init
-  (dimmer-mode)
-  (add-to-list 'dimmer-exclusion-regexp-list " *frog-menu-menu*")
-  (dimmer-configure-posframe)
-  (dimmer-configure-magit)
-  (dimmer-configure-which-key)
-  (dimmer-configure-company-box))
-
 ;;;;; Bindings & Chords
 
 (use-feature ns-win
