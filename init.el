@@ -992,6 +992,10 @@
   :demand t
   :after ruby-mode)
 
+(use-package yard-mode
+  :hook
+  (ruby-mode . yard-mode))
+
 (use-package rspec-mode
   :after ruby-mode
   :bind
