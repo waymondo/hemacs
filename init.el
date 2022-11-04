@@ -672,8 +672,8 @@
                         hippie-expand-try-functions-list))))
 
 (use-package yasnippet
-  :config
-  (yas-global-mode))
+  :hook
+  (after-init . yas-global-mode))
 
 (use-package tempel
   :init
