@@ -1032,6 +1032,8 @@
 
 (use-package haml-mode)
 
+(use-package coffee-mode)
+
 (use-package sass-mode)
 
 (use-package crystal-mode)
