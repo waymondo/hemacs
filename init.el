@@ -203,23 +203,31 @@
   :chords
   (";f" . find-file)
   :bind
+  ("s-S" . rename-visited-file)
+  ("s-W" . delete-visited-file)
   ("s-," . find-user-init-file)
   ([remap save-buffers-kill-terminal] . restart-emacs)
   :config
   (defun find-user-init-file ()
     (interactive)
     (find-file user-init-file))
-  (defun hemacs-save-hook ()
-    (unless (member major-mode '(markdown-mode gfm-mode sql-mode csv-mode))
-      (delete-trailing-whitespace))
-    (when (region-active-p)
-      (deactivate-mark t)))
-  (add-hook 'before-save-hook #'hemacs-save-hook)
-  (defun find-file-maybe-make-directories ()
-    (let ((dir (file-name-directory buffer-file-name)))
+  (defun delete-visited-file ()
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (when filename
+        (delete-file filename delete-by-moving-to-trash)
+        (message "Deleted file %s" filename)
+        (kill-buffer))))
+  (advice-add 'rename-visited-file :around #'rename-file-maybe-make-directories)
+  (defun rename-file-maybe-make-directories (f &rest args)
+    (maybe-make-directories (nth 0 args))
+    (apply f args))
+  (defun maybe-make-directories (&optional target-file-name)
+    (let* ((target-file-name (or target-file-name buffer-file-name))
+           (dir (file-name-directory target-file-name)))
       (unless (file-exists-p dir)
         (make-directory dir t))))
-  (push #'find-file-maybe-make-directories find-file-not-found-functions))
+  (push #'maybe-make-directories find-file-not-found-functions))
 
 (use-feature savehist
   :custom
@@ -435,24 +443,13 @@
 (use-package multiple-cursors
   :bind
   ("s-d"     . mc/mark-next-like-this)
-  ("s-D"     . mc/mark-previous-like-this)
   ("C-c s-d" . mc/mark-all-like-this-dwim)
   :hook
   (before-save . mc/keyboard-quit))
 
-(use-package crux
+(use-feature misc
   :bind
-  ("s-D" . crux-duplicate-current-line-or-region)
-  ("s-W" . crux-delete-file-and-buffer)
-  ("s-S" . crux-rename-file-and-buffer)
-  :config
-  (crux-with-region-or-buffer indent-region)
-  (crux-with-region-or-point-to-eol kill-ring-save)
-  (defun crux-ignore-vc-backend (orig-fun &rest args)
-    (cl-letf (((symbol-function 'vc-backend) #'ignore))
-      (apply orig-fun args)))
-  (advice-add 'crux-rename-file-and-buffer :around #'crux-ignore-vc-backend)
-  (advice-add 'crux-delete-file-and-buffer :around #'crux-ignore-vc-backend))
+  ("s-D" . duplicate-dwim))
 
 (use-package cycle-quotes
   :bind
