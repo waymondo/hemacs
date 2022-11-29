@@ -897,13 +897,7 @@
 (use-package nodejs-repl
   :ensure-system-package node)
 
-(use-package json-mode
-  :mode
-  ("\\.bowerrc$"     . json-mode)
-  ("\\.jshintrc$"    . json-mode)
-  ("\\.json_schema$" . json-mode)
-  :custom
-  (js-indent-level 2))
+(use-package json-mode)
 
 (use-package graphql-mode)
 
@@ -1031,11 +1025,6 @@
 (use-package sass-mode)
 
 (use-package crystal-mode)
-
-(use-package ruby-hash-syntax
-  :after ruby-mode
-  :bind
-  (:map ruby-mode-map ("C-c C-:" . ruby-hash-syntax-toggle)))
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
@@ -1229,7 +1218,7 @@
 
 (use-feature eglot
   :hook
-  ((typescript-mode sgml-mode html-mode css-mode less-css-mode scss-mode ruby-mode crystal-mode) . eglot-ensure)
+  ((typescript-mode sgml-mode html-mode css-mode less-css-mode scss-mode ruby-mode) . eglot-ensure)
   :config
   (add-to-list 'eglot-ignored-server-capabilites :hoverProvider))
 
@@ -1345,7 +1334,7 @@
 
 (use-package hide-mode-line
   :hook
-  ((dired-mode magit-mode magit-popup-mode org-capture-mode tab-switcher-mode) . hide-mode-line-mode))
+  ((dired-mode help-mode magit-mode magit-popup-mode org-capture-mode tab-switcher-mode) . hide-mode-line-mode))
 
 (use-feature paren
   :custom
