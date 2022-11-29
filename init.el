@@ -48,12 +48,9 @@
   (setq-default line-spacing default-indent-width
                 tab-width default-indent-width
 								indent-tabs-mode nil
-                c-basic-offset default-indent-width
-                cursor-type 'bar
                 cursor-in-non-selected-windows nil
-                bidi-display-reordering 'left-to-right
                 sentence-end-double-space nil
-                fill-column 100
+                fill-column 109
                 truncate-lines t)
   (add-hook 'minibuffer-setup-hook #'defer-garbage-collection)
   (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
@@ -116,7 +113,7 @@
                   comint-truncate-buffer
                   comint-watch-for-password-prompt))
   (defun turn-on-comint-history (history-file)
-    (setq comint-input-ring-file-name history-file)
+    (setopt comint-input-ring-file-name history-file)
     (comint-read-input-ring 'silent))
   (def comint-return-dwim
     (cond
@@ -608,10 +605,10 @@
              keymap)
            nil nil t (lambda (binding)
                        (not (string-suffix-p "-argument" (cdr binding))))))))
-    (setq embark-indicators
-          '(embark-which-key-indicator
-            embark-highlight-indicator
-            embark-isearch-highlight-indicator))
+    (setopt embark-indicators
+            '(embark-which-key-indicator
+              embark-highlight-indicator
+              embark-isearch-highlight-indicator))
     (defun embark-hide-which-key-indicator (fn &rest args)
       (which-key--hide-popup-ignore-command)
       (let ((embark-indicators
