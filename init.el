@@ -326,8 +326,12 @@
         ("<M-S-tab>" . next-complete-history-element))
   :hook
   (writing-modes . auto-fill-mode)
+  (before-save . progish-delete-trailing-whitespace)
   :config
   (column-number-mode)
+  (defun progish-delete-trailing-whitespace ()
+    (when (derived-mode-p 'prog-mode)
+      (delete-trailing-whitespace)))
   (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
   (defun pop-to-mark-command-until-new-point (f &rest args)
     (let ((p (point)))
