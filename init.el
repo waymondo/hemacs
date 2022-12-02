@@ -517,18 +517,12 @@
   (:map vertico-map ("jj" . vertico-quick-insert-and-return)))
 
 (use-package corfu
+  :preface
+  (load (concat straight-base-dir "straight/repos/corfu/extensions/corfu-popupinfo.el"))
   :hook
   (after-init . global-corfu-mode)
-  (minibuffer-setup . corfu-mode))
-
-(use-package corfu-doc
-  :after corfu
-  :bind
-  (:map corfu-map
-        ("M-p" . corfu-doc-scroll-down)
-        ("M-n" . corfu-doc-scroll-up))
-  :hook
-  (corfu-mode . corfu-doc-mode))
+  (minibuffer-setup . corfu-mode)
+  (corfu-mode . corfu-popupinfo-mode))
 
 (use-package kind-icon
   :after corfu
