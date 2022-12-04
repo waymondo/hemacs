@@ -902,6 +902,8 @@
 (use-package dotenv-mode
   :mode "\\.env\\..*\\'")
 
+(use-package dockerfile-mode)
+
 (use-package typescript-mode
   :ensure-system-package
   (typescript-language-server . "npm i -g typescript-language-server")
