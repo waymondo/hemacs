@@ -740,7 +740,7 @@
   :bind
   ("C-x m" . project-vterm)
   (:map project-prefix-map
-        ("m" . magit-status)
+        ("m" . magit-project-status)
         ("t" . project-vterm))
   :chords
   (";t" . project-find-file)
