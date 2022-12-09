@@ -832,7 +832,7 @@
   (:map web-mode-map
         ("," . self-with-space)
         ("<C-return>" . html-newline-dwim)
-        ("C-c C-." . typescript-mode))
+        ("C-c C-." . tsx-ts-mode))
   :custom
   (web-mode-enable-auto-quoting nil)
   (web-mode-enable-current-element-highlight t))
@@ -863,11 +863,10 @@
   (pandoc-mode . pandoc-load-default-settings))
 
 (use-feature css-mode
-  :ensure-system-package
-  (css-languageserver . "npm i -g vscode-css-languageserver-bin")
-  :mode "\\.css\\.erb\\'"
+  :mode
+  ("\\.css\\'" . css-ts-mode)
   :bind
-  (:map css-mode-map
+  (:map css-base-mode-map
         ("," . self-with-space)
         ("{" . open-brackets-newline-and-indent))
   :custom
@@ -878,24 +877,22 @@
   :custom
   (less-css-lessc-options '("--no-color" "-x")))
 
+(use-feature json-ts-mode
+  :mode "\\.json\\'")
+
 (use-feature js
-  :ensure-system-package
-  (eslint_d . "npm install -g eslint_d")
+  :mode
+  ("\\.js[mx]?\\'" . js-ts-mode)
+  ("\\.har\\'" . js-ts-mode)
   :bind
-  (:map js-mode-map
+  (:map js-base-mode-map
         ("," . self-with-space)
         ("=" . pad-equals)
         (":" . self-with-space))
-  :mode
-  ("\\.js\\'" . js-mode)
   :custom
-  (js-indent-level 2)
-  (js-switch-indent-offset 2))
+  (js-indent-level 2))
 
-(use-package nodejs-repl
-  :ensure-system-package node)
-
-(use-package json-mode)
+(use-package nodejs-repl)
 
 (use-package graphql-mode)
 
@@ -904,17 +901,14 @@
 
 (use-package dockerfile-mode)
 
-(use-package typescript-mode
-  :ensure-system-package
-  (typescript-language-server . "npm i -g typescript-language-server")
+(use-feature typescript-ts-mode
   :bind
-  (:map typescript-mode-map
+  (:map typescript-ts-base-mode-map
         ("," . self-with-space)
         ("=" . pad-equals)
-        (":" . self-with-space)
-        ("C-c C-." . web-mode))
-  :custom
-  (typescript-indent-level 2))
+        (":" . self-with-space))
+  (:map tsx-ts-mode-map
+        ("C-c C-." . web-mode)))
 
 (use-package ts-comint
   :ensure-system-package (tsun . "npm i -g tsun"))
@@ -1218,18 +1212,11 @@
 
 (use-feature eglot
   :hook
-  ((typescript-mode sgml-mode html-mode css-mode less-css-mode scss-mode ruby-mode) . eglot-ensure)
+  ((typescript-ts-base-mode js-base-mode sgml-mode css-base-mode ruby-mode) . eglot-ensure)
   :config
   (add-to-list 'eglot-ignored-server-capabilites :hoverProvider))
 
 ;;;;; Appearance
-
-(use-package tree-sitter
-  :hook
-  (after-init . global-tree-sitter-mode)
-  (tree-sitter-after-on . tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs)
 
 (use-package fira-code-mode
   :custom
