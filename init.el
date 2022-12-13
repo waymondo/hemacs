@@ -1,6 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
 (load (concat user-emacs-directory "lib.el"))
+(use-package no-littering :demand t)
+(use-package use-package-chords :demand t)
+(use-feature use-package-ensure-system-package :demand t)
 
 ;;;;; Personal Variables & Key Maps
 

@@ -32,9 +32,5 @@
 (setq-default inhibit-redisplay t)
 (setq-default inhibit-message t)
 
-(straight-use-package 'use-package)
+(require 'use-package)
 (setq straight-use-package-by-default t)
-
-(use-package no-littering :demand t)
-(use-package use-package-chords :demand t)
-(use-package use-package-ensure-system-package :demand t)
