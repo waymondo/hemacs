@@ -129,12 +129,3 @@
   (setq-default inhibit-redisplay nil)
   (setq-default inhibit-message nil)
   (redisplay))
-
-(defun point-position-relative-to-native-frame (&optional point window)
-  (let* ((pos (pos-visible-in-window-p point window t))
-         (x (car pos))
-         (y (cadr pos))
-         (en (frame-char-width))
-         (edges (window-edges window nil nil t)))
-    (cons (+ x (car edges) en)
-          (+ y (cadr edges) en))))

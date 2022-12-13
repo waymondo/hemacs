@@ -1118,8 +1118,13 @@
 ;;;;; Help & Docs
 
 (use-feature eldoc
+  :bind
+  ("s-?" . eldoc-doc-buffer)
   :hook
-  (after-init . global-eldoc-mode))
+  (after-init . global-eldoc-mode)
+  :custom
+  (eldoc-echo-area-use-multiline-p nil)
+  (eldoc-documentation-function #'eldoc-documentation-compose))
 
 (use-package define-word
   :bind
@@ -1136,18 +1141,13 @@
 (use-package git-modes)
 
 (use-feature flymake
-  :bind
-  ("s-?" . flymake-tooltip-diagnostic-at-point)
+  :hook
+  (flymake-mode . make-flymake-eldoc-function-first)
   :config
-  (def flymake-tooltip-diagnostic-at-point
-    (let ((diagnostic (get-char-property (point) 'flymake-diagnostic)))
-      (when diagnostic
-        (let* ((p (point-position-relative-to-native-frame))
-               (x (car p))
-               (y (cdr p))
-               (tooltip-frame-parameters `((left . ,x) (top . ,y)))
-               (text (flymake-diagnostic-text diagnostic)))
-          (tooltip-show text))))))
+  (defun make-flymake-eldoc-function-first ()
+    (setq eldoc-documentation-functions
+          (cons 'flymake-eldoc-function
+                (delq 'flymake-eldoc-function eldoc-documentation-functions)))))
 
 (use-package list-environment
   :bind
@@ -1212,9 +1212,7 @@
 
 (use-feature eglot
   :hook
-  ((typescript-ts-base-mode js-base-mode sgml-mode css-base-mode ruby-mode) . eglot-ensure)
-  :config
-  (add-to-list 'eglot-ignored-server-capabilites :hoverProvider))
+  ((typescript-ts-base-mode js-base-mode sgml-mode css-base-mode ruby-mode) . eglot-ensure))
 
 ;;;;; Appearance
 
