@@ -529,8 +529,6 @@
 
 (use-package kind-icon
   :after corfu
-  :commands
-  (kind-icon-margin-formatter)
   :custom
   (kind-icon-default-face 'corfu-default)
   :init
@@ -547,8 +545,6 @@
   (marginalia-mode))
 
 (use-package consult
-  :commands
-  (consult--crm-selected)
   :bind
   ([remap goto-line] . consult-goto-line)
   ([remap yank-pop] . consult-yank-pop)
@@ -1397,8 +1393,6 @@
   (mac-right-option-modifier 'none))
 
 (use-feature ffap
-  :commands
-  (ffap-file-at-point ffap-url-at-point)
   :bind
   (:map hemacs-help-map ("p" . ffap)))
 
