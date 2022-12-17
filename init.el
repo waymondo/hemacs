@@ -1209,7 +1209,12 @@
 
 (use-feature eglot
   :hook
-  ((typescript-ts-base-mode js-base-mode sgml-mode css-base-mode ruby-mode) . eglot-ensure))
+  ((typescript-ts-base-mode js-base-mode sgml-mode css-base-mode ruby-mode) . eglot-ensure)
+  :init
+  (defun disable-eglot-format-check (f &rest args)
+    (cl-letf (((symbol-function 'eglot--server-capable) #'identity))
+      (apply f args)))
+  (advice-add #'eglot-format :around #'disable-eglot-format-check))
 
 ;;;;; Appearance
 
