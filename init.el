@@ -898,8 +898,6 @@
 (use-package dotenv-mode
   :mode "\\.env\\..*\\'")
 
-(use-package dockerfile-mode)
-
 (use-feature typescript-ts-mode
   :bind
   (:map typescript-ts-base-mode-map
