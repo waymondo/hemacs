@@ -263,8 +263,8 @@
 
 (use-package dirvish
   :preface
-  (load (concat straight-base-dir "straight/repos/dirvish/extensions/dirvish-subtree.el"))
-  (load (concat straight-base-dir "straight/repos/dirvish/extensions/dirvish-side.el"))
+  (load (straight--repos-file "dirvish/extensions/dirvish-subtree.el"))
+  (load (straight--repos-file "dirvish/extensions/dirvish-side.el"))
   :bind
   ("s-\\" . dirvish-side)
   (:map dired-mode-map
@@ -508,7 +508,7 @@
 
 (use-package vertico
   :preface
-  (load (concat straight-base-dir "straight/repos/vertico/extensions/vertico-quick.el"))
+  (load (straight--repos-file "vertico/extensions/vertico-quick.el"))
   :custom
   (vertico-count 20)
   :config
@@ -521,7 +521,7 @@
 
 (use-package corfu
   :preface
-  (load (concat straight-base-dir "straight/repos/corfu/extensions/corfu-popupinfo.el"))
+  (load (straight--repos-file "corfu/extensions/corfu-popupinfo.el"))
   :hook
   (after-init . global-corfu-mode)
   (minibuffer-setup . corfu-mode)
