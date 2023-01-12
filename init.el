@@ -1017,6 +1017,10 @@
 
 (use-package crystal-mode)
 
+(use-package inf-crystal
+  :hook
+  (crystal-mode . inf-crystal-minor-mode))
+
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :bind
