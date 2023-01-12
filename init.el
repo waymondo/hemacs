@@ -931,17 +931,16 @@
     (newline-and-indent))
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
-(use-feature ruby-mode
+(use-feature ruby-ts-mode
   :mode ("Steepfile$" "Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
   :bind
-  (:map ruby-mode-map
+  (:map ruby-base-mode-map
         (","          . self-with-space)
         ("="          . pad-equals)
         (":"          . smart-ruby-colon)
         ("<C-return>" . ruby-newline-dwim))
-  :custom
-  (ruby-insert-encoding-magic-comment nil)
-  :config
+  :init
+  (push '(ruby-mode . ruby-ts-mode) major-mode-remap-alist)
   (def smart-ruby-colon
     (if (and (looking-back "[[:word:]]" nil)
              (not (memq (get-text-property (- (point) 1) 'face)
@@ -960,7 +959,7 @@
           (smart-newline)
         (indent-according-to-mode))))
   (defun hippie-expand-ruby-symbols (f &rest args)
-    (if (eq major-mode 'ruby-mode)
+    (if (eq major-mode 'ruby-ts-mode)
         (let ((table (make-syntax-table ruby-mode-syntax-table)))
           (modify-syntax-entry ?: "." table)
           (with-syntax-table table (apply f args)))
@@ -973,7 +972,7 @@
 
 (use-package yard-mode
   :hook
-  (ruby-mode . yard-mode))
+  (ruby-base-mode . yard-mode))
 
 (use-package rspec-mode
   :after ruby-mode
@@ -986,7 +985,7 @@
 (use-package minitest
   :after ruby-mode
   :hook
-  (ruby-mode . minitest-mode)
+  (ruby-base-mode . minitest-mode)
   :custom
   (minitest-keymap-prefix (kbd "C-c ."))
   :bind
@@ -997,7 +996,7 @@
 
 (use-package inf-ruby
   :hook
-  (ruby-mode . inf-ruby-minor-mode)
+  (ruby-base-mode . inf-ruby-minor-mode)
   (compilation-filter . inf-ruby-auto-enter)
   (after-init . inf-ruby-switch-setup))
 
@@ -1217,7 +1216,7 @@
     js-base-mode
     sgml-mode
     css-base-mode
-    ruby-mode
+    ruby-base-mode
     yaml-mode
     lua-mode
     dockerfile-ts-mode
