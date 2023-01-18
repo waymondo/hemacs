@@ -1157,6 +1157,10 @@
   :bind
   (:map hemacs-help-map ("m" . memory-usage)))
 
+(use-package devdocs-browser
+  :bind
+  (:map hemacs-help-map ("d" . devdocs-browser-open)))
+
 ;;;;; Posframe
 
 (use-package posframe
