@@ -934,7 +934,7 @@
 (use-feature ruby-ts-mode
   :mode ("Steepfile$" "Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
   :bind
-  (:map ruby-base-mode-map
+  (:map ruby-ts-mode-map
         (","          . self-with-space)
         ("="          . pad-equals)
         (":"          . smart-ruby-colon)
@@ -996,7 +996,7 @@
 
 (use-package inf-ruby
   :hook
-  (ruby-base-mode . inf-ruby-minor-mode)
+  (ruby-ts-mode . inf-ruby-minor-mode)
   (compilation-filter . inf-ruby-auto-enter)
   (after-init . inf-ruby-switch-setup))
 
