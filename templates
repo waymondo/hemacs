@@ -17,7 +17,7 @@ js-base-mode typescript-ts-mode
 (fore "forEach(" p " => ) {" n> p n "}" >)
 (log "console.log(" p ")")
 
-ruby-mode
+ruby-base-mode
 
 (def "def " p n> p n "end")
 (fsl "# frozen_string_literal: true" n)
