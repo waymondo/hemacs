@@ -1008,6 +1008,8 @@
   :init
   (projectile-rails-global-mode))
 
+(use-package rails-i18n)
+
 (use-package haml-mode)
 
 (use-package coffee-mode)
