@@ -1022,6 +1022,9 @@
   :hook
   (crystal-mode . inf-crystal-minor-mode))
 
+(use-feature dockerfile-ts-mode
+  :demand t)
+
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :bind
