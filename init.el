@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'vc-use-package)
 (load (concat user-emacs-directory "lib.el"))
 (use-package no-littering :demand t)
 (use-package use-package-chords :demand t)
@@ -71,8 +72,8 @@
     (keymap-global-unset key-binding)))
 
 (use-package transform-string-at-point
-  :straight
-  (:host github :repo "waymondo/transform-string-at-point")
+  :vc
+  (:fetcher github :repo waymondo/transform-string-at-point)
   :custom
   (transform-string-at-point-cursor-after-transform 'next-string)
   :bind
@@ -263,8 +264,8 @@
 
 (use-package dirvish
   :preface
-  (load (straight--repos-file "dirvish/extensions/dirvish-subtree.el"))
-  (load (straight--repos-file "dirvish/extensions/dirvish-side.el"))
+  (require 'dirvish-subtree)
+  (require 'dirvish-side)
   :bind
   ("s-\\" . dirvish-side)
   (:map dired-mode-map
@@ -508,7 +509,7 @@
 
 (use-package vertico
   :preface
-  (load (straight--repos-file "vertico/extensions/vertico-quick.el"))
+  (require 'vertico-quick)
   :custom
   (vertico-count 20)
   :config
@@ -521,7 +522,7 @@
 
 (use-package corfu
   :preface
-  (load (straight--repos-file "corfu/extensions/corfu-popupinfo.el"))
+  (require 'corfu-popupinfo)
   :hook
   (after-init . global-corfu-mode)
   (minibuffer-setup . corfu-mode)

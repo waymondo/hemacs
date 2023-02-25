@@ -30,8 +30,8 @@
 (defmacro use-feature (name &rest args)
   (declare (indent 1))
   `(use-package ,name
-     :straight (:type built-in)
-     ,@args))
+     :ensure nil
+      ,@args))
 
 (defun ensure-space (direction)
   (let* ((char-fn
