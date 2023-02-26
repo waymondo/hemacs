@@ -8,7 +8,7 @@ emacs-lisp-mode
 (let "(let (" p ")" n> r> ")")
 (star "(let* (" p ")" n> r> ")")
 
-js-base-mode typescript-ts-mode
+js-base-mode typescript-ts-base-mode
 
 (f "function(" p ") {" n> p n "}" >)
 (gen "function*(" p ") {" n> p n "}" >)

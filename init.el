@@ -827,7 +827,6 @@
   ("\\.php\\'"        . web-mode)
   ("\\.hbs\\'"        . web-mode)
   ("\\.handlebars\\'" . web-mode)
-  ("\\.tsx\\'"        . web-mode)
   ("\\.ecr\\'"        . web-mode)
   :bind
   (:map web-mode-map
@@ -874,7 +873,6 @@
   (css-indent-offset 2))
 
 (use-package less-css-mode
-  :ensure-system-package (lessc . "npm i -g less")
   :custom
   (less-css-lessc-options '("--no-color" "-x")))
 
@@ -897,10 +895,10 @@
 
 (use-package graphql-mode)
 
-(use-package dotenv-mode
-  :mode "\\.env\\..*\\'")
+(use-package dotenv-mode)
 
 (use-feature typescript-ts-mode
+  :demand t
   :bind
   (:map typescript-ts-base-mode-map
         ("," . self-with-space)
@@ -909,15 +907,17 @@
   (:map tsx-ts-mode-map
         ("C-c C-." . web-mode)))
 
-(use-package ts-comint
-  :ensure-system-package (tsun . "npm i -g tsun"))
+(use-package ts-comint)
 
-(use-package ember-mode
-  :ensure-system-package (ember . "npm i -g ember-cli"))
+(use-package ember-mode)
 
 (use-package format-all
   :bind
   ("C-M-\\" . format-all-buffer))
+
+(use-package prettier-js
+  :hook
+  (typescript-ts-base-mode . prettier-js-mode))
 
 (use-package slim-mode
   :bind
