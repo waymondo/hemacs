@@ -559,7 +559,7 @@
   (":R" . consult-imenu-multi)
   :custom
   (consult-project-root-function #'consult-project-current)
-  (consult-preview-key (kbd "M-."))
+  (consult-preview-key "M-.")
   :init
   (defun consult-project-current ()
     (when-let (project (project-current))
