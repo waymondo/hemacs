@@ -66,7 +66,7 @@
   :custom
   (dash-enable-fontlock t))
 
-(use-package keymap
+(use-feature keymap
   :init
   (dolist (key-binding '("s-q" "s-t" "s-o" "s-n"))
     (keymap-global-unset key-binding)))
@@ -166,7 +166,7 @@
   :hook
   (vterm-mode . text-smaller-no-truncation))
 
-(use-package sh-script
+(use-feature sh-script
   :mode
   ((rx (and (? ".") (or "bash" "zsh" "zprofile"))) . sh-mode)
   :custom
@@ -250,7 +250,8 @@
   (recentf-max-saved-items 200)
   :config
   (advice-add 'recentf-cleanup :around #'inhibit-message-in-minibuffer)
-  (recentf-mode))
+  :hook
+  (after-init . recentf-mode))
 
 (use-feature dired
   :custom
@@ -1026,12 +1027,12 @@
 (use-feature dockerfile-ts-mode
   :demand t)
 
-(use-package yaml-mode
-  :mode "\\.yml\\'"
+(use-feature yaml-ts-mode
+  :demand t
   :bind
-  (:map yaml-mode-map (":" . self-with-space))
+  (:map yaml-ts-mode-map (":" . self-with-space))
   :hook
-  (yaml-mode . text-smaller-no-truncation))
+  (yaml-ts-mode . text-smaller-no-truncation))
 
 (use-feature text-mode
   :bind
