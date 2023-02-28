@@ -158,6 +158,7 @@
   (warning-suppress-types '((comp) (undo discard-info))))
 
 (use-package vterm
+  :demand t
   :ensure-system-package cmake
   :custom
   (vterm-always-compile-module t)
@@ -1235,6 +1236,8 @@
     sh-base-mode) . eglot-ensure)
   :bind
   ("C-M-s-\\" . eglot-format)
+  :custom
+  (eglot-confirm-server-initiated-edits nil)
   :init
   (defun disable-eglot-format-check (f &rest args)
     (cl-letf (((symbol-function 'eglot--server-capable) #'identity))
