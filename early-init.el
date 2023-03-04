@@ -7,7 +7,7 @@
 (setq-default file-name-handler-alist nil)
 
 (setq inhibit-startup-screen t)
- (setq site-run-file nil)
+(setq site-run-file nil)
 (setq-default inhibit-redisplay t)
 (setq-default inhibit-message t)
 

@@ -1194,10 +1194,23 @@
   (frog-jump-buffer-filter-actions '(("X" "[special]" frog-jump-buffer-filter-special-buffers)))
   (frog-jump-buffer-project-package 'project)
   :config
-  (dolist (regexp
-           '("TAGS" "-lsp\\*$" "^\\*lsp-" "^\\*straight-process" "^\\magit-" "^\\*Compile-log" "-debug\\*$"
-             "^\\:" "^\\*helpful" "^\\*Async" "errors\\*$" "^\\*Backtrace" "-ls\\*$" "stderr\\*$" "EGLOT"
-             "^\\*Flymake" "^\\*direnv" "^\\*vc" "^\\*Warnings" "^\\*eldoc" "\\^*Shell Command"))
+  (dolist
+      (regexp
+       '("TAGS"
+         "^\\magit-"
+         "^\\*Compile-log"
+         "-debug\\*$"
+         "^\\:"
+         "^\\*helpful"
+         "^\\*Async"
+         "errors\\*$"
+         "^\\*Backtrace"
+         "stderr\\*$"
+         "EGLOT"
+         "^\\*Flymake"
+         "^\\*Warnings"
+         "^\\*eldoc"
+         "\\^*Shell Command"))
     (push regexp frog-jump-buffer-ignore-buffers))
   (defun frog-jump-buffer-filter-special-buffers (buffer)
     (with-current-buffer buffer
