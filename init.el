@@ -49,9 +49,9 @@
   (use-short-answers t)
   (x-underline-at-descent-line t)
   :config
-  (setq-default line-spacing default-indent-width
+  (setq-default line-spacing 3
                 tab-width default-indent-width
-								indent-tabs-mode nil
+                indent-tabs-mode nil
                 cursor-in-non-selected-windows nil
                 sentence-end-double-space nil
                 fill-column 109
@@ -799,8 +799,6 @@
   (org-mode . org-autolist-mode))
 
 (use-feature sgml-mode
-  :ensure-system-package
-  (html-languageserver . "npm i -g vscode-html-languageserver-bin")
   :bind
   (:map html-mode-map
         ("," . self-with-space)
@@ -901,8 +899,6 @@
         ("C-c C-." . web-mode)))
 
 (use-package ts-comint)
-
-(use-package ember-mode)
 
 (use-package format-all
   :bind
@@ -1451,10 +1447,6 @@
   (key-chord-two-keys-delay 0.05)
   :config
   (key-chord-mode 1))
-
-(use-package free-keys
-  :bind
-  (:map hemacs-help-map ("K" . free-keys)))
 
 (use-package which-key
   :custom
