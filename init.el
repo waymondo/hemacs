@@ -864,8 +864,6 @@
   (pandoc-mode . pandoc-load-default-settings))
 
 (use-feature css-mode
-  :mode
-  ("\\.css\\'" . css-ts-mode)
   :bind
   (:map css-base-mode-map
         ("," . self-with-space)
@@ -877,13 +875,7 @@
   :custom
   (less-css-lessc-options '("--no-color" "-x")))
 
-(use-feature json-ts-mode
-  :mode "\\.json\\'")
-
 (use-feature js
-  :mode
-  ("\\.js[mx]?\\'" . js-ts-mode)
-  ("\\.har\\'" . js-ts-mode)
   :bind
   (:map js-base-mode-map
         ("," . self-with-space)
@@ -937,13 +929,12 @@
 (use-feature ruby-ts-mode
   :mode ("Steepfile$" "Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
   :bind
-  (:map ruby-ts-mode-map
+  (:map ruby-base-mode-map
         (","          . self-with-space)
         ("="          . pad-equals)
         (":"          . smart-ruby-colon)
         ("<C-return>" . ruby-newline-dwim))
   :init
-  (push '(ruby-mode . ruby-ts-mode) major-mode-remap-alist)
   (def smart-ruby-colon
     (if (and (looking-back "[[:word:]]" nil)
              (not (memq (get-text-property (- (point) 1) 'face)
@@ -999,7 +990,7 @@
 
 (use-package inf-ruby
   :hook
-  (ruby-ts-mode . inf-ruby-minor-mode)
+  (ruby-base-mode . inf-ruby-minor-mode)
   (compilation-filter . inf-ruby-auto-enter)
   (after-init . inf-ruby-switch-setup))
 
@@ -1029,7 +1020,6 @@
   :demand t)
 
 (use-feature yaml-ts-mode
-  :demand t
   :bind
   (:map yaml-ts-mode-map (":" . self-with-space))
   :hook
@@ -1220,7 +1210,7 @@
   :hook
   (after-init . vertico-posframe-mode))
 
-;;;;; Language Server
+;;;;; Language Server & Tree Sitter
 
 (use-feature eglot
   :hook
@@ -1229,7 +1219,7 @@
     sgml-mode
     css-base-mode
     ruby-base-mode
-    yaml-mode
+    yaml-ts-mode
     lua-mode
     dockerfile-ts-mode
     markdown-mode
@@ -1243,6 +1233,13 @@
     (cl-letf (((symbol-function 'eglot--server-capable) #'identity))
       (apply f args)))
   (advice-add #'eglot-format :around #'disable-eglot-format-check))
+
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install t)
+  :hook
+  (after-init . global-treesit-auto-mode)
+  (after-init . treesit-auto-install-all))
 
 ;;;;; Appearance
 
