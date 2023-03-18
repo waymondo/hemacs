@@ -923,9 +923,8 @@
   (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
 
 (use-feature ruby-ts-mode
-  :mode ("Steepfile$" "Appraisals$" (rx (and (group (= 1 upper) (1+ lower)) (not (any "Proc"))) "file" eos))
   :bind
-  (:map ruby-base-mode-map
+  (:map ruby-ts-mode-map
         (","          . self-with-space)
         ("="          . pad-equals)
         (":"          . smart-ruby-colon)
