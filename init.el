@@ -525,10 +525,13 @@
 (use-package corfu
   :preface
   (require 'corfu-popupinfo)
+  (require 'corfu-quick)
   :hook
   (after-init . global-corfu-mode)
   (minibuffer-setup . corfu-mode)
-  (corfu-mode . corfu-popupinfo-mode))
+  (corfu-mode . corfu-popupinfo-mode)
+  :chords
+  (:map corfu-map ("jj" . corfu-quick-complete)))
 
 (use-package kind-icon
   :after corfu
