@@ -54,7 +54,7 @@
                 indent-tabs-mode nil
                 cursor-in-non-selected-windows nil
                 sentence-end-double-space nil
-                fill-column 109
+                fill-column 100
                 truncate-lines t)
   (add-hook 'minibuffer-setup-hook #'defer-garbage-collection)
   (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
