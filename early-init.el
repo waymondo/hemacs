@@ -7,6 +7,8 @@
 (setq-default file-name-handler-alist nil)
 
 (setq inhibit-startup-screen t)
+(setq inhibit-startup-buffer-menu t)
+(setq inhibit-default-init t)
 (setq site-run-file nil)
 (setq-default inhibit-redisplay t)
 (setq-default inhibit-message t)
@@ -15,7 +17,8 @@
 (setq use-package-always-defer t)
 (setq use-package-always-ensure t)
 
+(setq package-native-compile t)
+(setq package-quickstart t)
 (unless (package-installed-p 'vc-use-package)
   (package-vc-install "https://github.com/slotThe/vc-use-package"))
-
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
