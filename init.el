@@ -260,9 +260,20 @@
   (dired-recursive-deletes 'always))
 
 (use-package all-the-icons
+  :custom
+  (all-the-icons-scale-factor 1)
+  (all-the-icons-default-adjust 0)
   :config
   (unless (member "all-the-icons" (font-family-list))
     (all-the-icons-install-fonts)))
+
+(use-package all-the-icons-completion
+  :after
+  (marginalia all-the-icons)
+  :hook
+  (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
 
 (use-package dirvish
   :preface
@@ -277,7 +288,7 @@
   (after-init . dirvish-override-dired-mode)
   :custom
   (dirvish-mode-line-position 'disable)
-  (dirvish-side-attributes '(subtree-state all-the-icons collapse file-size)))
+  (dirvish-attributes '(subtree-state all-the-icons collapse file-size)))
 
 (use-package terminal-here
   :bind
