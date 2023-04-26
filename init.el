@@ -10,7 +10,6 @@
 
 (defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-mode))
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
-(defconst default-font-size 15)
 (defconst default-indent-width 2)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-help-map)
@@ -49,7 +48,7 @@
   (use-short-answers t)
   (x-underline-at-descent-line t)
   :config
-  (setq-default line-spacing 3
+  (setq-default line-spacing 2
                 tab-width default-indent-width
                 indent-tabs-mode nil
                 cursor-in-non-selected-windows nil
@@ -1265,15 +1264,27 @@
 
 ;;;;; Appearance
 
-(use-package fira-code-mode
-  :custom
-  (fira-code-mode-enable-hex-literal nil)
-  :hook
-  (prog-mode . fira-code-mode)
+(use-feature faces
   :init
-  (unless (member "Fira Code Symbol" (font-family-list))
-    (fira-code-mode-install-fonts))
-  (set-face-attribute 'default nil :height (* default-font-size 10)))
+  (set-face-attribute 'default nil :family "JetBrains Mono" :height 150))
+
+(use-package ligature
+  :config
+  (ligature-set-ligatures
+   'prog-mode
+   '("-|" "-~" "---" "-<<" "-<" "--" "->" "->>" "-->" "///" "/=" "/=="
+     "/>" "//" "/*" "*>" "***" "*/" "<-" "<<-" "<=>" "<=" "<|" "<||"
+     "<|||" "<|>" "<:" "<>" "<-<" "<<<" "<==" "<<=" "<=<" "<==>" "<-|"
+     "<<" "<~>" "<=|" "<~~" "<~" "<$>" "<$" "<+>" "<+" "</>" "</" "<*"
+     "<*>" "<->" "<!--" ":>" ":<" ":::" "::" ":?" ":?>" ":=" "::=" "=>>"
+     "==>" "=/=" "=!=" "=>" "===" "=:=" "==" "!==" "!!" "!=" ">]" ">:"
+     ">>-" ">>=" ">=>" ">>>" ">-" ">=" "&&&" "&&" "|||>" "||>" "|>" "|]"
+     "|}" "|=>" "|->" "|=" "||-" "|-" "||=" "||" ".." ".?" ".=" ".-" "..<"
+     "..." "+++" "+>" "++" "[||]" "[<" "[|" "{|" "??" "?." "?=" "?:" "##"
+     "###" "####" "#[" "#{" "#=" "#!" "#:" "#_(" "#_" "#?" "#(" ";;" "_|_"
+     "__" "~~" "~~>" "~>" "~-" "~@" "$>" "^=" "]#"))
+  :hook
+  (after-init . global-ligature-mode))
 
 (use-feature frame
   :custom
