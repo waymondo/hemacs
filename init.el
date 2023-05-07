@@ -422,11 +422,15 @@
   :custom
   (avy-style 'de-bruijn)
   :bind
-  (:map dired-mode-map ("." . avy-goto-word-or-subword-1))
+  (:map dired-mode-map ("." . avy-goto-line-this-window))
+  (:map isearch-mode-map ("M-q" . avy-isearch))
   :chords
   ("jj" . avy-goto-char-timer)
   ("jk" . avy-goto-word-or-subword-1)
-  ("jl" . avy-goto-line))
+  ("jl" . avy-goto-line)
+  :config
+  (def avy-goto-line-this-window
+    (avy-goto-line 4)))
 
 (use-package ace-link
   :bind
