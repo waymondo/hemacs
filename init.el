@@ -86,6 +86,10 @@
   :bind
   ("s-w" . kill-this-buffer))
 
+(use-feature subr
+  :config
+  (y-or-n-p-use-read-key t))
+
 ;;;;; Processes, Shells, Compilation
 
 (use-package alert
