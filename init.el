@@ -1141,6 +1141,10 @@
   (eldoc-echo-area-use-multiline-p nil)
   (eldoc-documentation-function #'eldoc-documentation-compose))
 
+(use-feature shortdoc
+  :bind
+  (:map hemacs-help-map ("s" . shortdoc)))
+
 (use-package define-word
   :bind
   (:map hemacs-help-map ("w" . define-word-at-point)))
@@ -1435,6 +1439,7 @@
      helpful-mode
      embark-collect-mode
      grep-mode
+     shortdoc-mode
      rg-mode
      vc-annotate-mode
      rspec-compilation-mode
