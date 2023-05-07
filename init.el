@@ -202,6 +202,7 @@
   :custom
   (require-final-newline t)
   (confirm-kill-processes nil)
+  (view-read-only t)
   (confirm-kill-emacs nil)
   (enable-local-variables :safe)
   (confirm-nonexistent-file-or-buffer nil)
