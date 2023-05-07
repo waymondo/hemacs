@@ -1237,12 +1237,29 @@
     (with-current-buffer buffer
       (-any? #'derived-mode-p '(comint-mode vterm-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
 
-(use-package vertico-posframe
-  :custom
-  (vertico-posframe-width 109)
-  (vertico-posframe-border-width 12)
+(use-package mini-popup
+  :vc
+  (:fetcher github :repo minad/mini-popup)
+  :config
+  (setq mini-popup--frame-parameters
+        (map-merge
+         'alist
+         mini-popup--frame-parameters
+         `(
+           (height . ,(* (1+ (if vertico--input vertico-count 0)) (default-line-height)))
+           (width . ,(/ (frame-inner-width) 4))
+           (left . 0.375)
+           (top . ,(/ (/ (float (* (default-line-height) (1- vertico-count))) (frame-inner-height)) 2))
+           (child-frame-border-width . ,(/ (default-line-height) 2))
+           (left-fringe . 0)
+           (right-fringe . 0))))
+  (defun maybe-disable-vertico-resize-window (&rest args)
+    (unless mini-popup-mode
+      (apply args)))
+  (advice-add #'vertico--resize-window :around #'maybe-disable-vertico-resize-window)
+  (add-hook 'consult--completion-refresh-hook #'mini-popup-consult-completion-refresh 99)
   :hook
-  (after-init . vertico-posframe-mode))
+  (after-init . mini-popup-mode))
 
 ;;;;; Language Server & Tree Sitter
 
