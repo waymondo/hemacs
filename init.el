@@ -1228,7 +1228,7 @@
          mini-popup--frame-parameters
          `(
            (height . ,(* (1+ (if vertico--input vertico-count 0)) (default-line-height)))
-           (width . ,(/ (frame-inner-width) 4))
+           (width . ,(/ (- (frame-inner-width) (* 2 (default-line-height))) 4))
            (left . 0.375)
            (top . ,(/ (/ (float (* (default-line-height) (1- vertico-count))) (frame-inner-height)) 2))
            (child-frame-border-width . ,(/ (default-line-height) 2))
@@ -1238,7 +1238,7 @@
     (unless mini-popup-mode
       (apply args)))
   (advice-add #'vertico--resize-window :around #'maybe-disable-vertico-resize-window)
-  (add-hook 'consult--completion-refresh-hook #'mini-popup-consult-completion-refresh 99)
+  (add-hook 'consult--completion-refresh-hook #'mini-popup--setup 99)
   :hook
   (after-init . mini-popup-mode))
 
