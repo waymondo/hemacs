@@ -512,6 +512,7 @@
 (use-package vertico
   :preface
   (require 'vertico-quick)
+  (require 'vertico-directory)
   :custom
   (vertico-count 20)
   :config
@@ -519,6 +520,12 @@
   (def vertico-quick-insert-and-return
     (vertico-quick-insert)
     (vertico-exit))
+  :bind
+  (:map vertico-map
+        ("RET" . vertico-directory-enter)
+        ("DEL" . vertico-directory-delete-char))
+  :hook
+  (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :chords
   (:map vertico-map ("jj" . vertico-quick-insert-and-return)))
 
