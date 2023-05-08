@@ -371,30 +371,11 @@
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
 
-(use-package puni
-  :hook
-  (after-init . puni-global-mode)
-  (vterm-mode . puni-disable-puni-mode)
+(use-package expreg
+  :vc
+  (:fetcher github :repo casouri/expreg)
   :bind
-  ("C-," . puni-expand-region)
-  ("M-i" . puni-change-inner)
-  :custom
-  (puni-confirm-when-delete-unbalanced-active-region nil)
-  :config
-  (defun puni-change-inner (_)
-    (interactive "P")
-    (let ((q-char (regexp-quote (char-to-string (read-char "Change inner, starting with:"))))
-          (starting-point (point)))
-      (puni-expand-region)
-      (puni-expand-region)
-      (condition-case err
-          (progn
-            (while (not (looking-at q-char))
-              (puni-expand-region))
-            (delete-region (region-beginning) (region-end)))
-        (user-error (progn (goto-char starting-point)
-                           (setq mark-active nil)
-                           (message (error-message-string err))))))))
+  ("C-," . expreg-expand))
 
 (use-feature subword
   :hook
