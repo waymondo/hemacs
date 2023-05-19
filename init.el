@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
-(require 'vc-use-package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (load (concat user-emacs-directory "lib.el"))
+(use-feature vc-use-package :demand t)
 (use-package no-littering :demand t)
 (use-package use-package-chords :demand t)
 (use-feature use-package-ensure-system-package :demand t)
