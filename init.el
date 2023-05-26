@@ -9,7 +9,7 @@
 
 ;;;;; Personal Variables & Key Maps
 
-(defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-mode))
+(defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-ts-mode))
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
 (defconst default-indent-width 2)
 (define-prefix-command 'hemacs-git-map)
