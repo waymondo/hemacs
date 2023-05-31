@@ -1488,6 +1488,8 @@
   ("''" . "’")
   ("^^" . "λ")
   :custom
+  (key-chord-safety-interval-forward 0.05)
+  (key-chord-safety-interval-backward 0.05)
   (key-chord-two-keys-delay 0.05)
   :config
   (key-chord-mode 1))
