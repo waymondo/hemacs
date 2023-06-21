@@ -2,7 +2,6 @@
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (load (concat user-emacs-directory "lib.el"))
-(use-feature vc-use-package :demand t)
 (use-package no-littering :demand t)
 (use-package use-package-chords :demand t)
 (use-feature use-package-ensure-system-package :demand t)
@@ -73,7 +72,7 @@
 
 (use-package transform-string-at-point
   :vc
-  (:fetcher github :repo waymondo/transform-string-at-point)
+  (:url "https://github.com/waymondo/transform-string-at-point.git")
   :custom
   (transform-string-at-point-cursor-after-transform 'next-string)
   :bind
@@ -374,7 +373,7 @@
 
 (use-package expreg
   :vc
-  (:fetcher github :repo casouri/expreg)
+  (:url "https://github.com/casouri/expreg.git")
   :bind
   ("C-," . expreg-expand))
 
@@ -1228,7 +1227,7 @@
 
 (use-package mini-popup
   :vc
-  (:fetcher github :repo minad/mini-popup)
+  (:url "https://github.com/minad/mini-popup.git")
   :config
   (setq mini-popup--frame-parameters
         (map-merge
