@@ -350,6 +350,10 @@
   (before-save . progish-delete-trailing-whitespace)
   :config
   (column-number-mode)
+  (defun delete-region-instead-of-kill (f &rest args)
+    (cl-letf (((symbol-function 'kill-region) #'delete-region))
+      (apply f args)))
+  (advice-add 'backward-kill-word :around #'delete-region-instead-of-kill)
   (defun progish-delete-trailing-whitespace ()
     (when (derived-mode-p 'prog-mode)
       (delete-trailing-whitespace)))
