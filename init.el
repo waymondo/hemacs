@@ -172,7 +172,7 @@
 
 (use-feature sh-script
   :mode
-  ((rx (and (? ".") (or "bash" "zsh" "zprofile"))) . sh-mode)
+  ((rx (or ".zshrc" ".zprofile")) . sh-mode)
   :custom
   (sh-basic-offset 2))
 
