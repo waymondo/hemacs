@@ -788,6 +788,8 @@
 
 ;;;;; External Utilities
 
+(use-package gptel)
+
 (use-package emacs-everywhere)
 
 ;;;;; Major Modes
