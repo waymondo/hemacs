@@ -1133,6 +1133,7 @@
   :hook
   (after-init . global-eldoc-mode)
   :custom
+  (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   (eldoc-echo-area-use-multiline-p nil)
   (eldoc-documentation-function #'eldoc-documentation-compose))
 
@@ -1154,15 +1155,6 @@
 
 (use-package git-modes)
 
-(use-feature flymake
-  :hook
-  (flymake-mode . make-flymake-eldoc-function-first)
-  :config
-  (defun make-flymake-eldoc-function-first ()
-    (setq eldoc-documentation-functions
-          (cons 'flymake-eldoc-function
-                (delq 'flymake-eldoc-function eldoc-documentation-functions)))))
-
 (use-package list-environment
   :bind
   (:map hemacs-help-map ("l" . list-environment)))
@@ -1182,6 +1174,10 @@
   (defun hemacs-posframe-arghandler (f &rest args)
     (apply f (car args) (plist-put (cdr args) :internal-border-width 12)))
   (advice-add 'posframe-show :around #'hemacs-posframe-arghandler))
+
+(use-package transient
+  :custom
+  (transient-show-popup nil))
 
 (use-package transient-posframe
   :custom
