@@ -1075,6 +1075,7 @@
   :hook
   (magit-process-mode . text-smaller-no-truncation)
   :config
+  (remove-hook 'magit-section-highlight-hook #'magit-diff-highlight)
   (defun magit-process-alert-after-finish-in-background (f &rest args)
     (let* ((process (nth 0 args))
            (event (nth 1 args))
@@ -1458,6 +1459,7 @@
      xref--xref-buffer-mode
      minitest-compilation-mode
      inf-ruby-mode
+     magit-process-mode
      nodejs-repl-mode
      ts-comint-mode
      compilation-mode))
