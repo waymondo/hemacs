@@ -1373,13 +1373,15 @@
   :hook
   (prog-mode . symbol-overlay-mode))
 
-(use-package highlight-indentation
-  :hook
-  (indent-sensitive-modes . highlight-indentation-current-column-mode))
-
 (use-feature hl-line
   :init
   (global-hl-line-mode))
+
+(use-package highlight-indent-guides
+  :custom
+  (highlight-indent-guides-method 'character)
+  :hook
+  (yaml-ts-mode . highlight-indent-guides-mode))
 
 (use-package hl-sentence
   :hook
