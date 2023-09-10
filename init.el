@@ -1265,6 +1265,7 @@
     css-base-mode
     ruby-base-mode
     yaml-ts-mode
+    toml-ts-mode
     lua-mode
     dockerfile-ts-mode
     markdown-mode
