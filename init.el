@@ -1128,14 +1128,12 @@
 ;;;;; Help & Docs
 
 (use-feature eldoc
-  :bind
-  ("s-?" . eldoc-doc-buffer)
   :hook
   (after-init . global-eldoc-mode)
   :custom
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-  (eldoc-echo-area-use-multiline-p nil)
-  (eldoc-documentation-function #'eldoc-documentation-compose))
+  (eldoc-echo-area-prefer-doc-buffer t)
+  (eldoc-echo-area-use-multiline-p nil))
 
 (use-feature shortdoc
   :bind
@@ -1167,7 +1165,11 @@
   :bind
   (:map hemacs-help-map ("d" . devdocs-browser-open)))
 
-;;;;; Posframe
+;;;;; Childframes & Posframes
+
+(use-package eldoc-box
+  :bind
+  ("s-?" . eldoc-box-help-at-point))
 
 (use-package posframe
   :config
