@@ -47,6 +47,7 @@
   (read-process-output-max (* 1024 1024))
   (use-short-answers t)
   (x-underline-at-descent-line t)
+  (cursor-type 'bar)
   :config
   (setq-default line-spacing 2
                 tab-width default-indent-width
