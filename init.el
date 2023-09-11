@@ -1483,11 +1483,15 @@
   :init
   (global-hl-line-mode))
 
-(use-package highlight-indent-guides
+(use-package indent-bars
+  :vc
+  (:url "https://github.com/jdtsmith/indent-bars.git")
   :custom
-  (highlight-indent-guides-method 'character)
+  (indent-bars-prefer-character t)
+  (indent-bars-highlight-current-depth '(:blend 0.64))
+  (indent-bars-treesit-support t)
   :hook
-  (yaml-ts-mode . highlight-indent-guides-mode))
+  (yaml-ts-mode . indent-bars-mode))
 
 (use-package hl-sentence
   :hook
