@@ -1,12 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(load (concat user-emacs-directory "lib.el"))
-(use-package no-littering :demand t)
-(use-package use-package-chords :demand t)
-(use-feature use-package-ensure-system-package :demand t)
-
-;;;;; Personal Variables & Key Maps
+;;;;; Personal Variables, Macros, & Helpers
 
 (defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-ts-mode))
 (defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
@@ -15,6 +9,106 @@
 (define-prefix-command 'hemacs-help-map)
 (bind-key "s-g" #'hemacs-git-map)
 (bind-key "s-h" #'hemacs-help-map)
+
+(defmacro def (name &rest body)
+  (declare (indent 1) (debug t))
+  `(defun ,name (&optional _arg)
+     ,(if (stringp (car body)) (car body))
+     (interactive "p")
+     ,@(if (stringp (car body)) (cdr `,body) body)))
+
+(defmacro after (feature &rest forms)
+  (declare (indent 1) (debug t))
+  `(,(if (or (not (bound-and-true-p byte-compile-current-file))
+             (if (symbolp feature)
+                 (require feature nil :no-error)
+               (load feature :no-message :no-error)))
+         #'progn
+       #'with-no-warnings)
+    (with-eval-after-load ',feature ,@forms)))
+
+(defmacro use-feature (name &rest args)
+  (declare (indent 1))
+  `(use-package ,name
+     :ensure nil
+      ,@args))
+
+(defun ensure-space (direction)
+  (let* ((char-fn
+          (cond
+           ((eq direction :before)
+            #'char-before)
+           ((eq direction :after)
+            #'char-after)))
+         (char-result (funcall char-fn)))
+    (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
+      (insert " "))
+    (when (and (eq char-fn #'char-after) (looking-at " "))
+      (forward-char))))
+
+(def self-with-space
+  (call-interactively #'self-insert-command)
+  (ensure-space :after))
+
+(def pad-equals
+  (if (nth 3 (syntax-ppss))
+      (call-interactively #'self-insert-command)
+    (cond ((looking-back "=[[:space:]]" nil)
+           (delete-char -1))
+          ((looking-back "[^#/|!<>+~]" nil)
+           (ensure-space :before)))
+    (self-with-space)))
+
+(def open-brackets-newline-and-indent
+  (let ((inhibit-message t)
+        (text
+         (when (region-active-p)
+           (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (when (region-active-p)
+      (delete-region (region-beginning) (region-end)))
+    (unless (looking-back (rx (or "(" "[")) nil)
+      (ensure-space :before))
+    (insert (concat "{\n" text "\n}"))
+    (indent-according-to-mode)
+    (forward-line -1)
+    (indent-according-to-mode)))
+
+(def pad-brackets
+  (unless (looking-back (rx (or "(" "[")) nil)
+    (ensure-space :before))
+  (insert "{  }")
+  (backward-char 2))
+
+(def insert-arrow
+  (ensure-space :before)
+  (insert "->")
+  (ensure-space :after))
+
+(def insert-fat-arrow
+  (ensure-space :before)
+  (insert "=>")
+  (ensure-space :after))
+
+(def pad-pipes
+  (ensure-space :before)
+  (insert "||")
+  (backward-char))
+
+(defun inhibit-message-in-minibuffer (f &rest args)
+  (let ((inhibit-message (minibufferp)))
+    (apply f args)))
+
+(def text-smaller-no-truncation
+  (setq truncate-lines nil)
+  (set (make-local-variable 'scroll-margin) 0)
+  (text-scale-set -0.25))
+
+;;;;; Packages
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(use-package no-littering :demand t)
+(use-package use-package-chords :demand t)
+(use-feature use-package-ensure-system-package :demand t)
 
 ;;;;; Bootstrap
 
@@ -32,12 +126,6 @@
   (ring-bell-function #'ignore)
   (ns-function-modifier 'control)
   (create-lockfiles nil)
-  (disabled-command-function nil)
-  (ad-redefinition-action 'accept)
-  (custom-safe-themes t)
-  (custom-file (make-temp-file "emacs-custom"))
-  (initial-scratch-message nil)
-  (inhibit-startup-echo-area-message "")
   (enable-recursive-minibuffers t)
   (kill-buffer-query-functions nil)
   (frame-inhibit-implied-resize t)
@@ -51,16 +139,25 @@
   :config
   (setq-default line-spacing 2
                 tab-width default-indent-width
-                indent-tabs-mode nil
                 cursor-in-non-selected-windows nil
-                sentence-end-double-space nil
                 fill-column 100
-                truncate-lines t)
-  (add-hook 'minibuffer-setup-hook #'defer-garbage-collection)
-  (add-hook 'minibuffer-exit-hook #'restore-garbage-collection)
-  (add-hook 'emacs-startup-hook #'restore-garbage-collection 100)
-  (add-hook 'emacs-startup-hook #'restore-default-file-name-handler-alist)
-  (add-hook 'window-setup-hook #'restore-redisplay-and-message))
+                truncate-lines t))
+
+(use-feature cus-edit
+  :custom
+  (custom-file (make-temp-file "emacs-custom")))
+
+(use-feature advice
+  :custom
+  (ad-redefinition-action 'accept))
+
+(use-feature novice
+  :custom
+  (disabled-command-function nil))
+
+(use-feature paragraphs
+  :custom
+  (sentence-end-double-space nil))
 
 (use-package dash
   :custom
@@ -78,10 +175,6 @@
   (transform-string-at-point-cursor-after-transform 'next-string)
   :bind
   ("s-;" . transform-string-at-point))
-
-(use-feature tool-bar
-  :config
-  (tool-bar-mode -1))
 
 (use-feature menu-bar
   :bind
@@ -327,6 +420,7 @@
 
 (use-feature simple
   :custom
+  (indent-tabs-mode nil)
   (set-mark-command-repeat-pop t)
   (save-interprogram-paste-before-kill t)
   (kill-do-not-save-duplicates t)
@@ -358,6 +452,11 @@
   (defun progish-delete-trailing-whitespace ()
     (when (derived-mode-p 'prog-mode)
       (delete-trailing-whitespace)))
+  (defun keyboard-quit-minibuffer-first (f &rest args)
+    (if-let ((minibuffer (active-minibuffer-window)))
+        (with-current-buffer (window-buffer minibuffer)
+          (minibuffer-keyboard-quit))
+      (apply f args)))
   (advice-add 'keyboard-quit :around #'keyboard-quit-minibuffer-first)
   (defun pop-to-mark-command-until-new-point (f &rest args)
     (let ((p (point)))
@@ -826,8 +925,9 @@
   :hook
   (sgml-mode . sgml-electric-tag-pair-mode)
   :config
-  (add-λ 'sgml-mode-hook
+  (defun run-prog-mode-hooks ()
     (run-hooks 'prog-mode-hook))
+  (add-hook 'sgml-mode-hook #'run-prog-mode-hooks)
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
   (def html-newline-dwim
@@ -1288,6 +1388,10 @@
   (after-init . treesit-auto-install-all))
 
 ;;;;; Appearance
+
+(use-feature custom
+  :custom
+  (custom-safe-themes t))
 
 (use-feature faces
   :init

@@ -1,23 +1,33 @@
 ;; -*- lexical-binding: t -*-
 
-(setq gc-cons-threshold most-positive-fixnum)
-(setq load-prefer-newer noninteractive)
-
 (defvar default-file-name-handler-alist file-name-handler-alist)
-(setq-default file-name-handler-alist nil)
 
-(setq inhibit-startup-screen t)
-(setq inhibit-startup-buffer-menu t)
-(setq inhibit-default-init t)
-(setq site-run-file nil)
-(setq-default inhibit-redisplay t)
-(setq-default inhibit-message t)
+(setq file-name-handler-alist nil
+      gc-cons-threshold most-positive-fixnum
+      inhibit-default-init t
+      inhibit-message t
+      inhibit-redisplay t
+      inhibit-startup-buffer-menu t
+      inhibit-startup-echo-area-message ""
+      initial-scratch-message nil
+      inhibit-startup-screen t
+      load-prefer-newer noninteractive
+      package-native-compile t
+      package-quickstart t
+      site-run-file nil
+      use-package-always-defer t
+      use-package-always-ensure t
+      use-package-enable-imenu-support t)
 
-(setq use-package-enable-imenu-support t)
-(setq use-package-always-defer t)
-(setq use-package-always-ensure t)
 
-(setq package-native-compile t)
-(setq package-quickstart t)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(undecorated . t) default-frame-alist)
 
-(add-to-list 'initial-frame-alist '(undecorated . t))
+(defun hemacs-startup ()
+  (setq file-name-handler-alist default-file-name-handler-alist
+        gc-cons-threshold (* 1024 1024 64)
+        inhibit-redisplay nil
+        inhibit-message nil)
+  (makunbound 'default-file-name-handler-alist))
+
+(add-hook 'emacs-startup-hook #'hemacs-startup 100)
