@@ -31,7 +31,7 @@
   (declare (indent 1))
   `(use-package ,name
      :ensure nil
-      ,@args))
+     ,@args))
 
 (defun ensure-space (direction)
   (let* ((char-fn
@@ -1351,7 +1351,7 @@
     (unless mini-popup-mode
       (apply args)))
   (advice-add #'vertico--resize-window :around #'maybe-disable-vertico-resize-window)
-  (add-hook 'consult--completion-refresh-hook #'mini-popup--setup 99)
+  (add-hook 'consult--completion-refresh-hook #'mini-popup--setup-hook 99)
   :hook
   (after-init . mini-popup-mode))
 
