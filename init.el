@@ -1318,7 +1318,6 @@
   (window-divider-default-right-width 1)
   (window-divider-default-bottom-width 1)
   :init
-  (add-to-list 'initial-frame-alist '(undecorated . t))
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
   (window-divider-mode)
   (blink-cursor-mode))

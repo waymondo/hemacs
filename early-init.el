@@ -19,3 +19,5 @@
 
 (setq package-native-compile t)
 (setq package-quickstart t)
+
+(add-to-list 'initial-frame-alist '(undecorated . t))
