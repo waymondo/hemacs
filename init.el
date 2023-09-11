@@ -170,7 +170,7 @@
 
 (use-package transform-string-at-point
   :vc
-  (:url "https://github.com/waymondo/transform-string-at-point.git")
+  (:url "https://github.com/waymondo/transform-string-at-point" :rev :newest)
   :custom
   (transform-string-at-point-cursor-after-transform 'next-string)
   :bind
@@ -477,7 +477,7 @@
 
 (use-package expreg
   :vc
-  (:url "https://github.com/casouri/expreg.git")
+  (:url "https://github.com/casouri/expreg" :rev :newest)
   :bind
   ("C-," . expreg-expand))
 
@@ -1333,7 +1333,7 @@
 
 (use-package mini-popup
   :vc
-  (:url "https://github.com/minad/mini-popup.git")
+  (:url "https://github.com/minad/mini-popup" :rev :newest)
   :config
   (setq mini-popup--frame-parameters
         (map-merge
@@ -1485,7 +1485,7 @@
 
 (use-package indent-bars
   :vc
-  (:url "https://github.com/jdtsmith/indent-bars.git")
+  (:url "https://github.com/jdtsmith/indent-bars" :rev :newest)
   :custom
   (indent-bars-prefer-character t)
   (indent-bars-highlight-current-depth '(:blend 0.64))
