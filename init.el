@@ -1415,6 +1415,10 @@
   :hook
   (after-init . global-ligature-mode))
 
+(use-package hl-todo
+  :hook
+  (after-init . global-hl-todo-mode))
+
 (use-feature frame
   :custom
   (blink-cursor-blinks 0)
