@@ -1501,11 +1501,13 @@
   :hook
   (text-mode . hl-sentence-mode))
 
-(use-package rainbow-delimiters
+(use-package paren-face
   :hook
-  (prog-mode . rainbow-delimiters-mode)
+  (after-init . global-paren-face-mode)
   :custom
-  (rainbow-delimiters-max-face-count 5))
+  (paren-face-regexp "[][(){}]")
+  :config
+  (push 'prog-mode paren-face-modes))
 
 (use-package moody
   :init
