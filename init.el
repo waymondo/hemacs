@@ -33,67 +33,6 @@
      :ensure nil
      ,@args))
 
-(defun ensure-space (direction)
-  (let* ((char-fn
-          (cond
-           ((eq direction :before)
-            #'char-before)
-           ((eq direction :after)
-            #'char-after)))
-         (char-result (funcall char-fn)))
-    (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
-      (insert " "))
-    (when (and (eq char-fn #'char-after) (looking-at " "))
-      (forward-char))))
-
-(def self-with-space
-  (call-interactively #'self-insert-command)
-  (ensure-space :after))
-
-(def pad-equals
-  (if (nth 3 (syntax-ppss))
-      (call-interactively #'self-insert-command)
-    (cond ((looking-back "=[[:space:]]" nil)
-           (delete-char -1))
-          ((looking-back "[^#/|!<>+~]" nil)
-           (ensure-space :before)))
-    (self-with-space)))
-
-(def open-brackets-newline-and-indent
-  (let ((inhibit-message t)
-        (text
-         (when (region-active-p)
-           (buffer-substring-no-properties (region-beginning) (region-end)))))
-    (when (region-active-p)
-      (delete-region (region-beginning) (region-end)))
-    (unless (looking-back (rx (or "(" "[")) nil)
-      (ensure-space :before))
-    (insert (concat "{\n" text "\n}"))
-    (indent-according-to-mode)
-    (forward-line -1)
-    (indent-according-to-mode)))
-
-(def pad-brackets
-  (unless (looking-back (rx (or "(" "[")) nil)
-    (ensure-space :before))
-  (insert "{  }")
-  (backward-char 2))
-
-(def insert-arrow
-  (ensure-space :before)
-  (insert "->")
-  (ensure-space :after))
-
-(def insert-fat-arrow
-  (ensure-space :before)
-  (insert "=>")
-  (ensure-space :after))
-
-(def pad-pipes
-  (ensure-space :before)
-  (insert "||")
-  (backward-char))
-
 (defun inhibit-message-in-minibuffer (f &rest args)
   (let ((inhibit-message (minibufferp)))
     (apply f args)))
@@ -1605,6 +1544,24 @@
   (key-chord-safety-interval-forward 0.05)
   (key-chord-safety-interval-backward 0.05)
   (key-chord-two-keys-delay 0.05)
+  :init
+  (def insert-arrow
+    (ensure-space :before)
+    (insert "->")
+    (ensure-space :after))
+  (def insert-fat-arrow
+    (ensure-space :before)
+    (insert "=>")
+    (ensure-space :after))
+  (def pad-pipes
+    (ensure-space :before)
+    (insert "||")
+    (backward-char))
+  (def pad-brackets
+    (unless (looking-back (rx (or "(" "[")) nil)
+      (ensure-space :before))
+    (insert "{  }")
+    (backward-char 2))
   :config
   (key-chord-mode 1))
 
@@ -1620,3 +1577,45 @@
     (let ((pattern (concat "^" prefix "-\\(.+\\)")))
       (push `((nil . ,pattern) . (nil . "\\1"))
             which-key-replacement-alist))))
+
+;;;;; Snippets
+
+(defun ensure-space (direction)
+  (let* ((char-fn
+          (cond
+           ((eq direction :before)
+            #'char-before)
+           ((eq direction :after)
+            #'char-after)))
+         (char-result (funcall char-fn)))
+    (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
+      (insert " "))
+    (when (and (eq char-fn #'char-after) (looking-at " "))
+      (forward-char))))
+
+(def self-with-space
+  (call-interactively #'self-insert-command)
+  (ensure-space :after))
+
+(def pad-equals
+  (if (nth 3 (syntax-ppss))
+      (call-interactively #'self-insert-command)
+    (cond ((looking-back "=[[:space:]]" nil)
+           (delete-char -1))
+          ((looking-back "[^#/|!<>+~]" nil)
+           (ensure-space :before)))
+    (self-with-space)))
+
+(def open-brackets-newline-and-indent
+  (let ((inhibit-message t)
+        (text
+         (when (region-active-p)
+           (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (when (region-active-p)
+      (delete-region (region-beginning) (region-end)))
+    (unless (looking-back (rx (or "(" "[")) nil)
+      (ensure-space :before))
+    (insert (concat "{\n" text "\n}"))
+    (indent-according-to-mode)
+    (forward-line -1)
+    (indent-according-to-mode)))
