@@ -1278,10 +1278,6 @@
     (apply f (car args) (plist-put (cdr args) :internal-border-width 12)))
   (advice-add 'posframe-show :around #'hemacs-posframe-arghandler))
 
-(use-package transient
-  :custom
-  (transient-show-popup nil))
-
 (use-package transient-posframe
   :custom
   (transient-posframe-poshandler #'posframe-poshandler-point-bottom-left-corner)
@@ -1306,7 +1302,6 @@
   :custom
   (frog-jump-buffer-posframe-handler #'posframe-poshandler-frame-center)
   (frog-jump-buffer-default-filters-capital-letters t)
-  (frog-jump-buffer-filter-actions '(("X" "[special]" frog-jump-buffer-filter-special-buffers)))
   (frog-jump-buffer-project-package 'project)
   :config
   (dolist
@@ -1326,10 +1321,7 @@
          "^\\*Warnings"
          "^\\*eldoc"
          "\\^*Shell Command"))
-    (push regexp frog-jump-buffer-ignore-buffers))
-  (defun frog-jump-buffer-filter-special-buffers (buffer)
-    (with-current-buffer buffer
-      (-any? #'derived-mode-p '(comint-mode vterm-mode magit-mode inf-ruby-mode rg-mode compilation-mode)))))
+    (push regexp frog-jump-buffer-ignore-buffers)))
 
 (use-package mini-popup
   :vc
