@@ -37,9 +37,11 @@
   (let ((inhibit-message (minibufferp)))
     (apply f args)))
 
-(def text-smaller-no-truncation
+(defun reset-scroll-margin ()
+  (set (make-local-variable 'scroll-margin) 0))
+
+(defun text-smaller-no-truncation ()
   (setq truncate-lines nil)
-  (set (make-local-variable 'scroll-margin) 0)
   (text-scale-set -0.25))
 
 ;;;;; Packages
@@ -145,6 +147,7 @@
   (comint-prompt-read-only t)
   :hook
   (comint-mode . text-smaller-no-truncation)
+  (comint-mode . reset-scroll-margin)
   :config
   (setq-default comint-input-ignoredups t
                 comint-scroll-show-maximum-output nil
@@ -180,6 +183,7 @@
   (compilation-ask-about-save nil)
   :hook
   (compilation-mode . text-smaller-no-truncation)
+  (compilation-mode . reset-scroll-margin)
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
@@ -193,15 +197,9 @@
   :custom
   (warning-suppress-types '((comp) (undo discard-info))))
 
-(use-package vterm
-  :demand t
-  :ensure-system-package cmake
-  :custom
-  (vterm-always-compile-module t)
-  :bind
-  ("s-k" . vterm-clear)
+(use-package mistty
   :hook
-  (vterm-mode . text-smaller-no-truncation))
+  (mistty-mode . reset-scroll-margin))
 
 (use-feature sh-script
   :mode
@@ -729,10 +727,6 @@
   :hook
   ((prog-mode text-mode eglot-managed-mode) . tempel-setup-capf))
 
-(use-package bash-completion
-  :init
-  (bash-completion-setup))
-
 ;;;;; Navigation & Search
 
 (use-feature window
@@ -793,23 +787,24 @@
   :bind-keymap
   ("s-p" . project-prefix-map)
   :bind
-  ("C-x m" . project-vterm)
+  ("C-x m" . project-mistty)
   (:map project-prefix-map
         ("m" . magit-project-status)
-        ("t" . project-vterm))
+        ("t" . project-mistty))
   :chords
   (";t" . project-find-file)
   :custom
   (project-switch-use-entire-map t)
   :init
-  (defun project-vterm ()
+  (defun project-mistty ()
     (interactive)
     (let* ((default-directory (project-root (project-current t)))
-           (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
-           (vterm-buffer (get-buffer default-project-vterm-name)))
-      (if (and vterm-buffer (not current-prefix-arg))
-          (pop-to-buffer vterm-buffer display-comint-buffer-action)
-        (vterm (generate-new-buffer-name default-project-vterm-name))))))
+           (default-project-mistty-name (project-prefixed-buffer-name "mistty"))
+           (mistty-buffer (get-buffer default-project-mistty-name)))
+      (if (and mistty-buffer (not current-prefix-arg))
+          (pop-to-buffer mistty-buffer display-comint-buffer-action)
+        (with-current-buffer (mistty-create)
+          (rename-buffer (generate-new-buffer-name default-project-mistty-name)))))))
 
 (use-package projector
   :bind
@@ -817,9 +812,7 @@
   (:map comint-mode-map ("s-R" . projector-rerun-buffer-process))
   (:map project-prefix-map ("RET" . projector-run-shell-command-project-root))
   :custom
-  (projector-project-package 'project)
-  (projector-command-modes-alist
-   '(("^heroku console" . inf-ruby-mode))))
+  (projector-project-package 'project))
 
 (use-package beginend
   :init
