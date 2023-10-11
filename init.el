@@ -198,6 +198,9 @@
   (warning-suppress-types '((comp) (undo discard-info))))
 
 (use-package mistty
+  :bind
+  ("C-x m" . mistty-in-project)
+  (:map project-prefix-map ("t" . mistty-in-project))
   :hook
   (mistty-mode . reset-scroll-margin))
 
@@ -786,25 +789,10 @@
   :demand t
   :bind-keymap
   ("s-p" . project-prefix-map)
-  :bind
-  ("C-x m" . project-mistty)
-  (:map project-prefix-map
-        ("m" . magit-project-status)
-        ("t" . project-mistty))
   :chords
   (";t" . project-find-file)
   :custom
-  (project-switch-use-entire-map t)
-  :init
-  (defun project-mistty ()
-    (interactive)
-    (let* ((default-directory (project-root (project-current t)))
-           (default-project-mistty-name (project-prefixed-buffer-name "mistty"))
-           (mistty-buffer (get-buffer default-project-mistty-name)))
-      (if (and mistty-buffer (not current-prefix-arg))
-          (pop-to-buffer mistty-buffer display-comint-buffer-action)
-        (with-current-buffer (mistty-create)
-          (rename-buffer (generate-new-buffer-name default-project-mistty-name)))))))
+  (project-switch-use-entire-map t))
 
 (use-package projector
   :bind
@@ -1098,6 +1086,7 @@
   ("s-m" . magit-status)
   (:map hemacs-git-map ("l" . magit-clone))
   (:map hemacs-git-map ("f" . magit-diff-buffer-file))
+  (:map project-prefix-map ("m" . magit-project-status))
   :custom
   (magit-status-goto-file-position t)
   (magit-log-section-commit-count 0)
