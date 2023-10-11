@@ -19,11 +19,11 @@ js-base-mode typescript-ts-base-mode
 
 ruby-base-mode
 
-(def "def " p n> p n "end")
 (fsl "# frozen_string_literal: true" n)
-(init "def initialize " p n> p n "end")
+(init "def initialize(" p ")")
+(tc "require \"test_helper\"" n n "class " (s-upper-camel-case (s-chop-suffix "_test" (file-name-base (or (buffer-file-name) (buffer-name))))) "Test < ActiveSupport::TestCase" n "  " p n "end")
 (p "puts \"#############\"" n> "pp " p n> "puts \"#############\"")
-(here (p "name: " name t) > "<<~" (upcase name) n> p n> (upcase name) n>)
+(here (p "name: " name t) > "<<~" (upcase name) n> "  " p n> (upcase name) n>)
 
 ;; Local Variables:
 ;; mode: lisp-data
