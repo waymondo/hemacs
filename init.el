@@ -201,6 +201,8 @@
   :bind
   ("C-x m" . mistty-in-project)
   (:map project-prefix-map ("t" . mistty-in-project))
+  :custom
+  (mistty-detect-foreign-overlays nil)
   :hook
   (mistty-mode . reset-scroll-margin))
 
