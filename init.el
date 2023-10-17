@@ -1299,8 +1299,7 @@
   :custom
   (treesit-auto-install t)
   :hook
-  (after-init . global-treesit-auto-mode)
-  (after-init . treesit-auto-install-all))
+  (after-init . global-treesit-auto-mode))
 
 ;;;;; Appearance
 
