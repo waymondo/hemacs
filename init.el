@@ -985,14 +985,7 @@
       (move-beginning-of-line nil)
       (if add-newline
           (smart-newline)
-        (indent-according-to-mode))))
-  (defun hippie-expand-ruby-symbols (f &rest args)
-    (if (eq major-mode 'ruby-ts-mode)
-        (let ((table (make-syntax-table ruby-mode-syntax-table)))
-          (modify-syntax-entry ?: "." table)
-          (with-syntax-table table (apply f args)))
-      (apply f args)))
-  (advice-add 'hippie-expand :around #'hippie-expand-ruby-symbols))
+        (indent-according-to-mode)))))
 
 (use-package ruby-tools
   :demand t
