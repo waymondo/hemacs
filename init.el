@@ -958,8 +958,7 @@
   :config
   (def slim-newline-dwim
     (move-end-of-line nil)
-    (newline-and-indent))
-  (add-λ 'slim-mode-hook (modify-syntax-entry ?\= ".")))
+    (newline-and-indent)))
 
 (use-feature ruby-ts-mode
   :bind
