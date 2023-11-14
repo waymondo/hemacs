@@ -923,7 +923,11 @@
 
 (use-package nodejs-repl)
 
-(use-package graphql-mode)
+(use-package graphql-ts-mode
+  :config
+  (after treesit
+    (add-to-list 'treesit-language-source-alist
+                 '(graphql "https://github.com/bkegley/tree-sitter-graphql"))))
 
 (use-package dotenv-mode)
 
