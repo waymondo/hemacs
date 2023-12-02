@@ -1050,6 +1050,7 @@
   :demand t)
 
 (use-feature yaml-ts-mode
+  :demand t
   :bind
   (:map yaml-ts-mode-map (":" . self-with-space))
   :hook
