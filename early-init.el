@@ -22,6 +22,7 @@
 
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(undecorated . t) default-frame-alist)
+(push '(fullscreen . maximized) initial-frame-alist)
 
 (defun hemacs-startup ()
   (setq file-name-handler-alist default-file-name-handler-alist

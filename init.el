@@ -1337,7 +1337,6 @@
   (window-divider-default-right-width 1)
   (window-divider-default-bottom-width 1)
   :init
-  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
   (window-divider-mode)
   (blink-cursor-mode))
 
@@ -1364,7 +1363,7 @@
   :custom
   (pulse-iterations 20)
   :hook
-  (window-configuration-change-hook . hemacs-pulse-line)
+  (window-configuration-change . hemacs-pulse-line)
   :config
   (defun hemacs-pulse-line (&rest _)
     (interactive)
