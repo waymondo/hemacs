@@ -1247,24 +1247,31 @@
   :vc
   (:url "https://github.com/minad/mini-popup" :rev :newest)
   :config
-  (setq mini-popup--frame-parameters
-        (map-merge
-         'alist
-         mini-popup--frame-parameters
-         `(
-           (height . ,(* (1+ (if vertico--input vertico-count 0)) (default-line-height)))
-           (width . ,(/ (- (frame-inner-width) (* 2 (default-line-height))) 4))
-           (left . 0.375)
-           (top . ,(/ (/ (float (* (default-line-height) (1- vertico-count))) (frame-inner-height)) 2))
-           (child-frame-border-width . ,(/ (default-line-height) 2))
-           (left-fringe . 0)
-           (right-fringe . 0))))
+  (defun set-mini-popup-frame-parameters ()
+    (let* ((char-height (frame-char-height))
+           (mini-frame-height (+ 3 vertico-count))
+           (mini-frame-width 128)
+           (mini-frame-border-width (/ char-height 2)))
+      (setq mini-popup--frame-parameters
+            (map-merge
+             'alist
+             mini-popup--frame-parameters
+             `(
+               (height . ,mini-frame-height)
+               (width . ,mini-frame-width)
+               (user-position . t)
+               (left . ,(/ (- (frame-outer-width) (* mini-frame-width (frame-char-width)) char-height) 2))
+               (top . ,(/ (- (frame-outer-height) (* mini-frame-height (frame-char-height)) char-height) 2))
+               (child-frame-border-width . ,mini-frame-border-width)
+               (left-fringe . 0)
+               (right-fringe . 0))))))
   (defun maybe-disable-vertico-resize-window (&rest args)
     (unless mini-popup-mode
       (apply args)))
   (advice-add #'vertico--resize-window :around #'maybe-disable-vertico-resize-window)
   (add-hook 'consult--completion-refresh-hook #'mini-popup--setup 99)
   :hook
+  (mini-popup-mode . set-mini-popup-frame-parameters)
   (after-init . mini-popup-mode))
 
 ;;;;; Language Server & Tree Sitter
