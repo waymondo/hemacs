@@ -983,7 +983,7 @@
                            (looking-at "\|$")
                            (looking-at "\)$"))))
       (move-end-of-line nil)
-      (smart-newline)
+      (newline)
       (insert "end")
       (move-beginning-of-line nil)
       (if add-newline
