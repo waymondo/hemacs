@@ -1376,6 +1376,7 @@
     (interactive)
     (let ((pulse-command-advice-flag
            (not (or (window-minibuffer-p)
+                    (frame-parent)
                     (seq-find 'derived-mode-p '(magit-status-mode comint-mode vterm-mode))))))
       (pulse-line-hook-function)))
   (dolist (command '(next-window-any-frame
