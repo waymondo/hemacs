@@ -1057,11 +1057,9 @@
   :bind
   (:map text-mode-map ("," . self-with-space)))
 
-(use-package lua-mode
-  :mode
-  ("\\.lua$" . lua-mode)
+(use-feature lua-ts-mode
   :custom
-  (lua-indent-level 2))
+  (lua-ts-indent-offset 2))
 
 ;;;;; Version Control
 
