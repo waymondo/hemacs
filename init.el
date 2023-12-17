@@ -615,12 +615,7 @@
   (";r" . consult-imenu)
   (":R" . consult-imenu-multi)
   :custom
-  (consult-project-root-function #'consult-project-current)
-  (consult-preview-key "M-.")
-  :init
-  (defun consult-project-current ()
-    (when-let (project (project-current))
-      (car (project-roots project)))))
+  (consult-preview-key "M-."))
 
 (use-package affe
   :custom
