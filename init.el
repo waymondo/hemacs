@@ -791,7 +791,8 @@
   :chords
   (";t" . project-find-file)
   :custom
-  (project-switch-use-entire-map t))
+  (project-switch-use-entire-map t)
+  (project-mode-line t))
 
 (use-package projector
   :bind
