@@ -945,10 +945,6 @@
   :bind
   ("C-M-\\" . format-all-buffer))
 
-(use-package prettier-js
-  :hook
-  (typescript-ts-base-mode . prettier-js-mode))
-
 (use-package slim-mode
   :bind
   (:map slim-mode-map
