@@ -420,8 +420,6 @@
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
 
 (use-package expreg
-  :vc
-  (:url "https://github.com/casouri/expreg" :rev :newest)
   :bind
   ("C-," . expreg-expand))
 
