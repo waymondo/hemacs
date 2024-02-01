@@ -1239,8 +1239,9 @@
   :config
   (defun set-mini-popup-frame-parameters ()
     (let* ((char-height (frame-char-height))
+           (selected-frame-width (frame-width))
            (mini-frame-height (+ 3 vertico-count))
-           (mini-frame-width 128)
+           (mini-frame-width (if (< selected-frame-width 128) selected-frame-width 128))
            (mini-frame-border-width (/ char-height 2)))
       (setq mini-popup--frame-parameters
             (map-merge
@@ -1260,8 +1261,13 @@
       (apply args)))
   (advice-add #'vertico--resize-window :around #'maybe-disable-vertico-resize-window)
   (add-hook 'consult--completion-refresh-hook #'mini-popup--setup 99)
+  (defun maybe-reset-mini-popup-mode ()
+    (when (and mini-popup-mode mini-popup--frame (frame-size-changed-p) (not (frame-parent)))
+      (set-mini-popup-frame-parameters)
+      (modify-frame-parameters mini-popup--frame mini-popup--frame-parameters)))
   :hook
   (mini-popup-mode . set-mini-popup-frame-parameters)
+  (window-configuration-change . maybe-reset-mini-popup-mode)
   (after-init . mini-popup-mode))
 
 ;;;;; Language Server & Tree Sitter
