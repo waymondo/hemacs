@@ -1441,12 +1441,14 @@
   (fringe-indicator-alist
    (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
 
-(use-package apropospriate-theme
+(use-package apropospriate-theme)
+
+(use-package auto-dark
   :custom
-  (apropospriate-org-level-resizing nil)
-  :init
-  (load-theme 'apropospriate-light t t)
-  (load-theme 'apropospriate-dark t))
+  (auto-dark-dark-theme 'apropospriate-dark)
+  (auto-dark-light-theme 'apropospriate-light)
+  :hook
+  (after-init . auto-dark-mode))
 
 (use-package popper
   :bind
