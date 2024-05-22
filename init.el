@@ -111,7 +111,7 @@
 
 (use-package transform-string-at-point
   :vc
-  (:url "https://github.com/waymondo/transform-string-at-point" :rev :newest)
+  (:url "https://github.com/waymondo/transform-string-at-point")
   :custom
   (transform-string-at-point-cursor-after-transform 'next-string)
   :bind
@@ -1235,7 +1235,7 @@
 
 (use-package mini-popup
   :vc
-  (:url "https://github.com/minad/mini-popup" :rev :newest)
+  (:url "https://github.com/minad/mini-popup")
   :config
   (defun set-mini-popup-frame-parameters ()
     (let* ((char-height (frame-char-height))

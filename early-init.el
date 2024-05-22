@@ -17,7 +17,8 @@
       site-run-file nil
       use-package-always-defer t
       use-package-always-ensure t
-      use-package-enable-imenu-support t)
+      use-package-enable-imenu-support t
+      use-package-vc-prefer-newest t)
 
 
 (push '(tool-bar-lines . 0) default-frame-alist)
