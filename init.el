@@ -117,10 +117,6 @@
   :bind
   ("s-;" . transform-string-at-point))
 
-(use-feature menu-bar
-  :bind
-  ("s-w" . kill-this-buffer))
-
 (use-feature subr
   :config
   (y-or-n-p-use-read-key t))
