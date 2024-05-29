@@ -3,7 +3,7 @@
 ;;;;; Personal Variables, Macros, & Helpers
 
 (defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-ts-mode))
-(defconst writing-modes '(org-mode markdown-mode fountain-mode git-commit-mode))
+(defconst writing-modes '(org-mode markdown-ts-mode fountain-mode git-commit-mode))
 (defconst default-indent-width 2)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-help-map)
@@ -353,10 +353,6 @@
     (ensure-space :before)
     (insert "TODO:")
     (ensure-space :after)))
-
-(use-feature face-remap
-  :hook
-  (writing-modes . variable-pitch-mode))
 
 (use-feature simple
   :custom
@@ -873,24 +869,16 @@
   :hook
   (sgml-mode web-mode))
 
-(use-package markdown-mode
+(use-package markdown-ts-mode
   :mode
-  ("\\.md\\'" . gfm-mode)
-  ("\\.markdown\\'" . gfm-mode)
+  ("\\.md\\'" . markdown-ts-mode)
   :bind
-  (:map markdown-mode-map ("," . self-with-space))
-  :ensure-system-package (marked . "npm i -g marked")
-  :custom
-  (markdown-fontify-code-blocks-natively t)
-  (markdown-command "marked")
-  (markdown-indent-on-enter nil))
+  (:map markdown-ts-mode-map ("," . self-with-space)))
 
-(use-package pandoc-mode
-  :after (markdown-mode org-mode)
-  :ensure-system-package pandoc
-  :hook
-  (markdown-mode org-mode)
-  (pandoc-mode . pandoc-load-default-settings))
+(use-package gh-md
+  :after markdown-ts-mode
+  :bind
+  (:map markdown-ts-mode-map ("C-c b" . gh-md-render-buffer)))
 
 (use-feature css-mode
   :bind
@@ -1279,7 +1267,7 @@
     toml-ts-mode
     lua-mode
     dockerfile-ts-mode
-    markdown-mode
+    markdown-ts-mode
     sh-base-mode) . eglot-ensure)
   :bind
   ("C-M-s-\\" . eglot-format)
@@ -1289,7 +1277,9 @@
   (defun disable-eglot-format-check (f &rest args)
     (cl-letf (((symbol-function 'eglot--server-capable) #'identity))
       (apply f args)))
-  (advice-add #'eglot-format :around #'disable-eglot-format-check))
+  (advice-add #'eglot-format :around #'disable-eglot-format-check)
+  :config
+  (add-to-list 'eglot-server-programs '(markdown-ts-mode . ("marksman" "server"))))
 
 (use-package treesit-auto
   :custom
