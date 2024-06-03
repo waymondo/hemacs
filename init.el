@@ -136,7 +136,6 @@
   (:map comint-mode-map
         ("RET"       . comint-return-dwim)
         ("C-r"       . comint-history-isearch-backward-regexp)
-        ("s-k"       . comint-clear-buffer)
         ("M-TAB"     . comint-previous-matching-input-from-input)
         ("<M-S-tab>" . comint-next-matching-input-from-input))
   :custom
