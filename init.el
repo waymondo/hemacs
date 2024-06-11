@@ -10,13 +10,6 @@
 (bind-key "s-g" #'hemacs-git-map)
 (bind-key "s-h" #'hemacs-help-map)
 
-(defmacro def (name &rest body)
-  (declare (indent 1) (debug t))
-  `(defun ,name (&optional _arg)
-     ,(if (stringp (car body)) (car body))
-     (interactive "p")
-     ,@(if (stringp (car body)) (cdr `,body) body)))
-
 (defmacro after (feature &rest forms)
   (declare (indent 1) (debug t))
   `(,(if (or (not (bound-and-true-p byte-compile-current-file))
@@ -153,7 +146,8 @@
   (defun turn-on-comint-history (history-file)
     (setopt comint-input-ring-file-name history-file)
     (comint-read-input-ring 'silent))
-  (def comint-return-dwim
+  (defun comint-return-dwim ()
+    (interactive)
     (cond
      ((comint-after-pmark-p)
       (comint-send-input))
@@ -347,7 +341,8 @@
   ("s-." . insert-todo-comment)
   ("s-/" . comment-line)
   :config
-  (def insert-todo-comment
+  (defun insert-todo-comment ()
+    (interactive)
     (call-interactively #'comment-dwim)
     (ensure-space :before)
     (insert "TODO:")
@@ -448,7 +443,8 @@
   ("jk" . avy-goto-word-or-subword-1)
   ("jl" . avy-goto-line)
   :config
-  (def avy-goto-line-this-window
+  (defun avy-goto-line-this-window ()
+    (interactive)
     (avy-goto-line 4)))
 
 (use-package ace-link
@@ -460,7 +456,8 @@
     (let ((compilation-buffer (compilation-find-buffer)))
       (quit-window nil (get-buffer-window compilation-buffer))
       (recenter)))
-  (def avy-jump-error
+  (defun avy-jump-error ()
+    (interactive)
     (let ((compilation-buffer (compilation-find-buffer))
           (next-error-hook '(avy-jump-error-next-error-hook)))
       (when compilation-buffer
@@ -478,7 +475,8 @@
   (defun maybe-enable-smart-newline-mode ()
     (when (not (member major-mode indent-sensitive-modes))
       (smart-newline-mode)))
-  (def eol-then-smart-newline
+  (defun eol-then-smart-newline ()
+    (interactive)
     (move-end-of-line nil)
     (smart-newline)))
 
@@ -554,7 +552,8 @@
   (vertico-count 20)
   :config
   (vertico-mode)
-  (def vertico-quick-insert-and-return
+  (defun vertico-quick-insert-and-return ()
+    (interactive)
     (vertico-quick-insert)
     (vertico-exit))
   :bind
@@ -733,7 +732,8 @@
         nil
       t))
   (advice-add 'window-splittable-p :before-while #'do-not-split-more-than-two-non-side-windows)
-  (def toggle-split-window
+  (defun toggle-split-window ()
+    (interactive)
     (if (eq last-command 'toggle-split-window)
         (progn
           (jump-to-register :toggle-split-window)
@@ -839,7 +839,8 @@
   (add-hook 'sgml-mode-hook #'run-prog-mode-hooks)
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
-  (def html-newline-dwim
+  (defun html-newline-dwim ()
+    (interactive)
     (move-end-of-line nil)
     (smart-newline)
     (sgml-close-tag)
@@ -930,14 +931,9 @@
   :bind
   (:map slim-mode-map
         (","          . self-with-space)
-        (":"          . smart-ruby-colon)
-        ("<C-return>" . slim-newline-dwim))
+        (":"          . smart-ruby-colon))
   :custom
-  (slim-backspace-backdents-nesting nil)
-  :config
-  (def slim-newline-dwim
-    (move-end-of-line nil)
-    (newline-and-indent)))
+  (slim-backspace-backdents-nesting nil))
 
 (use-feature ruby-ts-mode
   :bind
@@ -947,13 +943,15 @@
         (":"          . smart-ruby-colon)
         ("<C-return>" . ruby-newline-dwim))
   :init
-  (def smart-ruby-colon
+  (defun smart-ruby-colon ()
+    (interactive)
     (if (and (looking-back "[[:word:]]" nil)
              (not (memq (get-text-property (- (point) 1) 'face)
                         '(font-lock-type-face tree-sitter-hl-face:type))))
         (insert ": ")
       (insert ":")))
-  (def ruby-newline-dwim
+  (defun ruby-newline-dwim ()
+    (interactive)
     (let ((add-newline (or (eolp)
                            (looking-at "\|$")
                            (looking-at "\)$"))))
@@ -1334,7 +1332,7 @@
   :config
   (add-hook 'window-size-change-functions #'update-scroll-bars)
   (add-hook 'window-selection-change-functions #'update-scroll-bars)
-  (def update-scroll-bars
+  (defun update-scroll-bars ()
     (mapc (lambda (win) (set-window-scroll-bars win nil)) (window-list))
     (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
       (set-window-scroll-bars (selected-window) nil t))))
@@ -1505,19 +1503,23 @@
   (key-chord-safety-interval-backward 0.05)
   (key-chord-two-keys-delay 0.05)
   :init
-  (def insert-arrow
+  (defun insert-arrow ()
+    (interactive)
     (ensure-space :before)
     (insert "->")
     (ensure-space :after))
-  (def insert-fat-arrow
+  (defun insert-fat-arrow ()
+    (interactive)
     (ensure-space :before)
     (insert "=>")
     (ensure-space :after))
-  (def pad-pipes
+  (defun pad-pipes ()
+    (interactive)
     (ensure-space :before)
     (insert "||")
     (backward-char))
-  (def pad-brackets
+  (defun pad-brackets ()
+    (interactive)
     (unless (looking-back (rx (or "(" "[")) nil)
       (ensure-space :before))
     (insert "{  }")
@@ -1553,11 +1555,13 @@
     (when (and (eq char-fn #'char-after) (looking-at " "))
       (forward-char))))
 
-(def self-with-space
+(defun self-with-space ()
+  (interactive)
   (call-interactively #'self-insert-command)
   (ensure-space :after))
 
-(def pad-equals
+(defun pad-equals ()
+  (interactive)
   (if (nth 3 (syntax-ppss))
       (call-interactively #'self-insert-command)
     (cond ((looking-back "=[[:space:]]" nil)
@@ -1566,7 +1570,8 @@
            (ensure-space :before)))
     (self-with-space)))
 
-(def open-brackets-newline-and-indent
+(defun open-brackets-newline-and-indent ()
+  (interactive)
   (let ((inhibit-message t)
         (text
          (when (region-active-p)

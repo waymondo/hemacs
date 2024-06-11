@@ -20,7 +20,6 @@
       use-package-enable-imenu-support t
       use-package-vc-prefer-newest t)
 
-
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(undecorated . t) default-frame-alist)
 (push '(fullscreen . maximized) initial-frame-alist)
