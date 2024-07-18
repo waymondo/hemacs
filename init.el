@@ -1272,7 +1272,7 @@
   (eglot-confirm-server-initiated-edits nil)
   :init
   (defun disable-eglot-format-check (f &rest args)
-    (cl-letf (((symbol-function 'eglot--server-capable) #'identity))
+    (cl-letf (((symbol-function 'eglot-server-capable-or-lose) #'identity))
       (apply f args)))
   (advice-add #'eglot-format :around #'disable-eglot-format-check)
   :config
