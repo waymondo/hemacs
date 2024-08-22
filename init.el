@@ -1015,6 +1015,9 @@
 
 (use-package crystal-mode)
 
+(use-feature elixir-ts-mode
+  :demand t)
+
 (use-package inf-crystal
   :hook
   (crystal-mode . inf-crystal-minor-mode))
