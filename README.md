@@ -1,4 +1,4 @@
-An ever evolving, bleeding-edge Cocoa Emacs 30+ setup on macOS. I'm mainly writing Ruby,
+An ever evolving, bleeding-edge Cocoa Emacs 31+ setup on macOS. I'm mainly writing Ruby,
 JavaScript/TypeScript, interfacing with Git and ZSH, and hacking on this Elisp dump.
 
 ## Installation
@@ -6,6 +6,6 @@ JavaScript/TypeScript, interfacing with Git and ZSH, and hacking on this Elisp d
 ```
 $ # assumes homebrew is installed
 $ brew tap d12frosted/emacs-plus
-$ brew install emacs-plus@30
+$ brew install emacs-plus@31
 $ git clone git@github.com:waymondo/hemacs.git "$HOME/.emacs.d"
 ```
