@@ -124,6 +124,10 @@
     (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
       (alert str :buffer buf))))
 
+(use-package direnv
+ :hook
+ (after-init . direnv-mode))
+
 (use-feature comint
   :bind
   (:map comint-mode-map
