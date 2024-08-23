@@ -1019,12 +1019,16 @@
 
 (use-package crystal-mode)
 
-(use-feature elixir-ts-mode
-  :demand t)
-
 (use-package inf-crystal
   :hook
   (crystal-mode . inf-crystal-minor-mode))
+
+(use-feature elixir-ts-mode
+  :demand t)
+
+(use-package mix
+  :hook
+  (elixir-ts-mode . mix-minor-mode))
 
 (use-feature dockerfile-ts-mode
   :demand t)
@@ -1272,6 +1276,7 @@
     lua-mode
     dockerfile-ts-mode
     markdown-ts-mode
+    elixir-ts-mode
     sh-base-mode) . eglot-ensure)
   :bind
   ("C-M-s-\\" . eglot-format)
