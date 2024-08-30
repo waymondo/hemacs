@@ -1306,7 +1306,12 @@
 
 (use-feature faces
   :init
-  (set-face-attribute 'default nil :family "JetBrains Mono" :height 150))
+  (set-face-attribute 'default nil :height 150)
+  (let ((font-family-name "JetBrains Mono"))
+    (if (member font-family-name (font-family-list))
+        (set-face-attribute 'default nil :family font-family-name)
+      (message (concat font-family-name " font not installed, downloading"))
+      (browse-url "https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip"))))
 
 (use-package ligature
   :config
