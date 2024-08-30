@@ -13,7 +13,6 @@
       inhibit-startup-screen t
       load-prefer-newer noninteractive
       package-native-compile t
-      package-quickstart t
       site-run-file nil
       use-package-always-defer t
       use-package-always-ensure t

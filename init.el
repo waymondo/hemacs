@@ -39,9 +39,11 @@
 
 ;;;;; Packages
 
+(require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (use-package no-littering :demand t)
 (use-package use-package-chords :demand t)
+(use-package system-packages)
 (use-feature use-package-ensure-system-package :demand t)
 
 ;;;;; Bootstrap
