@@ -127,8 +127,8 @@
       (alert str :buffer buf))))
 
 (use-package direnv
- :hook
- (after-init . direnv-mode))
+  :hook
+  (after-init . direnv-mode))
 
 (use-feature comint
   :bind
@@ -313,19 +313,25 @@
   (all-the-icons-completion-mode))
 
 (use-package dirvish
-  :preface
-  (require 'dirvish-subtree)
-  (require 'dirvish-side)
   :bind
-  ("s-\\" . dirvish-side)
-  (:map dired-mode-map
-        ([remap dired-summary] . dirvish-dispatch)
-        ("TAB" . dirvish-subtree-toggle))
+  (:map dired-mode-map ([remap dired-summary] . dirvish-dispatch))
   :hook
   (after-init . dirvish-override-dired-mode)
   :custom
-  (dirvish-mode-line-position 'disable)
+  (dirvish-mode-line-position 'disable))
+
+(use-feature dirvish-subtree
+  :after
+  (dirvish all-the-icons)
+  :bind
+  (:map dired-mode-map ("TAB" . dirvish-subtree-toggle))
+  :custom
   (dirvish-attributes '(subtree-state all-the-icons collapse file-size)))
+
+(use-feature dirvish-side
+  :after dirvish
+  :bind
+  ("s-\\" . dirvish-side))
 
 (use-package terminal-here
   :bind
@@ -551,34 +557,44 @@
   (minibuffer-setup . cursor-intangible-mode))
 
 (use-package vertico
-  :preface
-  (require 'vertico-quick)
-  (require 'vertico-directory)
+  :demand t
   :custom
   (vertico-count 20)
-  :config
-  (vertico-mode)
-  (defun vertico-quick-insert-and-return ()
-    (interactive)
-    (vertico-quick-insert)
-    (vertico-exit))
+  :hook
+  (after-init . vertico-mode))
+
+(use-feature vertico-directory
+  :after vertico
   :bind
   (:map vertico-map
         ("RET" . vertico-directory-enter)
         ("DEL" . vertico-directory-delete-char))
   :hook
-  (rfn-eshadow-update-overlay . vertico-directory-tidy)
+  (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+(use-feature vertico-quick
+  :after vertico
+  :config
+  (defun vertico-quick-insert-and-return ()
+    (interactive)
+    (vertico-quick-insert)
+    (vertico-exit))
   :chords
   (:map vertico-map ("jj" . vertico-quick-insert-and-return)))
 
 (use-package corfu
-  :preface
-  (require 'corfu-popupinfo)
-  (require 'corfu-quick)
   :hook
   (after-init . global-corfu-mode)
-  (minibuffer-setup . corfu-mode)
-  (corfu-mode . corfu-popupinfo-mode)
+  (minibuffer-setup . corfu-mode))
+
+(use-feature corfu-popupinfo
+  :after corfu
+  :hook
+  (corfu-mode . corfu-popupinfo-mode))
+
+(use-feature corfu-quick
+  :after corfu
+  :demand t
   :chords
   (:map corfu-map ("jj" . corfu-quick-complete)))
 
