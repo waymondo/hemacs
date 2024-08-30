@@ -1035,6 +1035,9 @@
 
 (use-package sass-mode)
 
+(use-feature go-ts-mode
+  :demand t)
+
 (use-package crystal-mode)
 
 (use-package inf-crystal
@@ -1290,6 +1293,7 @@
     css-base-mode
     ruby-base-mode
     yaml-ts-mode
+    go-ts-mode
     toml-ts-mode
     lua-mode
     dockerfile-ts-mode
