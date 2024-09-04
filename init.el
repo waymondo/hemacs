@@ -895,7 +895,10 @@
   :mode
   ("\\.md\\'" . markdown-ts-mode)
   :bind
-  (:map markdown-ts-mode-map ("," . self-with-space)))
+  (:map markdown-ts-mode-map ("," . self-with-space))
+  :config
+  (add-to-list 'treesit-language-source-alist '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
+  (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src")))
 
 (use-package gh-md
   :after markdown-ts-mode
