@@ -948,6 +948,10 @@
 
 (use-package ts-comint)
 
+(use-package jest-test-mode
+  :hook
+  (typescript-ts-base-mode js-base-mode))
+
 (use-package format-all
   :bind
   ("C-M-\\" . format-all-buffer))
