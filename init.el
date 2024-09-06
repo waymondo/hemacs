@@ -636,8 +636,8 @@
   (";g" . affe-grep)
   :init
   (defun affe-orderless-regexp-compiler (input _type _ignorecase)
-    (setq input (orderless-pattern-compiler input))
-    (cons input (lambda (str) (orderless--highlight input str)))))
+    (setq input (cdr (orderless-compile input)))
+    (cons input (apply-partially #'orderless--highlight input t))))
 
 (use-package embark
   :custom
@@ -930,9 +930,7 @@
 
 (use-package graphql-ts-mode
   :config
-  (after treesit
-    (add-to-list 'treesit-language-source-alist
-                 '(graphql "https://github.com/bkegley/tree-sitter-graphql"))))
+  (add-to-list 'treesit-language-source-alist '(graphql "https://github.com/bkegley/tree-sitter-graphql")))
 
 (use-package dotenv-mode)
 
