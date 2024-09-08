@@ -1307,6 +1307,7 @@
     sh-base-mode) . eglot-ensure)
   :bind
   ("C-M-s-\\" . eglot-format)
+  ("C-c a" . eglot-code-actions)
   :custom
   (eglot-confirm-server-initiated-edits nil)
   :init
