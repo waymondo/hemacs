@@ -231,6 +231,7 @@
 
 (use-feature files
   :custom
+  (auto-mode-case-fold nil)
   (require-final-newline t)
   (confirm-kill-processes nil)
   (view-read-only t)
