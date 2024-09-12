@@ -918,6 +918,8 @@
   (less-css-lessc-options '("--no-color" "-x")))
 
 (use-feature js
+  :mode
+  ("\\.mjs\\'" . js-ts-mode)
   :bind
   (:map js-base-mode-map
         ("," . self-with-space)
