@@ -368,7 +368,6 @@
   (save-interprogram-paste-before-kill t)
   (kill-do-not-save-duplicates t)
   (yank-pop-change-selection t)
-  (idle-update-delay 2)
   (next-error-recenter t)
   (async-shell-command-buffer 'new-buffer)
   (shell-command-prompt-show-cwd t)
