@@ -1371,6 +1371,10 @@
   (window-divider-mode)
   (blink-cursor-mode))
 
+(use-feature pixel-scroll
+  :hook
+  (after-init . pixel-scroll-precision-mode))
+
 (use-feature scroll-bar
   :hook
   (window-configuration-change . update-scroll-bars)
