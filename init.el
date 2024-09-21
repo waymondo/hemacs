@@ -1320,6 +1320,23 @@
   :config
   (add-to-list 'eglot-server-programs '(markdown-ts-mode . ("marksman" "server"))))
 
+(use-package eglot-booster
+  :vc
+  (:url "https://github.com/jdtsmith/eglot-booster")
+  :after eglot
+  :init
+  (let ((emacs-lsp-booster-path (concat user-emacs-directory "emacs-lsp-booster")))
+    (unless (file-exists-p emacs-lsp-booster-path)
+      (make-directory emacs-lsp-booster-path))
+    (push emacs-lsp-booster-path exec-path)
+    (unless (executable-find "emacs-lsp-booster")
+      (let ((temporary-zip-file (concat temporary-file-directory "emacs-lsp-booster.zip")))
+        (shell-command (format "curl https://github.com/blahgeek/emacs-lsp-booster/releases/download/v0.2.1/emacs-lsp-booster_v0.2.1_x86_64-apple-darwin.zip -L -o %s" temporary-zip-file))
+        (shell-command (format "unzip %s -d %s" temporary-zip-file emacs-lsp-booster-path))
+        (shell-command (format "xattr -r -d com.apple.quarantine %s" (concat emacs-lsp-booster-path "/" "emacs-lsp-booster")))
+        (delete-file temporary-zip-file))))
+  (eglot-booster-mode))
+
 (use-package treesit-auto
   :custom
   (treesit-auto-install t)
