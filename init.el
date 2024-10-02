@@ -349,6 +349,13 @@
   (standard-indent default-indent-width)
   (tab-always-indent 'complete))
 
+(use-package indent-bars
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-prefer-character t)
+  :hook
+  (prog-mode . indent-bars-mode))
+
 (use-feature newcomment
   :bind
   ("s-." . insert-todo-comment)
