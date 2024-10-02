@@ -803,7 +803,8 @@
   (";t" . project-find-file)
   :custom
   (project-switch-use-entire-map t)
-  (project-mode-line t))
+  (project-mode-line t)
+  (project-vc-extra-root-markers '(".tool-versions")))
 
 (use-package projector
   :bind
