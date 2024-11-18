@@ -349,6 +349,10 @@
   (standard-indent default-indent-width)
   (tab-always-indent 'complete))
 
+(use-feature indent-aux
+  :hook
+  (after-init . kill-ring-deindent-mode))
+
 (use-package indent-bars
   :custom
   (indent-bars-treesit-support t)
