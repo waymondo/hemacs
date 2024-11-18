@@ -1607,18 +1607,13 @@
   :config
   (key-chord-mode 1))
 
-(use-package which-key
+(use-feature which-key
   :custom
   (which-key-show-early-on-C-h t)
   (which-key-idle-delay most-positive-fixnum)
   (which-key-idle-secondary-delay 1e-100)
-  (which-key-max-display-columns 4)
-  :init
-  (which-key-mode)
-  (dolist (prefix '("projectile-switch-project" "ember" "magit" "projectile" "rails" "project" "embark"))
-    (let ((pattern (concat "^" prefix "-\\(.+\\)")))
-      (push `((nil . ,pattern) . (nil . "\\1"))
-            which-key-replacement-alist))))
+  :hook
+  (after-init . which-key-mode))
 
 ;;;;; Snippets
 
