@@ -42,30 +42,24 @@
 
 (use-feature emacs
   :custom
-  (history-length 64)
   (history-delete-duplicates t)
   (scroll-conservatively 101)
   (scroll-preserve-screen-position 'always)
   (echo-keystrokes 1e-6)
   (delete-by-moving-to-trash t)
   (ring-bell-function #'ignore)
-  (ns-function-modifier 'control)
   (create-lockfiles nil)
   (enable-recursive-minibuffers t)
-  (kill-buffer-query-functions nil)
-  (frame-inhibit-implied-resize t)
   (redisplay-skip-fontification-on-input t)
   (frame-resize-pixelwise t)
   (read-process-output-max (* 1024 1024))
   (use-short-answers t)
   (x-underline-at-descent-line t)
   (cursor-type 'bar)
-  :config
-  (setq-default line-spacing 2
-                tab-width 2
-                cursor-in-non-selected-windows nil
-                fill-column 100
-                truncate-lines t))
+  (cursor-in-non-selected-windows nil)
+  (line-spacing 2)
+  (tab-width 2)
+  (fill-column 100))
 
 (use-feature cus-edit
   :custom
