@@ -4,7 +4,6 @@
 
 (defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-ts-mode))
 (defconst writing-modes '(org-mode markdown-ts-mode fountain-mode git-commit-mode))
-(defconst default-indent-width 2)
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-help-map)
 (bind-key "s-g" #'hemacs-git-map)
@@ -25,10 +24,6 @@
   `(use-package ,name
      :ensure nil
      ,@args))
-
-(defun inhibit-message-in-minibuffer (f &rest args)
-  (let ((inhibit-message (minibufferp)))
-    (apply f args)))
 
 (defun reset-scroll-margin ()
   (set (make-local-variable 'scroll-margin) 0))
@@ -74,7 +69,7 @@
   (cursor-type 'bar)
   :config
   (setq-default line-spacing 2
-                tab-width default-indent-width
+                tab-width 2
                 cursor-in-non-selected-windows nil
                 fill-column 100
                 truncate-lines t))
@@ -285,10 +280,7 @@
 
 (use-feature recentf
   :custom
-  (recentf-auto-cleanup 200)
-  (recentf-max-saved-items 200)
-  :config
-  (advice-add 'recentf-cleanup :around #'inhibit-message-in-minibuffer)
+  (recentf-max-saved-items 256)
   :hook
   (after-init . recentf-mode))
 
@@ -346,7 +338,7 @@
 
 (use-feature indent
   :custom
-  (standard-indent default-indent-width)
+  (standard-indent 2)
   (tab-always-indent 'complete))
 
 (use-feature indent-aux
@@ -720,9 +712,6 @@
   (defun hippie-expand-case-sensitive (f &rest args)
     (let ((case-fold-search nil))
       (apply f args)))
-  (defun inhibit-message-in-minibuffer (f &rest args)
-    (let ((inhibit-message (minibufferp)))
-      (apply f args)))
   (defun hippie-expand-maybe-kill-to-eol (f &rest args)
     (unless (eolp)
       (kill-line))
@@ -731,7 +720,6 @@
                                  '(try-expand-line
                                    try-expand-line-all-buffers)))
   (advice-add 'hippie-expand :around #'hippie-expand-case-sensitive)
-  (advice-add 'hippie-expand :around #'inhibit-message-in-minibuffer)
   (advice-add 'hippie-expand-line :around #'hippie-expand-maybe-kill-to-eol)
   (defun hippie-expand-allow-lisp-symbols ()
     (setq-local hippie-expand-try-functions-list
