@@ -25,10 +25,6 @@
      :ensure nil
      ,@args))
 
-(defun text-smaller-no-truncation ()
-  (setq truncate-lines nil)
-  (text-scale-set -0.25))
-
 ;;;;; Packages
 
 (require 'package)
@@ -121,8 +117,6 @@
         ("<M-S-tab>" . comint-next-matching-input-from-input))
   :custom
   (comint-prompt-read-only t)
-  :hook
-  (comint-mode . text-smaller-no-truncation)
   :config
   (setq-default comint-input-ignoredups t
                 comint-scroll-show-maximum-output nil
@@ -157,8 +151,6 @@
   :custom
   (compilation-always-kill t)
   (compilation-ask-about-save nil)
-  :hook
-  (compilation-mode . text-smaller-no-truncation)
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
@@ -1047,9 +1039,7 @@
 (use-feature yaml-ts-mode
   :demand t
   :bind
-  (:map yaml-ts-mode-map (":" . self-with-space))
-  :hook
-  (yaml-ts-mode . text-smaller-no-truncation))
+  (:map yaml-ts-mode-map (":" . self-with-space)))
 
 (use-feature text-mode
   :bind
@@ -1086,8 +1076,6 @@
   (magit-branch-prefer-remote-upstream t)
   (magit-diff-refine-hunk 'all)
   (magit-no-confirm t)
-  :hook
-  (magit-process-mode . text-smaller-no-truncation)
   :config
   (remove-hook 'magit-section-highlight-hook #'magit-diff-highlight)
   (defun magit-process-alert-after-finish-in-background (f &rest args)
