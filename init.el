@@ -25,9 +25,6 @@
      :ensure nil
      ,@args))
 
-(defun reset-scroll-margin ()
-  (set (make-local-variable 'scroll-margin) 0))
-
 (defun text-smaller-no-truncation ()
   (setq truncate-lines nil)
   (text-scale-set -0.25))
@@ -47,11 +44,8 @@
   :custom
   (history-length 64)
   (history-delete-duplicates t)
-  (maximum-scroll-margin 0.5)
-  (scroll-margin 50)
   (scroll-conservatively 101)
   (scroll-preserve-screen-position 'always)
-  (auto-window-vscroll nil)
   (echo-keystrokes 1e-6)
   (delete-by-moving-to-trash t)
   (ring-bell-function #'ignore)
@@ -60,7 +54,6 @@
   (enable-recursive-minibuffers t)
   (kill-buffer-query-functions nil)
   (frame-inhibit-implied-resize t)
-  (fast-but-imprecise-scrolling t)
   (redisplay-skip-fontification-on-input t)
   (frame-resize-pixelwise t)
   (read-process-output-max (* 1024 1024))
@@ -136,7 +129,6 @@
   (comint-prompt-read-only t)
   :hook
   (comint-mode . text-smaller-no-truncation)
-  (comint-mode . reset-scroll-margin)
   :config
   (setq-default comint-input-ignoredups t
                 comint-scroll-show-maximum-output nil
@@ -173,7 +165,6 @@
   (compilation-ask-about-save nil)
   :hook
   (compilation-mode . text-smaller-no-truncation)
-  (compilation-mode . reset-scroll-margin)
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
@@ -192,9 +183,7 @@
   ("C-x m" . mistty-in-project)
   (:map project-prefix-map ("t" . mistty-in-project))
   :custom
-  (mistty-detect-foreign-overlays nil)
-  :hook
-  (mistty-mode . reset-scroll-margin))
+  (mistty-detect-foreign-overlays nil))
 
 (use-feature sh-script
   :mode
