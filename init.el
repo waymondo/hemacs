@@ -1457,6 +1457,7 @@
   :bind
   ("M-n" . symbol-overlay-jump-next)
   ("M-p" . symbol-overlay-jump-prev)
+  ("M-r" . symbol-overlay-rename)
   :hook
   (prog-mode . symbol-overlay-mode))
 
