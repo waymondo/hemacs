@@ -57,10 +57,6 @@
   (tab-width 2)
   (fill-column 100))
 
-(use-feature cus-edit
-  :custom
-  (custom-file (make-temp-file "emacs-custom")))
-
 (use-feature advice
   :custom
   (ad-redefinition-action 'accept))
