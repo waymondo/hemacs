@@ -150,12 +150,6 @@
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
-(use-feature profiler
-  :bind
-  ("C-x P r"  . profiler-report)
-  ("C-x P 1"  . profiler-start)
-  ("C-x P 0"  . profiler-stop))
-
 (use-feature warnings
   :custom
   (warning-suppress-types '((comp) (undo discard-info))))
