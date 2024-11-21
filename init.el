@@ -1396,6 +1396,7 @@
            (not (or (window-minibuffer-p)
                     (frame-parent)
                     (seq-find 'derived-mode-p '(magit-status-mode comint-mode vterm-mode))))))
+      (recenter)
       (pulse-line-hook-function)))
   (dolist (command '(next-window-any-frame
                      scroll-up-command
