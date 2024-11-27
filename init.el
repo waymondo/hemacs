@@ -57,6 +57,10 @@
   (tab-width 2)
   (fill-column 100))
 
+(use-feature cus-edit
+  :custom
+  (custom-file (make-temp-file "emacs-custom")))
+
 (use-feature advice
   :custom
   (ad-redefinition-action 'accept))
@@ -64,14 +68,6 @@
 (use-feature novice
   :custom
   (disabled-command-function nil))
-
-(use-feature paragraphs
-  :custom
-  (sentence-end-double-space nil))
-
-(use-package dash
-  :custom
-  (dash-enable-fontlock t))
 
 (use-feature keymap
   :init
@@ -85,10 +81,6 @@
   (transform-string-at-point-cursor-after-transform 'next-string)
   :bind
   ("s-;" . transform-string-at-point))
-
-(use-feature subr
-  :config
-  (y-or-n-p-use-read-key t))
 
 ;;;;; Processes, Shells, Compilation
 
@@ -306,10 +298,6 @@
   (standard-indent 2)
   (tab-always-indent 'complete))
 
-(use-feature indent-aux
-  :hook
-  (after-init . kill-ring-deindent-mode))
-
 (use-package indent-bars
   :custom
   (indent-bars-treesit-support t)
@@ -460,11 +448,6 @@
     (move-end-of-line nil)
     (smart-newline)))
 
-(use-package shift-number
-  :bind
-  ("<M-up>"   . shift-number-up)
-  ("<M-down>" . shift-number-down))
-
 (use-package multiple-cursors
   :bind
   ("s-d"     . mc/mark-next-like-this)
@@ -497,13 +480,6 @@
   (bind-key "<backspace>" #'smart-backspace global-map
             (and (member (char-before) (string-to-list " \t"))
                  (not (or (region-active-p) (member major-mode indent-sensitive-modes))))))
-
-(use-package smart-shift
-  :bind
-  ("s-[" . smart-shift-left)
-  ("s-]" . smart-shift-right)
-  :config
-  (advice-add 'smart-shift-override-local-map :override #'ignore))
 
 (use-package drag-stuff
   :bind
