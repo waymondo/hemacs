@@ -74,27 +74,11 @@
   (dolist (key-binding '("s-q" "s-t" "s-o" "s-n"))
     (keymap-global-unset key-binding)))
 
-(use-package transform-string-at-point
-  :vc
-  (:url "https://github.com/waymondo/transform-string-at-point")
+(use-feature warnings
   :custom
-  (transform-string-at-point-cursor-after-transform 'next-string)
-  :bind
-  ("s-;" . transform-string-at-point))
+  (warning-suppress-types '((comp) (undo discard-info))))
 
 ;;;;; Processes, Shells, Compilation
-
-(use-package alert
-  :custom
-  (alert-default-style 'osx-notifier)
-  :init
-  (defun alert-after-finish-in-background (buf str)
-    (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
-      (alert str :buffer buf))))
-
-(use-package direnv
-  :hook
-  (after-init . direnv-mode))
 
 (use-feature comint
   :bind
@@ -142,10 +126,6 @@
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
-(use-feature warnings
-  :custom
-  (warning-suppress-types '((comp) (undo discard-info))))
-
 (use-package mistty
   :bind
   ("C-x m" . mistty-in-project)
@@ -163,7 +143,7 @@
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p))
 
-;;;;; Files & History
+;;;;; Files, Images, History
 
 (use-feature image-mode
   :hook
@@ -283,27 +263,18 @@
   :bind
   ("s-\\" . dirvish-side))
 
-(use-package terminal-here
-  :bind
-  ("C-c o t" . terminal-here))
-
-(use-package reveal-in-folder
-  :bind
-  ("C-c o f" . reveal-in-folder))
-
 ;;;;; Editing
+
+(use-package transform-symbol-at-point
+  :vc
+  (:url "https://github.com/waymondo/transform-symbol-at-point")
+  :bind
+  ("s-;" . transform-symbol-at-point-map))
 
 (use-feature indent
   :custom
   (standard-indent 2)
   (tab-always-indent 'complete))
-
-(use-package indent-bars
-  :custom
-  (indent-bars-treesit-support t)
-  (indent-bars-prefer-character t)
-  :hook
-  (prog-mode . indent-bars-mode))
 
 (use-feature newcomment
   :bind
@@ -763,6 +734,26 @@
 (use-package gptel)
 
 (use-package emacs-everywhere)
+
+(use-package direnv
+  :hook
+  (after-init . direnv-mode))
+
+(use-package alert
+  :custom
+  (alert-default-style 'osx-notifier)
+  :init
+  (defun alert-after-finish-in-background (buf str)
+    (when (or (not (get-buffer-window buf 'visible)) (not (frame-focus-state)))
+      (alert str :buffer buf))))
+
+(use-package terminal-here
+  :bind
+  ("C-c o t" . terminal-here))
+
+(use-package reveal-in-folder
+  :bind
+  ("C-c o f" . reveal-in-folder))
 
 ;;;;; Major Modes
 
@@ -1341,6 +1332,13 @@
     (mapc (lambda (win) (set-window-scroll-bars win nil)) (window-list))
     (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
       (set-window-scroll-bars (selected-window) nil t))))
+
+(use-package indent-bars
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-prefer-character t)
+  :hook
+  (prog-mode . indent-bars-mode))
 
 (use-feature uniquify
   :custom
