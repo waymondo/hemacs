@@ -74,10 +74,6 @@
   (dolist (key-binding '("s-q" "s-t" "s-o" "s-n"))
     (keymap-global-unset key-binding)))
 
-(use-feature warnings
-  :custom
-  (warning-suppress-types '((comp) (undo discard-info))))
-
 ;;;;; Processes, Shells, Compilation
 
 (use-feature comint
@@ -132,12 +128,6 @@
   (:map project-prefix-map ("t" . mistty-in-project))
   :custom
   (mistty-detect-foreign-overlays nil))
-
-(use-feature sh-script
-  :mode
-  ((rx (or ".zshrc" ".zprofile")) . sh-mode)
-  :custom
-  (sh-basic-offset 2))
 
 (use-feature executable
   :hook
