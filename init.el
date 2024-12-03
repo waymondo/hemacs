@@ -1242,6 +1242,8 @@
   :vc
   (:url "https://github.com/jdtsmith/eglot-booster")
   :after eglot
+  :custom
+  (eglot-booster-io-only t)
   :init
   (let ((emacs-lsp-booster-path (concat user-emacs-directory "emacs-lsp-booster")))
     (unless (file-exists-p emacs-lsp-booster-path)
