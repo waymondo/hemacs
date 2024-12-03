@@ -198,12 +198,12 @@
   :custom
   (savehist-additional-variables
    '(search-ring regexp-search-ring comint-input-ring projector-command-history))
-  :init
-  (savehist-mode))
+  :hook
+  (after-init . savehist-mode))
 
 (use-feature saveplace
-  :init
-  (save-place-mode))
+  :hook
+  (after-init . save-place-mode))
 
 (use-feature recentf
   :custom
@@ -229,8 +229,7 @@
   (marginalia all-the-icons)
   :hook
   (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  :init
-  (all-the-icons-completion-mode))
+  (after-init . all-the-icons-completion-mode))
 
 (use-package dirvish
   :bind
@@ -517,8 +516,8 @@
 (use-package marginalia
   :bind
   ("C-?" . marginalia-cycle)
-  :init
-  (marginalia-mode))
+  :hook
+  (after-init . marginalia-mode))
 
 (use-package consult
   :bind
@@ -716,8 +715,8 @@
   (projector-project-package 'project))
 
 (use-package beginend
-  :init
-  (beginend-global-mode))
+  :hook
+  (after-init . beginend-global-mode))
 
 ;;;;; External Utilities
 
@@ -953,8 +952,8 @@
 (use-package projectile-rails
   :bind
   (:map projectile-rails-mode-map ("C-c r" . projectile-rails-command-map))
-  :init
-  (projectile-rails-global-mode))
+  :hook
+  (after-init . projectile-rails-global-mode))
 
 (use-package rails-i18n)
 
@@ -1255,7 +1254,8 @@
         (shell-command (format "unzip %s -d %s" temporary-zip-file emacs-lsp-booster-path))
         (shell-command (format "xattr -r -d com.apple.quarantine %s" (concat emacs-lsp-booster-path "/" "emacs-lsp-booster")))
         (delete-file temporary-zip-file))))
-  (eglot-booster-mode))
+  :hook
+  (after-init . eglot-booster-mode))
 
 (use-package treesit-auto
   :custom
@@ -1306,9 +1306,9 @@
   (window-divider-default-places t)
   (window-divider-default-right-width 1)
   (window-divider-default-bottom-width 1)
-  :init
-  (window-divider-mode)
-  (blink-cursor-mode))
+  :hook
+  (after-init . window-divider-mode)
+  (after-init . blink-cursor-mode))
 
 (use-feature pixel-scroll
   :hook
@@ -1337,8 +1337,8 @@
   (uniquify-buffer-name-style 'forward))
 
 (use-package page-break-lines
-  :init
-  (global-page-break-lines-mode))
+  :hook
+  (after-init . global-page-break-lines-mode))
 
 (use-feature pulse
   :custom
@@ -1378,8 +1378,8 @@
   (prog-mode . symbol-overlay-mode))
 
 (use-feature hl-line
-  :init
-  (global-hl-line-mode))
+  :hook
+  (after-init . global-hl-line-mode))
 
 (use-package hl-sentence
   :hook
@@ -1394,9 +1394,9 @@
   (push 'prog-mode paren-face-modes))
 
 (use-package moody
-  :init
-  (moody-replace-mode-line-front-space)
-  (moody-replace-mode-line-buffer-identification))
+  :hook
+  (after-init . moody-replace-mode-line-front-space)
+  (after-init . moody-replace-mode-line-buffer-identification))
 
 (use-package minions
   :hook
@@ -1469,8 +1469,9 @@
                      (slot . 1)
                      (window-parameters ,`(mode-line-format . none))))))
       (select-window window)))
-  (popper-mode)
-  (popper-echo-mode))
+  :hook
+  (after-init . popper-mode)
+  (after-init . popper-echo-mode))
 
 ;;;;; Bindings & Chords
 
@@ -1518,8 +1519,8 @@
       (ensure-space :before))
     (insert "{  }")
     (backward-char 2))
-  :config
-  (key-chord-mode 1))
+  :hook
+  (after-init . key-chord-mode))
 
 (use-feature which-key
   :custom
