@@ -1318,7 +1318,7 @@
   :config
   (add-hook 'window-size-change-functions #'update-scroll-bars)
   (add-hook 'window-selection-change-functions #'update-scroll-bars)
-  (defun update-scroll-bars ()
+  (defun update-scroll-bars (&optional _)
     (mapc (lambda (win) (set-window-scroll-bars win nil)) (window-list))
     (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
       (set-window-scroll-bars (selected-window) nil t))))
