@@ -202,12 +202,14 @@
   (after-init . savehist-mode))
 
 (use-feature saveplace
+  :custom
+  (save-place-limit nil)
   :hook
   (after-init . save-place-mode))
 
 (use-feature recentf
   :custom
-  (recentf-max-saved-items 256)
+  (recentf-max-saved-items nil)
   :hook
   (after-init . recentf-mode))
 
