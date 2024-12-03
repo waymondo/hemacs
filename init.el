@@ -343,16 +343,16 @@
   (after-init . global-subword-mode))
 
 (use-feature autoinsert
-  :init
-  (auto-insert-mode))
+  :hook
+  (after-init . auto-insert-mode))
 
 (use-feature delsel
-  :init
-  (delete-selection-mode))
+  :hook
+  (after-init . delete-selection-mode))
 
 (use-feature elec-pair
-  :init
-  (electric-pair-mode))
+  :hook
+  (after-init . electric-pair-mode))
 
 (use-feature electric
   :custom
@@ -1397,8 +1397,8 @@
   (moody-replace-mode-line-buffer-identification))
 
 (use-package minions
-  :init
-  (minions-mode))
+  :hook
+  (after-init . minions-mode))
 
 (use-package hide-mode-line
   :hook
@@ -1409,15 +1409,12 @@
   (show-paren-when-point-inside-paren t)
   (show-paren-when-point-in-periphery t)
   (show-paren-context-when-offscreen 'overlay)
-  :config
-  (show-paren-mode))
+  :hook
+  (after-init . show-paren-mode))
 
 (use-feature fringe
   :config
-  (fringe-mode '(16 . 8))
-  :custom
-  (fringe-indicator-alist
-   (delq (assq 'continuation fringe-indicator-alist) fringe-indicator-alist)))
+  (fringe-mode '(16 . 8)))
 
 (use-package apropospriate-theme)
 
@@ -1478,7 +1475,7 @@
 (use-feature ns-win
   :custom
   (ns-pop-up-frames nil)
-  (mac-right-option-modifier 'none))
+  (ns-right-option-modifier 'none))
 
 (use-feature ffap
   :bind
