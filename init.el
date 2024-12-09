@@ -71,7 +71,7 @@
 
 (use-feature keymap
   :init
-  (dolist (key-binding '("s-q" "s-t" "s-o" "s-n"))
+  (dolist (key-binding '("s-q" "s-t" "s-o" "s-n" "s-w"))
     (keymap-global-unset key-binding)))
 
 ;;;;; Processes, Shells, Compilation
