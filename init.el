@@ -1361,6 +1361,7 @@
                      scroll-down-command
                      revert-buffer
                      recenter-top-bottom
+                     avy-process
                      move-to-window-line-top-bottom
                      symbol-overlay-basic-jump))
     (advice-add command :after #'hemacs-pulse-line)))
