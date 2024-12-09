@@ -285,11 +285,12 @@
   (set-mark-command-repeat-pop t)
   (save-interprogram-paste-before-kill t)
   (kill-do-not-save-duplicates t)
-  (yank-pop-change-selection t)
-  (next-error-recenter t)
+  (line-move-visual nil)
   (async-shell-command-buffer 'new-buffer)
   (shell-command-prompt-show-cwd t)
-  (what-cursor-show-names t)
+  (backward-delete-char-untabify-method 'all)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (completion-show-help nil)
   :bind
   ("M-`" . list-processes)
   ("s-P" . execute-extended-command)
@@ -435,13 +436,6 @@
   :bind
   (:map flyspell-mode-map
         ("C-;" . flyspell-correct-wrapper)))
-
-(use-package smart-backspace
-  :commands (smart-backspace)
-  :init
-  (bind-key "<backspace>" #'smart-backspace global-map
-            (and (member (char-before) (string-to-list " \t"))
-                 (not (or (region-active-p) (member major-mode indent-sensitive-modes))))))
 
 (use-package drag-stuff
   :bind
@@ -1346,7 +1340,7 @@
   :custom
   (pulse-iterations 20)
   :hook
-  (window-configuration-change . hemacs-pulse-line)
+  ((next-error window-configuration-change) . hemacs-pulse-line)
   :config
   (defun hemacs-pulse-line (&rest _)
     (interactive)
