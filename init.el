@@ -133,23 +133,7 @@
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p))
 
-;;;;; Files, Images, History
-
-(use-feature image-mode
-  :hook
-  (image-mode . show-image-dimensions-in-mode-line)
-  :custom
-  (image-animate-loop t)
-  :mode "\\.otf\\'"
-  :config
-  (after moody
-    (defun show-image-dimensions-in-mode-line ()
-      (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
-             (width (car image-dimensions))
-             (height (cdr image-dimensions)))
-        (setq moody-mode-line-buffer-identification
-              `(:eval (moody-tab (format "%s %dx%d" (propertized-buffer-identification "%b") ,width ,height)
-                                 20 'down)))))))
+;;;;; Files & History
 
 (use-feature files
   :custom
@@ -217,21 +201,6 @@
   :custom
   (dired-use-ls-dired nil)
   (dired-recursive-deletes 'always))
-
-(use-package all-the-icons
-  :custom
-  (all-the-icons-scale-factor 1)
-  (all-the-icons-default-adjust 0)
-  :config
-  (unless (member "all-the-icons" (font-family-list))
-    (all-the-icons-install-fonts)))
-
-(use-package all-the-icons-completion
-  :after
-  (marginalia all-the-icons)
-  :hook
-  (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  (after-init . all-the-icons-completion-mode))
 
 (use-package dirvish
   :bind
@@ -1118,7 +1087,7 @@
 (use-package posframe
   :config
   (defun hemacs-posframe-arghandler (f &rest args)
-    (apply f (car args) (plist-put (cdr args) :internal-border-width 12)))
+    (apply f (car args) (plist-put (cdr args) :internal-border-width 24)))
   (advice-add 'posframe-show :around #'hemacs-posframe-arghandler))
 
 (use-package transient-posframe
@@ -1261,6 +1230,38 @@
 
 ;;;;; Appearance
 
+(use-feature image-mode
+  :hook
+  (image-mode . show-image-dimensions-in-mode-line)
+  :custom
+  (image-animate-loop t)
+  :config
+  (after moody
+    (defun show-image-dimensions-in-mode-line ()
+      (let* ((image-dimensions (image-size (image-get-display-property) :pixels))
+             (width (car image-dimensions))
+             (height (cdr image-dimensions)))
+        (setq moody-mode-line-buffer-identification
+              `(:eval
+                (moody-tab
+                 (format "%s %dx%d" (propertized-buffer-identification "%b") ,width ,height)
+                 20 'down)))))))
+
+(use-package all-the-icons
+  :custom
+  (all-the-icons-scale-factor 1)
+  (all-the-icons-default-adjust 0)
+  :config
+  (unless (member "all-the-icons" (font-family-list))
+    (all-the-icons-install-fonts)))
+
+(use-package all-the-icons-completion
+  :after
+  (marginalia all-the-icons)
+  :hook
+  (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  (after-init . all-the-icons-completion-mode))
+
 (use-feature custom
   :custom
   (custom-safe-themes t))
@@ -1335,6 +1336,13 @@
 (use-package page-break-lines
   :hook
   (after-init . global-page-break-lines-mode))
+
+(use-package indent-bars
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-prefer-character t)
+  :hook
+  (prog-mode . indent-bars-mode))
 
 (use-feature pulse
   :custom
@@ -1413,7 +1421,7 @@
 
 (use-feature fringe
   :config
-  (fringe-mode '(16 . 8)))
+  (fringe-mode 24))
 
 (use-package apropospriate-theme)
 
