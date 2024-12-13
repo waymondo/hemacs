@@ -2,7 +2,6 @@
 
 ;;;;; Personal Variables, Macros, & Helpers
 
-(defconst indent-sensitive-modes '(coffee-mode slim-mode haml-mode yaml-ts-mode))
 (defconst writing-modes '(org-mode markdown-ts-mode fountain-mode git-commit-mode))
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-help-map)
@@ -260,7 +259,9 @@
   ("s-P" . execute-extended-command)
   ("s-z" . undo-only)
   ("s-Z" . undo-redo)
+  ("<remap> <newline>" . reindent-then-newline-and-indent)
   ("<escape>" . keyboard-escape-quit)
+  ("<s-return>" . eol-then-newline)
   (:map minibuffer-local-map
         ("<escape>"  . abort-recursive-edit)
         ("M-TAB"     . previous-complete-history-element)
@@ -295,6 +296,10 @@
       (back-to-indentation)
       (when (= orig-point (point))
         (apply f args))))
+  (defun eol-then-newline ()
+    (interactive)
+    (move-end-of-line nil)
+    (reindent-then-newline-and-indent))
   (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
   (advice-add 'list-processes :after #'pop-to-process-list-buffer)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
@@ -361,20 +366,6 @@
             (pop-to-buffer compilation-buffer)
             (ace-link-compilation)))))))
 
-(use-package smart-newline
-  :bind
-  ("<s-return>" . eol-then-smart-newline)
-  :hook
-  (prog-mode . maybe-enable-smart-newline-mode)
-  :init
-  (defun maybe-enable-smart-newline-mode ()
-    (when (not (member major-mode indent-sensitive-modes))
-      (smart-newline-mode)))
-  (defun eol-then-smart-newline ()
-    (interactive)
-    (move-end-of-line nil)
-    (smart-newline)))
-
 (use-package multiple-cursors
   :bind
   ("s-d"     . mc/mark-next-like-this)
@@ -400,17 +391,6 @@
   :bind
   (:map flyspell-mode-map
         ("C-;" . flyspell-correct-wrapper)))
-
-(use-package drag-stuff
-  :bind
-  ("C-s-k" . drag-stuff-down)
-  ("s-TAB" . drag-stuff-up)
-  :config
-  (defun indent-unless-sensitive (_arg)
-    (unless (member major-mode indent-sensitive-modes)
-      (indent-according-to-mode)))
-  (advice-add 'drag-stuff-line-vertically :after #'indent-unless-sensitive)
-  (advice-add 'drag-stuff-lines-vertically :after #'indent-unless-sensitive))
 
 ;;;;; Completion
 
@@ -755,7 +735,7 @@
   (defun html-newline-dwim ()
     (interactive)
     (move-end-of-line nil)
-    (smart-newline)
+    (reindent-then-newline-and-indent)
     (sgml-close-tag)
     (move-beginning-of-line nil))
   (bind-key "'" "’" html-mode-map (eq 0 (car (syntax-ppss)))))
@@ -880,7 +860,7 @@
       (insert "end")
       (move-beginning-of-line nil)
       (if add-newline
-          (smart-newline)
+          (reindent-then-newline-and-indent)
         (indent-according-to-mode)))))
 
 (use-package ruby-tools
