@@ -137,17 +137,12 @@
 
 (use-feature files
   :custom
-  (auto-mode-case-fold nil)
   (require-final-newline t)
   (confirm-kill-processes nil)
-  (view-read-only t)
-  (confirm-kill-emacs nil)
-  (enable-local-variables :safe)
-  (confirm-nonexistent-file-or-buffer nil)
-  (backup-directory-alist `((".*" . ,temporary-file-directory)))
+  (make-backup-files nil)
   (auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-  (large-file-warning-threshold 50000000)
   (find-sibling-rules '(("\\([^/.]+\\)\\..*\\'" "\\1.*")))
+  (revert-buffer-quick-short-answers t)
   :chords
   (";f" . find-file)
   (":F" . find-sibling-file)
