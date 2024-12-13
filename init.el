@@ -83,13 +83,13 @@
         ("<M-S-tab>" . comint-next-matching-input-from-input))
   :custom
   (comint-prompt-read-only t)
+  (comint-input-ignoredups t)
+  (comint-scroll-show-maximum-output nil)
+  (comint-output-filter-functions
+   '(ansi-color-process-output
+     comint-truncate-buffer
+     comint-watch-for-password-prompt))
   :config
-  (setq-default comint-input-ignoredups t
-                comint-scroll-show-maximum-output nil
-                comint-output-filter-functions
-                '(ansi-color-process-output
-                  comint-truncate-buffer
-                  comint-watch-for-password-prompt))
   (defun turn-on-comint-history (history-file)
     (setopt comint-input-ring-file-name history-file)
     (comint-read-input-ring 'silent))
