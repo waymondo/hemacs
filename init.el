@@ -2,7 +2,6 @@
 
 ;;;;; Personal Variables, Macros, & Helpers
 
-(defconst writing-modes '(org-mode markdown-ts-mode fountain-mode git-commit-mode))
 (define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-help-map)
 (bind-key "s-g" #'hemacs-git-map)
@@ -267,7 +266,7 @@
         ("M-TAB"     . previous-complete-history-element)
         ("<M-S-tab>" . next-complete-history-element))
   :hook
-  (writing-modes . auto-fill-mode)
+  ((text-mode markdown-ts-mode) . auto-fill-mode)
   (before-save . progish-delete-trailing-whitespace)
   :config
   (column-number-mode)
@@ -328,9 +327,8 @@
 (use-feature electric
   :custom
   (electric-quote-string t)
-  (electric-quote-context-sensitive t)
   :hook
-  (writing-modes . electric-quote-local-mode))
+  (after-init . electric-quote-mode))
 
 (use-package avy
   :custom
@@ -377,20 +375,12 @@
   :bind
   ("s-D" . duplicate-dwim))
 
-(use-package cycle-quotes
-  :bind
-  ("C-'" . cycle-quotes))
-
 (use-feature flyspell
+  :ensure-system-package ispell
+  :custom
+  (flyspell-use-meta-tab nil)
   :hook
-  (writing-modes . flyspell-mode))
-
-(use-package flyspell-correct
-  :after
-  flyspell
-  :bind
-  (:map flyspell-mode-map
-        ("C-;" . flyspell-correct-wrapper)))
+  (text-mode . flyspell-mode))
 
 ;;;;; Completion
 
@@ -938,8 +928,6 @@
   (:map yaml-ts-mode-map (":" . self-with-space)))
 
 (use-feature text-mode
-  :custom
-  (text-mode-ispell-word-completion nil)
   :bind
   (:map text-mode-map ("," . self-with-space)))
 
