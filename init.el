@@ -219,8 +219,6 @@
 ;;;;; Editing
 
 (use-package transform-symbol-at-point
-  :vc
-  (:url "https://github.com/waymondo/transform-symbol-at-point")
   :bind
   ("s-;" . transform-symbol-at-point-map))
 
