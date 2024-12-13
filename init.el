@@ -2,9 +2,7 @@
 
 ;;;;; Personal Variables, Macros, & Helpers
 
-(define-prefix-command 'hemacs-git-map)
 (define-prefix-command 'hemacs-help-map)
-(bind-key "s-g" #'hemacs-git-map)
 (bind-key "s-h" #'hemacs-help-map)
 
 (defmacro after (feature &rest forms)
@@ -950,8 +948,7 @@
 (use-package magit
   :bind
   ("s-m" . magit-status)
-  (:map hemacs-git-map ("l" . magit-clone))
-  (:map hemacs-git-map ("f" . magit-diff-buffer-file))
+  ("s-g" . magit-dispatch)
   (:map project-prefix-map ("m" . magit-project-status))
   :custom
   (magit-status-goto-file-position t)
@@ -972,30 +969,20 @@
       (apply f (list process event))))
   (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background))
 
-(use-package forge
-  :after magit
-  :custom
-  (forge-topic-list-limit '(60 . 0))
-  :bind
-  (:map hemacs-git-map ("c" . forge-browse-commit)))
+(use-package forge)
 
 (use-package magit-todos
-  :after magit
-  :custom
-  (magit-todos-max-items 256)
-  :bind
-  (:map hemacs-git-map ("t" . magit-todos-list)))
-
-(use-package tray
-  :bind
-  ("C-c g" . tray-epa-key-list-dispatch))
+  :hook
+  (after-init . magit-todos-mode))
 
 (use-package browse-at-remote
   :custom
   (browse-at-remote-add-line-number-if-no-region-selected nil)
   (browse-at-remote-prefer-symbolic nil)
-  :bind
-  (:map hemacs-git-map ("o" . browse-at-remote)))
+  :init
+  (after magit
+    (transient-append-suffix 'magit-dispatch "h"
+      '("R" "Browse at remote" browse-at-remote))))
 
 ;;;;; Emacs Lisping
 
@@ -1032,10 +1019,6 @@
 (use-package google-this
   :bind
   (:map hemacs-help-map ("g" . google-this)))
-
-(use-package gist
-  :bind
-  (:map hemacs-git-map ("g" . gist-region-or-buffer-private)))
 
 (use-package git-modes)
 
