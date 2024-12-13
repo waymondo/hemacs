@@ -446,10 +446,20 @@
   :chords
   (:map vertico-map ("jj" . vertico-quick-insert-and-return)))
 
+(use-feature completion-preview
+  :hook
+  (prog-mode . completion-preview-mode)
+  :bind
+  (:map
+   completion-preview-active-mode-map
+   ("<remap> <forward-word>" . completion-preview-insert-word)
+   ("<remap> <forward-sexp>" . completion-preview-insert-sexp)))
+
 (use-package corfu
   :hook
   (after-init . global-corfu-mode)
-  (minibuffer-setup . corfu-mode))
+  :bind
+  (:map corfu-map ("RET" . corfu-send)))
 
 (use-feature corfu-popupinfo
   :after corfu
@@ -948,6 +958,8 @@
   (:map yaml-ts-mode-map (":" . self-with-space)))
 
 (use-feature text-mode
+  :custom
+  (text-mode-ispell-word-completion nil)
   :bind
   (:map text-mode-map ("," . self-with-space)))
 
