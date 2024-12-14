@@ -1,9 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-;;;;; Personal Variables, Macros, & Helpers
-
-(define-prefix-command 'hemacs-help-map)
-(bind-key "s-h" #'hemacs-help-map)
+;;;;; Macros
 
 (defmacro after (feature &rest forms)
   (declare (indent 1) (debug t))
@@ -680,6 +677,8 @@
   :bind
   ("C-c o f" . reveal-in-folder))
 
+(use-package list-environment)
+
 ;;;;; Major Modes
 
 (use-package csv-mode
@@ -945,6 +944,8 @@
   :custom
   (diff-font-lock-prettify t))
 
+(use-package git-modes)
+
 (use-package magit
   :bind
   ("s-m" . magit-status)
@@ -992,13 +993,11 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . helpful-variable)
   ([remap describe-key] . helpful-key)
-  (:map hemacs-help-map ("." . helpful-at-point)))
+  ([remap display-local-help] . helpful-at-point))
 
 (use-package elisp-slime-nav
   :hook
   ((emacs-lisp-mode ielm-mode) . turn-on-elisp-slime-nav-mode))
-
-;;;;; Help & Docs
 
 (use-feature eldoc
   :hook
@@ -1007,32 +1006,6 @@
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   (eldoc-echo-area-prefer-doc-buffer t)
   (eldoc-echo-area-use-multiline-p nil))
-
-(use-feature shortdoc
-  :bind
-  (:map hemacs-help-map ("s" . shortdoc)))
-
-(use-package define-word
-  :bind
-  (:map hemacs-help-map ("w" . define-word-at-point)))
-
-(use-package google-this
-  :bind
-  (:map hemacs-help-map ("g" . google-this)))
-
-(use-package git-modes)
-
-(use-package list-environment
-  :bind
-  (:map hemacs-help-map ("l" . list-environment)))
-
-(use-package memory-usage
-  :bind
-  (:map hemacs-help-map ("m" . memory-usage)))
-
-(use-package devdocs-browser
-  :bind
-  (:map hemacs-help-map ("d" . devdocs-browser-open)))
 
 ;;;;; Childframes & Posframes
 
@@ -1442,8 +1415,8 @@
   (ns-right-option-modifier 'none))
 
 (use-feature ffap
-  :bind
-  (:map hemacs-help-map ("p" . ffap)))
+  :hook
+  (after-init . ffap-bindings))
 
 (use-package key-chord
   :chords
