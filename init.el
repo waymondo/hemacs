@@ -254,7 +254,7 @@
   ("s-P" . execute-extended-command)
   ("s-z" . undo-only)
   ("s-Z" . undo-redo)
-  ("<remap> <newline>" . reindent-then-newline-and-indent)
+  ([remap newline] . reindent-then-newline-and-indent)
   ("<escape>" . keyboard-escape-quit)
   ("<s-return>" . eol-then-newline)
   (:map minibuffer-local-map
@@ -418,8 +418,8 @@
   :bind
   (:map
    completion-preview-active-mode-map
-   ("<remap> <forward-word>" . completion-preview-insert-word)
-   ("<remap> <forward-sexp>" . completion-preview-insert-sexp)))
+   ([remap forward-word] . completion-preview-insert-word)
+   ([remap forward-sexp] . completion-preview-insert-sexp)))
 
 (use-package corfu
   :hook
@@ -484,7 +484,7 @@
   (prefix-help-command #'embark-prefix-help-command)
   :bind
   ("C->" . embark-act)
-  (:map hemacs-help-map ("b" . embark-bindings))
+  ([remap describe-bindings] . embark-bindings)
   :config
   (after which-key
     (defun embark-which-key-indicator ()
