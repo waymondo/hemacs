@@ -1013,7 +1013,7 @@
 (use-package posframe
   :config
   (defun hemacs-posframe-arghandler (f &rest args)
-    (apply f (car args) (plist-put (cdr args) :internal-border-width 24)))
+    (apply f (car args) (plist-put (cdr args) :internal-border-width (frame-char-height))))
   (advice-add 'posframe-show :around #'hemacs-posframe-arghandler))
 
 (use-package transient-posframe
@@ -1066,11 +1066,10 @@
   (:url "https://github.com/minad/mini-popup")
   :config
   (defun set-mini-popup-frame-parameters ()
-    (let* ((char-height (frame-char-height))
+    (let* ((border-width (frame-char-height))
            (selected-frame-width (frame-width))
            (mini-frame-height (+ 3 vertico-count))
-           (mini-frame-width (if (< selected-frame-width 128) selected-frame-width 128))
-           (mini-frame-border-width (/ char-height 2)))
+           (mini-frame-width (if (< selected-frame-width 128) selected-frame-width 128)))
       (setq mini-popup--frame-parameters
             (map-merge
              'alist
@@ -1079,9 +1078,9 @@
                (height . ,mini-frame-height)
                (width . ,mini-frame-width)
                (user-position . t)
-               (left . ,(/ (- (frame-outer-width) (* mini-frame-width (frame-char-width)) char-height) 2))
-               (top . ,(/ (- (frame-outer-height) (* mini-frame-height (frame-char-height)) char-height) 2))
-               (child-frame-border-width . ,mini-frame-border-width)
+               (left . ,(/ (- (frame-outer-width) (* mini-frame-width (frame-char-width)) (* border-width 2)) 2))
+               (top . ,(/ (- (frame-outer-height) (* mini-frame-height (frame-char-height)) (* border-width 2)) 2))
+               (child-frame-border-width . ,border-width)
                (left-fringe . 0)
                (right-fringe . 0))))))
   (defun maybe-disable-vertico-resize-window (&rest args)
@@ -1347,7 +1346,7 @@
 
 (use-feature fringe
   :config
-  (fringe-mode 24))
+  (fringe-mode (frame-char-height)))
 
 (use-package apropospriate-theme)
 
