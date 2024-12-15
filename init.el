@@ -137,6 +137,7 @@
   (auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
   (find-sibling-rules '(("\\([^/.]+\\)\\..*\\'" "\\1.*")))
   (revert-buffer-quick-short-answers t)
+  (enable-local-variables :safe)
   :chords
   (";f" . find-file)
   (":F" . find-sibling-file)
