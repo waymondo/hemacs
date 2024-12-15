@@ -277,7 +277,7 @@
     (when (derived-mode-p 'prog-mode)
       (delete-trailing-whitespace)))
   (defun keyboard-quit-minibuffer-first (f &rest args)
-    (if-let ((minibuffer (active-minibuffer-window)))
+    (if-let* ((minibuffer (active-minibuffer-window)))
         (with-current-buffer (window-buffer minibuffer)
           (minibuffer-keyboard-quit))
       (apply f args)))
