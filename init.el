@@ -281,8 +281,6 @@
       (dotimes (_i 10)
         (when (= p (point))
           (apply f args)))))
-  (defun pop-to-process-list-buffer ()
-    (pop-to-buffer "*Process List*"))
   (defun move-beginning-of-line-or-indentation (f &rest args)
     (let ((orig-point (point)))
       (back-to-indentation)
@@ -293,7 +291,6 @@
     (move-end-of-line nil)
     (reindent-then-newline-and-indent))
   (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
-  (advice-add 'list-processes :after #'pop-to-process-list-buffer)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
 
