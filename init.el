@@ -1093,10 +1093,6 @@
                (child-frame-border-width . ,border-width)
                (left-fringe . 0)
                (right-fringe . 0))))))
-  (defun maybe-disable-vertico-resize-window (&rest args)
-    (unless mini-popup-mode
-      (apply args)))
-  (advice-add #'vertico--resize-window :around #'maybe-disable-vertico-resize-window)
   (add-hook 'consult--completion-refresh-hook #'mini-popup--setup 99)
   (defun maybe-reset-mini-popup-mode ()
     (when (and mini-popup-mode mini-popup--frame (frame-size-changed-p) (not (frame-parent)))
