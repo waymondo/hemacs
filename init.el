@@ -48,7 +48,8 @@
   (cursor-in-non-selected-windows nil)
   (line-spacing 2)
   (tab-width 2)
-  (fill-column 100))
+  (fill-column 100)
+  (ns-right-alternate-modifier 'none))
 
 (use-feature cus-edit
   :custom
@@ -165,6 +166,10 @@
       (unless (file-exists-p dir)
         (make-directory dir t))))
   (push #'maybe-make-directories find-file-not-found-functions))
+
+(use-feature ffap
+  :hook
+  (after-init . ffap-bindings))
 
 (use-feature savehist
   :custom
@@ -570,6 +575,10 @@
   ((prog-mode text-mode eglot-managed-mode) . tempel-setup-capf))
 
 ;;;;; Navigation & Search
+
+(use-feature ns-win
+  :custom
+  (ns-pop-up-frames nil))
 
 (use-feature window
   :chords
@@ -1359,7 +1368,7 @@
 
 (use-package popper
   :bind
-  ("C-`"   . popper-toggle-latest)
+  ("C-`"   . popper-toggle)
   ("C-~"   . popper-cycle)
   :custom
   (popper-window-height 0.37)
@@ -1404,15 +1413,6 @@
   (after-init . popper-echo-mode))
 
 ;;;;; Bindings & Chords
-
-(use-feature ns-win
-  :custom
-  (ns-pop-up-frames nil)
-  (ns-right-option-modifier 'none))
-
-(use-feature ffap
-  :hook
-  (after-init . ffap-bindings))
 
 (use-package key-chord
   :chords
