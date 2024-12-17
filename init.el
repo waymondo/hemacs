@@ -980,8 +980,10 @@
 (use-package forge)
 
 (use-package magit-todos
-  :hook
-  (after-init . magit-todos-mode))
+  :after magit
+  :init
+  (transient-append-suffix 'magit-dispatch "Q"
+    '(":" "TODO list" magit-todos-list)))
 
 (use-package browse-at-remote
   :custom
