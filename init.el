@@ -832,8 +832,7 @@
   (:map ruby-ts-mode-map
         (","          . self-with-space)
         ("="          . pad-equals)
-        (":"          . smart-ruby-colon)
-        ("<C-return>" . ruby-newline-dwim))
+        (":"          . smart-ruby-colon))
   :init
   (defun smart-ruby-colon ()
     (interactive)
@@ -841,19 +840,11 @@
              (not (memq (get-text-property (- (point) 1) 'face)
                         '(font-lock-type-face tree-sitter-hl-face:type))))
         (insert ": ")
-      (insert ":")))
-  (defun ruby-newline-dwim ()
-    (interactive)
-    (let ((add-newline (or (eolp)
-                           (looking-at "\|$")
-                           (looking-at "\)$"))))
-      (move-end-of-line nil)
-      (newline)
-      (insert "end")
-      (move-beginning-of-line nil)
-      (if add-newline
-          (reindent-then-newline-and-indent)
-        (indent-according-to-mode)))))
+      (insert ":"))))
+
+(use-package ruby-end
+  :custom
+  (ruby-end-insert-newline nil))
 
 (use-package ruby-tools
   :demand t
