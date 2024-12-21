@@ -836,11 +836,12 @@
   :init
   (defun smart-ruby-colon ()
     (interactive)
-    (if (and (looking-back "[[:word:]]" nil)
-             (not (memq (get-text-property (- (point) 1) 'face)
-                        '(font-lock-type-face tree-sitter-hl-face:type))))
-        (insert ": ")
-      (insert ":"))))
+    (let ((space-needed
+           (and (looking-back "[[:word:]]" nil)
+                (not (memq (get-text-property (- (point) 1) 'face)
+                           '(font-lock-type-face tree-sitter-hl-face:type))))))
+      (call-interactively #'self-insert-command)
+      (when space-needed (ensure-space :after)))))
 
 (use-package ruby-end
   :custom
