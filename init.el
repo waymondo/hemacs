@@ -1236,7 +1236,7 @@
   :custom
   (pulse-iterations 20)
   :hook
-  ((next-error window-configuration-change) . hemacs-pulse-line)
+  ((next-error window-configuration-change find-function-after) . hemacs-pulse-line)
   :config
   (defun hemacs-pulse-line (&rest _)
     (interactive)
@@ -1250,6 +1250,7 @@
                      scroll-up-command
                      scroll-down-command
                      revert-buffer
+                     pop-to-mark-command
                      recenter-top-bottom
                      avy-process
                      move-to-window-line-top-bottom
