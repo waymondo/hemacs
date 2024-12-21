@@ -256,6 +256,7 @@
   (read-extended-command-predicate #'command-completion-default-include-p)
   (completion-show-help nil)
   :bind
+  ("DEL" . backward-delete-char-untabify)
   ("M-`" . list-processes)
   ("s-P" . execute-extended-command)
   ("s-z" . undo-only)
