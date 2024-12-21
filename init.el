@@ -388,7 +388,12 @@
   :custom
   (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
   :hook
-  (minibuffer-setup . cursor-intangible-mode))
+  (minibuffer-setup . cursor-intangible-mode)
+  :config
+  (defun maybe-delete-char (f &rest args)
+    (unless (and (minibufferp) (<= (point) (minibuffer-prompt-end)) (eq -1 (nth 0 args)))
+      (apply f args)))
+  (advice-add 'delete-char :around #'maybe-delete-char))
 
 (use-package vertico
   :demand t
