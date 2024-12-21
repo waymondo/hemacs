@@ -371,12 +371,12 @@
   :bind
   ("s-D" . duplicate-dwim))
 
-(use-feature flyspell
-  :ensure-system-package ispell
-  :custom
-  (flyspell-use-meta-tab nil)
+(use-package jinx
+  :ensure-system-package (enchant-2 . enchant)
   :hook
-  (text-mode . flyspell-mode))
+  (emacs-startup . global-jinx-mode)
+  :bind
+  ("M-$" . jinx-correct))
 
 ;;;;; Completion
 
