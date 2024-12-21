@@ -63,11 +63,6 @@
   :custom
   (disabled-command-function nil))
 
-(use-feature keymap
-  :init
-  (dolist (key-binding '("s-q" "s-t" "s-o" "s-n" "s-w"))
-    (keymap-global-unset key-binding)))
-
 ;;;;; Processes, Shells, Compilation
 
 (use-feature comint
@@ -1394,6 +1389,11 @@
   (after-init . popper-echo-mode))
 
 ;;;;; Bindings & Chords
+
+(use-feature keymap
+  :init
+  (dolist (key-binding '("s-q" "s-t" "s-o" "s-n" "s-w"))
+    (keymap-global-unset key-binding)))
 
 (use-package key-chord
   :chords
