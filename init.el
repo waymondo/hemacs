@@ -218,6 +218,14 @@
   :bind
   ("s-;" . transform-symbol-at-point-map))
 
+(use-package electric-operator
+  :hook
+  ((text-mode prog-mode) . electric-operator-mode)
+  :config
+  (electric-operator-add-rules-for-mode 'emacs-lisp-mode (cons "-" nil))
+  (dolist (mode '(js-ts-mode typescript-ts-mode text-mode))
+    (electric-operator-add-rules-for-mode mode (cons ":" ": "))))
+
 (use-feature indent
   :custom
   (standard-indent 2)
@@ -689,9 +697,7 @@
 
 (use-feature org
   :bind
-  (:map org-mode-map
-        ("," . self-with-space)
-        ("C-c C-." . org-todo))
+  (:map org-mode-map ("C-c C-." . org-todo))
   :custom
   (org-support-shift-select t)
   (org-startup-indented t)
@@ -706,7 +712,6 @@
 (use-feature sgml-mode
   :bind
   (:map html-mode-map
-        ("," . self-with-space)
         ("<C-return>" . html-newline-dwim))
   :chords
   (:map html-mode-map
@@ -736,7 +741,6 @@
   ("\\.ecr\\'"        . web-mode)
   :bind
   (:map web-mode-map
-        ("," . self-with-space)
         ("<C-return>" . html-newline-dwim)
         ("C-c C-." . tsx-ts-mode))
   :custom
@@ -752,8 +756,6 @@
 (use-package markdown-ts-mode
   :mode
   ("\\.md\\'" . markdown-ts-mode)
-  :bind
-  (:map markdown-ts-mode-map ("," . self-with-space))
   :config
   (add-to-list 'treesit-language-source-alist '(markdown "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
   (add-to-list 'treesit-language-source-alist '(markdown-inline "https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src")))
@@ -764,10 +766,6 @@
   (:map markdown-ts-mode-map ("C-c b" . gh-md-render-buffer)))
 
 (use-feature css-mode
-  :bind
-  (:map css-base-mode-map
-        ("," . self-with-space)
-        ("{" . open-brackets-newline-and-indent))
   :custom
   (css-indent-offset 2))
 
@@ -778,11 +776,6 @@
 (use-feature js
   :mode
   ("\\.mjs\\'" . js-ts-mode)
-  :bind
-  (:map js-base-mode-map
-        ("," . self-with-space)
-        ("=" . pad-equals)
-        (":" . self-with-space))
   :custom
   (js-indent-level 2))
 
@@ -797,10 +790,6 @@
 (use-feature typescript-ts-mode
   :demand t
   :bind
-  (:map typescript-ts-base-mode-map
-        ("," . self-with-space)
-        ("=" . pad-equals)
-        (":" . self-with-space))
   (:map tsx-ts-mode-map
         ("C-c C-." . web-mode)))
 
@@ -816,18 +805,13 @@
 
 (use-package slim-mode
   :bind
-  (:map slim-mode-map
-        (","          . self-with-space)
-        (":"          . smart-ruby-colon))
+  (:map slim-mode-map (":" . smart-ruby-colon))
   :custom
   (slim-backspace-backdents-nesting nil))
 
 (use-feature ruby-ts-mode
   :bind
-  (:map ruby-ts-mode-map
-        (","          . self-with-space)
-        ("="          . pad-equals)
-        (":"          . smart-ruby-colon))
+  (:map ruby-ts-mode-map (":" . smart-ruby-colon))
   :init
   (defun smart-ruby-colon ()
     (interactive)
@@ -912,13 +896,7 @@
   :demand t)
 
 (use-feature yaml-ts-mode
-  :demand t
-  :bind
-  (:map yaml-ts-mode-map (":" . self-with-space)))
-
-(use-feature text-mode
-  :bind
-  (:map text-mode-map ("," . self-with-space)))
+  :demand t)
 
 (use-feature lua-ts-mode
   :custom
@@ -1402,13 +1380,23 @@
   ("{}" . open-brackets-newline-and-indent)
   ("-=" . insert-arrow)
   ("_+" . insert-fat-arrow)
-  ("''" . "’")
-  ("^^" . "λ")
   :custom
   (key-chord-safety-interval-forward 0.05)
   (key-chord-safety-interval-backward 0.05)
   (key-chord-two-keys-delay 0.05)
   :init
+  (defun ensure-space (direction)
+    (let* ((char-fn
+            (cond
+             ((eq direction :before)
+              #'char-before)
+             ((eq direction :after)
+              #'char-after)))
+           (char-result (funcall char-fn)))
+      (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
+        (insert " "))
+      (when (and (eq char-fn #'char-after) (looking-at " "))
+        (forward-char))))
   (defun insert-arrow ()
     (interactive)
     (ensure-space :before)
@@ -1430,6 +1418,20 @@
       (ensure-space :before))
     (insert "{  }")
     (backward-char 2))
+  (defun open-brackets-newline-and-indent ()
+    (interactive)
+    (let ((inhibit-message t)
+          (text
+           (when (region-active-p)
+             (buffer-substring-no-properties (region-beginning) (region-end)))))
+      (when (region-active-p)
+        (delete-region (region-beginning) (region-end)))
+      (unless (looking-back (rx (or "(" "[")) nil)
+        (ensure-space :before))
+      (insert (concat "{\n" text "\n}"))
+      (indent-according-to-mode)
+      (forward-line -1)
+      (indent-according-to-mode)))
   :hook
   (after-init . key-chord-mode))
 
@@ -1440,48 +1442,3 @@
   (which-key-idle-secondary-delay 1e-100)
   :hook
   (after-init . which-key-mode))
-
-;;;;; Snippets
-
-(defun ensure-space (direction)
-  (let* ((char-fn
-          (cond
-           ((eq direction :before)
-            #'char-before)
-           ((eq direction :after)
-            #'char-after)))
-         (char-result (funcall char-fn)))
-    (unless (and (not (eq char-result nil)) (string-match-p " " (char-to-string char-result)))
-      (insert " "))
-    (when (and (eq char-fn #'char-after) (looking-at " "))
-      (forward-char))))
-
-(defun self-with-space ()
-  (interactive)
-  (call-interactively #'self-insert-command)
-  (ensure-space :after))
-
-(defun pad-equals ()
-  (interactive)
-  (if (nth 3 (syntax-ppss))
-      (call-interactively #'self-insert-command)
-    (cond ((looking-back "=[[:space:]]" nil)
-           (delete-char -1))
-          ((looking-back "[^#/|!<>+~]" nil)
-           (ensure-space :before)))
-    (self-with-space)))
-
-(defun open-brackets-newline-and-indent ()
-  (interactive)
-  (let ((inhibit-message t)
-        (text
-         (when (region-active-p)
-           (buffer-substring-no-properties (region-beginning) (region-end)))))
-    (when (region-active-p)
-      (delete-region (region-beginning) (region-end)))
-    (unless (looking-back (rx (or "(" "[")) nil)
-      (ensure-space :before))
-    (insert (concat "{\n" text "\n}"))
-    (indent-according-to-mode)
-    (forward-line -1)
-    (indent-according-to-mode)))
