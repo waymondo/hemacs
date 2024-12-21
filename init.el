@@ -1259,13 +1259,6 @@
     (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
       (set-window-scroll-bars (selected-window) nil t))))
 
-(use-package indent-bars
-  :custom
-  (indent-bars-treesit-support t)
-  (indent-bars-prefer-character t)
-  :hook
-  (prog-mode . indent-bars-mode))
-
 (use-feature uniquify
   :custom
   (uniquify-buffer-name-style 'forward))
@@ -1273,13 +1266,6 @@
 (use-package page-break-lines
   :hook
   (after-init . global-page-break-lines-mode))
-
-(use-package indent-bars
-  :custom
-  (indent-bars-treesit-support t)
-  (indent-bars-prefer-character t)
-  :hook
-  (prog-mode . indent-bars-mode))
 
 (use-feature pulse
   :custom
