@@ -271,8 +271,8 @@
   :hook
   ((text-mode markdown-ts-mode) . auto-fill-mode)
   (before-save . progish-delete-trailing-whitespace)
+  (after-init . column-number-mode)
   :config
-  (column-number-mode)
   (defun delete-region-instead-of-kill (f &rest args)
     (cl-letf (((symbol-function 'kill-region) #'delete-region))
       (apply f args)))
@@ -331,19 +331,10 @@
   (after-init . electric-quote-mode))
 
 (use-package avy
-  :custom
-  (avy-style 'de-bruijn)
-  :bind
-  (:map dired-mode-map ("." . avy-goto-line-this-window))
-  (:map isearch-mode-map ("M-q" . avy-isearch))
   :chords
   ("jj" . avy-goto-char-timer)
-  ("jk" . avy-goto-word-or-subword-1)
-  ("jl" . avy-goto-line)
-  :config
-  (defun avy-goto-line-this-window ()
-    (interactive)
-    (avy-goto-line 4)))
+  ("jk" . avy-goto-word-1)
+  ("jl" . avy-goto-line))
 
 (use-package ace-link
   :bind
