@@ -170,7 +170,7 @@
 (use-feature savehist
   :custom
   (savehist-additional-variables
-   '(search-ring regexp-search-ring comint-input-ring projector-command-history))
+   '(search-ring regexp-search-ring comint-input-ring projector-command-history corfu-history))
   :hook
   (after-init . savehist-mode))
 
@@ -390,6 +390,7 @@
   :demand t
   :custom
   (vertico-count 20)
+  (vertico-scroll-margin (/ vertico-count 2))
   :hook
   (after-init . vertico-mode))
 
@@ -398,19 +399,12 @@
   :bind
   (:map vertico-map
         ("RET" . vertico-directory-enter)
-        ("DEL" . vertico-directory-delete-char))
-  :hook
-  (rfn-eshadow-update-overlay . vertico-directory-tidy))
+        ("DEL" . vertico-directory-delete-char)))
 
 (use-feature vertico-quick
   :after vertico
-  :config
-  (defun vertico-quick-insert-and-return ()
-    (interactive)
-    (vertico-quick-insert)
-    (vertico-exit))
   :chords
-  (:map vertico-map ("jj" . vertico-quick-insert-and-return)))
+  (:map vertico-map ("jl" . vertico-quick-exit)))
 
 (use-feature completion-preview
   :hook
@@ -424,6 +418,8 @@
 (use-package corfu
   :hook
   (after-init . global-corfu-mode)
+  :custom
+  (corfu-scroll-margin (/ corfu-count 2))
   :bind
   (:map corfu-map ("RET" . corfu-send)))
 
@@ -434,9 +430,16 @@
 
 (use-feature corfu-quick
   :after corfu
-  :demand t
   :chords
-  (:map corfu-map ("jj" . corfu-quick-complete)))
+  (:map corfu-map ("jl" . corfu-quick-complete)))
+
+(use-feature corfu-history
+  :after corfu
+  :hook
+  (corfu-mode . corfu-history-mode))
+
+(use-feature corfu-info
+  :after corfu)
 
 (use-package kind-icon
   :after corfu
