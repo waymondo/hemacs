@@ -312,10 +312,6 @@
   :hook
   (after-init . global-subword-mode))
 
-(use-feature autoinsert
-  :hook
-  (after-init . auto-insert-mode))
-
 (use-feature delsel
   :hook
   (after-init . delete-selection-mode))
