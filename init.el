@@ -222,7 +222,8 @@
   :hook
   ((text-mode prog-mode) . electric-operator-mode)
   :config
-  (electric-operator-add-rules-for-mode 'emacs-lisp-mode (cons "-" nil))
+  (dolist (char '("-" "*"))
+    (electric-operator-add-rules-for-mode 'emacs-lisp-mode (cons char nil)))
   (dolist (mode '(js-ts-mode typescript-ts-mode text-mode))
     (electric-operator-add-rules-for-mode mode (cons ":" ": "))))
 
@@ -233,15 +234,7 @@
 
 (use-feature newcomment
   :bind
-  ("s-." . insert-todo-comment)
-  ("s-/" . comment-line)
-  :config
-  (defun insert-todo-comment ()
-    (interactive)
-    (call-interactively #'comment-dwim)
-    (ensure-space :before)
-    (insert "TODO:")
-    (ensure-space :after)))
+  ("s-/" . comment-line))
 
 (use-feature simple
   :custom
@@ -563,16 +556,17 @@
                           try-complete-lisp-symbol)
                         hippie-expand-try-functions-list))))
 
-(use-package yasnippet
-  :hook
-  (after-init . yas-global-mode))
-
 (use-package tempel
   :init
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions (cons #'tempel-expand completion-at-point-functions)))
   :hook
   ((prog-mode text-mode eglot-managed-mode) . tempel-setup-capf))
+
+(use-package tempel-collection
+  :after tempel
+  :init
+  (tempel-key "s-." todo global-map))
 
 ;;;;; Navigation & Search
 
@@ -800,8 +794,6 @@
   ("C-M-\\" . format-all-buffer))
 
 (use-package slim-mode
-  :bind
-  (:map slim-mode-map (":" . smart-ruby-colon))
   :custom
   (slim-backspace-backdents-nesting nil))
 
@@ -816,7 +808,7 @@
                 (not (memq (get-text-property (- (point) 1) 'face)
                            '(font-lock-type-face tree-sitter-hl-face:type))))))
       (call-interactively #'self-insert-command)
-      (when space-needed (ensure-space :after)))))
+      (when space-needed (insert " ")))))
 
 (use-package ruby-end
   :custom
@@ -833,10 +825,7 @@
 (use-package rspec-mode
   :after ruby-mode
   :bind
-  (:map rspec-compilation-mode-map ("s-R" . rspec-rerun))
-  :config
-  (after yasnippet
-    (rspec-install-snippets)))
+  (:map rspec-compilation-mode-map ("s-R" . rspec-rerun)))
 
 (use-package minitest
   :after ruby-mode
@@ -845,10 +834,7 @@
   :custom
   (minitest-keymap-prefix (kbd "C-c ."))
   :bind
-  (:map minitest-compilation-mode-map ("s-R" . minitest-rerun))
-  :config
-  (after yasnippet
-    (minitest-install-snippets)))
+  (:map minitest-compilation-mode-map ("s-R" . minitest-rerun)))
 
 (use-package inf-ruby
   :hook

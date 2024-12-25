@@ -1,20 +1,7 @@
-fundamental-mode
-
-(today (format-time-string "%Y-%m-%d"))
-
-emacs-lisp-mode
-
-(la "(lambda (" p ")" n> r> ")")
-(let "(let (" p ")" n> r> ")")
-(star "(let* (" p ")" n> r> ")")
-
 js-base-mode typescript-ts-base-mode
 
-(f "function(" p ") {" n> p n "}" >)
-(gen "function*(" p ") {" n> p n "}" >)
-(if "if (" p ") {" n> p n "}" >)
+(func* "function*(" p ") {" n> p n "}" >)
 (map "map(" p " => ) {" n> p n "}" >)
-(fore "forEach(" p " => ) {" n> p n "}" >)
 (log "console.log(" p ")")
 
 ruby-base-mode
