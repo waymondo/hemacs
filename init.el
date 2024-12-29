@@ -1218,7 +1218,7 @@
   :custom
   (pulse-iterations 20)
   :hook
-  ((next-error window-configuration-change find-function-after) . hemacs-pulse-line)
+  ((next-error window-configuration-change find-function-after magit-section-movement) . hemacs-pulse-line)
   :config
   (defun hemacs-pulse-line (&rest _)
     (interactive)
@@ -1309,7 +1309,7 @@
   ("C-~"   . popper-cycle)
   :custom
   (popper-window-height 0.37)
-  (popper-display-function #'popper-select-popup-at-bottom-no-mode-line)
+  (popper-mode-line nil)
   (popper-reference-buffers
    '("\\*Messages\\*"
      "\\*Backtrace\\*"
@@ -1336,15 +1336,6 @@
      nodejs-repl-mode
      ts-comint-mode
      compilation-mode))
-  :init
-  (defun popper-select-popup-at-bottom-no-mode-line (buffer &optional _alist)
-    (let ((window (display-buffer-in-side-window
-                   buffer
-                   `((window-height . ,popper-window-height)
-                     (side . bottom)
-                     (slot . 1)
-                     (window-parameters ,`(mode-line-format . none))))))
-      (select-window window)))
   :hook
   (after-init . popper-mode)
   (after-init . popper-echo-mode))
