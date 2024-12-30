@@ -907,22 +907,21 @@
   (:map project-prefix-map ("m" . magit-project-status))
   :custom
   (magit-status-goto-file-position t)
-  (magit-log-section-commit-count 0)
-  (magit-log-auto-more t)
+  (magit-status-show-hashes-in-headers t)
   (magit-branch-prefer-remote-upstream t)
   (magit-diff-refine-hunk 'all)
   (magit-no-confirm t)
   :config
-  (remove-hook 'magit-section-highlight-hook #'magit-diff-highlight)
-  (defun magit-process-alert-after-finish-in-background (f &rest args)
-    (let* ((process (nth 0 args))
-           (event (nth 1 args))
-           (buf (process-get process 'command-buf))
-           (buff-name (buffer-name buf)))
-      (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
-        (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
-      (apply f (list process event))))
-  (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background))
+  (after alert
+    (defun magit-process-alert-after-finish-in-background (f &rest args)
+      (let* ((process (nth 0 args))
+             (event (nth 1 args))pp
+             (buf (process-get process 'command-buf))
+             (buff-name (buffer-name buf)))
+        (when (and buff-name (stringp event) (s-match "magit" buff-name) (s-match "finished" event))
+          (alert-after-finish-in-background buf (concat (capitalize (process-name process)) " finished")))
+        (apply f (list process event))))
+    (advice-add 'magit-process-sentinel :around #'magit-process-alert-after-finish-in-background)))
 
 (use-package forge)
 
