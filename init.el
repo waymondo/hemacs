@@ -68,41 +68,22 @@
 (use-feature comint
   :bind
   (:map comint-mode-map
-        ("RET"       . comint-return-dwim)
-        ("C-r"       . comint-history-isearch-backward-regexp)
-        ("M-TAB"     . comint-previous-matching-input-from-input)
-        ("<M-S-tab>" . comint-next-matching-input-from-input))
+        ([remap comint-previous-input] . comint-previous-matching-input-from-input)
+        ([remap comint-next-input] . comint-next-matching-input-from-input))
   :custom
   (comint-prompt-read-only t)
   (comint-input-ignoredups t)
   (comint-scroll-show-maximum-output nil)
-  (comint-output-filter-functions
-   '(ansi-color-process-output
-     comint-truncate-buffer
-     comint-watch-for-password-prompt))
+  :hook
+  (kill-buffer . write-input-ring-for-shellish-modes)
+  (kill-emacs . write-input-ring-for-all-shellish-modes)
   :config
-  (defun turn-on-comint-history (history-file)
-    (setopt comint-input-ring-file-name history-file)
-    (comint-read-input-ring 'silent))
-  (defun comint-return-dwim ()
-    (interactive)
-    (cond
-     ((comint-after-pmark-p)
-      (comint-send-input))
-     ((ffap-url-at-point)
-      (browse-url (ffap-url-at-point)))
-     ((ffap-file-at-point)
-      (find-file (ffap-file-at-point)))
-     (t
-      (comint-next-prompt 1))))
   (defun write-input-ring-for-shellish-modes ()
     (when (derived-mode-p 'comint-mode)
       (comint-write-input-ring)))
   (defun write-input-ring-for-all-shellish-modes ()
     (dolist (buffer (buffer-list))
-      (with-current-buffer buffer (write-input-ring-for-shellish-modes))))
-  (add-hook 'kill-buffer-hook #'write-input-ring-for-shellish-modes)
-  (add-hook 'kill-emacs-hook #'write-input-ring-for-all-shellish-modes))
+      (with-current-buffer buffer (write-input-ring-for-shellish-modes)))))
 
 (use-feature compile
   :custom
