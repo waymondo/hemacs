@@ -92,12 +92,14 @@
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
-(use-package mistty
+(use-package vterm
   :bind
-  ("C-x m" . mistty-in-project)
-  (:map project-prefix-map ("t" . mistty-in-project))
-  :custom
-  (mistty-detect-foreign-overlays nil))
+  (:map project-prefix-map ("t" . project-vterm))
+  :config
+  (defun project-vterm ()
+    (interactive)
+    (let ((default-directory (project-root (project-current t))))
+      (call-interactively #'vterm))))
 
 (use-feature executable
   :hook
