@@ -1213,6 +1213,9 @@
   (dolist (command '(next-window-any-frame
                      scroll-up-command
                      scroll-down-command
+                     primitive-undo
+                     yank
+                     yank-pop
                      revert-buffer
                      pop-to-mark-command
                      recenter-top-bottom
@@ -1220,10 +1223,6 @@
                      move-to-window-line-top-bottom
                      symbol-overlay-basic-jump))
     (advice-add command :after #'hemacs-pulse-line)))
-
-(use-package goggles
-  :hook
-  ((prog-mode text-mode) . goggles-mode))
 
 (use-package symbol-overlay
   :custom
