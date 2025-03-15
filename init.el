@@ -301,7 +301,8 @@
   :custom
   (electric-quote-string t)
   :hook
-  (after-init . electric-quote-mode))
+  (after-init . electric-quote-mode)
+  (after-init . electric-layout-mode))
 
 (use-package avy
   :chords
