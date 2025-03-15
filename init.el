@@ -1270,14 +1270,15 @@
   :config
   (fringe-mode (frame-char-height)))
 
-(use-package apropospriate-theme)
-
-(use-package auto-dark
-  :custom
-  (auto-dark-dark-theme 'apropospriate-dark)
-  (auto-dark-light-theme 'apropospriate-light)
+(use-package apropospriate-theme
+  :config
+  (defun system-appearance-apropospriate-theme (&optional appearance)
+    (mapc #'disable-theme custom-enabled-themes)
+    (pcase (or appearance ns-system-appearance)
+      ('light (load-theme 'apropospriate-light t))
+      ('dark (load-theme 'apropospriate-dark t))))
   :hook
-  (after-init . auto-dark-mode))
+  ((ns-system-appearance-change-functions after-init) . system-appearance-apropospriate-theme))
 
 (use-package popper
   :bind
