@@ -171,7 +171,6 @@
 
 (use-feature dired
   :custom
-  (dired-use-ls-dired nil)
   (dired-recursive-deletes 'always))
 
 (use-package dirvish
@@ -1180,7 +1179,7 @@
   (add-hook 'window-size-change-functions #'update-scroll-bars)
   (add-hook 'window-selection-change-functions #'update-scroll-bars)
   (defun update-scroll-bars (&optional _)
-    (mapc (lambda (win) (set-window-scroll-bars win nil)) (window-list))
+    (mapc (lambda (win) (set-window-scroll-bars win nil)) (remove (selected-window) (window-list)))
     (when (and buffer-file-name (> (car (buffer-line-statistics)) (window-screen-lines)))
       (set-window-scroll-bars (selected-window) nil t))))
 
