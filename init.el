@@ -196,6 +196,23 @@
 
 ;;;;; Editing
 
+(use-feature treesit
+  :bind
+  ([remap newline] . treesit-newline)
+  :init
+  (defun treesit-newline ()
+    (interactive)
+    (if (treesit-point-at-end-of-parent-node)
+        (open-line 1)
+      (reindent-then-newline-and-indent)))
+  (defun treesit-point-at-end-of-parent-node ()
+    (when (treesit-parser-list)
+      (let* ((node (treesit-node-at (point)))
+             (parent-node (treesit-node-parent node)))
+        (and node parent-node
+             (<= (point) (treesit-node-start node))
+             (= (treesit-node-end node) (treesit-node-end parent-node)))))))
+
 (use-package transform-symbol-at-point
   :bind
   ("s-;" . transform-symbol-at-point-map))
@@ -236,7 +253,6 @@
   ("s-P" . execute-extended-command)
   ("s-z" . undo-only)
   ("s-Z" . undo-redo)
-  ([remap newline] . reindent-then-newline-and-indent)
   ("<escape>" . keyboard-escape-quit)
   ("<s-return>" . eol-then-newline)
   (:map minibuffer-local-map
@@ -275,6 +291,13 @@
     (interactive)
     (move-end-of-line nil)
     (reindent-then-newline-and-indent))
+  (defun open-line-and-indent-according-to-mode (f &rest args)
+    (apply f args)
+    (indent-according-to-mode)
+    (save-excursion
+      (forward-line)
+      (indent-according-to-mode)))
+  (advice-add 'open-line :around #'open-line-and-indent-according-to-mode)
   (advice-add 'pop-to-mark-command :around #'pop-to-mark-command-until-new-point)
   (advice-add 'move-beginning-of-line :around #'move-beginning-of-line-or-indentation)
   (advice-add 'beginning-of-visual-line :around #'move-beginning-of-line-or-indentation))
