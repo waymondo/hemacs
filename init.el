@@ -1078,12 +1078,8 @@
   ("C-c a" . eglot-code-actions)
   :custom
   (eglot-confirm-server-initiated-edits nil)
-  :init
-  (defun disable-eglot-format-check (f &rest args)
-    (cl-letf (((symbol-function 'eglot-server-capable-or-lose) #'identity))
-      (apply f args)))
-  (advice-add #'eglot-format :around #'disable-eglot-format-check)
   :config
+  (add-to-list 'eglot-server-programs '(ruby-base-mode "ruby-lsp"))
   (add-to-list 'eglot-server-programs '(markdown-ts-mode . ("marksman" "server"))))
 
 (use-package eglot-booster
