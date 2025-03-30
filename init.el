@@ -207,11 +207,14 @@
       (reindent-then-newline-and-indent)))
   (defun treesit-point-at-end-of-parent-node ()
     (when (treesit-parser-list)
-      (let* ((node (treesit-node-at (point)))
-             (parent-node (treesit-node-parent node)))
-        (and node parent-node
-             (<= (point) (treesit-node-start node))
-             (= (treesit-node-end node) (treesit-node-end parent-node)))))))
+      (when (not (save-excursion
+                   (beginning-of-line)
+                   (looking-at "^[ \t]*$")))
+        (let* ((node (treesit-node-at (point)))
+               (parent-node (treesit-node-parent node)))
+          (and node parent-node
+               (<= (point) (treesit-node-start node))
+               (= (treesit-node-end node) (treesit-node-end parent-node))))))))
 
 (use-package transform-symbol-at-point
   :bind
