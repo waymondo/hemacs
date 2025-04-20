@@ -695,10 +695,10 @@
         ("<>" . sgml-close-tag))
   :hook
   (sgml-mode . sgml-electric-tag-pair-mode)
+  (sgml-mode . run-prog-mode-hooks)
   :config
   (defun run-prog-mode-hooks ()
     (run-hooks 'prog-mode-hook))
-  (add-hook 'sgml-mode-hook #'run-prog-mode-hooks)
   (modify-syntax-entry ?= "." html-mode-syntax-table)
   (modify-syntax-entry ?\' "\"'" html-mode-syntax-table)
   (defun html-newline-dwim ()
