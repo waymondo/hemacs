@@ -202,26 +202,6 @@
   :hook
   ((text-mode prog-mode) . spaced-mode))
 
-(use-feature treesit
-  :bind
-  ([remap newline] . treesit-newline)
-  :init
-  (defun treesit-newline ()
-    (interactive)
-    (if (treesit-point-at-end-of-parent-node)
-        (open-line 1)
-      (reindent-then-newline-and-indent)))
-  (defun treesit-point-at-end-of-parent-node ()
-    (when (treesit-parser-list)
-      (when (not (save-excursion
-                   (beginning-of-line)
-                   (looking-at "^[ \t]*$")))
-        (let* ((node (treesit-node-at (point)))
-               (parent-node (treesit-node-parent node)))
-          (and node parent-node
-               (<= (point) (treesit-node-start node))
-               (= (treesit-node-end node) (treesit-node-end parent-node))))))))
-
 (use-package transform-symbol-at-point
   :bind
   ("s-;" . transform-symbol-at-point-map))
@@ -255,6 +235,7 @@
   ("s-Z" . undo-redo)
   ("<escape>" . keyboard-escape-quit)
   ("<s-return>" . eol-then-newline)
+  ([remap newline] . reindent-then-newline-and-indent)
   (:map minibuffer-local-map
         ("<escape>"  . abort-recursive-edit)
         ("M-TAB"     . previous-complete-history-element)
