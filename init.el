@@ -196,6 +196,12 @@
 
 ;;;;; Editing
 
+(use-package spaced
+  :vc
+  (:url "https://github.com/waymondo/spaced")
+  :hook
+  ((text-mode prog-mode) . spaced-mode))
+
 (use-feature treesit
   :bind
   ([remap newline] . treesit-newline)
@@ -219,15 +225,6 @@
 (use-package transform-symbol-at-point
   :bind
   ("s-;" . transform-symbol-at-point-map))
-
-(use-package electric-operator
-  :hook
-  ((text-mode prog-mode) . electric-operator-mode)
-  :config
-  (dolist (char '("-" "*"))
-    (electric-operator-add-rules-for-mode 'emacs-lisp-mode (cons char nil)))
-  (dolist (mode '(js-ts-mode typescript-ts-mode text-mode))
-    (electric-operator-add-rules-for-mode mode (cons ":" ": "))))
 
 (use-feature indent
   :custom
@@ -801,19 +798,6 @@
   :custom
   (slim-backspace-backdents-nesting nil))
 
-(use-feature ruby-ts-mode
-  :bind
-  (:map ruby-ts-mode-map (":" . smart-ruby-colon))
-  :init
-  (defun smart-ruby-colon ()
-    (interactive)
-    (let ((space-needed
-           (and (looking-back "[[:word:]]" nil)
-                (not (memq (get-text-property (- (point) 1) 'face)
-                           '(font-lock-type-face tree-sitter-hl-face:type))))))
-      (call-interactively #'self-insert-command)
-      (when space-needed (insert " ")))))
-
 (use-package ruby-end
   :custom
   (ruby-end-insert-newline nil))
@@ -1350,7 +1334,6 @@
   :chords
   ("}|" . pad-pipes)
   ("[]" . pad-brackets)
-  ("{}" . open-brackets-newline-and-indent)
   ("-=" . insert-arrow)
   ("_+" . insert-fat-arrow)
   :custom
@@ -1391,20 +1374,6 @@
       (ensure-space :before))
     (insert "{  }")
     (backward-char 2))
-  (defun open-brackets-newline-and-indent ()
-    (interactive)
-    (let ((inhibit-message t)
-          (text
-           (when (region-active-p)
-             (buffer-substring-no-properties (region-beginning) (region-end)))))
-      (when (region-active-p)
-        (delete-region (region-beginning) (region-end)))
-      (unless (looking-back (rx (or "(" "[")) nil)
-        (ensure-space :before))
-      (insert (concat "{\n" text "\n}"))
-      (indent-according-to-mode)
-      (forward-line -1)
-      (indent-according-to-mode)))
   :hook
   (after-init . key-chord-mode))
 
