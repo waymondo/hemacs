@@ -1241,9 +1241,9 @@
   :hook
   (after-init . minions-mode))
 
-(use-package hide-mode-line
+(use-feature mode-line-invisible-mode
   :hook
-  ((dired-mode help-mode magit-mode magit-popup-mode org-capture-mode tab-switcher-mode) . hide-mode-line-mode))
+  (dired-mode help-mode magit-mode magit-popup-mode org-capture-mode tab-switcher-mode))
 
 (use-feature paren
   :custom
