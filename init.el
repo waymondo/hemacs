@@ -1184,7 +1184,7 @@
     (let ((pulse-command-advice-flag
            (not (or (window-minibuffer-p)
                     (frame-parent)
-                    (seq-find 'derived-mode-p '(magit-status-mode comint-mode vterm-mode))))))
+                    (seq-find 'derived-mode-p '(magit-status-mode comint-mode ghostel-mode))))))
       (recenter)
       (pulse-line-hook-function)))
   (dolist (command '(next-window-any-frame
