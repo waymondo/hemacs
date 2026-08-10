@@ -92,14 +92,9 @@
   :init
   (add-hook 'compilation-finish-functions #'alert-after-finish-in-background))
 
-(use-package vterm
+(use-package ghostel
   :bind
-  (:map project-prefix-map ("t" . project-vterm))
-  :config
-  (defun project-vterm ()
-    (interactive)
-    (let ((default-directory (project-root (project-current t))))
-      (call-interactively #'vterm))))
+  (:map project-prefix-map ("t" . ghostel-project)))
 
 (use-feature executable
   :hook
