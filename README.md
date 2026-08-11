@@ -6,6 +6,6 @@ JavaScript/TypeScript, interfacing with Git and ZSH, and hacking on this Elisp d
 ```
 $ # assumes homebrew is installed
 $ brew tap d12frosted/emacs-plus
-$ brew install emacs-plus@31
+$ brew install emacs-plus@32
 $ git clone git@github.com:waymondo/hemacs.git "$HOME/.emacs.d"
 ```
