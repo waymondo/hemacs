@@ -639,9 +639,9 @@
 
 (use-package emacs-everywhere)
 
-(use-package direnv
+(use-package mise
   :hook
-  (after-init . direnv-mode))
+  (after-init . global-mise-mode))
 
 (use-package alert
   :custom
